@@ -21,6 +21,7 @@ from .context import inspect_regions, project_workbook
 from .contracts import (
     extremum_evidence_errors,
     header_count_errors,
+    row_unpack_contract,
     scale_conversion_errors,
     signed_comparison_errors,
     temporal_comparison_errors,
@@ -46,6 +47,7 @@ from .verification import (
     evidence_errors,
     label_errors,
     latest_reference_columns,
+    ranked_label_binding_errors,
     read_header_paths,
     row_scope_errors,
     scope_risks,
@@ -660,21 +662,42 @@ class LLMAgent:
                     "error": execution.error,
                 }
                 result.attempts.append(trace)
-                if not execution.success:
+                failure_line = re.search(r"at line (\d+)", execution.error or "")
+                shape_code = (
+                    row_unpack_contract(
+                        program.code, workbook, query, failure_line=int(failure_line[1])
+                    )
+                    if not execution.success
+                    and execution.error
+                    and execution.error.startswith(
+                        (
+                            "TypeError: Cannot unpack scalar",
+                            "ValueError: Unpacking length mismatch",
+                        )
+                    )
+                    and failure_line is not None
+                    else None
+                )
+                if not execution.success and shape_code is None:
                     if execution.error and re.match(
-                        r"(?:TypeError|SyntaxError|NameError|IndexError):",
+                        r"(?:TypeError|SyntaxError|NameError|IndexError):|ValueError: Unpacking length mismatch",
                         execution.error,
                     ):
                         runtime_program = program.code
                     raise ValueError(execution.error)
                 effective_selections = [item.model_dump() for item in program.selection]
                 contract_code = (
-                    complete_mean_contract(workbook, execution, query)
+                    shape_code
+                    or complete_mean_contract(workbook, execution, query)
                     or complete_total_contract(workbook, execution, query)
                     or complete_category_contract(workbook, execution, query)
                 )
-                contract_result_variable = "result"
-                contract_kind = "unambiguous-aggregation"
+                contract_result_variable = (
+                    program.result_variable if shape_code else "result"
+                )
+                contract_kind = (
+                    "row-unpack-shape" if shape_code else "unambiguous-aggregation"
+                )
                 original_result = execution.result
                 if contract_code is None:
                     proposed = without_unused_source_reads(
@@ -685,6 +708,7 @@ class LLMAgent:
                         contract_result_variable = program.result_variable
                         contract_kind = "unused-source-elimination"
                 if contract_code is not None:
+                    runtime_program = contract_code
                     execution = execute_program(
                         contract_code,
                         workbook,
@@ -705,6 +729,8 @@ class LLMAgent:
                             "assumptions": [
                                 "Removed unused pure source lookups only after the original program succeeded; re-execution must preserve result and type, and declares its own sources."
                                 if contract_kind == "unused-source-elimination"
+                                else "After scalar-unpack failure, changed only width-matched row iteration from values to cells over the same workbook ranges; no measures copied or guessed."
+                                if contract_kind == "row-unpack-shape"
                                 else "Recomputed an unambiguous aggregation or category extremum from workbook coordinates; this application repair declares its own sources."
                             ],
                             "reads": execution.reads,
@@ -755,6 +781,9 @@ class LLMAgent:
                     workbook, execution, query, effective_code
                 )
                 contradictions += row_scope_errors(workbook, execution.reads, query)
+                contradictions += ranked_label_binding_errors(
+                    workbook, execution, query
+                )
                 contradictions += aggregation_overlap_errors(
                     workbook, execution.reads, query
                 )

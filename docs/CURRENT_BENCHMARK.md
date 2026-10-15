@@ -2,7 +2,9 @@
 
 Các số dưới đây là **Gemini 3 Flash sinh mới**, không dùng replay làm benchmark LLM. Chúng không chứng minh điểm private của BTC hoặc điểm Qwen3.7 Flash. Ưu tiên Exact Match → thời gian → token.
 
-Thí nghiệm mới nhất **v41** đạt public **20/20 cả ba lượt**, trung bình **11,007 giây/20 câu**, **126.576,33 token/20 câu**, RSS đỉnh **120,06 MiB**. Giảm **53,44% thời gian / 33,46% token** so với baseline cùng đợt; chưa nhanh hơn mốc v17. Bộ decision đã dùng đạt **17/18**. **Chưa chọn bản nộp**: chưa giảm cả hai chỉ số 50%, còn lỗi và chưa xác nhận đầy đủ toàn bộ 254 câu hồi quy trên source mới.
+Thí nghiệm mới nhất **v44** đạt public **20/20 cả ba lượt**, trung bình **17,347 giây/20 câu**, **130.806,67 token/20 câu**, RSS đỉnh **116,63 MiB**. Giảm **30,38% thời gian / 33,39% token** so với baseline cùng đợt; chậm hơn v41 và mốc v17. Bộ decision đã dùng đạt **16/18** trong lượt focused. Lượt hồi quy đầy đủ riêng đạt **253/254**, gồm decision 18/18, RSS đỉnh 150,19 MiB. **Chưa chọn bản nộp**: còn lỗi và biến động, chưa đạt mục tiêu hiệu suất hoặc xác nhận Qwen/private BTC. Không ghép điểm từ nhiều phiên để tạo một lượt đủ điểm.
+
+V41 trước đó đạt public 20/20 ba lượt, trung bình 11,007 giây / 126.576,33 token, decision 17/18. Các kết quả này vẫn thuộc snapshot v41, không thay cho đánh giá v44.
 
 Đánh giá decision độc lập trước sửa (source v37) đạt **12/18 ở cả baseline lẫn candidate**, không cải thiện độ đúng/thời gian. Các lần 17/18 sau sửa là hồi quy, không phải kiểm định độc lập mới. V39 đạt public đủ điểm ba lượt nhưng chạm trần 200 attempts giữa chừng; phần chưa chạy không phải câu model trả lời sai. Review audit và các tối ưu mới chưa chuyển thành mặc định thi; chưa xác nhận Qwen/private BTC.
 
@@ -246,3 +248,20 @@ V39 public lượt ba mất 62,265 giây vì một URLError/retry; giữ nguyên
 Public trung bình **11,007 giây / 126.576,33 token**, tương đương throughput **0,550 giây / 6.328,82 token mỗi câu**; độ trễ trung bình trace **2,862 giây/câu**. Usage đầy đủ, RSS đỉnh **120,06 MiB**. Giảm 53,44% tổng thời gian và 33,46% token so với baseline cùng đợt. V17 vẫn nhanh hơn về public; v41 không phải kỷ lục mới. V41 là diagnostic regression, không có lock qualification đủ stage; không thể dùng thay toàn bộ 254 câu hồi quy hoặc làm cổng chốt bài.
 
 **293 tests passed**, Ruff check/format và `git diff --check` đạt. Còn lỗi scalar unpacking/indexing ở decision-003; lỗi binding hai ngày khác bản ghi và backtrack objective còn cần đánh giá lại. Không gọi Qwen trả phí, không đổi mặc định model thi. Bằng chứng máy và mọi lượt thất bại nằm trong `reports/optimization/GEMINI_CONTINUATION_V41.json`.
+
+
+## V42–v44: kiểu dữ liệu, miền dữ liệu và ràng buộc nhãn
+
+V42 so sánh system prompt đầy đủ và rút gọn trên cùng 92 câu đã biết, luân phiên thứ tự theo bộ, giữ nguyên hợp đồng ngữ nghĩa và runtime. Full đạt **89/92, 60,910 giây, 366.762 token**; lean đạt **83/92, 128,345 giây, 415.387 token**. Loại lean: giảm input nhưng tăng lỗi và lượt sửa; không chọn chỉ dựa vào public đủ điểm hoặc token đầu vào.
+
+Sửa lỗi shape của `values`/`cells` bằng chẩn đoán có biểu thức và dòng lỗi. Chỉ sau lỗi unpack thực tế, ứng dụng có thể đổi `values` thành `cells` khi chiều rộng vùng bằng số biến unpack, nguồn/alias không có cách dùng cạnh tranh và không phải yêu cầu tách ký tự. Giữ nguyên tọa độ, giá trị và trace code gốc; chương trình sửa chạy lại trong worker và qua toàn bộ guard. Replay decision-003 v41 trả đúng sau một phản hồi giả lập: đây là kiểm thử offline, không phải độ đúng Gemini sinh mới.
+
+Bổ sung soft review khi `data_rows` string-only không có cận đưa ô đầu bảng có dấu hiệu tiêu đề vào miền required/coverage/count. Không bỏ ngầm hàng đầu, không khẳng định schema cho bảng toàn text. V43 vẫn còn lỗi sau review: kiểm chứng thêm chưa bảo đảm model sửa đúng.
+
+V43 public **20/20, 19/20, 20/20**, decision **16/18**; public trung bình 21,355 giây / 129.486,67 token. Lỗi rank: số được đọc từ các hàng đúng nhưng nhãn literal được ghép theo thứ tự khác. V44 kiểm tra nhãn–giá trị theo hàng nguồn khi chỉ có một measure, nhãn phân biệt, khóa sort bằng số nguồn và chiều xếp hạng rõ ràng. Không ép kiểm tra khi nhãn lặp, measure/biến đổi mơ hồ. Test dùng tên/sheet/file/tọa độ khác public. Replay chương trình sai cũ được phát hiện; không tự gán đáp án mẫu.
+
+V44 public **20/20 ba lượt**, decision **16/18**. Chưa thể quy toàn bộ biến động điểm/thời gian giữa hai đợt cho guard vì model/gateway không tất định. Giữ cả lượt public chậm và các lỗi decision. Source hiện tại có **297 test đạt**, Ruff check/format đạt. Hai đợt focused đều là chẩn đoán, không phải qualification đầy đủ hoặc holdout mới; source chính thức Qwen vẫn giữ nguyên model/entrypoint.
+
+Lượt `v44_all_known_254` đánh giá riêng toàn bộ 254 câu đã tiêu thụ, candidate-only, cùng source v44 và cùng cấu hình audit. Khóa danh sách cùng hash dữ liệu trước inference; một trần riêng 30 phút / 200 HTTP attempts / 2 triệu token cho cả 10 bộ. Đây là thí nghiệm mới có phạm vi định trước, không bổ sung phần còn thiếu của v39 hoặc đặt lại ngân sách v39. Không có baseline đồng thời trong lượt này, nên không dùng nó tuyên bố cải thiện tốc độ có đối chứng.
+
+Kết quả lượt hồi quy đầy đủ v44: **253/254 (99,61%)**, **116,729 giây** cho 254 câu, **693.267 token**, **122 HTTP attempts**, RSS đỉnh **150,19 MiB**. Usage đầy đủ, không có phần chưa đánh giá. Từng bộ: 60/60, 32/32, known 18/18, synthetic 24/24, structural **17/18**, generalization 18/18, transfer 24/24, compositional 18/18, robustness 24/24, decision 18/18. Câu structural sai nhân đơn giá ở cả giá trị cơ sở lẫn tổng cuối, làm bình phương đơn giá; review audit trả lại cùng code sai. Giữ nguyên lỗi, không thay đáp án. Đây là chỉ số hồi quy đã biết, không phải độ đúng private. Decision ở lượt focused trước vẫn 16/18; không chọn riêng lượt 18/18 để khẳng định ổn định.

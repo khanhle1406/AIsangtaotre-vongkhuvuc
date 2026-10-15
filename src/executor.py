@@ -1071,13 +1071,37 @@ class Interpreter:
             raise MemoryError("Generated integer exceeds bit limit")
         return value
 
-    def bind(self, node: ast.AST, value: Any, env: dict[str, Any]) -> None:
+    def bind(
+        self,
+        node: ast.AST,
+        value: Any,
+        env: dict[str, Any],
+        origin: ast.AST | None = None,
+    ) -> None:
         if isinstance(node, ast.Name):
             env[node.id] = self.bounded(value)
         elif isinstance(node, (ast.Tuple, ast.List)):
+            if value is None or isinstance(
+                value, (int, float, datetime.date, datetime.timedelta)
+            ):
+                source = (
+                    f" from {ast.unparse(origin)[:180]}" if origin is not None else ""
+                )
+                raise TypeError(
+                    f"Cannot unpack scalar {type(value).__name__} into {ast.unparse(node)[:180]} "
+                    f"at line {getattr(node, 'lineno', '?')}{source}. "
+                    "values() returns FLAT scalars even for a multi-column range. "
+                    "When row tuples are required, replace that values(sheet,range) call with cells(sheet,range). "
+                    "Keep values() for a flat vector; cell()/num() also return scalars."
+                )
             values = list(value)
             if len(values) != len(node.elts):
-                raise ValueError("Unpacking length mismatch")
+                raise ValueError(
+                    f"Unpacking length mismatch into {ast.unparse(node)[:180]} at line {getattr(node, 'lineno', '?')}: "
+                    f"expected {len(node.elts)} items, got {len(values)}. "
+                    "values() yields flat scalars; unpacking a string splits characters. Use cells() for row tuples, "
+                    "or explicit string parsing if the question actually requests characters."
+                )
             for target, item in zip(node.elts, values, strict=True):
                 self.bind(target, item, env)
         elif isinstance(node, ast.Subscript):
@@ -1238,6 +1262,16 @@ class Interpreter:
                 self.evaluate(node.value, env),
                 self.evaluate(node.slice, env),
             )
+            if sequence is None or isinstance(
+                sequence, (int, float, datetime.date, datetime.timedelta)
+            ):
+                raise TypeError(
+                    f"Cannot index scalar {type(sequence).__name__} in {ast.unparse(node)[:180]} "
+                    f"at line {getattr(node, 'lineno', '?')}. "
+                    "cell()/num() return scalars; values() is FLAT, not rows. "
+                    "If this variable comes from values(sheet,multi_column_range), replace the source "
+                    "with cells(sheet,range) for 2D rows, or use the scalar directly; adding more indices cannot fix its shape."
+                )
             record = self.sort_targets.get(id(sequence))
             if record is not None:
                 if isinstance(index, int):
@@ -1316,7 +1350,7 @@ class Interpreter:
                 gen = node.generators[index]
                 for value in self.evaluate(gen.iter, scope):
                     local = dict(scope)
-                    self.bind(gen.target, value, local)
+                    self.bind(gen.target, value, local, origin=gen.iter)
                     if all(self.evaluate(condition, local) for condition in gen.ifs):
                         yield from generate(index + 1, local)
 
@@ -1341,7 +1375,7 @@ class Interpreter:
                 gen = node.generators[index]
                 for value in self.evaluate(gen.iter, scope):
                     local = dict(scope)
-                    self.bind(gen.target, value, local)
+                    self.bind(gen.target, value, local, origin=gen.iter)
                     if all(self.evaluate(condition, local) for condition in gen.ifs):
                         visit(index + 1, local)
 
@@ -1369,7 +1403,7 @@ class Interpreter:
             if isinstance(node, ast.Assign):
                 value = self.evaluate(node.value, env)
                 for target in node.targets:
-                    self.bind(target, value, env)
+                    self.bind(target, value, env, origin=node.value)
             elif isinstance(node, ast.AnnAssign) and node.value is not None:
                 self.bind(node.target, self.evaluate(node.value, env), env)
             elif isinstance(node, ast.AugAssign):
@@ -1413,7 +1447,7 @@ class Interpreter:
                         if not self.evaluate(node.test, env):
                             break
                     else:
-                        self.bind(node.target, value, env)
+                        self.bind(node.target, value, env, origin=node.iter)
                     try:
                         self.block(node.body, env)
                     except FlowSignal as signal:

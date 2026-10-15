@@ -18,6 +18,195 @@ from src.executor import execute_program
 from src.verification import scope_risks
 
 
+def test_ranked_labels_stay_bound_to_source_rows(tmp_path: Path) -> None:
+    from src.verification import ranked_label_binding_errors
+
+    book = openpyxl.Workbook()
+    sheet = book.active
+    sheet.title = "Moved"
+    for address, value in {
+        "F507": "Category",
+        "G507": "Units",
+        "F508": "Birch",
+        "G508": 17,
+        "F509": "Cedar",
+        "G509": 41,
+        "F510": "Aster",
+        "G510": 9,
+    }.items():
+        sheet[address] = value
+    path = tmp_path / "renamed.xlsx"
+    book.save(path)
+    book.close()
+    wire = load_workbook_data(path).wire()
+    code = (
+        "names=['Cedar','Birch','Aster']; "
+        "v=values('Moved','G508:G510'); "
+        "pairs=sorted(zip(names,v),key=lambda p:p[1],reverse=True); "
+        "result=[p[0] for p in pairs]"
+    )
+    query = "Rank the categories by Units in descending order."
+    bad = execute_program(code, wire)
+    assert bad.success and ranked_label_binding_errors(wire, bad, query)
+    good = execute_program(
+        code.replace("['Cedar','Birch','Aster']", "['Birch','Cedar','Aster']"), wire
+    )
+    assert good.success and not ranked_label_binding_errors(wire, good, query)
+    ascending = execute_program(code.replace("reverse=True", "reverse=False"), wire)
+    assert ranked_label_binding_errors(
+        wire, ascending, query.replace("descending", "ascending")
+    )
+    # A transformed objective is not proven by matching raw source measures.
+    transformed = execute_program(code.replace("p[1],reverse", "-p[1],reverse"), wire)
+    assert not ranked_label_binding_errors(wire, transformed, query)
+    assert not ranked_label_binding_errors(wire, bad, "List the category names.")
+    duplicate = dict(wire["Moved"]["cells"]["F509"])
+    wire["Moved"]["cells"]["F510"] = duplicate
+    assert not ranked_label_binding_errors(wire, bad, query)
+
+
+def test_failed_row_unpack_can_use_width_matched_cells_without_another_model_call() -> (
+    None
+):
+    from unittest.mock import patch
+
+    from src.contracts import row_unpack_contract
+    from src.excel_parser import CellData, SheetData, WorkbookData
+    from src.llm_agent import LLMAgent
+
+    book = WorkbookData(
+        {
+            "Moved": SheetData(
+                "Moved",
+                cells={
+                    "F508": CellData(17, "number"),
+                    "G508": CellData("Birch", "string"),
+                    "F509": CellData(29, "number"),
+                    "G509": CellData("Cedar", "string"),
+                },
+            )
+        }
+    )
+    code = "pairs=values('Moved','F508:G509'); amounts={name:n for n,name in pairs}; answer=amounts['Birch']"
+    agent = LLMAgent(api_key="test-placeholder", pricing=(0, 0))
+    with patch.object(
+        agent,
+        "_request",
+        return_value=json.dumps(
+            {"code": code, "result_variable": "answer", "format": {"kind": "integer"}}
+        ),
+    ) as request:
+        result = agent.solve_workbook(
+            book, "What is Units for Birch? Answer only the integer."
+        )
+    assert result.answer == "17" and result.error is None and request.call_count == 1
+    assert result.attempts[0]["error"] and result.attempts[0]["code"] == code
+    assert result.attempts[1]["contract_kind"] == "row-unpack-shape"
+    assert "cells(" in result.attempts[1]["code"]
+    assert set(result.attempts[0]["reads"]) == set(result.attempts[1]["reads"])
+    for rejected in [
+        code + "; unused=sum(pairs)",
+        code.replace("for n,name in pairs", "for n,name,other in pairs"),
+        code.replace("F508:G509", "F508:F509"),
+        "cells=17; " + code,
+    ]:
+        assert (
+            row_unpack_contract(rejected, book.wire(), "Units", failure_line=1) is None
+        )
+    assert (
+        row_unpack_contract(code, book.wire(), "Extract the letters", failure_line=1)
+        is None
+    )
+    assert row_unpack_contract(code, book.wire(), "Units", failure_line=99) is None
+    text_wire = book.wire()
+    for address in text_wire["Moved"]["cells"]:
+        text_wire["Moved"]["cells"][address].update(value="AB", kind="string")
+    assert row_unpack_contract(code, text_wire, "Units", failure_line=1) is None
+
+
+def test_unbounded_string_header_domain_requests_review_but_preserves_data_rows(
+    tmp_path: Path,
+) -> None:
+    import ast
+
+    from src.verification import header_domain_risks
+
+    book = openpyxl.Workbook()
+    sheet = book.active
+    sheet["G407"], sheet["G408"], sheet["G409"] = "Category", "Birch", "Cedar"
+    path = tmp_path / "categories.xlsx"
+    book.save(path)
+    book.close()
+    wire = load_workbook_data(path).wire()
+    code = "r=data_rows('Sheet',{'G':'string'}); names=[cell('Sheet','G'+str(i)) for i in r]; result=len(names)"
+    execution = execute_program(code, wire)
+    assert execution.result == 3  # Existing type-filter interface is unchanged.
+    query = "How many required categories are listed?"
+    assert header_domain_risks(wire, execution, query, ast.parse(code))
+    bounded = code.replace(
+        "{'G':'string'})", "{'G':'string'},start_row=408,end_row=409)"
+    )
+    good = execute_program(bounded, wire)
+    assert good.result == 2 and not header_domain_risks(
+        wire, good, query, ast.parse(bounded)
+    )
+    filtered = code.replace("for i in r]", "for i in r if i>407]")
+    checked = execute_program(filtered, wire)
+    assert checked.result == 2 and not header_domain_risks(
+        wire, checked, query, ast.parse(filtered)
+    )
+    assert not header_domain_risks(
+        wire, execution, "Count categories including headers.", ast.parse(code)
+    )
+    # Even matching an inferred caption cannot prove that a measure-bearing
+    # first row is a heading: keep it as a genuine record.
+    wire["Sheet"]["cells"]["H407"] = {
+        **wire["Sheet"]["cells"]["G407"],
+        "value": 17,
+        "kind": "number",
+    }
+    wire["Sheet"]["headers"] = {"G": ["Category"]}
+    wire["Sheet"]["tables"] = [{"range": "G407:H409", "headers": {"G": ["Category"]}}]
+    assert not header_domain_risks(wire, execution, query, ast.parse(code))
+
+
+def test_scalar_shape_errors_identify_operation_and_fix_source_helper() -> None:
+    from src.excel_parser import CellData, SheetData, WorkbookData
+
+    wire = WorkbookData(
+        {
+            "Shifted": SheetData(
+                "Shifted",
+                cells={
+                    "H503": CellData(17, "number"),
+                    "I503": CellData("Birch", "string"),
+                    "H504": CellData(29, "number"),
+                    "I504": CellData("Cedar", "string"),
+                },
+            )
+        }
+    ).wire()
+    for code, fragment in [
+        (
+            "result={name:amount for amount,name in values('Shifted','H503:I504')}",
+            "Cannot unpack scalar int",
+        ),
+        (
+            "v=values('Shifted','H503:I504'); result=v[0][1]",
+            "Cannot index scalar int in v[0][1]",
+        ),
+    ]:
+        result = execute_program(code, wire)
+        assert not result.success and fragment in result.error
+        assert "line 1" in result.error and "cells(sheet,range)" in result.error
+    good = execute_program(
+        "d={name:amount for amount,name in cells('Shifted','H503:I504')}; result=d['Birch']",
+        wire,
+    )
+    assert good.success and good.result == 17
+    assert execute_program("result=values('Shifted','H503:H504')[1]", wire).result == 29
+
+
 def test_flat_string_projection_requests_review_without_banning_initials(
     tmp_path: Path,
 ) -> None:

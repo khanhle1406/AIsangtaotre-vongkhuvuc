@@ -485,6 +485,85 @@ def row_scope_errors(
     return errors + all_category_column_errors(workbook, reads, query)
 
 
+def ranked_label_binding_errors(
+    workbook: dict[str, Any], execution: ExecutionResult, query: str
+) -> list[str]:
+    """Check direct numeric rankings against uniquely bound source row labels."""
+    if not re.search(r"\b(?:rank|sort)\b", query, re.IGNORECASE):
+        return []
+    result = execution.result
+    if (
+        not isinstance(result, list)
+        or len(result) < 2
+        or not all(isinstance(item, str) for item in result)
+    ):
+        return []
+    labels = [canonical_label(item).casefold() for item in result]
+    if len(set(labels)) != len(labels):
+        return []
+    directions = []
+    if re.search(r"\bdescending\b", query, re.IGNORECASE):
+        directions.append(True)
+    if re.search(r"\bascending\b", query, re.IGNORECASE):
+        directions.append(False)
+    if len(directions) != 1:
+        return []
+    reverse = directions[0]
+    candidates: list[list[tuple[str, float]]] = []
+    for name, sheet in workbook.items():
+        index = row_label_index(sheet)
+        columns: dict[int, list[tuple[str, dict[str, Any]]]] = {}
+        for key, entry in execution.reads.items():
+            if key.rsplit("!", 1)[0] == name and entry["kind"] == "number":
+                address = key.rsplit("!", 1)[1]
+                columns.setdefault(coordinate_to_tuple(address)[1], []).append(
+                    (address, entry)
+                )
+        for column, entries in columns.items():
+            if len(entries) != len(labels):
+                continue
+            matches: dict[str, list[tuple[str, float]]] = {
+                label: [] for label in labels
+            }
+            for address, entry in entries:
+                row = coordinate_to_tuple(address)[0]
+                captions = [
+                    text.casefold() for text in labels_before(sheet, row, column, index)
+                ]
+                for label in labels:
+                    if any(
+                        text == label or text.startswith(label + " ")
+                        for text in captions
+                    ):
+                        matches[label].append((f"{name}!{address}", entry["value"]))
+            if all(len(matches[label]) == 1 for label in labels):
+                bound = [matches[label][0] for label in labels]
+                if len({address for address, _ in bound}) == len(labels):
+                    candidates.append(bound)
+    # Repeated labels, multiple measures or transformed sorting keys are
+    # ambiguous. Only validate a unique direct measure, never infer a new one.
+    if len(candidates) != 1:
+        return []
+    bound = candidates[0]
+    values = [value for _, value in bound]
+    if not any(
+        record.get("reverse") == reverse
+        and all(type(key) in {int, float} for key in record["keys"])
+        and sorted(record["keys"]) == sorted(values)
+        for record in execution.sorts
+    ):
+        return []
+    if values == sorted(values, reverse=reverse):
+        return []
+    return [
+        (
+            f"Ranked labels are not paired with their source row measures: {list(zip(result, bound))}. "
+            "Look up each option's own row and keep its label/value pair together when sorting; "
+            "a parallel list of literal labels can silently attach values to different rows."
+        )
+    ]
+
+
 def all_category_column_errors(
     workbook: dict[str, Any], reads: dict[str, Any], query: str
 ) -> list[str]:
@@ -1435,6 +1514,128 @@ def flat_string_projection_risks(
     return []
 
 
+def header_domain_risks(
+    workbook: dict[str, Any], execution: ExecutionResult, query: str, tree: ast.Module
+) -> list[str]:
+    """Review header contamination in an unbounded categorical record domain."""
+    if any(
+        isinstance(node, ast.FunctionDef)
+        and node.name == "data_rows"
+        or isinstance(node, ast.Name)
+        and node.id == "data_rows"
+        and isinstance(node.ctx, ast.Store)
+        for node in ast.walk(tree)
+    ):
+        return []
+    if not (
+        execution.result in (0, "")
+        or re.search(
+            r"\b(?:every|each|all|required|qualif\w*|cover\w*)\b", query, re.IGNORECASE
+        )
+    ):
+        return []
+    if re.search(
+        r"\b(?:including|include|count)\b[^.?!]{0,20}\bheaders?\b", query, re.IGNORECASE
+    ):
+        return []
+    suspects: set[str] = set()
+    unverified: set[str] = set()
+    for call in ast.walk(tree):
+        if (
+            not isinstance(call, ast.Call)
+            or not isinstance(call.func, ast.Name)
+            or call.func.id != "data_rows"
+            or len(call.args) != 2
+            or any(kw.arg in {"start_row", "end_row"} for kw in call.keywords)
+        ):
+            continue
+        try:
+            name = ast.literal_eval(call.args[0])
+            columns = ast.literal_eval(call.args[1])
+        except (ValueError, TypeError):
+            continue
+        if (
+            not isinstance(name, str)
+            or name not in workbook
+            or not isinstance(columns, dict)
+            or not columns
+            or any(kind != "string" for kind in columns.values())
+            or not all(isinstance(col, str) for col in columns)
+        ):
+            continue
+        requested = {col.upper() for col in columns}
+        sheet = workbook[name]
+        first_text_row = None
+        if not sheet.get("headers") and all(
+            item["kind"] in {"string", "blank"} for item in sheet["cells"].values()
+        ):
+            first_text_row = min(
+                (coordinate_to_tuple(item)[0] for item in sheet["cells"]), default=None
+            )
+        for key, entry in execution.reads.items():
+            if key.rsplit("!", 1)[0] != name or entry["kind"] != "string":
+                continue
+            address = key.rsplit("!", 1)[1]
+            row, column = coordinate_to_tuple(address)
+            letter = get_column_letter(column)
+            if letter not in requested:
+                continue
+            region = cell_region(sheet, row, column)
+            if region is None and not sheet.get("headers"):
+                # All-text sheets intentionally have no asserted parser schema.
+                # Only request review when the first observed string also names
+                # a field in the question; never silently discard that row.
+                caption = canonical_label(entry["value"]).casefold()
+                pattern = (
+                    re.escape(caption[:-1]) + r"(?:y|ies)"
+                    if caption.endswith("y")
+                    else re.escape(caption) + r"s?"
+                )
+                if (
+                    row == first_text_row
+                    and len(caption) >= 3
+                    and re.search(rf"(?<!\w){pattern}(?!\w)", query, re.IGNORECASE)
+                ):
+                    unverified.add(key)
+                continue
+            if not region or row != range_boundaries(region["range"])[1]:
+                continue
+            bounds = range_boundaries(region["range"])
+            if any(
+                (position := coordinate_to_tuple(other))[0] == row
+                and bounds[0] <= position[1] <= bounds[2]
+                and item["kind"] not in {"string", "blank"}
+                for other, item in sheet["cells"].items()
+            ):
+                continue  # A data-bearing first row is not merely a caption.
+            path = region.get("headers", {}).get(letter, [])
+            if (
+                path
+                and canonical_label(entry["value"]).casefold()
+                == canonical_label(path[-1]).casefold()
+            ):
+                suspects.add(key)
+    if not suspects and not unverified:
+        return []
+    if unverified and not suspects:
+        return [
+            (
+                f"Unbounded string-only data_rows includes first-row cells {sorted(unverified)[:8]} whose text also names a field in the question. "
+                "This all-text sheet has NO verified header schema: inspect the original first row to decide whether it is a heading or a genuine record. "
+                "Keep it if it is data; if it is a heading, use observed data bounds. Do not assume every string is a data record, or delete a first record merely because it is first."
+            )
+        ]
+    return [
+        (
+            f"Unbounded string-only data_rows includes probable heading cells {sorted(suspects)[:8]}. "
+            "Verify whether these captions entered a record/category universe, required set, join or count. "
+            "If they are headings, use observed inclusive data start/end bounds and preserve valid missing-measure records. "
+            "A header can make every/coverage conditions impossible and silently yield an empty answer or fallback number. "
+            "Header reads used only for schema discovery can be legitimate; verify actual use rather than deleting data blindly."
+        )
+    ]
+
+
 def scope_risks(
     workbook: dict[str, Any], execution: ExecutionResult, query: str, code: str = ""
 ) -> list[str]:
@@ -1443,6 +1644,7 @@ def scope_risks(
     tree = ast.parse(code) if code else None
     if tree is not None:
         risks += flat_string_projection_risks(workbook, execution, query, tree)
+        risks += header_domain_risks(workbook, execution, query, tree)
     declared_arithmetic = bool(
         re.search(
             r"\badd(?:s|ing)?\b[\s\S]*\bsubtract(?:s|ing)?\b", query, re.IGNORECASE

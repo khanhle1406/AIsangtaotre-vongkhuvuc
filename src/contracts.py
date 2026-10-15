@@ -5,7 +5,7 @@ import itertools
 import re
 from typing import Any
 
-from openpyxl.utils import coordinate_to_tuple, get_column_letter
+from openpyxl.utils import coordinate_to_tuple, get_column_letter, range_boundaries
 
 from .executor import ISO_DATE, ExecutionResult
 from .postprocessor import query_format
@@ -74,6 +74,119 @@ def resolve(node: ast.AST, assigned: dict[str, ast.AST]) -> ast.AST:
         seen.add(node.id)
         node = assigned[node.id]
     return node
+
+
+def row_unpack_contract(
+    code: str, workbook: dict[str, Any], query: str, *, failure_line: int
+) -> str | None:
+    """Propose only width-matched values-to-cells repairs for failed row unpacking."""
+    if re.search(
+        r"\b(?:letters?|characters?|initials?|acronym|parse|split)\b",
+        query,
+        re.IGNORECASE,
+    ):
+        return None
+    tree = ast.parse(code)
+    nodes = list(ast.walk(tree))
+    if any(
+        isinstance(node, (ast.FunctionDef, ast.Lambda))
+        or isinstance(node, ast.Name)
+        and node.id in {"values", "cells"}
+        and isinstance(node.ctx, ast.Store)
+        for node in nodes
+    ):
+        return None
+    parents = {child: node for node in nodes for child in ast.iter_child_nodes(node)}
+    assignments = {
+        target.id: statement.value
+        for statement in tree.body
+        if isinstance(statement, ast.Assign) and len(statement.targets) == 1
+        for target in statement.targets
+        if isinstance(target, ast.Name)
+    }
+    changes: set[int] = set()
+    matches_failure = False
+    for generator in nodes:
+        if not isinstance(generator, (ast.For, ast.comprehension)):
+            continue
+        target = generator.target
+        if not isinstance(target, (ast.Tuple, ast.List)) or not all(
+            isinstance(item, ast.Name) for item in target.elts
+        ):
+            continue
+        source = generator.iter
+        alias = source.id if isinstance(source, ast.Name) else None
+        if alias:
+            if (
+                sum(
+                    isinstance(node, ast.Name)
+                    and node.id == alias
+                    and isinstance(node.ctx, ast.Store)
+                    for node in nodes
+                )
+                != 1
+            ):
+                continue
+            source = assignments.get(alias)
+        if (
+            not isinstance(source, ast.Call)
+            or not isinstance(source.func, ast.Name)
+            or source.func.id != "values"
+            or len(source.args) != 2
+            or source.keywords
+        ):
+            continue
+        try:
+            name, area = (ast.literal_eval(arg) for arg in source.args)
+        except (ValueError, TypeError):
+            continue
+        if (
+            not isinstance(name, str)
+            or name not in workbook
+            or not isinstance(area, str)
+        ):
+            continue
+        left, top, right, bottom = range_boundaries(area)
+        if (
+            None in (left, top, right, bottom)
+            or right - left + 1 < 2
+            or right - left + 1 != len(target.elts)
+        ):
+            continue
+        if alias:
+            uses = [
+                node
+                for node in nodes
+                if isinstance(node, ast.Name)
+                and node.id == alias
+                and isinstance(node.ctx, ast.Load)
+            ]
+            if not all(
+                isinstance((owner := parents.get(node)), (ast.For, ast.comprehension))
+                and owner.iter is node
+                and isinstance(owner.target, (ast.Tuple, ast.List))
+                and len(owner.target.elts) == len(target.elts)
+                for node in uses
+            ):
+                continue  # A vector also used as scalars has ambiguous intended shape.
+        if any(
+            (
+                entry["kind"] in {"number", "datetime", "blank", "boolean"}
+                or entry["kind"] == "string"
+                and len(str(entry["value"])) != len(target.elts)
+            )
+            and top <= coordinate_to_tuple(address)[0] <= bottom
+            and left <= coordinate_to_tuple(address)[1] <= right
+            for address, entry in workbook[name]["cells"].items()
+        ):
+            changes.add(id(source))
+            matches_failure |= target.lineno == failure_line
+    if not matches_failure:
+        return None
+    for node in nodes:
+        if id(node) in changes:
+            node.func.id = "cells"
+    return ast.unparse(tree) if changes else None
 
 
 def scale_conversion_errors(
