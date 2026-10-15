@@ -19,6 +19,33 @@ def client() -> QwenBatchedAgent:
     return QwenBatchedAgent(api_key="test-placeholder", pricing=(1e-7, 1e-7))
 
 
+def test_official_signoff_rejects_changed_review_policy_before_network(
+    tmp_path: Path,
+) -> None:
+    from benchmarks.qwen_batch_signoff import signoff, source_manifest
+
+    (tmp_path / "source_lock.json").write_text(
+        json.dumps(
+            {"modules": source_manifest(), "configuration": {"review_candidate": True}}
+        )
+    )
+    (tmp_path / "public_1").mkdir()
+    (tmp_path / "public_1/report.json").write_text(
+        json.dumps(
+            {
+                "complete": True,
+                "score": {"correct": 20, "total": 20},
+                "config": {"review_candidate": False},
+            }
+        )
+    )
+    with patch("urllib.request.urlopen") as network:
+        report = signoff(tmp_path)
+    assert report["status"] == "blocked_qualification"
+    assert report["dataset"] == "public_1" and report["new_generations"] == 0
+    network.assert_not_called()
+
+
 def test_unseen_proof_cannot_consume_data_after_partial_qualification(
     tmp_path: Path,
 ) -> None:
@@ -50,8 +77,15 @@ def test_unseen_proof_cannot_consume_data_after_partial_qualification(
     assert not (tmp_path / "proof").exists()
 
 
+@pytest.mark.parametrize(
+    "configuration",
+    [
+        {"thinking": "medium", "concurrency": 8},
+        {"thinking": "low", "concurrency": 4, "review_candidate": True},
+    ],
+)
 def test_unseen_proof_rejects_profile_changed_since_qualification(
-    tmp_path: Path,
+    tmp_path: Path, configuration: dict[str, Any]
 ) -> None:
     from benchmarks.qwen_batch_signoff import source_manifest
     from benchmarks.robustness_proof import proof
@@ -62,7 +96,7 @@ def test_unseen_proof_rejects_profile_changed_since_qualification(
         json.dumps(
             {
                 "modules": source_manifest(),
-                "configuration": {"thinking": "medium", "concurrency": 8},
+                "configuration": configuration,
                 "validation_dataset": str(tmp_path / "consumed"),
             }
         )
@@ -85,6 +119,112 @@ def test_unseen_proof_rejects_profile_changed_since_qualification(
         proof(parent, dataset, tmp_path / "proof")
     network.assert_not_called()
     assert not (dataset / "evaluated.json").exists()
+
+
+def test_independent_proof_requires_all_declared_extended_regressions(
+    tmp_path: Path,
+) -> None:
+    from benchmarks.qwen_batch_signoff import source_manifest
+    from benchmarks.robustness_proof import proof
+
+    parent = tmp_path / "qualified"
+    parent.mkdir()
+    configuration = {"thinking": "low", "concurrency": 4}
+    (parent / "source_lock.json").write_text(
+        json.dumps(
+            {
+                "modules": source_manifest(),
+                "configuration": configuration,
+                "validation_dataset": str(tmp_path / "consumed"),
+                "regression_extensions": {
+                    "extra_known": {"folder": str(tmp_path / "known"), "count": 2}
+                },
+            }
+        )
+    )
+    for label, count in {
+        "public_1": 20,
+        "public_2": 20,
+        "public_3": 20,
+        "regression_60": 60,
+        "regression_32": 32,
+        "known_18": 18,
+        "synthetic_24": 24,
+        "consumed_validation": 24,
+        "extra_known": 2,
+    }.items():
+        stage = parent / label
+        stage.mkdir()
+        (stage / "report.json").write_text(
+            json.dumps(
+                {
+                    "complete": label != "extra_known",
+                    "score": {
+                        "correct": count - 1 if label == "extra_known" else count,
+                        "total": count,
+                    },
+                    "config": configuration,
+                    "fingerprint": "stable-fixture",
+                }
+            )
+        )
+    dataset = tmp_path / "new"
+    dataset.mkdir()
+    with (
+        patch("benchmarks.robustness_proof.fingerprint", return_value="stable-fixture"),
+        patch("benchmarks.robustness_proof.validate_queries", return_value=[]),
+        patch("urllib.request.urlopen") as network,
+        pytest.raises(ValueError, match="Qualification failed on extra_known"),
+    ):
+        proof(parent, dataset, tmp_path / "proof")
+    network.assert_not_called()
+    assert not (dataset / "evaluated.json").exists()
+
+
+@pytest.mark.parametrize("present", [False, True])
+def test_official_gate_checks_extended_regressions_before_network(
+    tmp_path: Path, present: bool
+) -> None:
+    from benchmarks.qwen_batch_signoff import signoff, source_manifest
+
+    (tmp_path / "source_lock.json").write_text(
+        json.dumps(
+            {
+                "modules": source_manifest(),
+                "regression_extensions": {
+                    "extra_known": {"folder": str(tmp_path / "data"), "count": 2}
+                },
+            }
+        )
+    )
+    for label, count in {
+        "public_1": 20,
+        "public_2": 20,
+        "public_3": 20,
+        "regression_60": 60,
+        "regression_32": 32,
+        "known_18": 18,
+        "synthetic_24": 24,
+    }.items():
+        stage = tmp_path / label
+        stage.mkdir()
+        (stage / "report.json").write_text(
+            json.dumps({"complete": True, "score": {"correct": count, "total": count}})
+        )
+    if present:
+        stage = tmp_path / "extra_known"
+        stage.mkdir()
+        (stage / "report.json").write_text(
+            json.dumps({"complete": True, "score": {"correct": 1, "total": 2}})
+        )
+    with patch("urllib.request.urlopen") as network:
+        report = signoff(tmp_path)
+    assert (
+        report["status"] == "blocked_qualification"
+        and report["dataset"] == "extra_known"
+    )
+    assert report["new_generations"] == 0
+    network.assert_not_called()
 
 
 def test_new_oracles_have_independent_hand_checked_quantiles_and_counts(

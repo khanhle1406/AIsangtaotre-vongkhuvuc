@@ -24,6 +24,8 @@ def qualify(
     independent: bool = True,
     thinking: str = "low",
     concurrency: int = 4,
+    extended_regression: bool = False,
+    review_candidate: bool = False,
 ) -> dict[str, Any]:
     """Preserve every result; do not open holdout inference until all prerequisites pass."""
     if root.exists():
@@ -63,6 +65,17 @@ def qualify(
             "answers.csv",
         ),
     }
+    extensions = {}
+    if extended_regression:
+        for label, folder, count in [
+            ("structural_18", "structural_v1_holdout", 18),
+            ("generalization_18", "generalization_v1_holdout", 18),
+            ("transfer_24", "efficiency_v5_holdout", 24),
+            ("compositional_18", "compositional_v1_holdout", 18),
+        ]:
+            dataset = Path("reports/optimization") / folder
+            extensions[label] = {"folder": str(dataset), "count": count}
+            datasets[label] = (dataset, "references.csv")
     for folder, reference in [*datasets.values(), (heldout, "references.csv")]:
         if not (folder / reference).is_file():
             raise ValueError(f"Missing evaluation reference: {folder / reference}")
@@ -74,7 +87,12 @@ def qualify(
         else "Known datasets and consumed validation: regression only, no independent holdout claim",
         "independent_validation": independent,
         "public_repetitions": 3,
-        "configuration": {"thinking": thinking, "concurrency": concurrency},
+        "configuration": {
+            "thinking": thinking,
+            "concurrency": concurrency,
+            "review_candidate": review_candidate,
+        },
+        "regression_extensions": extensions,
         "validation_dataset": str(heldout),
         "validation_manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest(),
         "harness_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
@@ -128,6 +146,7 @@ def qualify(
                     agent_class=StructuredBatchedAgent,
                     thinking=thinking,
                     concurrency=concurrency,
+                    review_candidate=review_candidate,
                 )
         if lock["modules"] != source_manifest():
             raise ValueError("Candidate source changed during live evaluation")
@@ -192,6 +211,16 @@ if __name__ == "__main__":
     )
     parser.add_argument("--concurrency", type=int, choices=[1, 2, 4, 8], default=4)
     parser.add_argument(
+        "--review-candidate",
+        action="store_true",
+        help="Audit unverified executable code during semantic review; keep default unchanged",
+    )
+    parser.add_argument(
+        "--extended-regression",
+        action="store_true",
+        help="Require every previously consumed challenge family before opening new holdout",
+    )
+    parser.add_argument(
         "--regression-only",
         action="store_true",
         help="Evaluate consumed data without touching its independent-test receipt",
@@ -208,4 +237,6 @@ if __name__ == "__main__":
         independent=not arguments.regression_only,
         thinking=arguments.thinking,
         concurrency=arguments.concurrency,
+        extended_regression=arguments.extended_regression,
+        review_candidate=arguments.review_candidate,
     )

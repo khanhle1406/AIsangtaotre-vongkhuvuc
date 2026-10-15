@@ -252,12 +252,13 @@ def column_scope_errors(
     workbook: dict[str, Any], execution: ExecutionResult, query: str
 ) -> list[str]:
     """Explicitly named numeric header categories must all be evidenced in a comparison."""
+    errors = column_year_errors(workbook, execution, query)
     if not re.search(
         r"\b(?:and|or|than|versus|vs|compare|difference|sum|combined)\b",
         query,
         re.IGNORECASE,
     ):
-        return []
+        return errors
     for name, sheet in workbook.items():
         numeric = [
             key.rsplit("!", 1)[1]
@@ -307,10 +308,69 @@ def column_scope_errors(
                 for label, columns in targets.items()
                 if not columns & observed
             }
-            return [
+            return errors + [
                 f"Named column coverage mismatch in {name!r}: requested numeric headers {missing!r} were not read. Use exact complete header paths rather than neighboring columns."
             ]
-    return []
+    return errors
+
+
+def column_year_errors(
+    workbook: dict[str, Any], execution: ExecutionResult, query: str
+) -> list[str]:
+    """A literal requested reporting year must occur in the selected header branch."""
+    years = set(re.findall(r"\b(?:19|20)\d{2}\b", query))
+    if (
+        len(years) != 1
+        or not re.search(
+            rf"\b(?:in|for|during|year|period)\s+{next(iter(years))}\b(?!-\d)",
+            query,
+            re.IGNORECASE,
+        )
+        or re.search(
+            r"\b(?:forecast|predict|project|estimate|previous|prior|preceding|next|following|earlier|later)\w*\b",
+            query,
+            re.IGNORECASE,
+        )
+    ):
+        return []
+    year = next(iter(years))
+    errors: list[str] = []
+    for name, sheet in workbook.items():
+        regions: dict[str | None, list[str]] = {}
+        for key, entry in execution.reads.items():
+            if key.rsplit("!", 1)[0] == name and entry["kind"] == "number":
+                address = key.rsplit("!", 1)[1]
+                region = cell_region(sheet, *coordinate_to_tuple(address))
+                regions.setdefault(region["range"] if region else None, []).append(
+                    address
+                )
+        for addresses in regions.values():
+            headers = source_headers(sheet, addresses[0])
+            header_years = {
+                column: set(re.findall(r"\b(?:19|20)\d{2}\b", " ".join(path)))
+                for column, path in headers.items()
+            }
+            matching = {
+                column for column, values in header_years.items() if values == {year}
+            }
+            selected = {
+                get_column_letter(coordinate_to_tuple(address)[1])
+                for address in addresses
+            }
+            # Missing/ambiguous year metadata cannot prove a contradiction. A
+            # correctly selected target-year column may also need prior inputs.
+            if (
+                matching
+                and not selected & matching
+                and all(
+                    len(header_years.get(column, set())) == 1 for column in selected
+                )
+            ):
+                errors.append(
+                    f"Requested reporting year {year} is absent from numeric reads in {name!r}; "
+                    f"selected columns {sorted(selected)}, target-year columns {sorted(matching)}. Use the complete year/measure header path."
+                )
+    return errors
 
 
 def row_scope_errors(
@@ -1089,11 +1149,11 @@ def complete_mean_contract(
     return f"values_to_average=[num({json.dumps(name)}, address) for address in {addresses!r}]\nresult=sum(values_to_average)/len(values_to_average)"
 
 
-def row_context_features(
-    sheet: dict[str, Any], matches: list[int], label: str
-) -> dict[int, set[str]]:
-    """Index row dimensions once per repeated label, not once per numeric read."""
-    features: dict[int, set[str]] = {}
+def row_context_dimensions(
+    sheet: dict[str, Any], matches: list[int]
+) -> dict[int, dict[int, str]]:
+    """Retain source columns so alternatives are not flattened into joint qualifiers."""
+    dimensions: dict[int, dict[int, str]] = {}
     matched_rows = set(matches)
     for address, entry in sheet["cells"].items():
         position, column = coordinate_to_tuple(address)
@@ -1103,7 +1163,6 @@ def row_context_features(
         if (
             entry["kind"] == "string"
             and len(text) >= 2
-            and text != label.casefold()
             and text
             not in {
                 "of",
@@ -1120,15 +1179,50 @@ def row_context_features(
                 "for",
             }
         ):
-            features.setdefault(position, set()).add(text)
+            dimensions.setdefault(position, {})[column] = text
         elif entry["kind"] == "number" and re.fullmatch(r"\d{4}", text):
             path = source_headers(sheet, address).get(get_column_letter(column), [])
             if any(
                 re.search(r"\b(?:year|period)\b", value, re.IGNORECASE)
                 for value in path
             ):
-                features.setdefault(position, set()).add(text)
-    return features
+                dimensions.setdefault(position, {})[column] = text
+    return dimensions
+
+
+def row_context_features(
+    sheet: dict[str, Any], matches: list[int], label: str
+) -> dict[int, set[str]]:
+    """Index row dimensions once per repeated label, not once per numeric read."""
+    return {
+        row: {text for text in columns.values() if text != label.casefold()}
+        for row, columns in row_context_dimensions(sheet, matches).items()
+    }
+
+
+def flat_record_qualifiers_match(
+    dimensions: dict[int, dict[int, str]], selected: set[int], label: str, query: str
+) -> bool:
+    """Alternatives within one column are OR; distinct source columns remain AND."""
+    allowed: dict[int, set[str]] = {}
+    for columns in dimensions.values():
+        for column, text in columns.items():
+            if re.search(rf"(?<!\w){re.escape(text)}(?!\w)", query, re.IGNORECASE):
+                allowed.setdefault(column, set()).add(text)
+    # The repeated label identifies the rows being reviewed, not an additional
+    # filter in every column where that same label can occur.
+    qualifiers = {
+        column: values
+        for column, values in allowed.items()
+        if values - {label.casefold()}
+    }
+    return all(
+        all(
+            dimensions.get(row, {}).get(column) in values
+            for column, values in qualifiers.items()
+        )
+        for row in selected
+    )
 
 
 def row_context_resolves_label(
@@ -1265,21 +1359,15 @@ def scope_risks(
                     )
                     for row in matches
                 }
-                explicit = {
-                    text
-                    for row in matches
-                    for text in features.get(row, set())
-                    if re.search(
-                        rf"(?<!\w){re.escape(text)}(?!\w)", query, re.IGNORECASE
-                    )
-                }
                 if (
                     len(regions) == 1
                     and None not in regions
                     and len(contexts) == 1
-                    and all(
-                        explicit <= features.get(row, set())
-                        for row in selected_rows.intersection(matches)
+                    and flat_record_qualifiers_match(
+                        row_context_dimensions(sheet, matches),
+                        selected_rows.intersection(matches),
+                        label,
+                        query,
                     )
                 ):
                     # Repeated dimension values in one flat ledger are records to

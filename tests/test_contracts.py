@@ -368,6 +368,78 @@ def test_unrequested_scaling_is_detected_but_explicit_conversion_is_allowed(
     assert not scale_conversion_errors(
         wire, execute_program(dynamic, wire), question, dynamic, "result"
     )
+    for output, output_question in [
+        ("str(amount*scale)", question),
+        (
+            "f'{int(amount*scale)}, {int(amount*scale)}'",
+            "Return two integers, separated by a comma and one space, without thousands separators or units.",
+        ),
+        ("[str(amount*scale), amount*scale]", "Return two numbers as integers."),
+    ]:
+        formatted_code = f"scale={factor}; amount=num('Unfamiliar scope','E{offset + 3}'); result={output}"
+        formatted = execute_program(formatted_code, wire)
+        assert formatted.success
+        assert scale_conversion_errors(
+            wire, formatted, output_question, formatted_code, "result"
+        )
+        assert not scale_conversion_errors(
+            wire,
+            formatted,
+            "Report the amount in actual USD as integers.",
+            formatted_code,
+            "result",
+        )
+    label_code = f"amount=num('Unfamiliar scope','E{offset + 3}'); result='Large' if amount*{factor}>10 else 'Small'"
+    assert not scale_conversion_errors(
+        wire,
+        execute_program(label_code, wire),
+        "Which category label applies?",
+        label_code,
+        "result",
+    )
+
+
+def test_reporting_year_selection_uses_full_header_path_even_for_scalar_lookup(
+    tmp_path: Path,
+) -> None:
+    from src.verification import column_scope_errors
+
+    book = openpyxl.Workbook()
+    sheet = book.active
+    sheet.title = "Relocated periods"
+    sheet["D401"] = "Period table"
+    sheet["E402"] = "2027"
+    sheet.merge_cells("E402:F402")
+    sheet["G402"] = "2028"
+    sheet.merge_cells("G402:H402")
+    for address, value in {
+        "D403": "Region",
+        "E403": "Units",
+        "F403": "Completion rate",
+        "G403": "Units",
+        "H403": "Completion rate",
+        "D404": "West",
+        "E404": 43,
+        "F404": 0.3,
+        "G404": 71,
+        "H404": 0.8,
+    }.items():
+        sheet[address] = value
+    path = tmp_path / "periods.xlsx"
+    book.save(path)
+    book.close()
+    wire = load_workbook_data(path).wire()
+    question = "For 2028, what is the West completion rate? Answer as percent."
+    wrong = execute_program("result=100*num('Relocated periods','F404')", wire)
+    right = execute_program("result=100*num('Relocated periods','H404')", wire)
+    assert wrong.success and column_scope_errors(wire, wrong, question)
+    assert column_scope_errors(wire, right, question) == []
+    for historical in [
+        "For 2028, what was the previous year's completion rate?",
+        "For 2028, forecast completion rate from prior data.",
+        "What is the change between 2027 and 2028?",
+    ]:
+        assert column_scope_errors(wire, wrong, historical) == []
 
 
 def test_string_filter_header_count_is_reviewed_without_dropping_blank_records(
@@ -451,6 +523,39 @@ def test_explicit_row_dimensions_resolve_only_the_correct_year_and_region(
     assert scope_risks(
         wire, incorrect, query, "result=sum([num('Audited decisions','G302')])"
     )
+
+
+def test_flat_aggregate_qualifiers_are_or_within_column_and_and_across_columns(
+    tmp_path: Path,
+) -> None:
+    book = openpyxl.Workbook()
+    sheet = book.active
+    for row, values in enumerate(
+        [
+            ["Year", "Region", "Metric", "Value"],
+            [2028, "East", "Approved", 71],
+            [2028, "West", "Approved", 29],
+            [2029, "East", "Approved", 113],
+            [2029, "West", "Approved", 46],
+            [2029, "North", "Approved", 17],
+        ],
+        301,
+    ):
+        for column, value in enumerate(values, 4):
+            sheet.cell(row, column, value)
+    path = tmp_path / "dimensions.xlsx"
+    book.save(path)
+    book.close()
+    wire = load_workbook_data(path).wire()
+    query = "What is total Approved Value for East and West in 2029?"
+    correct_code = "result=sum(values('Sheet','G304:G305'))"
+    correct = execute_program(correct_code, wire)
+    assert correct.success and correct.result == 159
+    assert scope_risks(wire, correct, query, correct_code) == []
+    for area in ["G302:G305", "G304:G306"]:
+        wrong_code = f"result=sum(values('Sheet',{area!r}))"
+        wrong = execute_program(wrong_code, wire)
+        assert scope_risks(wire, wrong, query, wrong_code)
 
 
 def test_flat_ledger_aggregation_is_not_mistaken_for_repeated_sections(
@@ -768,6 +873,32 @@ def test_standard_filter_match_groups_and_datetime_feedback_are_safe() -> None:
         assert not execute_program(unsafe).success
 
 
+def test_import_diagnostics_identify_rejected_module_and_actual_exports() -> None:
+    for code, rejected, available in [
+        (
+            "from scipy.stats import rankdata\nresult=1",
+            "scipy.stats",
+            "Available modules",
+        ),
+        ("import pandas\nresult=1", "pandas", "Available modules"),
+        (
+            "from statistics import rankdata\nresult=1",
+            "statistics.rankdata",
+            "mean, median",
+        ),
+        ("from . import math\nresult=1", "Import not allowed: .", "Available modules"),
+    ]:
+        result = execute_program(code)
+        assert (
+            not result.success
+            and rejected in result.error
+            and available in result.error
+        )
+    assert (
+        execute_program("from statistics import mean\nresult=mean([2,4])").result == 3
+    )
+
+
 def test_flat_loop_accumulation_is_not_misread_as_duplicate_sections(
     tmp_path: Path,
 ) -> None:
@@ -806,6 +937,22 @@ result=prob['Up']"""
     assert execution.success and execution.result == 0.6875
     question = "Starting in Up, what is the probability of Up after two steps?"
     assert scope_risks(wire, execution, question, code) == []
+    reward_code = code.rsplit("result=", 1)[0] + "result=2*prob['Up']"
+    reward_question = "Starting in Up, what is expected reward after two steps, with 2 for Up and 0 for Down?"
+    reward = execute_program(reward_code, wire)
+    assert reward.success and reward.result == 1.375
+    assert scope_risks(wire, reward, reward_question, reward_code) == []
+    from unittest.mock import patch
+
+    from src.llm_agent import LLMAgent
+
+    client = LLMAgent(api_key="test-placeholder", pricing=(0, 0))
+    with patch.object(
+        client, "_request", return_value=json.dumps({"code": reward_code})
+    ) as call:
+        solved = client.solve_workbook(load_workbook_data(path), reward_question)
+    assert call.call_count == 1 and solved.error is None
+    assert float(solved.answer) == 1.375
     lookup = execute_program("result=num('State movements','I310')", wire)
     assert scope_risks(
         wire, lookup, "What is the Rate for Up?", "result=num('State movements','I310')"
@@ -826,7 +973,13 @@ def test_cells_rows_cannot_silently_compare_equal_to_scalar() -> None:
             )
         }
     ).wire()
-    for compare in ["row == 'Active'", "'Active' != row"]:
+    for compare in [
+        "row == 'Active'",
+        "'Active' != row",
+        "row in ['Active','Closed']",
+        "row not in ['Closed']",
+        "'Active' in cells('Status','H311:H312')",
+    ]:
         result = execute_program(
             f"row=cells('Status','H311')[0]; result={compare}", wire
         )
@@ -840,6 +993,81 @@ def test_cells_rows_cannot_silently_compare_equal_to_scalar() -> None:
         wire,
     )
     assert structured.success and structured.result == [True, True, False]
+    membership = execute_program(
+        "result=[cells('Status','H311')[0] in cells('Status','H311:H312'), 'Active' in values('Status','H311:H312')]",
+        wire,
+    )
+    assert membership.success and membership.result == [True, True]
+
+
+@pytest.mark.parametrize("audit", [False, True])
+def test_review_mode_audits_code_without_supplying_computed_answer(
+    tmp_path: Path, audit: bool
+) -> None:
+    from unittest.mock import patch
+
+    from src.llm_agent import LLMAgent
+
+    book = openpyxl.Workbook()
+    book.active.append(["Entity", "Units"])
+    book.active.append(["Cedar", 47])
+    path = tmp_path / "audit.xlsx"
+    book.save(path)
+    book.close()
+    workbook = load_workbook_data(path)
+    code = "result=num('Sheet','B2')*3"
+    first = {"code": code, "needs_verification": True, "format": {"kind": "integer"}}
+    second = {**first, "needs_verification": False}
+    agent = LLMAgent(api_key="test-placeholder", pricing=(0, 0), review_candidate=audit)
+    with patch.object(
+        agent, "_request", side_effect=[json.dumps(first), json.dumps(second)]
+    ) as request:
+        solved = agent.solve_workbook(workbook, "What is three times Units for Cedar?")
+    assert solved.error is None and solved.answer == "141"
+    review = request.call_args_list[1].args[0][-1]["content"]
+    assert ("UNVERIFIED CANDIDATE" in review) is audit
+    assert (code in review) is audit
+    assert "141" not in review
+    assert solved.attempts[0]["verification_mode"] == (
+        "candidate-audit" if audit else "fresh-selection"
+    )
+
+
+def test_missing_record_filter_difference_cannot_count_verified_heading(
+    tmp_path: Path,
+) -> None:
+    book = openpyxl.Workbook()
+    sheet = book.active
+    for row, values in enumerate(
+        [["Participant", "Reading"], ["Birch", 19], ["Cedar", None], ["Pine", None]],
+        407,
+    ):
+        for column, value in enumerate(values, 6):
+            sheet.cell(row, column, value)
+    path = tmp_path / "missing.xlsx"
+    book.save(path)
+    book.close()
+    wire = load_workbook_data(path).wire()
+    question = "How many participants have a blank Reading? Answer only the integer."
+    bad = (
+        "all_rows=data_rows('Sheet',{'F':'string'})\n"
+        "valid=set(data_rows('Sheet',{'F':'string','G':'number'}))\n"
+        "result=len([r for r in all_rows if r not in valid])"
+    )
+    execution = execute_program(bad, wire)
+    assert execution.success and execution.result == 3
+    assert header_count_errors(wire, execution, question, bad, "result")
+    good = bad.replace("{'F':'string'})", "{'F':'string'},start_row=408,end_row=410)")
+    checked = execute_program(good, wire)
+    assert checked.success and checked.result == 2
+    assert not header_count_errors(wire, checked, question, good, "result")
+    assert not header_count_errors(
+        wire,
+        execution,
+        "How many rows, including headers, are not numeric?",
+        bad,
+        "result",
+    )
 
 
 def test_permutations_and_set_operations_remain_bounded() -> None:

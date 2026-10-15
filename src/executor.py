@@ -1119,6 +1119,19 @@ class Interpreter:
             left = self.evaluate(node.left, env)
             for operation, part in zip(node.ops, node.comparators, strict=True):
                 right = self.evaluate(part, env)
+                if isinstance(operation, (ast.In, ast.NotIn)) and (
+                    isinstance(left, CellArray)
+                    and isinstance(right, (list, tuple))
+                    and right
+                    and all(isinstance(item, (str, int, float)) for item in right)
+                    or isinstance(right, CellArray)
+                    and any(isinstance(item, CellArray) for item in right)
+                    and isinstance(left, (str, int, float))
+                ):
+                    raise TypeError(
+                        "cells() returns a 2D list: scalar membership must use cell(), values(), "
+                        "or cells(...)[row][column]; compare rows only with other rows."
+                    )
                 if isinstance(operation, (ast.Eq, ast.NotEq)) and (
                     isinstance(left, CellArray)
                     and isinstance(
@@ -1348,15 +1361,27 @@ class Interpreter:
             elif isinstance(node, ast.Import):
                 for alias in node.names:
                     if alias.name not in MODULES:
-                        raise ValueError(f"Import not allowed: {alias.name}")
+                        raise ValueError(
+                            f"Import not allowed: {alias.name}. Available modules: {', '.join(MODULES)}. "
+                            "Use these modules or builtin lists/arithmetic; do not retry the unavailable module."
+                        )
                     env[alias.asname or alias.name] = MODULES[alias.name]
             elif isinstance(node, ast.ImportFrom):
                 if node.level or node.module not in MODULES:
-                    raise ValueError("Import not allowed")
+                    rejected = "." * node.level + (node.module or "")
+                    raise ValueError(
+                        f"Import not allowed: {rejected}. Available modules: {', '.join(MODULES)}. "
+                        "Use these modules or builtin lists/arithmetic; do not retry the unavailable module."
+                    )
                 for alias in node.names:
-                    env[alias.asname or alias.name] = vars(MODULES[node.module])[
-                        alias.name
-                    ]
+                    exports = vars(MODULES[node.module])
+                    if alias.name not in exports:
+                        raise ValueError(
+                            f"Import not allowed: {node.module}.{alias.name}. "
+                            f"Available names in {node.module}: {', '.join(exports)}. "
+                            "Implement other operations with builtin lists/arithmetic."
+                        )
+                    env[alias.asname or alias.name] = exports[alias.name]
             elif not isinstance(node, ast.Pass):
                 raise ValueError(f"Unsupported statement: {type(node).__name__}")
 

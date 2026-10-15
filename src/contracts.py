@@ -8,6 +8,7 @@ from typing import Any
 from openpyxl.utils import coordinate_to_tuple, get_column_letter
 
 from .executor import ISO_DATE, ExecutionResult
+from .postprocessor import query_format
 from .verification import canonical_label, cell_region
 
 
@@ -86,7 +87,13 @@ def scale_conversion_errors(
     values = (
         execution.result if isinstance(execution.result, list) else [execution.result]
     )
-    if not values or not all(type(value) in {int, float} for value in values):
+    explicit_numeric = any(isinstance(value, str) for value in values) and query_format(
+        query
+    ).kind in {"integer", "decimal"}
+    if not values or not all(
+        type(value) in {int, float} or explicit_numeric and isinstance(value, str)
+        for value in values
+    ):
         return []
     if re.search(
         r"\b(?:percent(?:age)?s?|ratio|rate)\b|\bactual\s+(?:USD|EUR|dollars?|amounts?|counts?|units?)\b|\b(?:base|unscaled|individual) units\b|\b(?:in|to|as)\s+(?:USD|EUR|dollars?|euros?|units?|persons?|people|workers?)\b|\b1,?000(?:,?000)?\b",
@@ -170,10 +177,8 @@ def header_count_errors(
     code: str,
     result_variable: str,
 ) -> list[str]:
-    """Check direct row counts from string-only type filters against header evidence."""
-    if not re.search(
-        r"\bhow many\b.*\b(?:records|rows|observations)\b", query, re.IGNORECASE
-    ) or re.search(
+    """Check typed-filter counts and missing-record differences against header evidence."""
+    if not re.search(r"\bhow many\b", query, re.IGNORECASE) or re.search(
         r"\b(?:including|include|count)\b[^.?!]{0,20}\bheaders?\b", query, re.IGNORECASE
     ):
         return []
@@ -196,6 +201,34 @@ def header_count_errors(
     ):
         return []
     call = resolve(node.args[0], assigned)
+    excluded = None
+    if isinstance(call, ast.ListComp):
+        if (
+            len(call.generators) != 1
+            or not isinstance(call.elt, ast.Name)
+            or not isinstance(call.generators[0].target, ast.Name)
+            or call.elt.id != call.generators[0].target.id
+            or len(call.generators[0].ifs) != 1
+        ):
+            return []
+        predicate = call.generators[0].ifs[0]
+        if (
+            not isinstance(predicate, ast.Compare)
+            or not isinstance(predicate.left, ast.Name)
+            or predicate.left.id != call.elt.id
+            or len(predicate.ops) != 1
+            or not isinstance(predicate.ops[0], ast.NotIn)
+        ):
+            return []
+        excluded = resolve(predicate.comparators[0], assigned)
+        if (
+            isinstance(excluded, ast.Call)
+            and isinstance(excluded.func, ast.Name)
+            and excluded.func.id in {"set", "list", "tuple"}
+            and len(excluded.args) == 1
+        ):
+            excluded = resolve(excluded.args[0], assigned)
+        call = resolve(call.generators[0].iter, assigned)
     if (
         not isinstance(call, ast.Call)
         or not isinstance(call.func, ast.Name)
@@ -249,6 +282,41 @@ def header_count_errors(
             for column in required
         )
     ]
+    if excluded is not None:
+        # Recognize only an exact typed-filter difference, not arbitrary predicates.
+        # A successful count can still include the heading as a "missing" record.
+        if (
+            not isinstance(excluded, ast.Call)
+            or not isinstance(excluded.func, ast.Name)
+            or excluded.func.id != "data_rows"
+            or len(excluded.args) != 2
+            or excluded.keywords
+            or len(call.args) != 2
+            or call.keywords
+        ):
+            return []
+        try:
+            other_name = ast.literal_eval(resolve(excluded.args[0], assigned))
+            other_columns = ast.literal_eval(resolve(excluded.args[1], assigned))
+        except (ValueError, TypeError):
+            return []
+        if (
+            other_name != name
+            or not isinstance(other_columns, dict)
+            or not any(
+                value in {"number", "datetime"} for value in other_columns.values()
+            )
+            or not all(isinstance(column, str) for column in other_columns)
+        ):
+            return []
+        candidates = [
+            row
+            for row in candidates
+            if not all(
+                sheet["cells"].get(column.upper() + str(row), {}).get("kind") == kind
+                for column, kind in other_columns.items()
+            )
+        ]
     if execution.result != len(candidates):
         return []
     for row in candidates:

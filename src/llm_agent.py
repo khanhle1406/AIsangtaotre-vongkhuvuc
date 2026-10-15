@@ -319,6 +319,7 @@ class LLMAgent:
         worker_memory_mb: int = 256,
         request_timeout_seconds: float = 40,
         iterator_helpers: bool = False,
+        review_candidate: bool = False,
     ) -> None:
         self.started_at = time.monotonic()
         self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
@@ -340,6 +341,7 @@ class LLMAgent:
         self.request_timeout_seconds = request_timeout_seconds
         self.system_prompt = SYSTEM_PROMPT
         self.iterator_helpers = iterator_helpers
+        self.review_candidate = review_candidate
         self.ledger = ledger or BudgetLedger(1.8)
         self.query_budget = query_budget
         self.reasoning_tokens, self.max_tokens = reasoning_tokens, max_tokens
@@ -781,7 +783,9 @@ class LLMAgent:
                     ]
                     if attempt + 1 >= min(max_retries + 1, 3):
                         raise ValueError("Ambiguity unresolved within inference budget")
-                    # Fresh selection avoids anchoring review on the first answer/code.
+                    # The default fresh review avoids anchoring on the first answer.
+                    # Development may compare auditing the executable candidate,
+                    # without exposing its computed answer as a suggested target.
                     contexts = [
                         message
                         for message in messages[2:]
@@ -790,17 +794,40 @@ class LLMAgent:
                             "Requested original workbook cells:"
                         )
                     ]
+                    review = (
+                        "Independently select the sheets, sections, complete header paths and "
+                        "definitions against the question. Resolve ambiguity from workbook evidence. "
+                        "Return the corrected JSON program, with justified assumptions. "
+                        "If ambiguity remains, keep needs_verification=true. Review signals: "
+                        + "; ".join(risks)
+                    )
+                    trace["verification_mode"] = (
+                        "candidate-audit"
+                        if self.review_candidate
+                        else "fresh-selection"
+                    )
+                    if self.review_candidate:
+                        review += (
+                            "\nUNVERIFIED CANDIDATE, not an answer or proof. Audit every source and "
+                            "calculation against the workbook/question. Keep valid operations; change "
+                            "an operation only for an identified mismatch. Successful execution does "
+                            "not prove correctness. Use documented helpers and supported modules.\n"
+                            + json.dumps(
+                                {
+                                    "code": effective_code,
+                                    "result_variable": effective_result,
+                                    "format": program.format.model_dump(),
+                                },
+                                ensure_ascii=False,
+                            )
+                        )
                     messages = (
                         messages[:2]
                         + contexts
                         + [
                             {
                                 "role": "user",
-                                "content": "Independently select the sheets, sections, complete header paths and "
-                                "definitions against the question. Resolve ambiguity from workbook evidence. "
-                                "Return the corrected JSON program, with justified assumptions. "
-                                "If ambiguity remains, keep needs_verification=true. Review signals: "
-                                + "; ".join(risks),
+                                "content": review,
                             }
                         ]
                     )

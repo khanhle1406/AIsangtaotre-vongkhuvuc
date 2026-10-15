@@ -28,9 +28,14 @@ def proof(qualified: Path, dataset: Path, output: Path) -> dict[str, Any]:
     configuration = parent.get("configuration", {"thinking": "low", "concurrency": 4})
     if (
         not isinstance(configuration, dict)
-        or set(configuration) != {"thinking", "concurrency"}
+        or set(configuration)
+        not in (
+            {"thinking", "concurrency"},
+            {"thinking", "concurrency", "review_candidate"},
+        )
         or configuration["thinking"] not in {"minimal", "low", "medium", "high"}
         or configuration["concurrency"] not in {1, 2, 4, 8}
+        or type(configuration.get("review_candidate", False)) is not bool
     ):
         raise ValueError("Invalid qualified development configuration")
     prerequisites: dict[str, Path] = {}
@@ -48,19 +53,23 @@ def proof(qualified: Path, dataset: Path, output: Path) -> dict[str, Any]:
         "synthetic_24": (Path("reports/optimization/gemini_gateway/synthetic"), 24),
         "consumed_validation": (Path(parent["validation_dataset"]), 24),
     }
-    for label in (
-        "public_1",
-        "public_2",
-        "public_3",
-        "regression_60",
-        "regression_32",
-        "known_18",
-        "synthetic_24",
-        "consumed_validation",
-    ):
+    extensions = parent.get("regression_extensions", {})
+    if not isinstance(extensions, dict) or set(extensions) & set(sources):
+        raise ValueError("Invalid qualification regression extensions")
+    for label, spec in extensions.items():
+        if (
+            not isinstance(label, str)
+            or not isinstance(spec, dict)
+            or set(spec) != {"folder", "count"}
+            or not isinstance(spec["folder"], str)
+            or type(spec["count"]) is not int
+            or spec["count"] <= 0
+        ):
+            raise ValueError("Invalid qualification regression extension")
+        sources[label] = (Path(spec["folder"]), spec["count"])
+    for label, (source, count) in sources.items():
         path = qualified / label / "report.json"
         result = json.loads(path.read_text())
-        source, count = sources[label]
         if (
             not result["complete"]
             or result["score"]["total"] != count
@@ -95,6 +104,7 @@ def proof(qualified: Path, dataset: Path, output: Path) -> dict[str, Any]:
         "independent_validation": True,
         "qualification_parent": str(qualified),
         "configuration": configuration,
+        "regression_extensions": extensions,
         "qualification_reports_sha256": {
             label: hashlib.sha256(path.read_bytes()).hexdigest()
             for label, path in prerequisites.items()

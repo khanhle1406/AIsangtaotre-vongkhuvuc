@@ -88,6 +88,9 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
     if destination.exists():
         raise ValueError("Preserve the prior official acceptance report")
     lock = json.loads((root / "source_lock.json").read_text())
+    review_candidate = lock.get("configuration", {}).get("review_candidate", False)
+    if type(review_candidate) is not bool:
+        raise ValueError("Invalid locked review policy")
     if lock["modules"] != source_manifest():
         raise ValueError("Candidate implementation changed after lock")
     report: dict[str, Any] = {
@@ -99,7 +102,7 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
         "gate_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "source_lock": lock,
     }
-    for label, count in (
+    requirements = [
         ("public_1", 20),
         ("public_2", 20),
         ("public_3", 20),
@@ -107,7 +110,21 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
         ("regression_32", 32),
         ("known_18", 18),
         ("synthetic_24", 24),
-    ):
+    ]
+    extensions = lock.get("regression_extensions", {})
+    if not isinstance(extensions, dict):
+        raise TypeError("Invalid locked regression extensions")
+    for label, spec in extensions.items():
+        if (
+            not isinstance(label, str)
+            or not isinstance(spec, dict)
+            or type(spec.get("count")) is not int
+            or spec["count"] <= 0
+            or label in dict(requirements)
+        ):
+            raise ValueError("Invalid locked regression extension")
+        requirements.append((label, spec["count"]))
+    for label, count in requirements:
         path = root / label / "report.json"
         result = json.loads(path.read_text()) if path.exists() else None
         if (
@@ -115,6 +132,8 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
             or not result["complete"]
             or result["score"]["total"] != count
             or result["score"]["correct"] != result["score"]["total"]
+            or result.get("config", {}).get("review_candidate", False)
+            != review_candidate
         ):
             report.update(
                 status="blocked_qualification",
@@ -147,6 +166,8 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
             or not result["complete"]
             or result["score"]["total"] != manifest["questions"]
             or result["score"]["correct"] != manifest["questions"]
+            or result.get("config", {}).get("review_candidate", False)
+            != review_candidate
         ):
             report.update(
                 status="blocked_qualification",
@@ -217,6 +238,9 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
                     pricing=pricing,
                     deadline=deadline,
                     worker_memory_mb=128 if label == "candidate" else 256,
+                    review_candidate=review_candidate
+                    if label == "candidate"
+                    else False,
                 )
                 output = root / f"qwen{suffix}_{label}_{name}.csv"
                 if label == "baseline":

@@ -276,6 +276,7 @@ def run_batched_stage(
     group_size: int = 4,
     agent_class: type[BatchedAgent] = BatchedAgent,
     thinking: str = "low",
+    review_candidate: bool = False,
 ) -> dict[str, Any]:
     """Checkpoint whole planned groups and evaluate only after generation finishes."""
     if concurrency not in {1, 2, 4, 8} or not 1 <= group_size <= 4:
@@ -293,6 +294,10 @@ def run_batched_stage(
         "concurrency": concurrency,
         "group_size": group_size,
         "strategy": "live-workbook-plan",
+        "verification_mode": "candidate-audit"
+        if review_candidate
+        else "fresh-selection",
+        "review_candidate": review_candidate,
         "modules": {
             name: hashlib.sha256(
                 Path(__file__).with_name(name).read_bytes()
@@ -322,6 +327,7 @@ def run_batched_stage(
         **settings,
         batch_limits=limits,
         thinking=thinking,
+        review_candidate=review_candidate,
         max_tokens=2048,
         ledger=ledger,
         worker_memory_mb=128 if concurrency >= 4 else 256,

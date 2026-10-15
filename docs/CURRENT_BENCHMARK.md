@@ -2,7 +2,9 @@
 
 Các số dưới đây là **Gemini 3 Flash sinh mới**, không dùng replay làm benchmark LLM. Chúng không chứng minh điểm private của BTC hoặc điểm Qwen3.7 Flash. Ưu tiên Exact Match → thời gian → token.
 
-Candidate mới nhất vượt qualification và kiểm định độc lập là **v30, low/concurrency 4**. Public 20/20 ở cả ba lượt; bộ mới 18/18 so với baseline 17/18. Kiểm tra regression mở rộng sau đó còn một câu lỗi, nên chưa chốt thay bản đã khóa. Public giảm 50,41% thời gian / 44,53% token; kiểm định mới giảm 25,17% thời gian / 57,83% token, so với baseline cùng đợt. **Chưa đạt giảm 50% cho cả hai chỉ số trên mọi bộ; chưa vượt bản v17 về hiệu suất public.** Bảng chi tiết và các lượt bị loại nằm dưới đây.
+Thí nghiệm mới nhất **v34 audit** chưa được chấp nhận: public **20/20, 19/20, 20/20**, structural **17/18**. Sàng lọc v33 đạt 116/116 không thay thế được kết quả xác nhận này. Review audit vẫn là tùy chọn phát triển; mặc định thi chưa đổi. Chưa có kiểm định độc lập mới hoặc xác nhận Qwen cho source hiện tại.
+
+Candidate gần nhất vượt qualification chính và kiểm định độc lập là **v30, low/concurrency 4**. Public 20/20 ba lượt; bộ mới 18/18 so với baseline 17/18. Regression mở rộng sau đó còn một câu lỗi. Public giảm 50,41% thời gian / 44,53% token; kiểm định mới giảm 25,17% thời gian / 57,83% token so với baseline cùng đợt. **Chưa đạt giảm 50% cho cả hai chỉ số trên mọi bộ; chưa vượt v17 về hiệu suất public.** Mọi kết quả thất bại được giữ dưới đây.
 
 ## Candidate v17 đã khóa
 
@@ -164,3 +166,26 @@ Một câu generalization có chương trình đầu tính đúng nhưng bị re
 ZIP phát triển đã được giải nén ở thư mục riêng, không mang khóa môi trường: **245 test passed**, Ruff check/format đạt; 18 test Colab được loại khỏi gói cùng các công cụ GPU. ZIP nguồn khoảng 0,25 MB, có quét khóa thật trong `.env`, không đóng gói `.env`, dữ liệu/đáp án, model, cache hoặc môi trường ảo. Đây là candidate phát triển, chưa phải xác nhận nộp thi cuối.
 
 Qwen signoff chưa gọi inference trả phí: preflight tín dụng dừng trước request, `new_generations=0`, `promoted=false`. `run.py` giữ model thi và cấu hình mặc định. Chi phí Gemini bằng 0 theo xác nhận của người dùng; không gọi đó là chi phí đo được khi API không báo cost.
+
+## V31–v34: sửa hợp đồng và đo review
+
+V31 còn lỗi public nhân đơn vị qua đầu ra chuỗi, synthetic chọn cột năm khác và review thay chương trình BOM đúng bằng phép nhân đơn giá lần hai. V32 giữ nguyên các lượt sai, bổ sung guard đơn vị cho đầu ra số dạng chuỗi, kiểm tra năm ở lookup, giữ dimension theo cột (OR trong một dimension, AND giữa các dimension) và chẩn đoán import cụ thể. Không sửa giá trị dựa trên đáp án.
+
+V32 sinh mới: public **20/20 cả ba lượt**, trung bình **12,997 giây / 127.181,67 token**, RSS đỉnh **126,53 MiB**; baseline 20/20, **25,028 giây / 189.597 token**. Giảm **48,07% tổng thời gian / 32,92% token**. Toàn bộ hồi quy đã biết **232/236**; vì vậy chưa chấp nhận candidate. Thời gian toàn bộ chia số câu là throughput, không đồng nghĩa độ trễ từng câu.
+
+V33 sửa thêm hai đường lỗi chung: phép membership so sánh hàng 2D với danh sách scalar phải báo lỗi kiểu thay vì âm thầm bỏ hết bản ghi; phép đếm chênh lệch hai bộ lọc kiểu phải phát hiện tiêu đề bị tính thành bản ghi thiếu số đo. Helper vẫn giữ ngữ nghĩa và có kiểm tra cận dòng đúng. Replay chương trình đếm cũ xác nhận guard bắt được header; replay không tính vào điểm sinh mới.
+
+So sánh review trên cùng runtime và 116 câu đã tiêu thụ; luân phiên thứ tự chính sách theo bộ, dùng chung trần 30 phút / 200 HTTP attempts / 2 triệu token:
+
+| Chính sách | Exact Match | Tổng giây | Token API |
+| --- | --- | --- | --- |
+| Chọn lại từ workbook, không kèm code | 114/116 | 72,575 | 431.725 |
+| Audit code chưa được xác minh, không kèm đáp án đã tính | 116/116 | 78,267 | 460.698 |
+
+Audit tăng hai câu đúng trong lượt sàng lọc, đổi lại tăng 7,84% thời gian / 6,71% token. Usage đầy đủ; RSS đỉnh đợt so sánh 135,625 MiB. Đây là một lượt A/B có biến động model/gateway, không phải chứng minh nhân quả hoặc dữ liệu độc lập. Chọn audit để xác nhận vì đề ưu tiên Exact Match; chưa đổi mặc định.
+
+V34 xác nhận bằng public lặp và toàn bộ 236 câu hồi quy, khóa source/config có cả chính sách review. Kết quả public 20/20, 19/20, 20/20 và structural 17/18 đã đủ để loại candidate khỏi bước kiểm định độc lập. Lỗi public đọc subgroup full-time của một nhánh metric thay cho nhánh tổng thể; lỗi FIFO chọn đơn hàng được cấp một phần thay vì đơn đầu tiên không được cấp gì. Không lấy điểm 116/116 của sàng lọc để che các lỗi này.
+
+Nghiệm thu mã: **274 test passed**, Ruff check/format đạt. Không có inference Qwen trả phí trong giai đoạn này; tiếp tục Gemini theo yêu cầu người dùng. Không tự chuyển model hoặc dùng đáp án/ID trong inference. Chi phí gateway 0 là theo xác nhận người dùng, tách khỏi usage.cost do API báo; usage thiếu không được thay bằng 0 token.
+
+V34 đã kết thúc: **235/236 hồi quy**, public **59/60 trên ba lượt**. Public trung bình **10,214 giây/20 câu** (throughput **0,511 giây/câu**) và **121.122 token/20 câu** (**6.056,1 token/câu**); baseline đủ điểm là 23,205 giây / 198.389 token. Giảm **55,98% thời gian / 38,95% token**, nhưng không chấp nhận đánh đổi một câu sai. Độ trễ trung bình trace public là **2,699 giây/câu**, không phải 0,511 giây. Báo cáo máy: `reports/optimization/GEMINI_CONTINUATION_V34.json`. Không có kiểm định độc lập mới trong v31–v34.
