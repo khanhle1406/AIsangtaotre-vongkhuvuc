@@ -18,6 +18,187 @@ from src.executor import execute_program
 from src.verification import scope_risks
 
 
+def test_flat_string_projection_requests_review_without_banning_initials(
+    tmp_path: Path,
+) -> None:
+    from unittest.mock import patch
+
+    from src.llm_agent import LLMAgent
+
+    book = openpyxl.Workbook()
+    sheet = book.active
+    for row, cells in enumerate(
+        [["Category", "Units"], ["Birch", 17], ["Cedar", 29]], 407
+    ):
+        for column, value in enumerate(cells, 6):
+            sheet.cell(row, column, value)
+    path = tmp_path / "flat.xlsx"
+    book.save(path)
+    book.close()
+    workbook = load_workbook_data(path)
+    wrong = "names=[c[0] for c in values('Sheet','F408:F409')]; result=sum(num('Sheet','G'+str(r)) for r in [408,409] if cell('Sheet','F'+str(r)) in names)"
+    correct = wrong.replace("[c[0] for c", "[c for c")
+    query = "What is combined Units for the listed categories? Answer only the integer."
+    execution = execute_program(wrong, workbook.wire())
+    assert execution.success and execution.result == 0
+    assert any(
+        "Flat values()" in risk
+        for risk in scope_risks(workbook.wire(), execution, query, wrong)
+    )
+    assert not scope_risks(
+        workbook.wire(), execution, "Count names whose first character is B.", wrong
+    )
+    agent = LLMAgent(api_key="test-placeholder", pricing=(0, 0), review_candidate=True)
+    with patch.object(
+        agent,
+        "_request",
+        side_effect=[json.dumps({"code": wrong}), json.dumps({"code": correct})],
+    ) as request:
+        result = agent.solve_workbook(workbook, query)
+    assert request.call_count == 2 and result.answer == "46" and result.error is None
+
+
+def test_list_insert_keeps_python_order_and_worker_item_limit() -> None:
+    from unittest.mock import patch
+
+    from src.executor import Interpreter
+
+    result = execute_program(
+        "p=['End']; p.insert(0,'Start'); p.insert(-1,'Middle'); result=p"
+    )
+    assert result.success and result.result == ["Start", "Middle", "End"]
+    interpreter = Interpreter({})
+    items = [1, 2]
+    with (
+        patch("src.executor.MAX_ITEMS", 2),
+        pytest.raises(MemoryError, match="item limit"),
+    ):
+        interpreter.insert_value(items, 0, 3)
+    assert items == [1, 2]
+
+
+def test_set_update_and_relations_keep_iterable_semantics_and_caps() -> None:
+    from unittest.mock import patch
+
+    from src.executor import Interpreter
+
+    result = execute_program(
+        "s={1}; s.update([2,2], (3,)); result=[sorted(s), {1,2}.issubset([1,2,3]), s.issuperset([1,3]), s.isdisjoint([4]), s.isdisjoint([3])] "
+    )
+    assert result.success and result.result == [[1, 2, 3], True, True, True, False]
+    interpreter = Interpreter({})
+    with patch("src.executor.MAX_ITEMS", 2):
+        target = {1, 2}
+        interpreter.update_set(target, [2, 1])
+        with pytest.raises(MemoryError, match="item limit"):
+            interpreter.update_set(target, [3])
+        with pytest.raises(MemoryError, match="item limit"):
+            interpreter.set_relation({1}, "issubset", iter([1, 2, 3]))
+        assert target == {1, 2}
+
+
+def test_typed_date_iso_equality_cannot_silently_filter_every_record() -> None:
+    from src.excel_parser import CellData, SheetData, WorkbookData
+
+    wire = WorkbookData(
+        {
+            "Events": SheetData(
+                "Events", cells={"G408": CellData(dt.datetime(2031, 4, 19), "datetime")}
+            )
+        }
+    ).wire()
+    for expression in ["d=='2031-04-19T00:00:00'", "'2031-04-19'!=d"]:
+        checked = execute_program("d=cell('Events','G408'); result=" + expression, wire)
+        assert (
+            not checked.success and "Typed date compared with ISO text" in checked.error
+        )
+    good = execute_program(
+        "d=cell('Events','G408'); result=[d==datetime.datetime(2031,4,19),d.isoformat()=='2031-04-19T00:00:00',d.date().isoformat()=='2031-04-19',d is None]",
+        wire,
+    )
+    assert good.success and good.result == [True, True, True, False]
+
+
+def test_bit_masks_and_augmented_shifts_obey_integer_limits() -> None:
+    from src.executor import bounded_left_shift
+
+    result = execute_program(
+        "n=1; n<<=4; result=[n, n>>2, [i for i in range(1<<3) if i & (1<<1)]]"
+    )
+    assert result.success and result.result == [16, 4, [2, 3, 6, 7]]
+    assert bounded_left_shift(1, 4095).bit_length() == 4096
+    for count in [4096, 1000000000]:
+        with pytest.raises(MemoryError, match="bit limit"):
+            bounded_left_shift(1, count)
+    with pytest.raises(ValueError, match="negative shift"):
+        bounded_left_shift(1, -1)
+    too_large = execute_program("n=1; n<<=1000000000; result=n")
+    assert not too_large.success and "bit limit" in too_large.error
+
+
+def test_quoted_parent_metric_reviews_unrequested_restricted_child(
+    tmp_path: Path,
+) -> None:
+    book = openpyxl.Workbook()
+    sheet = book.active
+    sheet.title = "Shifted metrics"
+    sheet["E307"], sheet["F307"], sheet["G307"] = "Entity", "Average duration", None
+    sheet.merge_cells("F307:G307")
+    sheet["F308"], sheet["G308"] = "Overall visits", "Overnight visits"
+    sheet["E309"], sheet["F309"], sheet["G309"] = "Birch", 17.4, 32.9
+    path = tmp_path / "scopes.xlsx"
+    book.save(path)
+    book.close()
+    wire = load_workbook_data(path).wire()
+    query = 'What is "Average duration" for Birch? Answer to one decimal place.'
+    child_code = "result=num('Shifted metrics','G309')"
+    child = execute_program(child_code, wire)
+    overall_code = "result=num('Shifted metrics','F309')"
+    overall = execute_program(overall_code, wire)
+    assert any(
+        "restricted children" in risk
+        for risk in scope_risks(wire, child, query, child_code)
+    )
+    assert not scope_risks(wire, overall, query, overall_code)
+    from unittest.mock import patch
+
+    from src.llm_agent import LLMAgent
+
+    agent = LLMAgent(api_key="test-placeholder", pricing=(0, 0), review_candidate=True)
+    with patch.object(
+        agent,
+        "_request",
+        side_effect=[
+            json.dumps(
+                {"code": child_code, "format": {"kind": "decimal", "decimals": 1}}
+            ),
+            json.dumps(
+                {"code": overall_code, "format": {"kind": "decimal", "decimals": 1}}
+            ),
+        ],
+    ) as requests:
+        solved = agent.solve_workbook(load_workbook_data(path), query)
+    assert requests.call_count == 2 and solved.answer == "17.4" and solved.error is None
+    assert solved.attempts[0]["verification_mode"] == "candidate-audit"
+    restricted = query.replace("for Birch", "for Birch's overnight visits")
+    assert not scope_risks(wire, child, restricted, child_code)
+    # Without explicit named-parent evidence this check makes no scope assumption.
+    assert not scope_risks(
+        wire, child, "What is the overnight duration for Birch?", child_code
+    )
+    # Vertical subgroup headings may define the identity column only; the metric
+    # columns still inherit the sheet's original parent/child paths.
+    for table in wire["Shifted metrics"]["tables"]:
+        table["headers"] = {"E": ["Entity"]}
+    assert any(
+        "restricted children" in risk
+        for risk in scope_risks(wire, child, query, child_code)
+    )
+    for table in wire["Shifted metrics"]["tables"]:
+        table["headers"].update({"F": ["Other metric"], "G": ["Unrelated metric"]})
+    assert not scope_risks(wire, child, query, child_code)
+
+
 def test_named_comparison_requires_both_actual_numeric_header_columns(
     tmp_path: Path,
 ) -> None:
@@ -625,6 +806,30 @@ def test_root_batch_metadata_cannot_drop_a_review_request(tmp_path: Path) -> Non
     assert "unsupported_answer" in json.loads(
         parsed["choices"][0]["message"]["content"]
     )
+
+    agent.structured_state.structured_expected = ["q0", "q1"]
+    body = {
+        "programs": {"q0": item, "q1": {"code": "result=num('S','C2')"}},
+        "assumptions": [["q1", "second-specific"], ["q0", "first-specific"]],
+        "needs_verification": True,
+    }
+    raw["choices"][0]["message"]["content"] = json.dumps(body)
+    parsed = agent._read_response(Response(json.dumps(raw).encode()))
+    programs = json.loads(parsed["choices"][0]["message"]["content"])["programs"]
+    assert programs[0]["assumptions"] == ["local", "first-specific"]
+    assert programs[1]["assumptions"] == ["second-specific"]
+    assert programs[0]["needs_verification"] and programs[1]["needs_verification"]
+    assert programs[0]["code"] == item["code"]
+    for invalid in [
+        [["q0", "first"], ["unknown", "other"]],
+        [["q0", "first"], ["q0", "duplicate"]],
+        [["q0", "first"]],
+        [["q0", ["nested"]], ["q1", "second"]],
+    ]:
+        body["assumptions"] = invalid
+        raw["choices"][0]["message"]["content"] = json.dumps(body)
+        parsed = agent._read_response(Response(json.dumps(raw).encode()))
+        assert json.loads(parsed["choices"][0]["message"]["content"]) == body
 
 
 def test_nonexistent_columns_cannot_turn_into_a_zero_count(tmp_path: Path) -> None:

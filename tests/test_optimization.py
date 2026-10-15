@@ -110,6 +110,28 @@ def test_mean_stays_in_requested_branch_and_table() -> None:
     assert execute_program(code, wire).result == 20
     full = execute_program("result=sum(values('Metrics','B3:C3'))/2", wire)
     assert complete_mean_contract(wire, full, query) is None
+    eager = execute_program(
+        "all_values=values('Metrics','B3:C3'); result=all_values[0]", wire
+    )
+    repair = complete_mean_contract(wire, eager, query)
+    assert repair is not None and execute_program(repair, wire).result == 20
+    for wording in ["What was the average Rate", "Compute the average Rate"]:
+        assert (
+            complete_mean_contract(
+                wire, eager, wording + " across all levels for North."
+            )
+            is not None
+        )
+    # A percentage conversion or derived difference must not be replaced with a raw mean.
+    assert (
+        complete_mean_contract(
+            wire, eager, "What is the average Rate across all levels as a proportion?"
+        )
+        is None
+    )
+    for address in ["B3", "C3"]:
+        wire["Metrics"]["cells"][address]["number_format"] = "0.0%"
+    assert complete_mean_contract(wire, eager, query) is None
     assert not row_scope_errors(wire, full.reads, query)
 
 

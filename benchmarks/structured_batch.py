@@ -16,6 +16,13 @@ RUNTIME_CONTRACT = (
     "Only the documented standard-library modules are available; numpy, pandas and scipy are unavailable, as are hasattr/getattr. Implement calculations with lists, arithmetic and loops. "
 )
 
+BOUNDARY_CONTRACT = (
+    "POSTCONDITIONS: Before returning an entity from a sequential or constrained calculation, "
+    "check that the returned entity itself satisfies the question's condition. A depleted global "
+    "budget does not establish an individual zero allocation; zero, partial and complete are distinct. "
+    "For constrained optima compare only feasible complete candidates; absent pairs are forbidden, not zero-cost. "
+)
+
 
 def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     """Reject duplicate keys before a JSON decoder can silently overwrite them."""
@@ -67,12 +74,14 @@ class StructuredPlanningMixin:
         json_schema: bool = True,
         runtime_contract: bool = True,
         compact_contract: bool = False,
+        boundary_contract: bool = False,
         **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
         self.json_schema = json_schema
         self.runtime_contract = runtime_contract
         self.compact_contract = compact_contract
+        self.boundary_contract = boundary_contract
         self.structured_state = threading.local()
 
     def _before_request(self, payload: dict[str, Any], state: QueryState) -> None:
@@ -141,10 +150,14 @@ class StructuredPlanningMixin:
                 + json.dumps(keys)
                 + ". qN answers question index N; never renumber or duplicate keys. Each program runs independently. Omit selection. cell/num/label require cell addresses; age_order/data_rows/find_rows require column letters. "
                 + (RUNTIME_CONTRACT if self.runtime_contract else "")
+                + (BOUNDARY_CONTRACT if self.boundary_contract else "")
                 + "Every result must depend on real workbook reads, never a literal answer. Lists must be lists, and labels complete. "
                 "CRITICAL UNITS: keep the displayed table scale, including thousands or millions. 'How many', 'integer', 'no units' do NOT request x1000. Convert ONLY if the question explicitly requests a different scale/actual units. Return valid JSON only."
             )
             self.structured_state.structured_expected = keys
+        elif self.boundary_contract:
+            payload["messages"] = [dict(message) for message in payload["messages"]]
+            payload["messages"][-1]["content"] += "\n" + BOUNDARY_CONTRACT
         super()._before_request(payload, state)
 
     def _read_response(self, response: Any) -> dict[str, Any]:
@@ -219,6 +232,27 @@ class StructuredPlanningMixin:
         neutral_format = Program(code="result=None").format.model_dump()
         common_assumptions = envelope.get("assumptions", [])
         common_review = envelope.get("needs_verification", False)
+        keyed_assumptions: dict[str, list[str]] = {}
+        if isinstance(common_assumptions, list) and any(
+            not isinstance(value, str) for value in common_assumptions
+        ):
+            # Accept only an explicit bijection to the already requested keys.
+            # Never infer an association from ordering or discard unknown metadata.
+            for pair in common_assumptions:
+                if (
+                    not isinstance(pair, list)
+                    or len(pair) != 2
+                    or not isinstance(pair[0], str)
+                    or pair[0] not in expected
+                    or pair[0] in keyed_assumptions
+                    or not isinstance(pair[1], str)
+                ):
+                    return data
+                keyed_assumptions[pair[0]] = [pair[1]]
+            if set(keyed_assumptions) != set(expected):
+                return data
+            common_assumptions = []
+            self.structured_state.envelope_normalization = "validated-keyed-assumptions"
         if (
             not isinstance(common_assumptions, list)
             or len(common_assumptions) > 20
@@ -264,7 +298,13 @@ class StructuredPlanningMixin:
                 validated = Program.model_validate(raw_item)
                 item = validated.model_dump()
                 item["assumptions"] = list(
-                    dict.fromkeys([*item.get("assumptions", []), *common_assumptions])
+                    dict.fromkeys(
+                        [
+                            *item.get("assumptions", []),
+                            *common_assumptions,
+                            *keyed_assumptions.get(key, []),
+                        ]
+                    )
                 )
                 item["needs_verification"] = common_review or item.get(
                     "needs_verification", False

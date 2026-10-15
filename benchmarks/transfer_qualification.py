@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import shutil
+import time
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +18,19 @@ from .qwen_batch_signoff import source_manifest
 from .structured_batch import StructuredBatchedAgent
 
 
+def batch_stop_reason(allowance: dict[str, Any]) -> str | None:
+    """Report exhaustion before loading another dataset or creating empty predictions."""
+    if allowance["fatal_error"]:
+        return str(allowance["fatal_error"])
+    if time.time() >= allowance["deadline_unix"]:
+        return "Batch deadline exhausted"
+    if allowance["attempts"] >= allowance["attempt_limit"]:
+        return "Batch HTTP attempt allowance exhausted"
+    if allowance["token_upper"] >= allowance["token_limit"]:
+        return "Batch token allowance exhausted"
+    return None
+
+
 def qualify(
     root: Path,
     heldout: Path,
@@ -26,6 +40,8 @@ def qualify(
     concurrency: int = 4,
     extended_regression: bool = False,
     review_candidate: bool = False,
+    deduplicate_headers: bool = False,
+    boundary_contract: bool = False,
 ) -> dict[str, Any]:
     """Preserve every result; do not open holdout inference until all prerequisites pass."""
     if root.exists():
@@ -68,6 +84,7 @@ def qualify(
     extensions = {}
     if extended_regression:
         for label, folder, count in [
+            ("decision_18", "decision_v1_holdout", 18),
             ("structural_18", "structural_v1_holdout", 18),
             ("generalization_18", "generalization_v1_holdout", 18),
             ("transfer_24", "efficiency_v5_holdout", 24),
@@ -91,6 +108,8 @@ def qualify(
             "thinking": thinking,
             "concurrency": concurrency,
             "review_candidate": review_candidate,
+            "deduplicate_headers": deduplicate_headers,
+            "boundary_contract": boundary_contract,
         },
         "regression_extensions": extensions,
         "validation_dataset": str(heldout),
@@ -110,13 +129,19 @@ def qualify(
     result: dict[str, Any] = {
         "source_lock": lock,
         "stages": {},
+        "unassessed": {},
         "btc_private_verified": False,
         "qwen_confirmed": False,
     }
 
     def stage(
         label: str, folder: Path, reference_name: str, baseline: bool = False
-    ) -> dict[str, Any]:
+    ) -> dict[str, Any] | None:
+        reason = result.get("stopped") or batch_stop_reason(limits.update())
+        if reason:
+            result["unassessed"][label] = reason
+            atomic_json(root / "summary.json", result)
+            return None
         if lock["modules"] != source_manifest():
             raise ValueError("Candidate source changed during live evaluation")
         queries = validate_queries(folder / "queries.json", folder / "xlsx_files")
@@ -147,10 +172,20 @@ def qualify(
                     thinking=thinking,
                     concurrency=concurrency,
                     review_candidate=review_candidate,
+                    deduplicate_headers=deduplicate_headers,
+                    boundary_contract=boundary_contract,
                 )
         if lock["modules"] != source_manifest():
             raise ValueError("Candidate source changed during live evaluation")
         result["stages"][label] = report
+        reason = batch_stop_reason(limits.update())
+        if reason or any(
+            "Gateway batch request/token allowance exhausted" in str(error)
+            for error in report.get("errors", {}).values()
+        ):
+            result["stopped"] = (
+                reason or "Insufficient remaining request/token allowance"
+            )
         atomic_json(root / "summary.json", result)
         print(
             json.dumps(
@@ -167,17 +202,40 @@ def qualify(
 
     for label, (folder, reference) in datasets.items():
         stage(label, folder, reference, baseline=label == "baseline_public")
-    qualified = all(
-        report["complete"] and report["score"]["correct"] == report["score"]["total"]
-        for name, report in result["stages"].items()
-        if name != "baseline_public"
+    qualified = (
+        not result.get("stopped")
+        and set(datasets) <= result["stages"].keys()
+        and all(
+            report["complete"]
+            and report["score"]["correct"] == report["score"]["total"]
+            for name, report in result["stages"].items()
+            if name != "baseline_public"
+        )
     )
     if qualified and independent:
+        remaining = limits.update()
+        count = len(validate_queries(heldout / "queries.json", heldout / "xlsx_files"))
+        if (
+            remaining["attempt_limit"] - remaining["attempts"]
+            < count + (count + 3) // 4
+        ):
+            result["unassessed"]["heldout_proof"] = (
+                "Insufficient allowance even for the minimum baseline/candidate requests"
+            )
+            result["holdout_status"] = "not evaluated; insufficient batch allowance"
+            atomic_json(root / "summary.json", result)
+            return result
         atomic_json(receipt, lock)
         baseline = stage(
             "heldout_proof/baseline", heldout, "references.csv", baseline=True
         )
         candidate = stage("heldout_proof/candidate", heldout, "references.csv")
+        if baseline is None or candidate is None:
+            result["holdout_status"] = (
+                "Consumed receipt preserved; comparison incomplete due batch allowance"
+            )
+            atomic_json(root / "summary.json", result)
+            return result
         result["holdout_status"] = "consumed once; future runs are regression only"
         result["comparison"] = {
             "complete": baseline["complete"] and candidate["complete"],
@@ -215,6 +273,8 @@ if __name__ == "__main__":
         action="store_true",
         help="Audit unverified executable code during semantic review; keep default unchanged",
     )
+    parser.add_argument("--deduplicate-headers", action="store_true")
+    parser.add_argument("--boundary-contract", action="store_true")
     parser.add_argument(
         "--extended-regression",
         action="store_true",
@@ -239,4 +299,6 @@ if __name__ == "__main__":
         concurrency=arguments.concurrency,
         extended_regression=arguments.extended_regression,
         review_candidate=arguments.review_candidate,
+        deduplicate_headers=arguments.deduplicate_headers,
+        boundary_contract=arguments.boundary_contract,
     )

@@ -88,9 +88,12 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
     if destination.exists():
         raise ValueError("Preserve the prior official acceptance report")
     lock = json.loads((root / "source_lock.json").read_text())
-    review_candidate = lock.get("configuration", {}).get("review_candidate", False)
-    if type(review_candidate) is not bool:
-        raise ValueError("Invalid locked review policy")
+    candidate_flags = {
+        flag: lock.get("configuration", {}).get(flag, False)
+        for flag in ("review_candidate", "deduplicate_headers", "boundary_contract")
+    }
+    if any(type(value) is not bool for value in candidate_flags.values()):
+        raise ValueError("Invalid locked candidate feature flags")
     if lock["modules"] != source_manifest():
         raise ValueError("Candidate implementation changed after lock")
     report: dict[str, Any] = {
@@ -102,6 +105,13 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
         "gate_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "source_lock": lock,
     }
+    if lock.get("assessment_only") or lock.get("qualification_passed") is False:
+        report.update(
+            status="blocked_assessment_only",
+            reason="Exploratory holdout evidence cannot qualify a final submission",
+        )
+        atomic_json(destination, report)
+        return report
     requirements = [
         ("public_1", 20),
         ("public_2", 20),
@@ -132,8 +142,10 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
             or not result["complete"]
             or result["score"]["total"] != count
             or result["score"]["correct"] != result["score"]["total"]
-            or result.get("config", {}).get("review_candidate", False)
-            != review_candidate
+            or any(
+                result.get("config", {}).get(flag, False) != value
+                for flag, value in candidate_flags.items()
+            )
         ):
             report.update(
                 status="blocked_qualification",
@@ -166,8 +178,10 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
             or not result["complete"]
             or result["score"]["total"] != manifest["questions"]
             or result["score"]["correct"] != manifest["questions"]
-            or result.get("config", {}).get("review_candidate", False)
-            != review_candidate
+            or any(
+                result.get("config", {}).get(flag, False) != value
+                for flag, value in candidate_flags.items()
+            )
         ):
             report.update(
                 status="blocked_qualification",
@@ -238,9 +252,10 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
                     pricing=pricing,
                     deadline=deadline,
                     worker_memory_mb=128 if label == "candidate" else 256,
-                    review_candidate=review_candidate
-                    if label == "candidate"
-                    else False,
+                    **{
+                        flag: value if label == "candidate" else False
+                        for flag, value in candidate_flags.items()
+                    },
                 )
                 output = root / f"qwen{suffix}_{label}_{name}.csv"
                 if label == "baseline":

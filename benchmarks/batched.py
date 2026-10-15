@@ -98,9 +98,16 @@ def apportioned_calls(
 class BatchPlanningMixin:
     """Reuse only newly generated plans; repairs retain all existing per-question guards."""
 
-    def __init__(self, *, column_catalog: bool = True, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        column_catalog: bool = True,
+        deduplicate_headers: bool = False,
+        **kwargs: Any,
+    ) -> None:
         super().__init__(**kwargs)
         self.column_catalog = column_catalog
+        self.deduplicate_headers = deduplicate_headers
         self.prepared = threading.local()
 
     def solve_workbook(
@@ -108,7 +115,12 @@ class BatchPlanningMixin:
     ) -> SolveResult:
         """Use the same lossless encoding for individual repairs as shared planning."""
         wire = workbook.wire()
-        text = dense_text(workbook, wire, column_catalog=self.column_catalog)
+        text = dense_text(
+            workbook,
+            wire,
+            column_catalog=self.column_catalog,
+            deduplicate_headers=self.deduplicate_headers,
+        )
         if len(text.encode()) > 800_000:
             text = project_workbook(wire, query)
         return self._solve(text, wire, query, max_retries)
@@ -164,7 +176,12 @@ class BatchPlanningMixin:
             return records, event
         state = QueryState(self.deadline, self.query_budget)
         wire = workbook.wire()
-        text = dense_text(workbook, wire, column_catalog=self.column_catalog)
+        text = dense_text(
+            workbook,
+            wire,
+            column_catalog=self.column_catalog,
+            deduplicate_headers=self.deduplicate_headers,
+        )
         date_hints = []
         for index, question in enumerate(questions):
             for name, sheet in wire.items():
@@ -277,6 +294,8 @@ def run_batched_stage(
     agent_class: type[BatchedAgent] = BatchedAgent,
     thinking: str = "low",
     review_candidate: bool = False,
+    deduplicate_headers: bool = False,
+    boundary_contract: bool = False,
 ) -> dict[str, Any]:
     """Checkpoint whole planned groups and evaluate only after generation finishes."""
     if concurrency not in {1, 2, 4, 8} or not 1 <= group_size <= 4:
@@ -298,6 +317,8 @@ def run_batched_stage(
         if review_candidate
         else "fresh-selection",
         "review_candidate": review_candidate,
+        "deduplicate_headers": deduplicate_headers,
+        "boundary_contract": boundary_contract,
         "modules": {
             name: hashlib.sha256(
                 Path(__file__).with_name(name).read_bytes()
@@ -328,6 +349,8 @@ def run_batched_stage(
         batch_limits=limits,
         thinking=thinking,
         review_candidate=review_candidate,
+        deduplicate_headers=deduplicate_headers,
+        **({"boundary_contract": True} if boundary_contract else {}),
         max_tokens=2048,
         ledger=ledger,
         worker_memory_mb=128 if concurrency >= 4 else 256,

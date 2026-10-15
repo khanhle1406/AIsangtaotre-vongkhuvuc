@@ -19,15 +19,87 @@ def client() -> QwenBatchedAgent:
     return QwenBatchedAgent(api_key="test-placeholder", pricing=(1e-7, 1e-7))
 
 
-def test_official_signoff_rejects_changed_review_policy_before_network(
+def test_exhausted_batch_is_unassessed_and_cannot_vacuously_qualify(
     tmp_path: Path,
+) -> None:
+    import time
+
+    from benchmarks.transfer_qualification import qualify
+
+    dataset = tmp_path / "sealed"
+    dataset.mkdir()
+    (dataset / "manifest.json").write_text(json.dumps({"hashes": {}}))
+    allowance = {
+        "fatal_error": None,
+        "deadline_unix": time.time() + 60,
+        "attempts": 200,
+        "attempt_limit": 200,
+        "token_upper": 1000,
+        "token_limit": 2000000,
+    }
+    with (
+        patch("benchmarks.transfer_qualification.source_manifest", return_value={}),
+        patch("pathlib.Path.is_file", return_value=True),
+        patch("benchmarks.transfer_qualification.BatchLimits") as limits,
+        patch("benchmarks.transfer_qualification.run_stage") as baseline,
+        patch("benchmarks.transfer_qualification.run_batched_stage") as candidate,
+    ):
+        limits.return_value.update.return_value = allowance
+        report = qualify(tmp_path / "output", dataset)
+    assert report["stages"] == {} and "public_1" in report["unassessed"]
+    assert report["holdout_status"] == "not evaluated; failed qualification"
+    assert not (dataset / "evaluated.json").exists()
+    baseline.assert_not_called()
+    candidate.assert_not_called()
+
+
+def test_assessment_only_evidence_cannot_enter_official_signoff(tmp_path: Path) -> None:
+    from benchmarks.qwen_batch_signoff import signoff, source_manifest
+
+    (tmp_path / "source_lock.json").write_text(
+        json.dumps({"modules": source_manifest(), "assessment_only": True})
+    )
+    with patch("urllib.request.urlopen") as network:
+        report = signoff(tmp_path)
+    assert (
+        report["status"] == "blocked_assessment_only" and report["new_generations"] == 0
+    )
+    network.assert_not_called()
+
+
+def test_assessment_still_rejects_incomplete_qualification(tmp_path: Path) -> None:
+    from benchmarks.qwen_batch_signoff import source_manifest
+    from benchmarks.robustness_proof import proof
+
+    parent = tmp_path / "candidate"
+    (parent / "public_1").mkdir(parents=True)
+    (parent / "source_lock.json").write_text(
+        json.dumps({"modules": source_manifest(), "validation_dataset": "unused"})
+    )
+    (parent / "public_1/report.json").write_text(
+        json.dumps({"complete": False, "score": {"correct": 19, "total": 20}})
+    )
+    dataset = tmp_path / "unseen"
+    dataset.mkdir()
+    with (
+        patch("urllib.request.urlopen") as network,
+        pytest.raises(ValueError, match="requires complete"),
+    ):
+        proof(parent, dataset, tmp_path / "output", assessment_only=True)
+    assert not (dataset / "evaluated.json").exists()
+    network.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "flag", ["review_candidate", "deduplicate_headers", "boundary_contract"]
+)
+def test_official_signoff_rejects_changed_review_policy_before_network(
+    tmp_path: Path, flag: str
 ) -> None:
     from benchmarks.qwen_batch_signoff import signoff, source_manifest
 
     (tmp_path / "source_lock.json").write_text(
-        json.dumps(
-            {"modules": source_manifest(), "configuration": {"review_candidate": True}}
-        )
+        json.dumps({"modules": source_manifest(), "configuration": {flag: True}})
     )
     (tmp_path / "public_1").mkdir()
     (tmp_path / "public_1/report.json").write_text(
@@ -35,7 +107,7 @@ def test_official_signoff_rejects_changed_review_policy_before_network(
             {
                 "complete": True,
                 "score": {"correct": 20, "total": 20},
-                "config": {"review_candidate": False},
+                "config": {flag: False},
             }
         )
     )
@@ -82,6 +154,8 @@ def test_unseen_proof_cannot_consume_data_after_partial_qualification(
     [
         {"thinking": "medium", "concurrency": 8},
         {"thinking": "low", "concurrency": 4, "review_candidate": True},
+        {"thinking": "low", "concurrency": 4, "deduplicate_headers": True},
+        {"thinking": "low", "concurrency": 4, "boundary_contract": True},
     ],
 )
 def test_unseen_proof_rejects_profile_changed_since_qualification(

@@ -16,6 +16,7 @@ import sys
 import threading
 from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass, field
+from functools import partial
 from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
@@ -81,6 +82,17 @@ def bounded_permutations(
     return itertools.permutations(pool, size)
 
 
+def bounded_left_shift(value: int, count: int) -> int:
+    """Allow ordinary bit masks without allocating integers beyond the worker cap."""
+    if not isinstance(value, int) or not isinstance(count, int):
+        raise TypeError("Bit shifts require integers")
+    if count < 0:
+        raise ValueError("negative shift count")
+    if count > 4096 or value.bit_length() + count > 4096:
+        raise MemoryError("Left shift exceeds integer bit limit")
+    return value << count
+
+
 BINARY = {
     ast.Add: operator.add,
     ast.Sub: operator.sub,
@@ -92,6 +104,8 @@ BINARY = {
     ast.BitOr: operator.or_,
     ast.BitAnd: operator.and_,
     ast.BitXor: operator.xor,
+    ast.LShift: bounded_left_shift,
+    ast.RShift: operator.rshift,
 }
 COMPARE = {
     ast.Eq: operator.eq,
@@ -164,10 +178,29 @@ METHODS = {
         "find",
         "index",
     },
-    list: {"append", "extend", "index", "count", "sort", "reverse", "pop", "copy"},
+    list: {
+        "append",
+        "extend",
+        "insert",
+        "index",
+        "count",
+        "sort",
+        "reverse",
+        "pop",
+        "copy",
+    },
     tuple: {"index", "count"},
     dict: {"get", "items", "keys", "values", "setdefault", "copy"},
-    set: {"add", "union", "intersection", "difference"},
+    set: {
+        "add",
+        "union",
+        "intersection",
+        "difference",
+        "update",
+        "issubset",
+        "issuperset",
+        "isdisjoint",
+    },
     re.Match: {"group", "groups", "start", "end", "span"},
     datetime.datetime: {"date", "isoformat", "strftime", "year", "month", "day"},
     datetime.date: {"isoformat", "strftime", "year", "month", "day"},
@@ -263,6 +296,8 @@ ALLOWED_NODES = (
     ast.BitOr,
     ast.BitAnd,
     ast.BitXor,
+    ast.LShift,
+    ast.RShift,
     ast.UAdd,
     ast.USub,
     ast.Not,
@@ -1001,6 +1036,31 @@ class Interpreter:
         if self.steps > MAX_STEPS:
             raise TimeoutError("AST instruction limit exceeded")
 
+    def insert_value(self, sequence: list[Any], index: int, value: Any) -> None:
+        """Retain standard list insertion semantics within the worker item cap."""
+        if len(sequence) >= MAX_ITEMS:
+            raise MemoryError("List insertion exceeds item limit")
+        sequence.insert(index, value)
+
+    def update_set(self, target: set[Any], *sources: Iterable[Any]) -> None:
+        """Consume ordinary iterable updates with both step and cardinality limits."""
+        for source in sources:
+            for value in source:
+                self.tick()
+                if len(target) >= MAX_ITEMS and value not in target:
+                    raise MemoryError("Set update exceeds item limit")
+                target.add(value)
+
+    def set_relation(self, left: set[Any], relation: str, right: Iterable[Any]) -> bool:
+        """Bound temporary sets made by the standard iterable relation methods."""
+        other: set[Any] = set()
+        self.update_set(other, right)
+        return {
+            "issubset": set.issubset,
+            "issuperset": set.issuperset,
+            "isdisjoint": set.isdisjoint,
+        }[relation](left, other)
+
     def bounded(self, value: Any) -> Any:
         if (
             isinstance(value, (str, bytes, list, tuple, dict, set, frozenset, range))
@@ -1119,6 +1179,18 @@ class Interpreter:
             left = self.evaluate(node.left, env)
             for operation, part in zip(node.ops, node.comparators, strict=True):
                 right = self.evaluate(part, env)
+                if isinstance(operation, (ast.Eq, ast.NotEq)) and any(
+                    isinstance(typed, datetime.date)
+                    and isinstance(text, str)
+                    and ISO_DATE.fullmatch(text.strip())
+                    for typed, text in ((left, right), (right, left))
+                ):
+                    raise TypeError(
+                        "Typed date compared with ISO text: this cannot match in Python. "
+                        "Parse only the string literal with datetime.datetime.fromisoformat(), "
+                        "or normalize both sides with isoformat(). Workbook datetime cells are "
+                        "already typed: do not parse them again."
+                    )
                 if isinstance(operation, (ast.In, ast.NotIn)) and (
                     isinstance(left, CellArray)
                     and isinstance(right, (list, tuple))
@@ -1187,6 +1259,16 @@ class Interpreter:
                 return lambda key=None, reverse=False: self.sort_in_place(
                     value, key, reverse
                 )
+            if isinstance(value, list) and node.attr == "insert":
+                return partial(self.insert_value, value)
+            if isinstance(value, set) and node.attr == "update":
+                return partial(self.update_set, value)
+            if isinstance(value, set) and node.attr in {
+                "issubset",
+                "issuperset",
+                "isdisjoint",
+            }:
+                return partial(self.set_relation, value, node.attr)
             if isinstance(value, SimpleNamespace) and node.attr in vars(value):
                 return getattr(value, node.attr)
             if value in (datetime.datetime, datetime.date) and node.attr in {

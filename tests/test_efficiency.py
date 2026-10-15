@@ -346,12 +346,19 @@ def test_live_shared_plan_executes_each_question_and_resumes(
             limits,
             BudgetLedger(0.01),
             agent_class=StructuredBatchedAgent,
+            deduplicate_headers=True,
+            boundary_contract=True,
         )
     assert keyed["score"]["correct"] == 2 and keyed["tokens"] == 101
     assert (
         json.loads(request.call_args.args[0].data)["response_format"]["type"]
         == "json_schema"
     )
+    payload = json.loads(request.call_args.args[0].data)
+    assert "headers_ref" in payload["messages"][-1]["content"]
+    assert "POSTCONDITIONS:" in payload["messages"][-1]["content"]
+    assert keyed["config"]["deduplicate_headers"]
+    assert keyed["config"]["boundary_contract"]
     # Restore the classic mock response before testing the default CLI.
     body = {
         "programs": [
@@ -424,8 +431,9 @@ def decode_runs(text: str) -> dict[str, dict[str, Any]]:
 
 
 @pytest.mark.parametrize("column_catalog", [False, True])
+@pytest.mark.parametrize("deduplicate_headers", [False, True])
 def test_dense_context_round_trip_preserves_typed_cells(
-    tmp_path: Path, column_catalog: bool
+    tmp_path: Path, column_catalog: bool, deduplicate_headers: bool
 ) -> None:
     book = openpyxl.Workbook()
     sheet = book.active
@@ -446,7 +454,16 @@ def test_dense_context_round_trip_preserves_typed_cells(
     book.close()
     parsed = load_workbook_data(path)
     wire = parsed.wire()
-    text = dense_text(parsed, wire, column_catalog=column_catalog)
+    original = json.dumps(wire)
+    # An independent table header must never inherit the sheet's different header.
+    wire[sheet.title]["tables"].append({"range": "A4:C4", "headers": {"A": ["Other"]}})
+    expected_tables = json.loads(json.dumps(wire[sheet.title]["tables"]))
+    text = dense_text(
+        parsed,
+        wire,
+        column_catalog=column_catalog,
+        deduplicate_headers=deduplicate_headers,
+    )
     assert decode_runs(text) == wire[sheet.title]["cells"]
     hints = json.loads(
         next(line[6:] for line in text.splitlines() if line.startswith("HINTS "))
@@ -455,7 +472,13 @@ def test_dense_context_round_trip_preserves_typed_cells(
     assert hints["hidden_rows"] == [5]
     assert hints["hidden_columns"] == wire[sheet.title]["hidden_columns"]
     assert hints["headers"] == wire[sheet.title]["headers"]
-    assert hints["tables"] == wire[sheet.title]["tables"]
+    for table in hints["tables"]:
+        if table.pop("headers_ref", None) == "sheet":
+            table["headers"] = hints["headers"]
+    assert hints["tables"] == expected_tables
+    assert wire[sheet.title]["tables"] == expected_tables
+    wire[sheet.title]["tables"].pop()
+    assert json.dumps(wire) == original
 
 
 @pytest.mark.parametrize("column_catalog", [False, True])

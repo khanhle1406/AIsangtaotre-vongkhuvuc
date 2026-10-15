@@ -17,7 +17,9 @@ from .qwen_batch_signoff import source_manifest
 from .structured_batch import StructuredBatchedAgent
 
 
-def proof(qualified: Path, dataset: Path, output: Path) -> dict[str, Any]:
+def proof(
+    qualified: Path, dataset: Path, output: Path, *, assessment_only: bool = False
+) -> dict[str, Any]:
     """Copies qualification evidence with its provenance, never fabricates new runs."""
     if output.exists() or (dataset / "evaluated.json").exists():
         raise ValueError("Preserve existing proof and consumed independent data")
@@ -28,17 +30,25 @@ def proof(qualified: Path, dataset: Path, output: Path) -> dict[str, Any]:
     configuration = parent.get("configuration", {"thinking": "low", "concurrency": 4})
     if (
         not isinstance(configuration, dict)
+        or not {"thinking", "concurrency"} <= configuration.keys()
         or set(configuration)
-        not in (
-            {"thinking", "concurrency"},
-            {"thinking", "concurrency", "review_candidate"},
-        )
+        - {
+            "thinking",
+            "concurrency",
+            "review_candidate",
+            "deduplicate_headers",
+            "boundary_contract",
+        }
         or configuration["thinking"] not in {"minimal", "low", "medium", "high"}
         or configuration["concurrency"] not in {1, 2, 4, 8}
-        or type(configuration.get("review_candidate", False)) is not bool
+        or any(
+            type(configuration.get(flag, False)) is not bool
+            for flag in ("review_candidate", "deduplicate_headers", "boundary_contract")
+        )
     ):
         raise ValueError("Invalid qualified development configuration")
     prerequisites: dict[str, Path] = {}
+    failed_qualification: dict[str, Any] = {}
     sources = {
         **{f"public_{i}": (Path("data"), 20) for i in range(1, 4)},
         "regression_60": (
@@ -75,9 +85,19 @@ def proof(qualified: Path, dataset: Path, output: Path) -> dict[str, Any]:
             or result["score"]["total"] != count
             or result["score"]["correct"] != result["score"]["total"]
         ):
-            raise ValueError(
-                f"Qualification failed on {label}; new holdout stays unused"
-            )
+            if not assessment_only:
+                raise ValueError(
+                    f"Qualification failed on {label}; new holdout stays unused"
+                )
+            if (
+                not result["complete"]
+                or result["score"]["total"] != count
+                or result.get("fatal_error")
+            ):
+                raise ValueError(
+                    "Assessment requires complete, operationally valid qualification runs"
+                )
+            failed_qualification[label] = result["score"]
         if any(
             result["config"].get(key) != value for key, value in configuration.items()
         ):
@@ -100,8 +120,13 @@ def proof(qualified: Path, dataset: Path, output: Path) -> dict[str, Any]:
             raise ValueError("Frozen independent dataset changed")
     lock = {
         "modules": modules,
-        "scope": "New independent comparison, unchanged runtime source; qualification copied from measured parent with hashes",
+        "scope": "Once-only assessment of frozen unqualified source; failed qualification evidence retained; never eligible for signoff"
+        if assessment_only
+        else "New independent comparison, unchanged runtime source; qualification copied from measured parent with hashes",
         "independent_validation": True,
+        "assessment_only": assessment_only,
+        "qualification_passed": not failed_qualification,
+        "failed_qualification": failed_qualification,
         "qualification_parent": str(qualified),
         "configuration": configuration,
         "regression_extensions": extensions,
@@ -204,5 +229,15 @@ if __name__ == "__main__":
     parser.add_argument("--qualified", type=Path, required=True)
     parser.add_argument("--dataset", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument(
+        "--assessment-only",
+        action="store_true",
+        help="Measure a fully run but inaccurate frozen candidate; never eligible for signoff",
+    )
     arguments = parser.parse_args()
-    proof(arguments.qualified, arguments.dataset, arguments.output)
+    proof(
+        arguments.qualified,
+        arguments.dataset,
+        arguments.output,
+        assessment_only=arguments.assessment_only,
+    )

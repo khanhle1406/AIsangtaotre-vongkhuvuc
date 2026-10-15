@@ -2,7 +2,9 @@
 
 Các số dưới đây là **Gemini 3 Flash sinh mới**, không dùng replay làm benchmark LLM. Chúng không chứng minh điểm private của BTC hoặc điểm Qwen3.7 Flash. Ưu tiên Exact Match → thời gian → token.
 
-Thí nghiệm mới nhất **v34 audit** chưa được chấp nhận: public **20/20, 19/20, 20/20**, structural **17/18**. Sàng lọc v33 đạt 116/116 không thay thế được kết quả xác nhận này. Review audit vẫn là tùy chọn phát triển; mặc định thi chưa đổi. Chưa có kiểm định độc lập mới hoặc xác nhận Qwen cho source hiện tại.
+Thí nghiệm mới nhất **v41** đạt public **20/20 cả ba lượt**, trung bình **11,007 giây/20 câu**, **126.576,33 token/20 câu**, RSS đỉnh **120,06 MiB**. Giảm **53,44% thời gian / 33,46% token** so với baseline cùng đợt; chưa nhanh hơn mốc v17. Bộ decision đã dùng đạt **17/18**. **Chưa chọn bản nộp**: chưa giảm cả hai chỉ số 50%, còn lỗi và chưa xác nhận đầy đủ toàn bộ 254 câu hồi quy trên source mới.
+
+Đánh giá decision độc lập trước sửa (source v37) đạt **12/18 ở cả baseline lẫn candidate**, không cải thiện độ đúng/thời gian. Các lần 17/18 sau sửa là hồi quy, không phải kiểm định độc lập mới. V39 đạt public đủ điểm ba lượt nhưng chạm trần 200 attempts giữa chừng; phần chưa chạy không phải câu model trả lời sai. Review audit và các tối ưu mới chưa chuyển thành mặc định thi; chưa xác nhận Qwen/private BTC.
 
 Candidate gần nhất vượt qualification chính và kiểm định độc lập là **v30, low/concurrency 4**. Public 20/20 ba lượt; bộ mới 18/18 so với baseline 17/18. Regression mở rộng sau đó còn một câu lỗi. Public giảm 50,41% thời gian / 44,53% token; kiểm định mới giảm 25,17% thời gian / 57,83% token so với baseline cùng đợt. **Chưa đạt giảm 50% cho cả hai chỉ số trên mọi bộ; chưa vượt v17 về hiệu suất public.** Mọi kết quả thất bại được giữ dưới đây.
 
@@ -189,3 +191,58 @@ V34 xác nhận bằng public lặp và toàn bộ 236 câu hồi quy, khóa sou
 Nghiệm thu mã: **274 test passed**, Ruff check/format đạt. Không có inference Qwen trả phí trong giai đoạn này; tiếp tục Gemini theo yêu cầu người dùng. Không tự chuyển model hoặc dùng đáp án/ID trong inference. Chi phí gateway 0 là theo xác nhận người dùng, tách khỏi usage.cost do API báo; usage thiếu không được thay bằng 0 token.
 
 V34 đã kết thúc: **235/236 hồi quy**, public **59/60 trên ba lượt**. Public trung bình **10,214 giây/20 câu** (throughput **0,511 giây/câu**) và **121.122 token/20 câu** (**6.056,1 token/câu**); baseline đủ điểm là 23,205 giây / 198.389 token. Giảm **55,98% thời gian / 38,95% token**, nhưng không chấp nhận đánh đổi một câu sai. Độ trễ trung bình trace public là **2,699 giây/câu**, không phải 0,511 giây. Báo cáo máy: `reports/optimization/GEMINI_CONTINUATION_V34.json`. Không có kiểm định độc lập mới trong v31–v34.
+
+## V35–v37: giữ độ đúng khi thử tiết kiệm token
+
+Tín hiệu review mới kiểm tra chỉ tiêu cha được gọi tên trong dấu nháy, có cột tổng thể và cột subgroup: chương trình đọc riêng subgroup không được hỏi sẽ cần xác minh. Phần numeric header của các subgroup dọc có thể kế thừa header sheet; định nghĩa cột local vẫn ghi đè. Đây là tín hiệu mềm, không ép chọn Total hay gán giá trị. Test dùng tên metric, subgroup và tọa độ mới, gồm yêu cầu subgroup hợp lệ.
+
+V35 thử A/B/C với cùng runtime, audit và 80 câu đã biết; luân phiên thứ tự các cấu hình giữa bộ:
+
+| Cấu hình | Exact Match | Tổng giây | Token |
+| --- | --- | --- | --- |
+| A: biểu diễn hiện tại | 80/80 | 69,394 | 407.160 |
+| B: tham chiếu header trùng hoàn toàn | 79/80 | 39,406 | 262.653 |
+| C: B + nhắc kiểm tra điều kiện đầu ra | 79/80 | 53,109 | 305.887 |
+
+B giảm 8,39% byte workbook public trong phép đo offline và giảm 43,21% thời gian / 35,49% token trong lượt sinh mới này, nhưng **chưa chọn B/C vì độ đúng thấp hơn**. Chênh lệch tổng token gồm cả biến động retry, không chỉ phần metadata. Biểu diễn tham chiếu có kiểm thử khôi phục đầy đủ ô/kiểu/merge/header và không sửa backend. Các tùy chọn vẫn tắt mặc định.
+
+V36 chuẩn hóa giả định dạng cặp khóa câu hỏi chỉ khi có ánh xạ một-một đầy đủ tới các khóa đã yêu cầu. Không đoán bằng thứ tự, không bỏ metadata lạ/trùng/thiếu, không bỏ `needs_verification`, không sửa code. Replay giữ nguyên chương trình sai đơn vị và guard vẫn từ chối nó. V36 public 20/20 cả ba lượt; hồi quy **233/236**. Public trung bình **13,083 giây / 115.932,33 token**, so với baseline 26,488 giây / 220.132 token: giảm 50,61% thời gian / 47,34% token. RSS đỉnh 134,59 MiB. Chưa đạt mục tiêu giảm cả hai 50%, không mở holdout.
+
+V37 bổ sung `list.insert` chuẩn Python có giới hạn số phần tử. Phát hiện chương trình dùng `[0]` trên scalar string của `values()` trước join/filter, khiến nhãn bị cắt thành ký tự đầu rồi trả 0; yêu cầu review khi câu hỏi không yêu cầu trích ký tự/initial/prefix. Không cấm Python string indexing, không tự đổi 0 thành đáp án. Test xác nhận ý định lấy initials vẫn được giữ. Replay chương trình đường găng từng bị chặn bởi insert trả đúng; replay hai chương trình trả 0 nay tạo tín hiệu review. Đây không phải benchmark LLM sinh mới.
+
+V37 sinh mới: public **20/20, 20/20, 20/20**; regression60 60/60, regression32 32/32, known18 **17/18**, synthetic24 24/24, structural18 18/18, generalization18 18/18, transfer24 24/24, compositional18 **17/18**, robustness24 24/24. Tổng hồi quy **234/236**. Hai lỗi còn lại: ghép ngày thuộc hai bản ghi khác nhau; backtrack critical path theo thời điểm bắt đầu thay vì kết thúc predecessor. Candidate vẫn bị loại; không lấy public đủ điểm để che lỗi còn lại.
+
+Bộ mới `decision_v1_holdout` gồm 18 câu/ba workbook: minimum set cover, conditional Bayesian evidence và effective-dated interval join. Oracle độc lập lần lượt duyệt toàn bộ tập con, xác suất liên hợp bằng Fraction, SQL interval join cộng số học phân số; 18 đáp án đã kiểm tra tay trong tests. Dữ liệu được dịch/đảo cột và thêm archive nhiễu, manifest đóng băng trước inference. **Chưa chạy model, chưa có receipt đánh giá**, vì candidate chưa vượt toàn bộ qualification. Không thêm helper hay luật suy luận cho ba họ này.
+
+**287 tests passed**, Ruff check/format đạt. Không gọi Qwen trả phí trong vòng này. Báo cáo máy đầy đủ: `reports/optimization/GEMINI_CONTINUATION_V37.json`. Goal vẫn active; chưa hoàn thành mục tiêu độ đúng và hiệu suất.
+
+## Decision assessment, v39–v41 và giới hạn vận hành
+
+Bộ decision 18 câu đã được mở **một lần** trên source v37 đóng băng. Vì qualification còn lỗi, lượt này có `assessment_only=true`, giữ nguyên hai báo cáo qualification sai và bị cổng Qwen từ chối trước network. Đây là phép đo độc lập của source chưa đạt yêu cầu, không phải vượt cổng nghiệm thu.
+
+| Decision độc lập trước sửa | Exact Match | Tổng giây | Token |
+| --- | --- | --- | --- |
+| Baseline | 12/18 | 44,900 | 167.086 |
+| Candidate v37 | 12/18 | 54,852 | 144.975 |
+
+Cả 18 câu đều đã được gọi model; sáu lỗi mỗi nhánh là lỗi code/runtime, không phải API. Không có cải thiện độ đúng hoặc thời gian; token giảm 13,23%. Source/runtime hiện tại đã khác, nên bằng chứng này không chứng minh độ đúng của source mới. Bộ đã tiêu thụ, không được gọi lại là unseen bằng cách đổi seed, file hoặc tên dataset.
+
+Runtime được bổ sung `set.update`, quan hệ tập hợp và dịch bit chuẩn Python, có giới hạn bước, số phần tử và số bit trước phép dịch trái (kể cả `<<=`). Bổ sung lỗi kiểu khi so sánh `datetime` với chuỗi ISO để tránh điều kiện luôn False rồi trả 0; cách so sánh ngày/ngày hoặc ISO/ISO vẫn giữ. Đây là thay đổi phép toán và hợp đồng kiểu, không có lời giải riêng cho set cover/Bayes hay ID câu hỏi.
+
+Các lượt **sinh mới trên bộ đã biết**: v39 decision 17/18, v40 14/18, v41 17/18. Không chọn riêng lượt tốt để thay lịch sử. V40 public 18/20, 20/20, 20/20: một kế hoạch sai envelope làm hai câu phải sửa riêng; một chương trình đọc đủ các cột rồi chỉ lấy cột lá để tính mean, vượt qua kiểm tra read coverage. V41 kiểm chứng giá trị trung bình của nhánh ALL đã xác định rõ, thay vì coi đọc đủ ô là dùng đủ toán hạng. Tự tính lại từ workbook khi sai và không có yêu cầu weighted/leaf/chuyển đơn vị/phần trăm lưu dạng fraction; dùng cùng hợp đồng định dạng để tránh sửa vì khác số chữ số. Test dùng bảng mới và các trường hợp không được tự ghi đè. Replay chương trình mean cũ trả đúng 3.14 không thêm phản hồi model; replay không tính vào benchmark.
+
+V39 chạm **200 HTTP attempts**, 1.351.779 token dự trù/đã biết. Transfer chỉ chạy một phần; compositional và robustness có **0 HTTP attempts**, nên **chưa đánh giá**, không phải chất lượng 0 điểm. Giữ nguyên report/CSV gốc và bổ sung phân loại trong `GEMINI_CONTINUATION_V41.json`. Harness đã sửa để dừng trước dataset mới và ghi `unassessed`; thiếu stage không thể làm qualification tự vượt qua. Không reset v39 hoặc mở thêm lượt để điền kết quả thiếu. Các phép đo sau đó dùng source mới với thay đổi kiểu/bit/mean và phạm vi riêng, không thay thế qualification thiếu.
+
+V39 public lượt ba mất 62,265 giây vì một URLError/retry; giữ nguyên trong trung bình. Request đó thiếu usage: report ghi 129.659 token đã biết và trần dự trù 158.155, không ghi request lỗi dùng 0 token. Lượt mạng lỗi không dùng làm bằng chứng model hiểu sai; thời gian vẫn là chi phí vận hành thực tế.
+
+| V41 sinh mới, xác nhận tập trung | Exact Match | Tổng giây | Token |
+| --- | --- | --- | --- |
+| Baseline public | 20/20 | 23,638 | 190.230 |
+| Public 1 | 20/20 | 9,428 | 121.359 |
+| Public 2 | 20/20 | 11,710 | 145.705 |
+| Public 3 | 20/20 | 11,883 | 112.665 |
+| Decision hồi quy | 17/18 | 31,300 | 148.408 |
+
+Public trung bình **11,007 giây / 126.576,33 token**, tương đương throughput **0,550 giây / 6.328,82 token mỗi câu**; độ trễ trung bình trace **2,862 giây/câu**. Usage đầy đủ, RSS đỉnh **120,06 MiB**. Giảm 53,44% tổng thời gian và 33,46% token so với baseline cùng đợt. V17 vẫn nhanh hơn về public; v41 không phải kỷ lục mới. V41 là diagnostic regression, không có lock qualification đủ stage; không thể dùng thay toàn bộ 254 câu hồi quy hoặc làm cổng chốt bài.
+
+**293 tests passed**, Ruff check/format và `git diff --check` đạt. Còn lỗi scalar unpacking/indexing ở decision-003; lỗi binding hai ngày khác bản ghi và backtrack objective còn cần đánh giá lại. Không gọi Qwen trả phí, không đổi mặc định model thi. Bằng chứng máy và mọi lượt thất bại nằm trong `reports/optimization/GEMINI_CONTINUATION_V41.json`.

@@ -1,12 +1,14 @@
 """Observable scope/ranking invariants, independent of reference answers."""
 
 import ast
+import math
 import re
 from typing import Any
 
 from openpyxl.utils import coordinate_to_tuple, get_column_letter, range_boundaries
 
 from .executor import ISO_DATE, ExecutionResult, stored_datetime
+from .postprocessor import format_answer
 
 
 def canonical_label(value: Any) -> str:
@@ -1141,12 +1143,38 @@ def complete_mean_contract(
                 for key, entry in execution.reads.items()
                 if key.startswith(name + "!") and entry["kind"] == "number"
             }
-            if available and set(available) - observed:
+            # Eager reads do not prove that every value was used: a program may
+            # read the complete row and then average a leaf-only subset.
+            plain_mean = (
+                available
+                and re.match(
+                    r"\s*(?:what (?:is|was) (?:the )?|(?:calculate|compute|find) (?:the )?)?(?:average|mean)\b",
+                    query,
+                    re.IGNORECASE,
+                )
+                and not re.search(
+                    r"\b(?:difference|subtract|minus|divide|ratio|convert|change|increase|decrease)\b|\bas (?:a )?(?:percentage|percent|fraction|proportion)\b|\b(?:in|to)\s+(?:USD|EUR|dollars?|units?|thousands?|millions?|basis points)\b",
+                    query,
+                    re.IGNORECASE,
+                )
+                and not any(
+                    "%" in sheet["cells"][address].get("number_format", "")
+                    for address in available
+                )
+            )
+            mismatch = bool(plain_mean) and format_answer(
+                execution.result, query
+            ) != format_answer(
+                math.fsum(sheet["cells"][address]["value"] for address in available)
+                / len(available),
+                query,
+            )
+            if available and (set(available) - observed or mismatch):
                 candidates.append((name, available))
     if len(candidates) != 1:
         return None
     name, addresses = candidates[0]
-    return f"values_to_average=[num({json.dumps(name)}, address) for address in {addresses!r}]\nresult=sum(values_to_average)/len(values_to_average)"
+    return f"import statistics\nvalues_to_average=[num({json.dumps(name)}, address) for address in {addresses!r}]\nresult=statistics.mean(values_to_average)"
 
 
 def row_context_dimensions(
@@ -1239,12 +1267,182 @@ def row_context_resolves_label(
     } == {row}
 
 
+def restricted_metric_risks(
+    workbook: dict[str, Any], execution: ExecutionResult, query: str
+) -> list[str]:
+    """Review a quoted parent metric when only an unrequested restricted child is read."""
+
+    def words(text: str) -> set[str]:
+        return set(re.findall(r"[a-z]+", text.casefold()))
+
+    quoted = {
+        canonical_label(text).casefold()
+        for text in re.findall(r'["“`]([^"”`]+)["”`]', query)
+    }
+    if not quoted:
+        return []
+    query_words = words(query)
+    generic = {
+        "the",
+        "of",
+        "for",
+        "at",
+        "all",
+        "total",
+        "overall",
+        "persons",
+        "people",
+        "who",
+        "usually",
+    }
+    risks: list[str] = []
+    for name, sheet in workbook.items():
+        addresses = [
+            key.rsplit("!", 1)[1]
+            for key, entry in execution.reads.items()
+            if key.rsplit("!", 1)[0] == name and entry["kind"] == "number"
+        ]
+        observed = {
+            get_column_letter(coordinate_to_tuple(address)[1]) for address in addresses
+        }
+        # A vertical subgroup can have only a local row-label heading. Retain
+        # inherited numeric column paths for this soft review signal; explicit
+        # local column definitions still override the sheet paths.
+        headers = {**sheet.get("headers", {}), **read_header_paths(sheet, addresses)}
+        branches: dict[tuple[str, ...], dict[str, str]] = {}
+        for column, path in headers.items():
+            if len(path) >= 2 and canonical_label(path[-2]).casefold() in quoted:
+                branches.setdefault(tuple(path[:-1]), {})[column] = path[-1]
+        for parent, children in branches.items():
+            overall = {
+                column
+                for column, caption in children.items()
+                if re.match(
+                    r"^(?:total|all|overall)\b", canonical_label(caption), re.IGNORECASE
+                )
+            }
+            selected = observed & children.keys()
+            if len(overall) != 1 or not selected or selected & overall:
+                continue
+            common_words = (
+                generic | words(" ".join(parent)) | words(children[next(iter(overall))])
+            )
+            if any(
+                (words(children[column]) - common_words) & query_words
+                for column in selected
+            ):
+                continue  # A named restricted population may intentionally override the overall column.
+            risks.append(
+                f"{name}: quoted parent metric {parent[-1]!r} has overall column {sorted(overall)} "
+                f"and restricted children, but reads use only {sorted(selected)}. Independently verify "
+                "whether the question requests the overall population or that restricted subgroup; "
+                "shared parent captions do not make their child columns interchangeable."
+            )
+    return risks
+
+
+def flat_string_projection_risks(
+    workbook: dict[str, Any], execution: ExecutionResult, query: str, tree: ast.Module
+) -> list[str]:
+    """Review character projection on a flat workbook vector before joins/filtering."""
+    if re.search(
+        r"\b(?:initials?|acronym|prefix|characters?|letters?)\b|\b(?:starts?|begins?)\s+with\b",
+        query,
+        re.IGNORECASE,
+    ):
+        return []
+    if any(
+        isinstance(node, ast.FunctionDef)
+        and node.name == "values"
+        or isinstance(node, ast.Name)
+        and node.id == "values"
+        and isinstance(node.ctx, ast.Store)
+        for node in ast.walk(tree)
+    ):
+        return []  # A shadowed helper has no known return-shape contract.
+    assignments = {
+        target.id: statement.value
+        for statement in tree.body
+        if isinstance(statement, ast.Assign)
+        for target in statement.targets
+        if isinstance(target, ast.Name)
+    }
+
+    def resolve(node: ast.AST) -> ast.AST:
+        seen: set[str] = set()
+        while (
+            isinstance(node, ast.Name)
+            and node.id in assignments
+            and node.id not in seen
+        ):
+            seen.add(node.id)
+            node = assignments[node.id]
+        return node
+
+    for comprehension in ast.walk(tree):
+        if not isinstance(
+            comprehension, (ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp)
+        ):
+            continue
+        for generator in comprehension.generators:
+            source = resolve(generator.iter)
+            if (
+                not isinstance(generator.target, ast.Name)
+                or not isinstance(source, ast.Call)
+                or not isinstance(source.func, ast.Name)
+                or source.func.id != "values"
+                or len(source.args) != 2
+            ):
+                continue
+            projections = [
+                node
+                for node in ast.walk(comprehension)
+                if isinstance(node, ast.Subscript)
+                and isinstance(node.value, ast.Name)
+                and node.value.id == generator.target.id
+                and isinstance(node.slice, ast.Constant)
+                and type(node.slice.value) is int
+                and node.slice.value == 0
+            ]
+            if not projections:
+                continue
+            try:
+                name = ast.literal_eval(resolve(source.args[0]))
+                area = ast.literal_eval(resolve(source.args[1]))
+            except (ValueError, TypeError):
+                continue
+            if (
+                not isinstance(name, str)
+                or name not in workbook
+                or not isinstance(area, str)
+            ):
+                continue
+            left, top, right, bottom = range_boundaries(area)
+            if None in (left, top, right, bottom):
+                continue
+            if any(
+                entry["kind"] == "string"
+                and len(str(entry["value"])) > 1
+                and (position := coordinate_to_tuple(address))[0]
+                in range(top, bottom + 1)
+                and left <= position[1] <= right
+                and f"{name}!{address}" in execution.reads
+                for address, entry in workbook[name]["cells"].items()
+            ):
+                return [
+                    "Flat values() string projection: each element is already a scalar, so element[0] takes only its first character. Verify that full workbook labels survive joins/filtering; use the scalar directly unless character extraction is explicitly requested. An empty match followed by zero is not proof of correct scope."
+                ]
+    return []
+
+
 def scope_risks(
     workbook: dict[str, Any], execution: ExecutionResult, query: str, code: str = ""
 ) -> list[str]:
     """Application-triggered review for ambiguity, rather than model confidence."""
-    risks = []
+    risks = restricted_metric_risks(workbook, execution, query)
     tree = ast.parse(code) if code else None
+    if tree is not None:
+        risks += flat_string_projection_risks(workbook, execution, query, tree)
     declared_arithmetic = bool(
         re.search(
             r"\badd(?:s|ing)?\b[\s\S]*\bsubtract(?:s|ing)?\b", query, re.IGNORECASE

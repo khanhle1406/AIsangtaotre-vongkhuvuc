@@ -2,7 +2,7 @@
 
 Giải pháp dùng `qwen/qwen3.7-flash` qua OpenRouter để chọn dữ liệu và sinh chương trình Python; phép tính chạy cục bộ trên giá trị thật trong workbook. Không đọc đáp án mẫu, không tra kết quả theo ID hoặc tên file.
 
-Xem [benchmark hiện tại](docs/CURRENT_BENCHMARK.md): v30/Gemini đạt public 20/20 trong ba lượt, vượt qualification chính và đạt kiểm định độc lập mới 18/18 so với baseline 17/18. Regression mở rộng còn một câu lỗi nên chưa chốt bản nộp. Các thí nghiệm thất bại được ghi riêng; chưa xác nhận bằng Qwen hoặc private của BTC.
+Xem [benchmark hiện tại](docs/CURRENT_BENCHMARK.md): v41/Gemini đạt public 20/20 trong ba lượt sinh mới, trung bình 11,007 giây / 126.576,33 token cho 20 câu. Giảm 53,44% thời gian / 33,46% token so với baseline cùng đợt, chưa vượt mốc nhanh nhất lịch sử. Decision đã dùng đạt 17/18; qualification toàn bộ chưa hoàn tất, chưa chốt bản nộp hoặc xác nhận Qwen/private BTC. Các kết quả thất bại và request thiếu usage được giữ riêng.
 
 Xem [báo cáo giai đoạn đầu](docs/BENCHMARK.md): Gemini sinh mới đạt public 20/20 và holdout độc lập 23/24; candidate chưa được xác nhận bằng Qwen. Các công cụ Colab được giữ để tham khảo lịch sử, không thuộc luồng chạy hiện tại hoặc gói thi.
 

@@ -84,7 +84,11 @@ def metadata_ranges(addresses: list[str]) -> list[str]:
 
 
 def dense_text(
-    workbook: WorkbookData, wire: dict[str, Any], *, column_catalog: bool = False
+    workbook: WorkbookData,
+    wire: dict[str, Any],
+    *,
+    column_catalog: bool = False,
+    deduplicate_headers: bool = False,
 ) -> str:
     """Encode every stored value once; row gaps and nondefault metadata stay explicit."""
     blocks = [
@@ -95,12 +99,24 @@ def dense_text(
             "Merged cells only store the top-left value. ALL stored cells follow; no rows omitted."
         )
     ]
+    if deduplicate_headers:
+        blocks[0] += (
+            " HINTS: a table with headers_ref='sheet' inherits the complete sheet headers above it."
+        )
     for name, sheet in workbook.sheets.items():
         metadata = wire[name]
         lines = ["SHEET " + json.dumps(name, ensure_ascii=False) + " " + sheet.state]
         structural = {
             "headers": metadata["headers"],
-            "tables": metadata["tables"],
+            "tables": [
+                {
+                    **{key: value for key, value in table.items() if key != "headers"},
+                    "headers_ref": "sheet",
+                }
+                if deduplicate_headers and table.get("headers") == metadata["headers"]
+                else table
+                for table in metadata["tables"]
+            ],
             "merges": sheet.merges,
             "hidden_rows": sheet.hidden_rows,
             "hidden_columns": sheet.hidden_columns,
