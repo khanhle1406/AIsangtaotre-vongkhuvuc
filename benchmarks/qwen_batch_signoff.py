@@ -39,6 +39,7 @@ def source_manifest() -> dict[str, str]:
                 "precision.py",
                 "efficient.py",
                 "gateway_runner.py",
+                "packed.py",
             )
         ],
     ]
@@ -105,6 +106,16 @@ def signoff(root: Path, *, attempt: str | None = None) -> dict[str, Any]:
         "gate_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "source_lock": lock,
     }
+    if (
+        lock.get("configuration", {}).get("planning_profile", "same-book")
+        != "same-book"
+    ):
+        report.update(
+            status="blocked_unsupported_planning_profile",
+            reason="Official transport does not implement the locked experimental planning profile",
+        )
+        atomic_json(destination, report)
+        return report
     if lock.get("assessment_only") or lock.get("qualification_passed") is False:
         report.update(
             status="blocked_assessment_only",

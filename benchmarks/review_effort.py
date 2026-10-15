@@ -25,20 +25,24 @@ class MediumReviewAgent(StructuredBatchedAgent):
         return effort
 
 
-def probe(root: Path, limits: BatchLimits) -> dict[str, Any]:
-    """Check medium effort acceptance within the same experiment's fixed allowance."""
-    state = QueryState(time.monotonic() + 60, 0.09, requests=1, verification=True)
+def probe(
+    root: Path, limits: BatchLimits, *, thinking: str = "medium", max_tokens: int = 256
+) -> dict[str, Any]:
+    """Check requested effort/output acceptance within the experiment's allowance."""
+    state = QueryState(time.monotonic() + 60, 0.09)
     report: dict[str, Any] = {
         "ok": False,
         "thinking_support": "requested effort only; internal implementation unverified",
+        "requested_thinking": thinking,
+        "requested_max_tokens": max_tokens,
     }
     with workspace_budget().stage(str((root / "probe").resolve()), 0.001) as ledger:
         agent = GatewayAgent(
             **gateway_settings(),
-            thinking="medium",
+            thinking=thinking,
             batch_limits=limits,
             ledger=ledger,
-            max_tokens=256,
+            max_tokens=max_tokens,
         )
         try:
             content = agent._request(

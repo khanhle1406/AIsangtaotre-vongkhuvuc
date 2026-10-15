@@ -335,6 +335,7 @@ def test_quoted_parent_metric_reviews_unrequested_restricted_child(
     sheet.merge_cells("F307:G307")
     sheet["F308"], sheet["G308"] = "Overall visits", "Overnight visits"
     sheet["E309"], sheet["F309"], sheet["G309"] = "Birch", 17.4, 32.9
+    sheet["E310"], sheet["F310"], sheet["G310"] = "Cedar", 19.2, 34.7
     path = tmp_path / "scopes.xlsx"
     book.save(path)
     book.close()
@@ -349,6 +350,14 @@ def test_quoted_parent_metric_reviews_unrequested_restricted_child(
         for risk in scope_risks(wire, child, query, child_code)
     )
     assert not scope_risks(wire, overall, query, overall_code)
+    mixed = "result=[num('Shifted metrics','F309'),num('Shifted metrics','G310')]"
+    both = query.replace("for Birch", "for Birch and Cedar")
+    assert scope_risks(wire, execute_program(mixed, wire), both, mixed)
+    correct = mixed.replace("G310", "F310")
+    assert not scope_risks(wire, execute_program(correct, wire), both, correct)
+    # Reading both siblings in each row does not establish a restricted-only record.
+    full = "result=values('Shifted metrics','F309:G310')"
+    assert not scope_risks(wire, execute_program(full, wire), both, full)
     from unittest.mock import patch
 
     from src.llm_agent import LLMAgent

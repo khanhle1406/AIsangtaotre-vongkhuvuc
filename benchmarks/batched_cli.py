@@ -3,17 +3,16 @@
 import argparse
 import json
 import time
-from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import Any
 
 from run import ResourceMonitor, validate_queries, write_submission
-from src.excel_parser import load_workbook_data
 
 from .batched import BatchedAgent
 from .budget import workspace_budget
 from .gateway import BatchLimits, atomic_json, gateway_settings
+from .packed import PLANNING_PROFILES, planning_agent
 
 
 def solve(
@@ -23,10 +22,14 @@ def solve(
     concurrency: int = 4,
     seconds: float = 1800,
     structured: bool = True,
+    planning_profile: str = "same-book",
 ) -> dict[str, Any]:
     """Use the measured planning/execution engine; never load any reference CSV."""
     if concurrency not in {1, 2, 4} or not 0 < seconds <= 1800:
         raise ValueError("Invalid development concurrency/deadline")
+    if not structured and planning_profile != "same-book":
+        raise ValueError("Workbook packing requires keyed planning")
+    agent_class = planning_agent(planning_profile) if structured else BatchedAgent
     queries = validate_queries(queries_path, input_dir)
     trace_path = output.with_suffix(".trace.jsonl")
     metrics_path = output.with_suffix(".metrics.json")
@@ -39,12 +42,7 @@ def solve(
     if len(artifacts) != 4 or protected & artifacts:
         raise ValueError("Output artifacts must differ and cannot overwrite input data")
     output.parent.mkdir(parents=True, exist_ok=True)
-    groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for question in queries:
-        groups[question["file_name"]].append(question)
-    chunks = [
-        items[i : i + 4] for items in groups.values() for i in range(0, len(items), 4)
-    ]
+    chunks = agent_class.planning_chunks(queries, agent_class.maximum_group_size)
     limits = BatchLimits(batch_path, seconds=seconds)
     answers: dict[str, str] = {}
     failures: dict[str, str] = {}
@@ -53,16 +51,11 @@ def solve(
     with workspace_budget().stage(
         str(output.resolve()) + f":{time.time_ns()}", 0.001
     ) as ledger:
-        if structured:
-            from .structured_batch import StructuredBatchedAgent
-
-            agent_class = StructuredBatchedAgent
-        else:
-            agent_class = BatchedAgent
         agent = agent_class(
             **gateway_settings(),
             batch_limits=limits,
             thinking="low",
+            review_candidate=planning_profile != "same-book",
             max_tokens=2048,
             ledger=ledger,
             worker_memory_mb=128 if concurrency == 4 else 256,
@@ -87,7 +80,7 @@ def solve(
                     ):
                         break
                     items = chunks[cursor]
-                    workbook = load_workbook_data(input_dir / items[0]["file_name"])
+                    workbook = agent_class.load_group(input_dir, items)
                     if pending and workbook.estimated_bytes > 32 * 1024**2:
                         break
                     cursor += 1
@@ -118,6 +111,10 @@ def solve(
                     )
         metrics = {
             "planning_format": "keyed" if structured else "indexed",
+            "planning_profile": planning_profile,
+            "planning_strategy": agent_class.planning_strategy,
+            "group_size": agent_class.maximum_group_size,
+            "planning_max_tokens": agent_class.planning_max_tokens or 2048,
             "model": agent.model,
             "provider": "gateway",
             "queries": len(queries),
@@ -145,6 +142,9 @@ def main() -> None:
     parser.add_argument(
         "--planning-format", choices=["keyed", "indexed"], default="keyed"
     )
+    parser.add_argument(
+        "--planning-profile", choices=list(PLANNING_PROFILES), default="same-book"
+    )
     args = parser.parse_args()
     metrics = solve(
         args.input_dir,
@@ -153,6 +153,7 @@ def main() -> None:
         args.concurrency,
         args.deadline_seconds,
         args.planning_format == "keyed",
+        args.planning_profile,
     )
     print(json.dumps(metrics, ensure_ascii=False, indent=2))
     if metrics["failures"]:

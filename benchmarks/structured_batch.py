@@ -286,12 +286,27 @@ class StructuredPlanningMixin:
         ):
             return data
         programs = []
+        duplicate_format_metadata = False
         for index, key in enumerate(expected):
             try:
                 raw_item = envelope["programs"][key]
                 if not isinstance(raw_item, dict):
                     return data
                 raw_item = dict(raw_item)
+                if isinstance(raw_item.get("format"), dict):
+                    item_format = dict(raw_item["format"])
+                    for field in ("assumptions", "needs_verification"):
+                        if field not in item_format:
+                            continue
+                        if (
+                            field not in raw_item
+                            or type(item_format[field]) is not type(raw_item[field])
+                            or item_format[field] != raw_item[field]
+                        ):
+                            return data
+                        del item_format[field]
+                        duplicate_format_metadata = True
+                    raw_item["format"] = item_format
                 if "result_variable" in envelope:
                     if (
                         raw_item.get("result_variable", shared.result_variable)
@@ -339,6 +354,13 @@ class StructuredPlanningMixin:
                 return data
             programs.append({"index": index, **program.model_dump()})
         message["content"] = json.dumps({"programs": programs})
+        if duplicate_format_metadata:
+            previous = getattr(self.structured_state, "envelope_normalization", None)
+            self.structured_state.envelope_normalization = "+".join(
+                item
+                for item in (previous, "validated-identical-format-metadata")
+                if item
+            )
         if "selection" in envelope:
             # Only an empty shared declaration is neutral. Nonempty source
             # metadata must be attached to its own program; never guess ownership.

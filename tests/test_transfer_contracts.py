@@ -53,6 +53,52 @@ def test_exhausted_batch_is_unassessed_and_cannot_vacuously_qualify(
     candidate.assert_not_called()
 
 
+def test_extended_gate_declares_all_254_consumed_cases_before_new_holdout(
+    tmp_path: Path,
+) -> None:
+    import time
+
+    from benchmarks.transfer_qualification import qualify
+
+    heldout = tmp_path / "fresh"
+    heldout.mkdir()
+    (heldout / "manifest.json").write_text(json.dumps({"hashes": {}, "queries": 18}))
+    with (
+        patch("benchmarks.transfer_qualification.source_manifest", return_value={}),
+        patch("pathlib.Path.is_file", return_value=True),
+        patch("benchmarks.transfer_qualification.BatchLimits") as limits,
+        patch("benchmarks.transfer_qualification.run_batched_stage") as network,
+    ):
+        limits.return_value.update.return_value = {
+            "fatal_error": None,
+            "deadline_unix": time.time() + 60,
+            "attempts": 200,
+            "attempt_limit": 200,
+            "token_upper": 0,
+            "token_limit": 2_000_000,
+        }
+        report = qualify(
+            tmp_path / "report",
+            heldout,
+            extended_regression=True,
+            planning_profile="parallel8",
+        )
+    lock = report["source_lock"]
+    counts = lock["expected_case_counts"]
+    assert (
+        sum(
+            value
+            for name, value in counts.items()
+            if not name.startswith(("public_", "baseline_"))
+        )
+        == 254
+    )
+    assert lock["regression_extensions"]["robustness_24"]["count"] == 24
+    assert lock["configuration"]["group_size"] == 8
+    assert not (heldout / "evaluated.json").exists()
+    network.assert_not_called()
+
+
 def test_assessment_only_evidence_cannot_enter_official_signoff(tmp_path: Path) -> None:
     from benchmarks.qwen_batch_signoff import signoff, source_manifest
 
@@ -64,6 +110,26 @@ def test_assessment_only_evidence_cannot_enter_official_signoff(tmp_path: Path) 
     assert (
         report["status"] == "blocked_assessment_only" and report["new_generations"] == 0
     )
+    network.assert_not_called()
+
+
+def test_official_signoff_cannot_substitute_same_book_for_packed_profile(
+    tmp_path: Path,
+) -> None:
+    from benchmarks.qwen_batch_signoff import signoff, source_manifest
+
+    (tmp_path / "source_lock.json").write_text(
+        json.dumps(
+            {
+                "modules": source_manifest(),
+                "configuration": {"planning_profile": "independent8"},
+            }
+        )
+    )
+    with patch("urllib.request.urlopen") as network:
+        report = signoff(tmp_path)
+    assert report["status"] == "blocked_unsupported_planning_profile"
+    assert not report["promoted"] and report["new_generations"] == 0
     network.assert_not_called()
 
 

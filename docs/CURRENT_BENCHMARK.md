@@ -2,7 +2,7 @@
 
 Các số dưới đây là **Gemini 3 Flash sinh mới**, không dùng replay làm benchmark LLM. Chúng không chứng minh điểm private của BTC hoặc điểm Qwen3.7 Flash. Ưu tiên Exact Match → thời gian → token.
 
-Hai lượt đầy đủ mới **v46/v47** đều đạt public **20/20 cả ba lần**; hồi quy ngoài public lần lượt **253/254** và **251/254**. V47 public trung bình **15,321 giây / 116.024,67 token**, giảm **40,33% thời gian / 46,16% token** so với baseline cùng đợt; chưa đạt mục tiêu 50% cho cả hai chỉ số hoặc vượt mốc v17. V48 mới là sàng lọc trên 92 câu đã biết: hợp đồng JSON đồng bộ đạt **91/92**, đối chiếu **90/92**, đổi lại thời gian và token tăng. **Chưa chọn bản nộp** hoặc xác nhận Qwen/private BTC. Không ghép điểm từ nhiều phiên để tạo một lượt đủ điểm; mã source v48 chưa được đánh giá toàn bộ 254 câu.
+Mốc public **v52** đạt **20/20 cả ba lần**, trung bình **6,543 giây / 83.712 token**, giảm **73,07% thời gian / 59,86% token** so với baseline cùng đợt. Nhưng ngoài public chỉ đạt **249/254**, thấp hơn mốc 253/254: **chưa chấp nhận cấu hình này**. So với trung bình public v17, mức giảm khoảng **33,94% thời gian / 18,24% token**, chưa đạt 50% so với mốc lịch sử. Lượt mới **v54** đạt public **20, 20, 19**, ngoài public **250/254** và chậm hơn baseline cùng đợt; cũng chưa được chấp nhận. Bản sửa giới hạn kiểm chứng sau v54 mới kiểm thử offline. **Chưa chọn bản nộp** hoặc xác nhận Qwen/private BTC; không ghép điểm từ nhiều phiên để tạo một lượt đủ điểm.
 
 V41 trước đó đạt public 20/20 ba lượt, trung bình 11,007 giây / 126.576,33 token, decision 17/18. Các kết quả này vẫn thuộc snapshot v41, không thay cho đánh giá v44.
 
@@ -290,3 +290,60 @@ V47 nhận root selection:[] như metadata rỗng trung tính khi đủ đúng q
 V48 thử sửa mâu thuẫn cấp system: batch system mô tả keyed programs thay vì yêu cầu root code đơn, giữ nguyên toàn bộ phần helper/nguồn/ngữ nghĩa phía sau CELL TYPES. Repair đơn câu giữ prompt đơn câu. Feature chỉ bật ở CoherentPlanningAgent; StructuredBatchedAgent mặc định không đổi sang feature này. Candidate tăng một câu trên92 nhưng chậm hơn27,30% và tăng12,89% token so với đối chiếu cùng đợt; chưa đủ chứng minh cải thiện private hoặc chấp nhận. Public riêng v48 cả hai20/20: đối chiếu8,846giây/88.724token; candidate19,994giây/124.636token. Đây là **mỗi bên một lượt**, không so lượt nhanh này với trung bình lịch sử để tuyên bố thắng.
 
 Source cuối giai đoạn có304tests đạt, Ruff check/format đạt. Không promote candidate; yêu cầu kiểm tra đầy đủ và holdout độc lập còn thiếu. Benchmark vẫn chưa đạt cải thiện50% cho cả thời gian/token một cách ổn định. Mọi chi phí gateway được ghi miễn phí theo xác nhận người dùng, không phải số tiền do provider báo; không gọi Qwen trả phí trong đợt này.
+
+
+## V49–v52: gộp workbook, giữ riêng nguồn thực thi
+
+Mỗi workbook có namespace sheet riêng trong lượt lập chương trình. Mỗi chương trình chỉ được đọc workbook sở hữu câu hỏi đó; trùng tên sheet hoặc trùng nội dung câu hỏi không làm trộn nguồn. Công thức tham chiếu sheet được ánh xạ trong đúng workbook. Khi cache gộp vượt giới hạn, chương trình tải và xử lý từng workbook đầy đủ, không dùng dữ liệu bị cắt.
+
+| Sàng lọc trên cùng 92 câu đã biết | Exact Match | Tổng giây | Token API |
+| --- | --- | --- | --- |
+| V49 cùng workbook | 92/92 | 87,957 | 350.398 |
+| V49 gộp tối đa 8 câu | 92/92 | 71,014 | 218.825 |
+| V50 gộp 8 | 89/92 | 99,888 | 342.607 |
+| V50 gộp 8, lập lịch câu riêng song song | 92/92 | 90,471 | 326.601 |
+| V50 gộp 16 | 90/92 | 86,296 | 214.542 |
+
+V49 giảm 19,26% thời gian và 37,55% token. V50 chọn lập lịch song song để kiểm tra tiếp; không chọn gộp 16 vì giảm độ đúng. Thứ tự cấu hình được luân phiên giữa các bộ; mọi điểm trên là hồi quy, không phải holdout độc lập.
+
+| Kiểm tra đầy đủ, Gemini sinh mới | V51 | V52 |
+| --- | --- | --- |
+| Baseline public | 20/20; 24,727 giây; 190.793 token | 20/20; 24,296 giây; 208.540 token |
+| Ba lượt public | 20, 19, 19 | 20, 20, 20 |
+| Public trung bình | 14,756 giây; 94.983 token | 6,543 giây; 83.712 token |
+| Ngoài public, 254 câu đã biết | 253/254 | 249/254 |
+| Tổng giây / token ngoài public | 177,769 / 551.149 | 190,693 / 557.170 |
+| RSS tổng đỉnh | 143,91 MiB | 125,78 MiB |
+| HTTP attempts / dự trù token toàn đợt | 127 / 1.026.891 | 122 / 1.016.846 |
+
+V52 sửa kiểm tra nhánh chỉ tiêu theo từng bản ghi và bổ sung `column_letter` có giới hạn, tránh lệch cột do `chr` và hỗ trợ cột AA trở đi. Hai lượt đều xử lý đủ 334 câu, usage đầy đủ; không đạt gate nên **không mở bộ prospective mới 18 câu**.
+
+Năm lỗi V52: đếm cả heading trong tập yêu cầu; hiểu sai số quan sát của sự kiện xác suất; hai câu lấy thu nhập của người khác; thuật toán đường găng sai sau sửa lỗi runtime. Đây là các lỗi cần tổng quát hóa cách chọn nguồn và kiểm chứng thuật toán, không thêm luật theo ID. Replay phát hiện nguồn sai hoặc bỏ cảnh báo giả được ghi riêng, không tính thành điểm LLM mới.
+
+Bộ prospective đã đóng băng trước V51 có số liệu lẫn bố cục mới và ba họ riêng: chênh lệch kép trên panel cân bằng, phân bổ hai sản phẩm với ràng buộc tài nguyên liên tục, hạn dịch vụ theo lịch làm việc. Oracle độc lập; đáp án chỉ vào evaluator. Khi gate chưa đạt, bộ này vẫn là **chưa đánh giá**, không phải 0/18.
+
+
+## V53–v54: giải độc lập có chọn lọc, chưa chấp nhận
+
+Thêm cảnh báo khi câu hỏi gọi tên một bản ghi duy nhất nhưng chương trình chỉ đọc số của hàng khác trong cùng bảng. Không tự thay số hoặc suy ra đáp án. Thử giải lần hai từ workbook gốc cho phép tính có số liệu ở nhiều sheet; lượt hai không thấy chương trình/đáp án đầu. Chỉ khi hai đáp án khác nhau mới đưa hai chương trình chưa xác minh vào lượt phân xử thứ ba.
+
+V53 gặp lỗi mạng lặp lại: 22 attempts thiếu usage. Dừng có kiểm soát, giữ dự trù token bảo thủ **899.195** cho 49 attempts, lưu checkpoint và phần chưa chạy; **không dùng lượt này làm đối chiếu chất lượng hoặc hiệu suất**. Probe catalog sau đó trả HTTP 200 và đúng model. V54 là lượt khôi phục riêng, không ghi đè hoặc đặt lại hạn mức V53.
+
+| V54, Gemini sinh mới | Kết quả |
+| --- | --- |
+| Baseline public | 20/20; 25,874 giây; 212.715 token |
+| Ba lượt candidate public | 20/20; 20/20; 19/20 |
+| Public trung bình | 33,609 giây; 168.431 token |
+| Regression 60 / 32 | 58/60; 32/32 |
+| Known 18 / synthetic 24 | 18/18; 24/24 |
+| Decision / structural / generalization | 17/18; 17/18; 18/18 |
+| Transfer / compositional / robustness | 24/24; 18/18; 24/24 |
+| Ngoài public tổng cộng | 250/254; 318,220 giây; 882.291 token |
+| RSS tổng đỉnh | 137,61 MiB |
+| HTTP attempts / dự trù token | 200 / 1.600.299; usage đầy đủ |
+
+Xử lý đủ 334 câu, không có lỗi hết allowance trong từng câu. Hết đúng 200 attempts sau bước cuối nên harness vẫn ghi cờ dừng; không diễn giải thành thiếu dữ liệu hoặc sửa báo cáo gốc. Public chậm hơn baseline 29,90%, token giảm 20,82%; độ đúng không đạt yêu cầu. Không gán toàn bộ chênh lệch giữa các phiên cho một thay đổi vì model/gateway có biến động. Transfer và compositional đủ điểm không bù cho các bộ giảm điểm.
+
+Hai chương trình regression đã sửa đúng ở lượt hai nhưng bị mất đáp án khi lần giải độc lập cuối sinh lỗi. **Bản checkpoint sau V54** chỉ bắt đầu cơ chế hai lời giải khi còn đủ hai lượt cho giải mới và phân xử; nếu thiếu lượt, ghi rõ đã bỏ qua kiểm chứng độc lập, vẫn giữ mọi kiểm tra nguồn/ngữ nghĩa thông thường. Sửa này có unit test, **chưa có benchmark Gemini mới**. Signoff Qwen cũng chặn profile phát triển chưa được transport chính thức triển khai, tránh chạy nhầm cùng-workbook rồi tuyên bố đã xác nhận packing. Không có request Qwen trả phí mới.
+
+Cấu hình gộp và giải độc lập vẫn là thử nghiệm qua `--planning-profile`; mặc định CLI thi không được đổi. Bộ prospective 18 câu vẫn chưa mở vì gate thất bại. Mốc 253/254 trước đây cũng thuộc dữ liệu đã tiêu thụ; chưa có bằng chứng cải thiện private BTC.

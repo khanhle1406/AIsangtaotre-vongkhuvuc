@@ -10,7 +10,7 @@ import uuid
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 
 from evaluate import read_answers
 from run import ResourceMonitor, validate_queries, write_submission
@@ -98,6 +98,10 @@ def apportioned_calls(
 class BatchPlanningMixin:
     """Reuse only newly generated plans; repairs retain all existing per-question guards."""
 
+    maximum_group_size: ClassVar[int] = 4
+    planning_max_tokens: ClassVar[int | None] = None
+    planning_strategy: ClassVar[str] = "live-workbook-plan"
+
     def __init__(
         self,
         *,
@@ -109,6 +113,45 @@ class BatchPlanningMixin:
         self.column_catalog = column_catalog
         self.deduplicate_headers = deduplicate_headers
         self.prepared = threading.local()
+
+    @staticmethod
+    def planning_chunks(
+        queries: list[dict[str, Any]], size: int
+    ) -> list[list[dict[str, Any]]]:
+        groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
+        for item in queries:
+            groups[item["file_name"]].append(item)
+        return [
+            items[i : i + size]
+            for items in groups.values()
+            for i in range(0, len(items), size)
+        ]
+
+    @staticmethod
+    def load_group(files: Path, questions: list[dict[str, Any]]) -> WorkbookData:
+        return load_workbook_data(files / questions[0]["file_name"])
+
+    def question_workbook(
+        self, workbook: WorkbookData, question: dict[str, Any]
+    ) -> WorkbookData:
+        return workbook
+
+    def planning_question(
+        self, workbook: WorkbookData, index: int, question: dict[str, Any]
+    ) -> dict[str, Any]:
+        return {"index": index, "query": question["query"]}
+
+    @staticmethod
+    def independent_question(question: dict[str, Any]) -> bool:
+        """Keep multi-axis comparisons separate, independent of workbook packing."""
+        return bool(
+            re.search(r"\bacross all\b", question["query"], re.IGNORECASE)
+            and re.search(
+                r"\b(?:more|less|difference|change|ratio)\b",
+                question["query"],
+                re.IGNORECASE,
+            )
+        )
 
     def solve_workbook(
         self, workbook: WorkbookData, query: str, max_retries: int = 2
@@ -141,16 +184,7 @@ class BatchPlanningMixin:
         self, workbook: WorkbookData, questions: list[dict[str, Any]]
     ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         start = time.monotonic()
-        independent = [
-            item
-            for item in questions
-            if re.search(r"\bacross all\b", item["query"], re.IGNORECASE)
-            and re.search(
-                r"\b(?:more|less|difference|change|ratio)\b",
-                item["query"],
-                re.IGNORECASE,
-            )
-        ]
+        independent = [item for item in questions if self.independent_question(item)]
         if len(questions) > 1 and independent:
             remaining = [item for item in questions if item not in independent]
             records, event = (
@@ -159,7 +193,9 @@ class BatchPlanningMixin:
                 else ([], {"calls": [], "question_ids": []})
             )
             for item in independent:
-                result = self.solve_workbook(workbook, item["query"])
+                result = self.solve_workbook(
+                    self.question_workbook(workbook, item), item["query"]
+                )
                 records.append(
                     {
                         "id": str(item["id"]),
@@ -175,6 +211,7 @@ class BatchPlanningMixin:
             ]
             return records, event
         state = QueryState(self.deadline, self.query_budget)
+        state.max_tokens = self.planning_max_tokens
         wire = workbook.wire()
         text = dense_text(
             workbook,
@@ -184,7 +221,9 @@ class BatchPlanningMixin:
         )
         date_hints = []
         for index, question in enumerate(questions):
-            for name, sheet in wire.items():
+            owned_book = self.question_workbook(workbook, question)
+            hint_wire = wire if owned_book is workbook else owned_book.wire()
+            for name, sheet in hint_wire.items():
                 latest = latest_reference_columns(sheet, question["query"])
                 if latest is not None:
                     key_col, time_col = latest
@@ -205,7 +244,9 @@ class BatchPlanningMixin:
         if len(text.encode()) > 800_000:
             records = []
             for item in questions:
-                result = self.solve_workbook(workbook, item["query"])
+                result = self.solve_workbook(
+                    self.question_workbook(workbook, item), item["query"]
+                )
                 records.append(
                     {
                         "id": str(item["id"]),
@@ -223,7 +264,7 @@ class BatchPlanningMixin:
                 + "\nQUESTIONS:\n"
                 + json.dumps(
                     [
-                        {"index": i, "query": q["query"]}
+                        self.planning_question(workbook, i, q)
                         for i, q in enumerate(questions)
                     ],
                     ensure_ascii=False,
@@ -262,7 +303,9 @@ class BatchPlanningMixin:
                 program,
                 apportioned_calls(state.calls, index, len(questions)),
             )
-            result = self.solve_workbook(workbook, item["query"])
+            result = self.solve_workbook(
+                self.question_workbook(workbook, item), item["query"]
+            )
             result.elapsed += plan_seconds
             records.append(
                 {
@@ -298,7 +341,10 @@ def run_batched_stage(
     boundary_contract: bool = False,
 ) -> dict[str, Any]:
     """Checkpoint whole planned groups and evaluate only after generation finishes."""
-    if concurrency not in {1, 2, 4, 8} or not 1 <= group_size <= 4:
+    if (
+        concurrency not in {1, 2, 4, 8}
+        or not 1 <= group_size <= agent_class.maximum_group_size
+    ):
         raise ValueError("Invalid planning concurrency or group size")
     if thinking not in {"minimal", "low", "medium", "high"}:
         raise ValueError("Unsupported development thinking effort")
@@ -311,9 +357,10 @@ def run_batched_stage(
         "verification_thinking": getattr(agent_class, "verification_thinking", None),
         "adaptive_thinking": f"high only after two prior HTTP attempts; otherwise {thinking}",
         "max_tokens": 2048,
+        "planning_max_tokens": agent_class.planning_max_tokens or 2048,
         "concurrency": concurrency,
         "group_size": group_size,
-        "strategy": "live-workbook-plan",
+        "strategy": agent_class.planning_strategy,
         "verification_mode": "candidate-audit"
         if review_candidate
         else "fresh-selection",
@@ -337,14 +384,7 @@ def run_batched_stage(
     saved = checkpoint(root / "checkpoint.json", fingerprint(files, queries, config))
     saved.setdefault("events", [])
     remaining = [q for q in queries if str(q["id"]) not in saved["records"]]
-    groups: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for item in remaining:
-        groups[item["file_name"]].append(item)
-    chunks = [
-        items[i : i + group_size]
-        for items in groups.values()
-        for i in range(0, len(items), group_size)
-    ]
+    chunks = agent_class.planning_chunks(remaining, group_size)
     agent = agent_class(
         **settings,
         batch_limits=limits,
@@ -377,7 +417,7 @@ def run_batched_stage(
                     break
                 items = chunks[cursor]
                 cursor += 1
-                workbook = load_workbook_data(files / items[0]["file_name"])
+                workbook = agent_class.load_group(files, items)
                 pending[pool.submit(agent.solve_group, workbook, items)] = items
             if not pending:
                 break

@@ -1349,7 +1349,7 @@ def row_context_resolves_label(
 def restricted_metric_risks(
     workbook: dict[str, Any], execution: ExecutionResult, query: str
 ) -> list[str]:
-    """Review a quoted parent metric when only an unrequested restricted child is read."""
+    """Review unrequested restricted children per record, not just across the sheet."""
 
     def words(text: str) -> set[str]:
         return set(re.findall(r"[a-z]+", text.casefold()))
@@ -1401,7 +1401,18 @@ def restricted_metric_risks(
                 )
             }
             selected = observed & children.keys()
-            if len(overall) != 1 or not selected or selected & overall:
+            if len(overall) != 1 or not selected:
+                continue
+            by_row: dict[int, set[str]] = {}
+            for address in addresses:
+                row, column = coordinate_to_tuple(address)
+                by_row.setdefault(row, set()).add(get_column_letter(column))
+            restricted_rows = {
+                row: sorted(columns & (children.keys() - overall))
+                for row, columns in by_row.items()
+                if columns & (children.keys() - overall) and not columns & overall
+            }
+            if not restricted_rows:
                 continue
             common_words = (
                 generic | words(" ".join(parent)) | words(children[next(iter(overall))])
@@ -1413,7 +1424,7 @@ def restricted_metric_risks(
                 continue  # A named restricted population may intentionally override the overall column.
             risks.append(
                 f"{name}: quoted parent metric {parent[-1]!r} has overall column {sorted(overall)} "
-                f"and restricted children, but reads use only {sorted(selected)}. Independently verify "
+                f"and restricted children; rows {restricted_rows} read restricted columns without that record's overall column. Independently verify "
                 "whether the question requests the overall population or that restricted subgroup; "
                 "shared parent captions do not make their child columns interchangeable."
             )
@@ -1636,11 +1647,75 @@ def header_domain_risks(
     ]
 
 
+def named_row_scope_risks(
+    workbook: dict[str, Any], execution: ExecutionResult, query: str
+) -> list[str]:
+    """Flag an omitted, uniquely named record in a table actually used numerically."""
+    risks = []
+    for name, sheet in workbook.items():
+        numeric_rows = {
+            coordinate_to_tuple(address)[0]
+            for address, entry in sheet["cells"].items()
+            if entry["kind"] == "number"
+        }
+        labels: dict[str, list[tuple[int, int]]] = {}
+        for row, entries in row_label_index(sheet).items():
+            if row not in numeric_rows:
+                continue
+            for column, label in entries:
+                if len(re.findall(r"[^\W\d_]", label)) >= 2:
+                    labels.setdefault(label.casefold(), []).append((row, column))
+        actual = {
+            key.rsplit("!", 1)[1]: entry
+            for key, entry in execution.reads.items()
+            if key.rsplit("!", 1)[0] == name
+            and entry["kind"] not in {"type_probe", "lookup_probe"}
+        }
+        if not actual:
+            continue
+        read_rows = {coordinate_to_tuple(address)[0] for address in actual}
+        for label, positions in labels.items():
+            if len(positions) != 1 or not re.search(
+                rf"(?<!\w){re.escape(label)}(?!\w)", query, re.IGNORECASE
+            ):
+                continue
+            row, column = positions[0]
+            if row in read_rows:
+                continue
+            table = cell_region(sheet, row, column)
+            if table is None:
+                continue
+            peers = {
+                other_label
+                for other_label, places in labels.items()
+                if len(places) == 1
+                and places[0][1] == column
+                and cell_region(sheet, *places[0]) == table
+            }
+            if len(peers) < 2:
+                continue
+            numeric_reads = [
+                address
+                for address, entry in actual.items()
+                if entry["kind"] == "number"
+                and cell_region(sheet, *coordinate_to_tuple(address)) == table
+            ]
+            if numeric_reads:
+                risks.append(
+                    f"{name}: question names unique record {label!r} at row {row}, "
+                    "but the program reads numeric data from other rows of this table "
+                    "without reading that record. Verify the identity column and joins; "
+                    "do not substitute the first data row."
+                )
+    return risks
+
+
 def scope_risks(
     workbook: dict[str, Any], execution: ExecutionResult, query: str, code: str = ""
 ) -> list[str]:
     """Application-triggered review for ambiguity, rather than model confidence."""
     risks = restricted_metric_risks(workbook, execution, query)
+    risks += named_row_scope_risks(workbook, execution, query)
     tree = ast.parse(code) if code else None
     if tree is not None:
         risks += flat_string_projection_risks(workbook, execution, query, tree)
@@ -1676,7 +1751,13 @@ def scope_risks(
         )
         and not declared_arithmetic
         and tree is not None
-        and any(isinstance(node, ast.Sub) for node in ast.walk(tree))
+        and any(
+            isinstance(node, ast.BinOp)
+            and isinstance(node.op, ast.Sub)
+            and not isinstance(node.left, ast.Constant)
+            and not isinstance(node.right, ast.Constant)
+            for node in ast.walk(tree)
+        )
     ):
         risks.append(
             "Cross-sheet derived rank: independently check subtraction direction, entity joins, aggregation and ties against the question. A rank over a reversed difference can run successfully and still select the wrong entity."

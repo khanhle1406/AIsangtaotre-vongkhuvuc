@@ -67,11 +67,14 @@ Selection is optional; if supplied include ALL input/header regions read by the 
 CELL TYPES s/n/d/b/e/u abbreviate string/number/datetime/boolean/error/uncached_formula.
 Never put the final numeric answer or copied workbook measures into program literals.
 Use cell(sheet, 'A1') for typed values, num(sheet, 'A1') for numeric measures,
+Missing cells return None; stored empty text may be ''. Neither is numeric zero.
 cells(sheet, 'B2:D5') for a 2D rectangular list (rows then columns),
 values(sheet, 'B2:D5') for a FLAT row-major list (single-column elements are scalars),
 age_days(sheet, birth_address, reference_address) for elapsed days between typed or ISO dates,
 label(sheet,'B1') for merged TEXT
 headers, rows(sheet) for populated row numbers, and sheets for sheet names.
+column_letter(index) converts a 1-based Excel column number: 1=A, 26=Z, 27=AA;
+use it instead of chr arithmetic, which shifts columns and cannot handle AA onward.
 find_rows(sheet, 'A', 'Requested label') locates rows by normalized text (exact or
 whole-word prefix); it can return multiple rows in different sections. Check scope.
 data_rows(sheet, ['B','C'], 'number') returns rows where BOTH columns have numeric
@@ -580,6 +583,12 @@ class LLMAgent:
         result = self._solve(table_text, {}, query, max_retries)
         return result.answer, result.cost
 
+    def _independent_check_required(
+        self, execution: ExecutionResult, code: str
+    ) -> bool:
+        """Development policies may request a second solution before adjudication."""
+        return False
+
     def _solve(
         self, table_text: str, workbook: dict[str, Any], query: str, max_retries: int
     ) -> SolveResult:
@@ -609,6 +618,8 @@ class LLMAgent:
                     f"\nREQUIRED DATE INTERPRETATION: in {name!r}, use age_order({name!r}, '{birth_col}', '{reference_col}', descending=True) for oldest or descending=False for youngest, then select the requested row rank. This helper excludes header rows and uses EACH person's reference date from column {reference_col}. Do NOT rank birth dates or substitute one common date."
                 )
         verified = False
+        independent_candidate: dict[str, Any] | None = None
+        independent_done = False
         for attempt in range(min(max_retries + 1, 3)):
             if attempt and self.adaptive_reasoning:
                 state.reasoning_tokens = max(self.reasoning_tokens, 1024)
@@ -808,6 +819,89 @@ class LLMAgent:
                 answer = format_answer(execution.result, query, program.format)
                 runtime_program = None
                 risks = scope_risks(workbook, execution, query, effective_code)
+                contexts = [
+                    message
+                    for message in messages[2:]
+                    if message["role"] == "user"
+                    and message["content"].startswith(
+                        "Requested original workbook cells:"
+                    )
+                ]
+                candidate = {
+                    "code": effective_code,
+                    "result_variable": effective_result,
+                    "format": program.format.model_dump(),
+                    "answer": answer,
+                }
+                remaining = attempt + 1 < min(max_retries + 1, 3)
+                if (
+                    not independent_done
+                    and independent_candidate is None
+                    and attempt + 2 >= min(max_retries + 1, 3)
+                    and self._independent_check_required(execution, effective_code)
+                ):
+                    trace["independent_check_skipped"] = (
+                        "Two inference turns required for solution plus possible adjudication"
+                    )
+                if independent_candidate is not None:
+                    independent_done = True
+                    trace["independent_agreement"] = (
+                        answer == independent_candidate["answer"]
+                    )
+                    if answer != independent_candidate["answer"]:
+                        if not remaining:
+                            raise ValueError(
+                                "Independent solutions disagree within inference budget"
+                            )
+                        trace["verification_mode"] = "independent-adjudication"
+                        messages = (
+                            messages[:2]
+                            + contexts
+                            + [
+                                {
+                                    "role": "user",
+                                    "content": "Two independently generated programs disagree. "
+                                    "Both are unverified candidates, not evidence of a correct answer. "
+                                    "Check the question's exact scope, source identities, predicates and "
+                                    "algorithm invariants against the workbook; execution success is insufficient. "
+                                    "Return a complete corrected JSON program. Candidates:\n"
+                                    + json.dumps(
+                                        [independent_candidate, candidate],
+                                        ensure_ascii=False,
+                                    ),
+                                }
+                            ]
+                        )
+                        independent_candidate = None
+                        continue
+                    independent_candidate = None
+                elif (
+                    not independent_done
+                    and attempt + 2 < min(max_retries + 1, 3)
+                    and self._independent_check_required(execution, effective_code)
+                ):
+                    independent_candidate = candidate
+                    verified = state.verification = True
+                    trace["verification_mode"] = "independent-solution"
+                    trace["verification_triggers"] = risks or [
+                        "Multiple numeric source sheets"
+                    ]
+                    messages = (
+                        messages[:2]
+                        + contexts
+                        + [
+                            {
+                                "role": "user",
+                                "content": "Solve this question independently from the original workbook. "
+                                "No earlier program or answer is supplied. Check identities, header/data "
+                                "bounds, joins and the algorithm's invariants. Derive exactly the event, "
+                                "scope and output requested by this question. Return one grounded JSON "
+                                "program. Source checks to resolve: "
+                                + "; ".join(risks),
+                            }
+                        ]
+                    )
+                    continue
                 if (program.needs_verification or risks) and not verified:
                     verified = True
                     state.verification = True
@@ -819,14 +913,6 @@ class LLMAgent:
                     # The default fresh review avoids anchoring on the first answer.
                     # Development may compare auditing the executable candidate,
                     # without exposing its computed answer as a suggested target.
-                    contexts = [
-                        message
-                        for message in messages[2:]
-                        if message["role"] == "user"
-                        and message["content"].startswith(
-                            "Requested original workbook cells:"
-                        )
-                    ]
                     review = (
                         "Independently select the sheets, sections, complete header paths and "
                         "definitions against the question. Resolve ambiguity from workbook evidence. "

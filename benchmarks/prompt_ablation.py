@@ -1,4 +1,4 @@
-"""Compare full versus lean system instructions while retaining the full task contract."""
+"""Counterbalance planning policies on consumed data with one fixed shared allowance."""
 
 import argparse
 import json
@@ -11,6 +11,7 @@ from run import validate_queries
 from .batched import run_batched_stage
 from .budget import workspace_budget
 from .gateway import BatchLimits, atomic_json
+from .packed import PackedAgent, ParallelPackedAgent, WidePackedAgent
 from .qwen_batch_signoff import source_manifest
 from .review_effort import MediumReviewAgent, probe
 from .structured_batch import CoherentPlanningAgent, StructuredBatchedAgent
@@ -25,12 +26,17 @@ class LeanStructuredAgent(StructuredBatchedAgent):
 
 
 def compare(
-    root: Path, *, review_effort: bool = False, coherent_envelope: bool = False
+    root: Path,
+    *,
+    review_effort: bool = False,
+    coherent_envelope: bool = False,
+    pack_workbooks: bool = False,
+    pack_capacity: bool = False,
 ) -> dict[str, Any]:
     """Alternate policy order across consumed families; never promote from screening."""
     if root.exists():
         raise ValueError("Preserve prior prompt comparison")
-    if review_effort and coherent_envelope:
+    if sum((review_effort, coherent_envelope, pack_workbooks, pack_capacity)) > 1:
         raise ValueError("Change one policy at a time")
     root.mkdir(parents=True)
     source = source_manifest()
@@ -40,7 +46,11 @@ def compare(
         "promoted": False,
         "stages": {},
         "unassessed": {},
-        "experiment": "shared system envelope"
+        "experiment": "packing capacity and independent-task scheduling"
+        if pack_capacity
+        else "multi-workbook planning, size8/output4096 vs same-workbook size4/output2048"
+        if pack_workbooks
+        else "shared system envelope"
         if coherent_envelope
         else "verification effort"
         if review_effort
@@ -57,11 +67,16 @@ def compare(
         shutil.copy2(name, target)
     atomic_json(root / "summary.json", result)
     limits = BatchLimits(root / "batch.json")
-    if review_effort:
-        result["probe"] = probe(root, limits)
+    if review_effort or pack_workbooks or pack_capacity:
+        result["probe"] = probe(
+            root,
+            limits,
+            thinking="low" if pack_workbooks or pack_capacity else "medium",
+            max_tokens=8192 if pack_capacity else 4096 if pack_workbooks else 256,
+        )
         if not result["probe"]["ok"]:
             result["stopped"] = (
-                "Medium review payload rejected; no fallback or quality ranking"
+                "Requested effort/output payload rejected; no fallback or quality ranking"
             )
             atomic_json(root / "summary.json", result)
             return result
@@ -79,7 +94,15 @@ def compare(
     ]
     stopped = None
     policies = (
-        [("current", StructuredBatchedAgent), ("coherent", CoherentPlanningAgent)]
+        [
+            ("packed8", PackedAgent),
+            ("parallel8", ParallelPackedAgent),
+            ("parallel16", WidePackedAgent),
+        ]
+        if pack_capacity
+        else [("same_book", CoherentPlanningAgent), ("packed", PackedAgent)]
+        if pack_workbooks
+        else [("current", StructuredBatchedAgent), ("coherent", CoherentPlanningAgent)]
         if coherent_envelope
         else [("low", StructuredBatchedAgent), ("medium_review", MediumReviewAgent)]
         if review_effort
@@ -87,7 +110,10 @@ def compare(
     )
     for index, (label, folder, reference) in enumerate(datasets):
         arms = list(policies)
-        if index % 2:
+        if pack_capacity:
+            offset = index % len(arms)
+            arms = arms[offset:] + arms[:offset]
+        elif index % 2:
             arms.reverse()
         for arm, agent_class in arms:
             key = arm + "/" + label
@@ -109,6 +135,7 @@ def compare(
                     limits,
                     ledger,
                     agent_class=agent_class,
+                    group_size=agent_class.maximum_group_size,
                     review_candidate=True,
                 )
             if source != source_manifest():
@@ -142,9 +169,13 @@ if __name__ == "__main__":
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--review-effort", action="store_true")
     parser.add_argument("--coherent-envelope", action="store_true")
+    parser.add_argument("--pack-workbooks", action="store_true")
+    parser.add_argument("--pack-capacity", action="store_true")
     args = parser.parse_args()
     compare(
         args.root,
         review_effort=args.review_effort,
         coherent_envelope=args.coherent_envelope,
+        pack_workbooks=args.pack_workbooks,
+        pack_capacity=args.pack_capacity,
     )

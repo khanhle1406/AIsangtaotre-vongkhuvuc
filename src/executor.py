@@ -46,6 +46,17 @@ def stored_datetime(value: Any, date_format: str | None = None) -> datetime.date
     )
 
 
+def column_letter(index: int) -> str:
+    """Convert a one-based Excel column index without importing a workbook library."""
+    if type(index) is not int or not 1 <= index <= 16384:
+        raise ValueError("Excel column index must be an integer from 1 to 16384")
+    result = ""
+    while index:
+        index, remainder = divmod(index - 1, 26)
+        result = string.ascii_uppercase[remainder] + result
+    return result
+
+
 def bounded_combinations(
     values: Iterable[Any], count: int
 ) -> Iterator[tuple[Any, ...]]:
@@ -208,6 +219,7 @@ METHODS = {
     float: {"is_integer"},
 }
 BUILTINS = {
+    "column_letter": column_letter,
     "ValueError": ValueError,
     "TypeError": TypeError,
     "RuntimeError": RuntimeError,
@@ -939,6 +951,14 @@ class WorkbookAccess:
                 target, address = text.rsplit("!", 1) if "!" in text else (sheet, text)
                 if target.startswith("'"):
                     target = target[1:-1].replace("''", "'")
+                if "!" in text:
+                    # Planner namespaces relocate explicit sheet references only;
+                    # unqualified references already refer to the current sheet.
+                    target = (
+                        self.data[sheet]
+                        .get("formula_sheet_aliases", {})
+                        .get(target, target)
+                    )
                 address = address.replace("$", "")
                 helper = "values" if ":" in address else "cell"
                 text = f"{helper}({target!r}, {address!r})"
