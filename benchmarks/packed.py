@@ -10,6 +10,7 @@ from src.executor import ExecutionResult
 from .backend_view import backend_view
 from .batched import BatchedAgent
 from .efficient import dense_text
+from .plan_agent import CalculationPlanningMixin
 from .structured_batch import CoherentPlanningAgent, StructuredBatchedAgent
 
 
@@ -246,6 +247,10 @@ class GreedyPackedAgent(ParallelPackedAgent):
     default_temperature: ClassVar[float] = 0.0
 
 
+class CalculationPlanAgent(CalculationPlanningMixin, ParallelPackedAgent):
+    """Experimental expression compiler with complete owned workbook execution."""
+
+
 PLANNING_PROFILES: dict[str, type[BatchedAgent]] = {
     "same-book": StructuredBatchedAgent,
     "coherent": CoherentPlanningAgent,
@@ -259,6 +264,7 @@ PLANNING_PROFILES: dict[str, type[BatchedAgent]] = {
     "all8": AllPackedAgent,
     "all10": TenPackedAgent,
     "greedy8": GreedyPackedAgent,
+    "expressions8": CalculationPlanAgent,
 }
 
 

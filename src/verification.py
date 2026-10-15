@@ -9,6 +9,7 @@ from openpyxl.utils import coordinate_to_tuple, get_column_letter, range_boundar
 
 from .executor import ISO_DATE, ExecutionResult, stored_datetime
 from .postprocessor import format_answer
+from .source_projection import column_projection
 
 
 def canonical_label(value: Any) -> str:
@@ -250,11 +251,137 @@ def date_field_errors(
     return []
 
 
+def quoted_metric_scope_errors(
+    workbook: dict[str, Any], execution: ExecutionResult, query: str, code: str
+) -> list[str]:
+    """A direct projected rank must use its explicitly named physical header branch."""
+    if not re.search(
+        r"\b(?:highest|largest|lowest|smallest|maximum|minimum|rank)\b",
+        query,
+        re.IGNORECASE,
+    ) or any(isinstance(node, ast.BinOp) for node in ast.walk(ast.parse(code))):
+        return []  # A derived objective need not read an existing reported metric.
+    quotes = [
+        canonical_label(value).casefold()
+        for value in re.findall(r'["“]([^"”]+)["”]', query)
+    ]
+    for name, sheet in workbook.items():
+        numeric = [
+            key.rsplit("!", 1)[1]
+            for key, entry in execution.reads.items()
+            if key.rsplit("!", 1)[0] == name and entry["kind"] == "number"
+        ]
+        observed = {
+            get_column_letter(coordinate_to_tuple(address)[1]) for address in numeric
+        }
+        if len(observed) != 1:
+            continue
+        header_domains = {
+            tuple(
+                sorted(
+                    (column, tuple(canonical_label(label) for label in path))
+                    for column, path in source_headers(sheet, address).items()
+                )
+            )
+            for address in numeric
+        }
+        # Blank separator rows can split one logical table into several bands.
+        # Conflicting effective headers cannot establish one shared column meaning.
+        if len(header_domains) != 1:
+            continue
+        for address in numeric:
+            row, col = coordinate_to_tuple(address)
+            table = cell_region(sheet, row, col)
+            if table is None:
+                continue
+            left, top, right, _ = range_boundaries(table["range"])
+            headers = table.get("headers", {})
+            metric_rows = {coordinate_to_tuple(value)[0] for value in numeric}
+            numeric_columns = set()
+            for anchor, entry in sheet["cells"].items():
+                r, c = coordinate_to_tuple(anchor)
+                if (
+                    entry["kind"] in {"number", "uncached_formula"}
+                    and r in metric_rows
+                    and left <= c <= right
+                ):
+                    numeric_columns.add(get_column_letter(c))
+            named = set(quotes)
+            normalized_query = canonical_label(query).casefold()
+            for path in headers.values():
+                for caption in path:
+                    caption = canonical_label(caption).casefold()
+                    if (
+                        len(caption.split()) >= 2
+                        and sum(letter.isalpha() for letter in caption) >= 3
+                        and re.search(
+                            rf"(?<!\w){re.escape(caption)}(?!\w)", normalized_query
+                        )
+                    ):
+                        named.add(caption)
+            for quote in sorted(named):
+                targets = {
+                    column
+                    for column, path in headers.items()
+                    if quote in {canonical_label(label).casefold() for label in path}
+                }
+                targets &= numeric_columns
+                contexts = {
+                    tuple(
+                        canonical_label(label).casefold() for label in path[: index + 1]
+                    )
+                    for path in headers.values()
+                    for index, label in enumerate(path)
+                    if canonical_label(label).casefold() == quote
+                }
+                if not targets or targets & observed or len(contexts) != 1:
+                    continue
+                # Hints alone do not establish a contradiction: verify actual
+                # caption anchors/merges above these data in the same table.
+                physical = set()
+                for anchor, entry in sheet["cells"].items():
+                    r, c = coordinate_to_tuple(anchor)
+                    if (
+                        entry["kind"] != "string"
+                        or not top <= r < row
+                        or not left <= c <= right
+                        or canonical_label(entry["value"]).casefold() != quote
+                    ):
+                        continue
+                    merges = [
+                        range_boundaries(area)
+                        for area in sheet["merges"]
+                        if area.split(":")[0] == anchor
+                    ]
+                    if merges:
+                        a, _, b, bottom = merges[0]
+                        if bottom >= row:
+                            continue
+                        physical.update(
+                            get_column_letter(index) for index in range(a, b + 1)
+                        )
+                    else:
+                        physical.add(get_column_letter(c))
+                if targets <= physical:
+                    return [
+                        f"Projected ranking metric mismatch in {name!r}: question names header {quote!r}, physically covering columns {sorted(targets)}, but row projections use numeric column {sorted(observed)}. Loading a whole rectangle does not establish use of its requested measure. Select the complete requested header path and compare those numeric values."
+                    ]
+            break  # One proven physical table; do not repeat its header scan per record.
+    return []
+
+
 def column_scope_errors(
-    workbook: dict[str, Any], execution: ExecutionResult, query: str
+    workbook: dict[str, Any],
+    execution: ExecutionResult,
+    query: str,
+    code: str | None = None,
 ) -> list[str]:
     """Explicitly named numeric header categories must all be evidenced in a comparison."""
-    errors = column_year_errors(workbook, execution, query)
+    projected = column_projection(execution, code) if code is not None else None
+    evidence = projected if projected is not None else execution
+    errors = column_year_errors(workbook, evidence, query)
+    if projected is not None and code is not None:
+        errors += quoted_metric_scope_errors(workbook, projected, query, code)
     if not re.search(
         r"\b(?:and|or|than|versus|vs|compare|difference|sum|combined)\b",
         query,
@@ -264,7 +391,7 @@ def column_scope_errors(
     for name, sheet in workbook.items():
         numeric = [
             key.rsplit("!", 1)[1]
-            for key, entry in execution.reads.items()
+            for key, entry in evidence.reads.items()
             if key.rsplit("!", 1)[0] == name and entry["kind"] == "number"
         ]
         if not numeric:

@@ -162,6 +162,67 @@ class BatchPlanningMixin:
             deduplicate_headers=self.deduplicate_headers,
         )
 
+    def date_interpretation(
+        self, workbook: WorkbookData, questions: list[dict[str, Any]]
+    ) -> str:
+        """Offer verified header bindings to every shared planning language."""
+        wire = workbook.wire()
+        date_hints = []
+        for index, question in enumerate(questions):
+            owned_book = self.question_workbook(workbook, question)
+            hint_wire = wire if owned_book is workbook else owned_book.wire()
+            for name, sheet in hint_wire.items():
+                latest = latest_reference_columns(sheet, question["query"])
+                if latest is not None:
+                    key_col, time_col = latest
+                    date_hints.append(
+                        f"Question {index}: latest_rows({name!r},{key_col!r},{time_col!r}) selects maximum timestamp rows per entity using verified headers. Follow the question's filter-before/after order; typed timestamps require no parsing or pandas."
+                    )
+                reference = age_reference_columns(sheet, question["query"])
+                if reference is not None:
+                    birth, event = reference
+                    date_hints.append(
+                        f"Question {index}: age means EACH person's elapsed date difference. "
+                        f"age_order({name!r},{birth!r},{event!r},descending=False) sorts YOUNGEST first; "
+                        "descending=True sorts OLDEST first. Do not reverse those meanings."
+                    )
+        return (
+            "\nQUESTION DATE INTERPRETATION:\n" + "\n".join(date_hints)
+            if date_hints
+            else ""
+        )
+
+    def planning_messages(
+        self, workbook: WorkbookData, questions: list[dict[str, Any]], text: str
+    ) -> list[dict[str, str]]:
+        """Build the shared request; experimental planners may supply another language."""
+        return [
+            {"role": "system", "content": self.system_prompt},
+            {
+                "role": "user",
+                "content": "WORKBOOK DATA:\n"
+                + text
+                + "\nQUESTIONS:\n"
+                + json.dumps(
+                    [
+                        self.planning_question(workbook, i, q)
+                        for i, q in enumerate(questions)
+                    ],
+                    ensure_ascii=False,
+                )
+                + "\n"
+                + ACCURACY_CONTRACT
+                + "\n"
+                + PLAN_CONTRACT,
+            },
+        ]
+
+    def parse_programs(
+        self, response: str, workbook: WorkbookData, questions: list[dict[str, Any]]
+    ) -> list[str]:
+        """Associate output with the exact requested questions before execution."""
+        return parse_plans(response, len(questions), [q["query"] for q in questions])
+
     def solve_workbook(
         self, workbook: WorkbookData, query: str, max_retries: int = 2
     ) -> SolveResult:
@@ -218,27 +279,7 @@ class BatchPlanningMixin:
         state.max_tokens = self.planning_max_tokens
         wire = workbook.wire()
         text = self.planning_text(workbook, wire)
-        date_hints = []
-        for index, question in enumerate(questions):
-            owned_book = self.question_workbook(workbook, question)
-            hint_wire = wire if owned_book is workbook else owned_book.wire()
-            for name, sheet in hint_wire.items():
-                latest = latest_reference_columns(sheet, question["query"])
-                if latest is not None:
-                    key_col, time_col = latest
-                    date_hints.append(
-                        f"Question {index}: latest_rows({name!r},{key_col!r},{time_col!r}) selects maximum timestamp rows per entity using verified headers. Follow the question's filter-before/after order; typed timestamps require no parsing or pandas."
-                    )
-                reference = age_reference_columns(sheet, question["query"])
-                if reference is not None:
-                    birth, event = reference
-                    date_hints.append(
-                        f"Question {index}: age means EACH person's elapsed date difference. "
-                        f"age_order({name!r},{birth!r},{event!r},descending=False) sorts YOUNGEST first; "
-                        "descending=True sorts OLDEST first. Do not reverse those meanings."
-                    )
-        if date_hints:
-            text += "\nQUESTION DATE INTERPRETATION:\n" + "\n".join(date_hints)
+        text += self.date_interpretation(workbook, questions)
         # Large books retain the solver's expandable per-question context path.
         if len(text.encode()) > 800_000:
             records = []
@@ -254,33 +295,12 @@ class BatchPlanningMixin:
                     }
                 )
             return records, {"mode": "individual-large-workbook", "calls": []}
-        messages = [
-            {"role": "system", "content": self.system_prompt},
-            {
-                "role": "user",
-                "content": "WORKBOOK DATA:\n"
-                + text
-                + "\nQUESTIONS:\n"
-                + json.dumps(
-                    [
-                        self.planning_question(workbook, i, q)
-                        for i, q in enumerate(questions)
-                    ],
-                    ensure_ascii=False,
-                )
-                + "\n"
-                + ACCURACY_CONTRACT
-                + "\n"
-                + PLAN_CONTRACT,
-            },
-        ]
+        messages = self.planning_messages(workbook, questions, text)
         error = None
         response = ""
         try:
             response = LLMAgent._request(self, messages, state)
-            programs = parse_plans(
-                response, len(questions), [q["query"] for q in questions]
-            )
+            programs = self.parse_programs(response, workbook, questions)
         except (ValueError, TypeError, TimeoutError, KeyError) as exc:
             # Preserve the actual failed call, then spend a normal repair turn per question.
             error = f"{type(exc).__name__}: {exc}"
@@ -371,7 +391,13 @@ def run_batched_stage(
             name: hashlib.sha256(
                 Path(__file__).with_name(name).read_bytes()
             ).hexdigest()
-            for name in ("batched.py", "efficient.py", "precision.py", "gateway.py")
+            for name in (
+                "batched.py",
+                "efficient.py",
+                "precision.py",
+                "gateway.py",
+                "plan_agent.py",
+            )
         },
     }
     if agent_class is not BatchedAgent:

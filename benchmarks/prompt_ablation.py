@@ -7,12 +7,14 @@ from pathlib import Path
 from typing import Any
 
 from run import validate_queries
+from src.excel_parser import load_workbook_data
 
 from .batched import run_batched_stage
 from .budget import workspace_budget
 from .gateway import BatchLimits, atomic_json
 from .packed import (
     AllPackedAgent,
+    CalculationPlanAgent,
     GreedyPackedAgent,
     PackedAgent,
     ParallelPackedAgent,
@@ -44,6 +46,7 @@ def compare(
     backend_view: bool = False,
     whole_pack: bool = False,
     temperature: bool = False,
+    expressions: bool = False,
 ) -> dict[str, Any]:
     """Alternate policy order across consumed families; never promote from screening."""
     if root.exists():
@@ -58,6 +61,7 @@ def compare(
                 backend_view,
                 whole_pack,
                 temperature,
+                expressions,
             )
         )
         > 1
@@ -71,7 +75,9 @@ def compare(
         "promoted": False,
         "stages": {},
         "unassessed": {},
-        "experiment": "requested temperature one versus zero, otherwise identical control"
+        "experiment": "grounded expression compiler versus full Python planning"
+        if expressions
+        else "requested temperature one versus zero, otherwise identical control"
         if temperature
         else "all-question packing, size8 versus10 with complete source ownership"
         if whole_pack
@@ -99,7 +105,8 @@ def compare(
     atomic_json(root / "summary.json", result)
     limits = BatchLimits(root / "batch.json")
     if (
-        review_effort
+        expressions
+        or review_effort
         or pack_workbooks
         or pack_capacity
         or backend_view
@@ -110,7 +117,8 @@ def compare(
             root,
             limits,
             thinking="low"
-            if pack_workbooks
+            if expressions
+            or pack_workbooks
             or pack_capacity
             or backend_view
             or whole_pack
@@ -121,7 +129,7 @@ def compare(
             else 8192
             if pack_capacity
             else 4096
-            if pack_workbooks or backend_view or temperature
+            if expressions or pack_workbooks or backend_view or temperature
             else 256,
             temperature=0.0 if temperature else 1.0,
         )
@@ -143,9 +151,28 @@ def compare(
             ]
         ],
     ]
+    if expressions:
+        datasets = [
+            ("public", Path("data"), "sample_submission.csv"),
+            (
+                "single_sheet_synthetic",
+                Path("reports/optimization/gemini_gateway/synthetic"),
+                "answers.csv",
+            ),
+            (
+                "single_sheet_known",
+                Path("reports/optimization/frozen_holdout"),
+                "references.csv",
+            ),
+        ]
+        result["dataset_scope"] = (
+            "Known one-sheet capability screen; entire workbooks selected by sheet count before inference, no answer/ID filtering. No unseen-family claim. Both arms use parallel8 packing."
+        )
     stopped = None
     policies = (
-        [("one", ParallelPackedAgent), ("zero", GreedyPackedAgent)]
+        [("python", ParallelPackedAgent), ("expressions", CalculationPlanAgent)]
+        if expressions
+        else [("one", ParallelPackedAgent), ("zero", GreedyPackedAgent)]
         if temperature
         else [
             ("parallel8", ParallelPackedAgent),
@@ -191,6 +218,16 @@ def compare(
                 raise ValueError("Source changed during prompt comparison")
             output = root / arm / label
             queries = validate_queries(folder / "queries.json", folder / "xlsx_files")
+            if expressions and label != "public":
+                eligible = {
+                    filename
+                    for filename in {q["file_name"] for q in queries}
+                    if len(load_workbook_data(folder / "xlsx_files" / filename).sheets)
+                    == 1
+                }
+                queries = [q for q in queries if q["file_name"] in eligible]
+                if not queries:
+                    raise ValueError("Empty one-sheet capability screen")
             with workspace_budget().stage(str(output.resolve()), 0.001) as ledger:
                 report = run_batched_stage(
                     output,
@@ -239,6 +276,7 @@ if __name__ == "__main__":
     parser.add_argument("--backend-view", action="store_true")
     parser.add_argument("--whole-pack", action="store_true")
     parser.add_argument("--temperature", action="store_true")
+    parser.add_argument("--expressions", action="store_true")
     args = parser.parse_args()
     compare(
         args.root,
@@ -249,4 +287,5 @@ if __name__ == "__main__":
         backend_view=args.backend_view,
         whole_pack=args.whole_pack,
         temperature=args.temperature,
+        expressions=args.expressions,
     )

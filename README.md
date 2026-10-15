@@ -2,7 +2,9 @@
 
 Giải pháp dùng `qwen/qwen3.7-flash` qua OpenRouter để chọn dữ liệu và sinh chương trình Python; phép tính chạy cục bộ trên giá trị thật trong workbook. Không đọc đáp án mẫu, không tra kết quả theo ID hoặc tên file.
 
-Xem [benchmark hiện tại](docs/CURRENT_BENCHMARK.md): lượt đầy đủ v60/Gemini đạt public 19, 19, 20; ngoài public 252/254. Public trung bình 10,490 giây / 99.556,33 token, giảm 54,82% thời gian / 53,32% token so với baseline cùng đợt, nhưng **chưa đạt yêu cầu độ đúng nên không được chọn**. Mốc public nhanh hơn v52 vẫn là 20/20 ba lượt, 6,543 giây / 83.712 token, với ngoài public chỉ 249/254. So với mốc lịch sử v17, chưa đạt giảm 50% cho cả hai thông số. Thử rút biểu diễn, gộp 10 câu và temperature 0 chưa được chấp nhận. Bản bổ sung deque sau v60 mới qua kiểm thử offline; chưa chốt bản nộp hoặc xác nhận Qwen/private BTC.
+Đã chốt giai đoạn phát triển Gemini tại **v64 / `parallel8`**: public **20/20 cả ba lượt**, **254/254** hồi quy mở rộng và **18/18** kiểm định mới (baseline 17/18). Public trung bình **11,017 giây / 93.740 token**, giảm **57,44% thời gian / 56,77% token so với baseline cùng đợt**; RAM local đỉnh **130,06 MiB**. Trên kiểm định mới, độ đúng tăng nhưng thời gian tăng 49,12%; không tuyên bố mọi benchmark đều giảm 50%. Không đạt giảm 50% so với mốc nhanh nhất lịch sử. Các thử nghiệm JSON và lập lịch sửa song song bị loại; đã khôi phục đúng source v64 và dừng theo tiêu chí thực dụng mới của người dùng.
+
+Xem [bản chọn và báo cáo bàn giao](docs/FINAL_SELECTION.md), [toàn bộ lịch sử benchmark](docs/CURRENT_BENCHMARK.md). **Đây là kết quả Gemini; Qwen/private BTC chưa được xác nhận.** `run.py` giữ Qwen/OpenRouter. Để chạy đúng bản phát triển đã chọn, thêm `--planning-profile parallel8 --concurrency 4` vào lệnh `benchmarks.batched_cli` bên dưới.
 
 Xem [báo cáo giai đoạn đầu](docs/BENCHMARK.md): Gemini sinh mới đạt public 20/20 và holdout độc lập 23/24; candidate chưa được xác nhận bằng Qwen. Các công cụ Colab được giữ để tham khảo lịch sử, không thuộc luồng chạy hiện tại hoặc gói thi.
 

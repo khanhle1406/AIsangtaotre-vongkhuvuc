@@ -1,5 +1,11 @@
 # Benchmark và phạm vi bằng chứng hiện tại
 
+**Đã chốt v64 / `parallel8` và dừng tối ưu theo tiêu chí thực dụng mới.** Public **20/20 ba lượt**, toàn bộ hồi quy đã biết **254/254**, kiểm định mới **18/18 so với baseline 17/18**. Public trung bình **11,016919 giây / 93.740 token**, giảm **57,44% thời gian / 56,77% token so với baseline cùng đợt**. RAM local đỉnh **130,06 MiB**. Kiểm định mới dùng 61,070 giây / 105.102 token so với baseline 40,952 giây / 171.497 token: **chậm hơn 49,12%, ít token hơn 38,71%**; ưu tiên Exact Match. Không khẳng định cải thiện 50% so với mốc lịch sử v17 hoặc v52.
+
+[Báo cáo chọn cuối, cấu hình chạy và các giới hạn](FINAL_SELECTION.md). V65 thử song song hóa sửa lỗi bị loại vì hồi quy 59/60 và 31/32, phần dừng không tính thành lỗi chất lượng. Source inference hiện tại khớp snapshot v64; chưa xác nhận Qwen hoặc private BTC. Bộ mới đã tiêu thụ, các lần sau chỉ là hồi quy. Phần dưới là lịch sử, không thay kết quả chọn cuối.
+
+---
+
 Các số dưới đây là **Gemini 3 Flash sinh mới**, không dùng replay làm benchmark LLM. Chúng không chứng minh điểm private của BTC hoặc điểm Qwen3.7 Flash. Ưu tiên Exact Match → thời gian → token.
 
 Lượt đầy đủ mới **v60** đạt public **19, 19, 20**, ngoài public **252/254**. Public trung bình **10,490 giây / 99.556,33 token**, giảm **54,82% thời gian / 53,32% token** so với baseline cùng đợt; **chưa chấp nhận vì độ đúng chưa đạt**. Mốc public **v52** vẫn nhanh hơn: **20/20 cả ba lần**, **6,543 giây / 83.712 token**, nhưng ngoài public chỉ **249/254**. So với trung bình public v17, v52 chỉ giảm khoảng **33,94% thời gian / 18,24% token**, chưa đạt 50% so với mốc lịch sử. Bổ sung deque sau v60 mới kiểm thử offline. **Chưa chọn bản nộp** hoặc xác nhận Qwen/private BTC; không ghép điểm từ nhiều phiên để tạo một lượt đủ điểm.

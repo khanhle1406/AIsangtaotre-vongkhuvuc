@@ -807,7 +807,9 @@ class LLMAgent:
                 )
                 contradictions += age_sort_errors(workbook, execution, query)
                 contradictions += date_field_errors(workbook, execution, query)
-                contradictions += column_scope_errors(workbook, execution, query)
+                contradictions += column_scope_errors(
+                    workbook, execution, query, effective_code
+                )
                 contradictions += (
                     label_errors(execution, query, workbook) if workbook else []
                 )
