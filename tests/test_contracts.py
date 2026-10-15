@@ -738,6 +738,80 @@ def test_named_header_parent_requires_evidence_inside_that_branch(
     assert column_scope_errors(ambiguous, wrong, question) == []
 
 
+def test_standard_filter_match_groups_and_datetime_feedback_are_safe() -> None:
+    from src.excel_parser import CellData, SheetData, WorkbookData
+
+    wire = WorkbookData(
+        {"Moved": SheetData("Moved", cells={"K407": CellData("Code-318", "string")})}
+    ).wire()
+    filtered = execute_program(
+        "s=cell('Moved','K407'); result=''.join(filter(str.isdigit,s))", wire
+    )
+    assert filtered.success and filtered.result == "318"
+    matched = execute_program(
+        "import re\ns=cell('Moved','K407'); result=re.search(r'([A-Za-z]+)-(\\d+)',s).groups()",
+        wire,
+    )
+    assert matched.success and matched.result == ["Code", "318"]
+    mapped = execute_program(
+        "s=cell('Moved','K407'); result=sum(map(int,filter(str.isdigit,s)))", wire
+    )
+    assert mapped.success and mapped.result == 12
+    wrong = execute_program("result=datetime(2031,5,7)")
+    assert not wrong.success and "datetime.datetime" in wrong.error
+    assert execute_program("result=datetime.datetime(2031,5,7).day").result == 7
+    for unsafe in [
+        "result=str.__dict__",
+        "import re\nresult=re.search('x','x').__class__",
+        "import re\nresult=re.search('x','x').re",
+    ]:
+        assert not execute_program(unsafe).success
+
+
+def test_flat_loop_accumulation_is_not_misread_as_duplicate_sections(
+    tmp_path: Path,
+) -> None:
+    from src.verification import scope_risks
+
+    book = openpyxl.Workbook()
+    sheet = book.active
+    sheet.title = "State movements"
+    for row, values in enumerate(
+        [
+            ["Origin", "Destination", "Rate"],
+            ["Up", "Up", 0.75],
+            ["Up", "Down", 0.25],
+            ["Down", "Up", 0.5],
+            ["Down", "Down", 0.5],
+        ],
+        309,
+    ):
+        for col, value in enumerate(values, 7):
+            sheet.cell(row, col, value)
+    path = tmp_path / "transitions.xlsx"
+    book.save(path)
+    book.close()
+    wire = load_workbook_data(path).wire()
+    code = """data=cells('State movements','G310:I313')
+transitions={(r[0],r[1]):r[2] for r in data}
+prob={'Up':1.0,'Down':0.0}
+for step in range(2):
+    updated={'Up':0.0,'Down':0.0}
+    for source in prob:
+        for target in prob:
+            updated[target]+=prob[source]*transitions[(source,target)]
+    prob=updated
+result=prob['Up']"""
+    execution = execute_program(code, wire)
+    assert execution.success and execution.result == 0.6875
+    question = "Starting in Up, what is the probability of Up after two steps?"
+    assert scope_risks(wire, execution, question, code) == []
+    lookup = execute_program("result=num('State movements','I310')", wire)
+    assert scope_risks(
+        wire, lookup, "What is the Rate for Up?", "result=num('State movements','I310')"
+    )
+
+
 def test_cells_rows_cannot_silently_compare_equal_to_scalar() -> None:
     from src.excel_parser import CellData, SheetData, WorkbookData
 

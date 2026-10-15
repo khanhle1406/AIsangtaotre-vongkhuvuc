@@ -168,6 +168,7 @@ METHODS = {
     tuple: {"index", "count"},
     dict: {"get", "items", "keys", "values", "setdefault", "copy"},
     set: {"add", "union", "intersection", "difference"},
+    re.Match: {"group", "groups", "start", "end", "span"},
     datetime.datetime: {"date", "isoformat", "strftime", "year", "month", "day"},
     datetime.date: {"isoformat", "strftime", "year", "month", "day"},
     datetime.timedelta: {"days", "seconds", "total_seconds"},
@@ -198,6 +199,8 @@ BUILTINS = {
     "range": range,
     "enumerate": enumerate,
     "zip": zip,
+    "filter": filter,
+    "map": map,
     "any": any,
     "all": all,
     "isinstance": isinstance,
@@ -1179,6 +1182,8 @@ class Interpreter:
                 "fromordinal",
             }:
                 return getattr(value, node.attr)
+            if value is str and node.attr in METHODS[str]:
+                return getattr(str, node.attr)
             if any(
                 isinstance(value, kind) and node.attr in names
                 for kind, names in METHODS.items()
@@ -1187,6 +1192,11 @@ class Interpreter:
             raise ValueError(f"Attribute not allowed: {node.attr}")
         if isinstance(node, ast.Call):
             fn = self.evaluate(node.func, env)
+            if fn is MODULES["datetime"]:
+                raise TypeError(
+                    "datetime is a module namespace, not a constructor: use datetime.datetime(year,month,day), "
+                    "or 'from datetime import datetime' before calling datetime(...)."
+                )
             args = []
             for arg in node.args:
                 if isinstance(arg, ast.Starred):

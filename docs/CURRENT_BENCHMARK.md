@@ -2,6 +2,8 @@
 
 Các số dưới đây là **Gemini 3 Flash sinh mới**, không dùng replay làm benchmark LLM. Chúng không chứng minh điểm private của BTC hoặc điểm Qwen3.7 Flash. Ưu tiên Exact Match → thời gian → token.
 
+Candidate mới nhất vượt qualification và kiểm định độc lập là **v30, low/concurrency 4**. Public 20/20 ở cả ba lượt; bộ mới 18/18 so với baseline 17/18. Kiểm tra regression mở rộng sau đó còn một câu lỗi, nên chưa chốt thay bản đã khóa. Public giảm 50,41% thời gian / 44,53% token; kiểm định mới giảm 25,17% thời gian / 57,83% token, so với baseline cùng đợt. **Chưa đạt giảm 50% cho cả hai chỉ số trên mọi bộ; chưa vượt bản v17 về hiệu suất public.** Bảng chi tiết và các lượt bị loại nằm dưới đây.
+
 ## Candidate v17 đã khóa
 
 Nguồn: `reports/optimization/efficiency_v17_regression/summary.json`. Baseline chạy từng câu, concurrency 2; candidate lập chương trình chung tối đa bốn câu/workbook, concurrency 4. Mỗi chương trình tính trên workbook thật và được kiểm tra riêng.
@@ -113,5 +115,52 @@ Usage đầy đủ. RSS đỉnh cả đợt **138,38 MiB**. Chọn medium/8 đ�
 V28 không đạt: public **19/20, 18/20, 19/20**, còn các regression **60/60, 32/32, 18/18, 24/24, 24/24**. Lỗi public lặp lại chọn Total toàn bảng thay cho nhánh con được hỏi; không dùng kết quả sàng lọc 70/70 để thay kết quả xác nhận này.
 
 V29 mở rộng kiểm tra tên cột sang caption cha của một nhánh, thay vì chỉ caption lá: khi câu hỏi gọi tên hai nhánh tách rời, phải đọc dữ liệu trong cả hai nhánh. Cùng caption dưới ancestry cạnh tranh không được suy đoán. Không chọn hộ giá trị hoặc cột theo ID/đáp án. Test dùng bảng mới với nhánh cha gộp, Total/child và caption trùng dưới hai ancestry. **260 test**, Ruff check/format đã đạt trước khi khởi động qualification v29.
+
+## V30: candidate Gemini qua kiểm định mới
+
+V29 đạt public 20/20 ba lượt nhưng còn 17/18 ở known và 23/24 ở synthetic, nên chưa được chấp nhận. V30 bổ sung các thao tác chuẩn an toàn (`filter`, `map`, unbound string methods đã được phép, nhóm regex); thông báo rõ cách gọi constructor datetime. Giữ giới hạn AST, thời gian/bộ nhớ và cấm I/O/introspection. Nhận dạng cộng/nhân tích lũy bằng vòng lặp tương đương aggregation trong một bảng phẳng đã xác minh, tránh review nhầm nhãn bản ghi lặp thành các section khác nhau. Trường hợp lookup mơ hồ hoặc qualifier sai vẫn bị kiểm tra. Tests dùng dữ liệu mới và đối chiếu tra cứu mơ hồ.
+
+Nguồn: `efficiency_v30_low4/summary.json` và `compositional_v1_proof/summary.json` dưới `reports/optimization`. Source/config được khóa trước inference, không đổi khi đánh giá bộ mới.
+
+| Bộ v30 | Exact Match | Tổng giây | Token API |
+| --- | --- | --- | --- |
+| Baseline public | 20/20 | 26,571 | 198.054 |
+| Candidate public 1 | 20/20 | 19,748 | 112.116 |
+| Candidate public 2 | 20/20 | 7,482 | 87.844 |
+| Candidate public 3 | 20/20 | 12,303 | 129.604 |
+| Regression 60 | 60/60 | 31,748 | 164.332 |
+| Regression 32 | 32/32 | 9,525 | 64.524 |
+| Known 18 | 18/18 | 6,545 | 43.166 |
+| Synthetic 24 | 24/24 | 10,140 | 51.935 |
+| Robustness đã biết 24 | 24/24 | 7,254 | 35.158 |
+
+Public trung bình **13,177 giây / 109.854,67 token**; không loại lượt chậm khỏi trung bình. RSS đỉnh qualification **135,14 MiB**. So với v17 (9,904 giây / 102.380,67 token), public chưa nhanh hơn; v30 có thêm các sửa lỗi tổng quát và bằng chứng trên họ bài mới.
+
+Kiểm định độc lập gồm đường găng DAG, tương quan hạng có ties và relational division. Oracle lần lượt duyệt đường đi độc lập, so sánh hạng từng cặp bằng Fraction và SQLite, được kiểm tra tay trước inference. Bảng/cột được dịch, đảo và có archive nhiễu. Không dùng đáp án để chọn dữ liệu hay sinh code.
+
+| Kiểm định compositional 18 | Baseline | Candidate |
+| --- | --- | --- |
+| Exact Match | 17/18 | **18/18** |
+| Tổng giây | 38,904 | 29,111 |
+| Token API | 150.339 | 63.404 |
+| HTTP attempts | 30 | 10 |
+| Độ trễ trung bình theo trace | 4,107 giây | 5,232 giây |
+| RSS tổng đỉnh | 76,78 MiB | 102,67 MiB |
+
+Baseline đã chạy đủ 18 câu nhưng một câu hết lượt sửa do import không được hỗ trợ; không phải lỗi mạng. Vì vậy `generation_complete=true`, còn `complete=false` theo định nghĩa không có lỗi của harness; candidate không lỗi. Usage đầy đủ, không thay token thiếu bằng 0. Giảm tổng thời gian thể hiện throughput; không khẳng định giảm độ trễ từng câu. Bộ này đã tiêu thụ, chỉ được dùng như regression từ đây.
+
+Nghiệm thu mã hiện tại: **263 test passed**, Ruff check và format đạt. Cần tiếp tục giảm retry/import không hỗ trợ và kiểm chứng bằng Qwen trước khi chọn gói thi cuối. Chi phí phát triển gateway được coi miễn phí theo xác nhận người dùng, tách khỏi cost do API báo; đợt này không gọi Qwen trả phí.
+
+Kiểm tra thêm cùng source/config, sau khi kiểm định mới đã kết thúc:
+
+| Regression mở rộng | Exact Match | Tổng giây | Token |
+| --- | --- | --- | --- |
+| Structural đã dùng | 18/18 | 13,792 | 90.065 |
+| Generalization đã dùng | 17/18 | 33,172 | 95.054 |
+| Transfer đã dùng | 24/24 | 6,679 | 44.363 |
+
+Một câu generalization có chương trình đầu tính đúng nhưng bị review do nhiều tên dimension xuất hiện trong câu hỏi bị xem như điều kiện AND trên từng bản ghi. Các lượt sửa tiếp theo dùng NumPy không được hỗ trợ rồi nhầm `cells()[0]` với scalar. Đây là lỗi còn mở, không xóa khỏi thống kê hoặc coi 18/18 ở lượt khác là thay thế. Qualification chính đạt 158/158 regression; kiểm tra mở rộng đạt 59/60, tổng **217/218 câu đã biết**, tách khỏi public lặp và 18 câu độc lập mới. Tập độc lập mới đã tiêu thụ; mọi sửa theo lỗi của nó cần một kiểm định mới.
+
+ZIP phát triển đã được giải nén ở thư mục riêng, không mang khóa môi trường: **245 test passed**, Ruff check/format đạt; 18 test Colab được loại khỏi gói cùng các công cụ GPU. ZIP nguồn khoảng 0,25 MB, có quét khóa thật trong `.env`, không đóng gói `.env`, dữ liệu/đáp án, model, cache hoặc môi trường ảo. Đây là candidate phát triển, chưa phải xác nhận nộp thi cuối.
 
 Qwen signoff chưa gọi inference trả phí: preflight tín dụng dừng trước request, `new_generations=0`, `promoted=false`. `run.py` giữ model thi và cấu hình mặc định. Chi phí Gemini bằng 0 theo xác nhận của người dùng; không gọi đó là chi phí đo được khi API không báo cost.

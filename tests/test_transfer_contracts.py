@@ -196,6 +196,43 @@ def test_keyed_decoder_preserves_usage_for_invalid_choices(choices: list[Any]) -
     assert agent._read_response(io.BytesIO(json.dumps(data).encode())) == data
 
 
+def test_compositional_oracles_are_hand_checked_and_frozen(tmp_path: Path) -> None:
+    import csv
+
+    from benchmarks.compositional_holdout import generate
+
+    root = tmp_path / "new_families"
+    generate(root)
+    with (root / "references.csv").open(newline="") as stream:
+        answers = [row["answer"] for row in csv.DictReader(stream)]
+    assert answers == [
+        "16",
+        "Survey, Design, Review, Launch",
+        "4",
+        "15",
+        "1",
+        "9",
+        "0.764706",
+        "2.500000",
+        "3.000000",
+        "8",
+        "2.166667",
+        "Nora",
+        "3",
+        "ACME Inc., Blue Co., Echo Ltd.",
+        "96",
+        "ACME Inc.",
+        "32.00",
+        "2",
+    ]
+    manifest = json.loads((root / "manifest.json").read_text())
+    assert manifest["questions"] == 18 and len(manifest["families"]) == 3
+    for name, expected in manifest["hashes"].items():
+        assert hashlib.sha256((root / name).read_bytes()).hexdigest() == expected
+    with pytest.raises(ValueError, match="Preserve"):
+        generate(root)
+
+
 def test_keyed_decoder_normalizes_only_unambiguous_single_or_shared_metadata() -> None:
     from benchmarks.batched import parse_plans
 

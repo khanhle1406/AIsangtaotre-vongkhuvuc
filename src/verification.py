@@ -1159,7 +1159,9 @@ def scope_risks(
     aggregate_program = bool(
         tree is not None
         and any(
-            isinstance(node, ast.Call)
+            isinstance(node, ast.AugAssign)
+            and isinstance(node.op, (ast.Add, ast.Mult))
+            or isinstance(node, ast.Call)
             and isinstance(node.func, ast.Name)
             and node.func.id in {"sum", "len", "mean", "fmean"}
             for node in ast.walk(tree)
