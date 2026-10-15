@@ -1,5 +1,6 @@
 """Gateway routing, streaming, quotas and resume must fail closed without paid calls."""
 
+import hashlib
 import io
 import json
 import time
@@ -55,7 +56,33 @@ def test_gateway_payload_and_missing_usage_are_explicit(tmp_path: Path) -> None:
     assert "reasoning" not in body and "usage" not in body
     assert s.calls[0]["tokens_estimated"] and s.tokens > 8192
     assert s.calls[0]["provider_cost_usd"] is None
+    assert (
+        s.calls[0]["payload_sha256"]
+        == hashlib.sha256(
+            json.dumps(
+                body, sort_keys=True, ensure_ascii=False, separators=(",", ":")
+            ).encode()
+        ).hexdigest()
+    )
     assert DEFAULT_MODEL == "qwen/qwen3.7-flash"
+
+
+def test_requested_temperature_is_validated_logged_and_hashed(tmp_path: Path) -> None:
+    hashes = []
+    for value in [0.0, 1.0]:
+        agent = make_agent(tmp_path / str(value), temperature=value)
+        state = QueryState(time.monotonic() + 60, 0.09)
+        with patch.object(
+            agent, "_open_request", return_value=completion({"total_tokens": 10})
+        ) as request:
+            agent._request([{"role": "user", "content": "same input"}], state)
+        assert json.loads(request.call_args.args[0].data)["temperature"] == value
+        assert state.calls[0]["temperature"] == value
+        hashes.append(state.calls[0]["payload_sha256"])
+    assert hashes[0] != hashes[1]
+    for invalid in [True, -0.1, 1.1, float("nan"), float("inf"), "0"]:
+        with pytest.raises(ValueError, match="temperature"):
+            make_agent(tmp_path / "invalid", temperature=invalid)
 
 
 def test_adaptive_thinking_is_per_query_and_does_not_change_fixed_baseline(

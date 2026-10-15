@@ -131,6 +131,7 @@ def qualify(
         "public_repetitions": 3,
         "configuration": {
             "thinking": thinking,
+            "temperature": agent_class.default_temperature,
             "concurrency": concurrency,
             "review_candidate": review_candidate,
             "deduplicate_headers": deduplicate_headers,

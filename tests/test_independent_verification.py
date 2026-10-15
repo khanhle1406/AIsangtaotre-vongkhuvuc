@@ -14,6 +14,66 @@ from src.executor import execute_program
 from src.verification import named_row_scope_risks
 
 
+def test_header_domain_review_is_fresh_even_when_candidate_audit_is_enabled(
+    tmp_path: Path,
+) -> None:
+    from src.llm_agent import LLMAgent
+
+    book = openpyxl.Workbook()
+    sheet = book.active
+    sheet["F407"], sheet["F408"], sheet["F409"] = "Category", "Birch", "Cedar"
+    path = tmp_path / "moved.xlsx"
+    book.save(path)
+    book.close()
+    data = load_workbook_data(path)
+    first = "r=data_rows('Sheet',{'F':'string'},407,409);result=len([cell('Sheet','F'+str(i)) for i in r])"
+    second = first.replace("407,409", "408,409")
+    agent = LLMAgent(api_key="test-placeholder", pricing=(0, 0), review_candidate=True)
+    with patch.object(
+        agent,
+        "_request",
+        side_effect=[
+            json.dumps({"code": c, "format": {"kind": "integer"}})
+            for c in [first, second]
+        ],
+    ) as request:
+        result = agent.solve_workbook(
+            data, "How many required categories are listed? Answer as an integer."
+        )
+    assert result.answer == "2" and result.error is None and request.call_count == 2
+    assert result.attempts[0]["verification_mode"] == "fresh-selection"
+    assert all(first not in m["content"] for m in request.call_args_list[1].args[0])
+
+
+def test_repeated_runtime_failure_gets_fresh_third_prompt() -> None:
+    from src.llm_agent import LLMAgent
+
+    book = WorkbookData(
+        {"Events": SheetData("Events", cells={"C407": CellData(23, "number")})}
+    )
+    invalid = "v=num('Events','C407');result=v+missing"
+    valid = "result=num('Events','C407')*2"
+    agent = LLMAgent(api_key="test-placeholder", pricing=(0, 0))
+    responses = [
+        json.dumps({"code": code, "format": {"kind": "integer"}})
+        for code in [invalid, invalid, valid]
+    ]
+    with patch.object(agent, "_request", side_effect=responses) as request:
+        result = agent.solve_workbook(
+            book, "Return twice the stored Units as an integer."
+        )
+    assert result.answer == "46" and result.error is None and request.call_count == 3
+    assert invalid in request.call_args_list[1].args[0][-1]["content"]
+    assert (
+        "same failure occurred twice"
+        in request.call_args_list[2].args[0][-1]["content"]
+    )
+    assert all(invalid not in m["content"] for m in request.call_args_list[2].args[0])
+    assert any(
+        a.get("repair_mode") == "fresh-after-repeated-failure" for a in result.attempts
+    )
+
+
 @pytest.mark.parametrize("column", ["A", "G", "AA"])
 def test_named_record_binding_uses_actual_rows_and_preserves_joins(
     tmp_path: Path, column: str

@@ -7,7 +7,9 @@ from typing import Any, ClassVar
 from src.excel_parser import WorkbookData, load_workbook_data
 from src.executor import ExecutionResult
 
+from .backend_view import backend_view
 from .batched import BatchedAgent
+from .efficient import dense_text
 from .structured_batch import CoherentPlanningAgent, StructuredBatchedAgent
 
 
@@ -193,6 +195,57 @@ class IndependentPackedAgent(ParallelPackedAgent):
         )
 
 
+class SampledPackedAgent(ParallelPackedAgent):
+    """Plan from a disclosed sample; all source validation/execution remains complete."""
+
+    def planning_text(self, workbook: WorkbookData, wire: dict[str, Any]) -> str:
+        return backend_view(
+            workbook,
+            wire,
+            column_catalog=self.column_catalog,
+            deduplicate_headers=self.deduplicate_headers,
+        )
+
+
+class NarrowSampledPackedAgent(SampledPackedAgent):
+    """Give four programs the same output headroom as the eight-program experiment."""
+
+    maximum_group_size: ClassVar[int] = 4
+
+
+class RawPackedAgent(ParallelPackedAgent):
+    """Keep all original cells/metadata; omit only advisory derived header paths."""
+
+    def planning_text(self, workbook: WorkbookData, wire: dict[str, Any]) -> str:
+        return dense_text(
+            workbook,
+            wire,
+            column_catalog=self.column_catalog,
+            header_hints=False,
+        )
+
+
+class AllPackedAgent(PackedAgent):
+    """Compare one bounded shared plan for every question, retaining all validations."""
+
+    @staticmethod
+    def independent_question(question: dict[str, Any]) -> bool:
+        return False
+
+
+class TenPackedAgent(AllPackedAgent):
+    """Test two plans for twenty questions with explicit extra output headroom."""
+
+    maximum_group_size: ClassVar[int] = 10
+    planning_max_tokens: ClassVar[int | None] = 6144
+
+
+class GreedyPackedAgent(ParallelPackedAgent):
+    """Isolate requested temperature zero; keep the control's planning and checks."""
+
+    default_temperature: ClassVar[float] = 0.0
+
+
 PLANNING_PROFILES: dict[str, type[BatchedAgent]] = {
     "same-book": StructuredBatchedAgent,
     "coherent": CoherentPlanningAgent,
@@ -200,6 +253,12 @@ PLANNING_PROFILES: dict[str, type[BatchedAgent]] = {
     "parallel8": ParallelPackedAgent,
     "parallel16": WidePackedAgent,
     "independent8": IndependentPackedAgent,
+    "sampled8": SampledPackedAgent,
+    "sampled4": NarrowSampledPackedAgent,
+    "raw8": RawPackedAgent,
+    "all8": AllPackedAgent,
+    "all10": TenPackedAgent,
+    "greedy8": GreedyPackedAgent,
 }
 
 

@@ -2,7 +2,7 @@
 
 Các số dưới đây là **Gemini 3 Flash sinh mới**, không dùng replay làm benchmark LLM. Chúng không chứng minh điểm private của BTC hoặc điểm Qwen3.7 Flash. Ưu tiên Exact Match → thời gian → token.
 
-Mốc public **v52** đạt **20/20 cả ba lần**, trung bình **6,543 giây / 83.712 token**, giảm **73,07% thời gian / 59,86% token** so với baseline cùng đợt. Nhưng ngoài public chỉ đạt **249/254**, thấp hơn mốc 253/254: **chưa chấp nhận cấu hình này**. So với trung bình public v17, mức giảm khoảng **33,94% thời gian / 18,24% token**, chưa đạt 50% so với mốc lịch sử. Lượt mới **v54** đạt public **20, 20, 19**, ngoài public **250/254** và chậm hơn baseline cùng đợt; cũng chưa được chấp nhận. Bản sửa giới hạn kiểm chứng sau v54 mới kiểm thử offline. **Chưa chọn bản nộp** hoặc xác nhận Qwen/private BTC; không ghép điểm từ nhiều phiên để tạo một lượt đủ điểm.
+Lượt đầy đủ mới **v60** đạt public **19, 19, 20**, ngoài public **252/254**. Public trung bình **10,490 giây / 99.556,33 token**, giảm **54,82% thời gian / 53,32% token** so với baseline cùng đợt; **chưa chấp nhận vì độ đúng chưa đạt**. Mốc public **v52** vẫn nhanh hơn: **20/20 cả ba lần**, **6,543 giây / 83.712 token**, nhưng ngoài public chỉ **249/254**. So với trung bình public v17, v52 chỉ giảm khoảng **33,94% thời gian / 18,24% token**, chưa đạt 50% so với mốc lịch sử. Bổ sung deque sau v60 mới kiểm thử offline. **Chưa chọn bản nộp** hoặc xác nhận Qwen/private BTC; không ghép điểm từ nhiều phiên để tạo một lượt đủ điểm.
 
 V41 trước đó đạt public 20/20 ba lượt, trung bình 11,007 giây / 126.576,33 token, decision 17/18. Các kết quả này vẫn thuộc snapshot v41, không thay cho đánh giá v44.
 
@@ -347,3 +347,41 @@ Xử lý đủ 334 câu, không có lỗi hết allowance trong từng câu. H�
 Hai chương trình regression đã sửa đúng ở lượt hai nhưng bị mất đáp án khi lần giải độc lập cuối sinh lỗi. **Bản checkpoint sau V54** chỉ bắt đầu cơ chế hai lời giải khi còn đủ hai lượt cho giải mới và phân xử; nếu thiếu lượt, ghi rõ đã bỏ qua kiểm chứng độc lập, vẫn giữ mọi kiểm tra nguồn/ngữ nghĩa thông thường. Sửa này có unit test, **chưa có benchmark Gemini mới**. Signoff Qwen cũng chặn profile phát triển chưa được transport chính thức triển khai, tránh chạy nhầm cùng-workbook rồi tuyên bố đã xác nhận packing. Không có request Qwen trả phí mới.
 
 Cấu hình gộp và giải độc lập vẫn là thử nghiệm qua `--planning-profile`; mặc định CLI thi không được đổi. Bộ prospective 18 câu vẫn chưa mở vì gate thất bại. Mốc 253/254 trước đây cũng thuộc dữ liệu đã tiêu thụ; chưa có bằng chứng cải thiện private BTC.
+
+
+## V56–v61: đối chiếu biểu diễn, kích thước nhóm và temperature
+
+Các đợt sàng lọc bên dưới đều chạy cùng 92 câu đã biết, luân phiên thứ tự các cấu hình giữa các bộ. Mỗi đợt giữ trần riêng 30 phút / 200 HTTP attempts / 2 triệu token, không đặt lại một đợt đã tiêu thụ. Không dùng replay thay cho sinh mới.
+
+| Đợt / cấu hình | Exact Match | Tổng giây | Token API |
+| --- | --- | --- | --- |
+| V56 đầy đủ | 87/92 | 117,408 | 289.715 |
+| V56 mẫu số, backend đầy đủ | 91/92 | 131,207 | 366.059 |
+| V56 giữ mọi ô, bỏ gợi ý tiêu đề suy ra | 90/92 | 137,534 | 403.592 |
+| V57 lập lịch cũ, nhóm 8 | 89/92 | 103,513 | 398.678 |
+| V57 gộp mọi câu, nhóm 8 | 88/92 | 132,278 | 395.588 |
+| V57 gộp mọi câu, nhóm 10 | 89/92 | 158,006 | 417.031 |
+| V59 temperature 1 | 91/92 | 70,615 | 296.468 |
+| V59 temperature 0 | 90/92 | 154,787 | 450.037 |
+
+**Không nhận các biến thể biểu diễn/gộp câu; giữ temperature 1.** V56 tuy có điểm khác nhau nhưng kiểm tra lại phát hiện workbook view đầy đủ và view mẫu **giống hệt nhau ở cả 12 nhóm ngoài public**. Chênh lệch điểm ở các nhóm đó là biến động sinh, không thể gán cho sampling. Ba trong bốn nhóm public có view khác; một nhóm giữ nguyên. Kiểm tra này chỉ so workbook view, không khẳng định kiểm soát toàn bộ ngữ cảnh nội bộ của gateway. Bỏ gợi ý tiêu đề vẫn giữ mọi ô gốc và metadata; sampling công bố chính xác phần bỏ khỏi view, dữ liệu worker không bị cắt, và tự dùng biểu diễn đầy đủ nếu bản mẫu không ngắn hơn.
+
+V57 riêng public: cả ba đạt 20/20. Đối chiếu nhóm 8 dùng 113.159 token, gộp toàn bộ nhóm 8 dùng 64.797 token; đây chỉ là một lượt public. Tổng 92 câu không cải thiện độ đúng hoặc hiệu suất nên không chọn theo lượt public đó.
+
+| Kiểm tra đầy đủ | V58 | V60 |
+| --- | --- | --- |
+| Baseline public | 20/20; 23,678 giây; 192.698 token | 20/20; 23,216 giây; 213.288 token |
+| Ba lượt public candidate | 20, 20, 19 | 19, 19, 20 |
+| Public trung bình | 17,456 giây; 103.028 token | 10,490 giây; 99.556,33 token |
+| Ngoài public đã biết | 251/254 | 252/254 |
+| Tổng giây / token ngoài public | 281,221 / 690.756 | 157,990 / 522.876 |
+| RSS tổng đỉnh | 120,78 MiB | 161,98 MiB |
+| HTTP attempts / token toàn đợt | 143 / 1.192.538 | 122 / 1.034.833 |
+
+Hai đợt đều xử lý đủ 334 câu và có usage đầy đủ; không có câu bị bỏ do quota. V60 giảm 54,82% thời gian và 53,32% token so với baseline public cùng đợt, nhưng độ đúng không qua gate. Khác biệt giữa V58/V60 là mô tả hai phiên, không phải phép đo nhân quả riêng của một sửa đổi.
+
+Các sửa có nguyên nhân tái hiện được: `sheets` giữ giao diện list và thêm `sheets()` trả bản sao; constructor `datetime(...)` tương đương `datetime.datetime(...)`; chuẩn hóa nhãn có kiểu để nối từ bị ngắt dòng và giữ dấu câu; sửa unpack theo đúng chiều rộng ở vòng lặp ngoài hàm dù chương trình có khai báo hàm; kiểm tra header trong cả `data_rows` có giới hạn dòng; dùng lượt chọn nguồn mới cho header mơ hồ; đổi sang cài đặt mới sau hai lỗi lặp thay vì tiếp tục gửi cùng code hỏng. Cảnh báo xếp hạng chỉ miễn trừ phép so sai số đối xứng rất nhỏ `abs(a-b)<epsilon`; phép trừ có dấu trong điều kiện vẫn được kiểm tra. `selection` vẫn được kiểm tra nghiêm ngặt nếu model trả về, còn prompt ưu tiên bỏ metadata tùy chọn này vì đã có log đọc ô đầy đủ.
+
+V60 còn bốn câu sai: một câu public chọn cột seasonally adjusted dù câu hỏi gọi unadjusted; một câu public lỗi envelope/JSON; một câu ngày biến động chọn sai ngày; một chương trình đường găng không chạy được do thiếu deque. Đọc cả bảng hiện có thể che việc thực sự chỉ dùng cột khác: đây là hạn chế cần sửa, không coi code chạy được là bằng chứng đúng nguồn.
+
+Sau khi khóa và kết thúc V60, checkpoint **V61** bổ sung `collections.deque` có giới hạn input/output và phép lặp, không âm thầm làm rơi phần tử trừ khi code chủ động chọn `maxlen`. Chạy lại nguyên chương trình đã lưu, không sửa nguồn hay phép tính, cho đúng chuỗi đường găng. Đây là **replay offline**, không cộng thành 253/254 của một lượt LLM mới. Root **368 test**, Ruff check và format đều đạt. Bộ prospective 18 câu vẫn chưa mở vì gate thất bại; chưa có xác nhận Qwen hoặc private BTC.

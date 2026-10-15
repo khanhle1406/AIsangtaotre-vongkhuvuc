@@ -153,17 +153,21 @@ class BatchPlanningMixin:
             )
         )
 
-    def solve_workbook(
-        self, workbook: WorkbookData, query: str, max_retries: int = 2
-    ) -> SolveResult:
-        """Use the same lossless encoding for individual repairs as shared planning."""
-        wire = workbook.wire()
-        text = dense_text(
+    def planning_text(self, workbook: WorkbookData, wire: dict[str, Any]) -> str:
+        """Keep the shared plan and its per-question repairs on the same encoding."""
+        return dense_text(
             workbook,
             wire,
             column_catalog=self.column_catalog,
             deduplicate_headers=self.deduplicate_headers,
         )
+
+    def solve_workbook(
+        self, workbook: WorkbookData, query: str, max_retries: int = 2
+    ) -> SolveResult:
+        """Use the same lossless encoding for individual repairs as shared planning."""
+        wire = workbook.wire()
+        text = self.planning_text(workbook, wire)
         if len(text.encode()) > 800_000:
             text = project_workbook(wire, query)
         return self._solve(text, wire, query, max_retries)
@@ -213,12 +217,7 @@ class BatchPlanningMixin:
         state = QueryState(self.deadline, self.query_budget)
         state.max_tokens = self.planning_max_tokens
         wire = workbook.wire()
-        text = dense_text(
-            workbook,
-            wire,
-            column_catalog=self.column_catalog,
-            deduplicate_headers=self.deduplicate_headers,
-        )
+        text = self.planning_text(workbook, wire)
         date_hints = []
         for index, question in enumerate(questions):
             owned_book = self.question_workbook(workbook, question)
@@ -354,6 +353,7 @@ def run_batched_stage(
         "base_url": settings["gateway_url"],
         "helper_contract": False,
         "thinking": thinking,
+        "temperature": agent_class.default_temperature,
         "verification_thinking": getattr(agent_class, "verification_thinking", None),
         "adaptive_thinking": f"high only after two prior HTTP attempts; otherwise {thinking}",
         "max_tokens": 2048,

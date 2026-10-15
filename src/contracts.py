@@ -89,7 +89,10 @@ def row_unpack_contract(
     tree = ast.parse(code)
     nodes = list(ast.walk(tree))
     if any(
-        isinstance(node, (ast.FunctionDef, ast.Lambda))
+        isinstance(node, ast.FunctionDef)
+        and node.name in {"values", "cells"}
+        or isinstance(node, ast.arg)
+        and node.arg in {"values", "cells"}
         or isinstance(node, ast.Name)
         and node.id in {"values", "cells"}
         and isinstance(node.ctx, ast.Store)
@@ -109,6 +112,15 @@ def row_unpack_contract(
     for generator in nodes:
         if not isinstance(generator, (ast.For, ast.comprehension)):
             continue
+        ancestor = generator
+        while ancestor in parents:
+            ancestor = parents[ancestor]
+            if isinstance(ancestor, (ast.FunctionDef, ast.Lambda)):
+                break
+        else:
+            ancestor = None
+        if ancestor is not None:
+            continue  # Only module-level sources have proven binding ownership here.
         target = generator.target
         if not isinstance(target, (ast.Tuple, ast.List)) or not all(
             isinstance(item, ast.Name) for item in target.elts

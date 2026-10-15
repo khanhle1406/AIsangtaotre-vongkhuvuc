@@ -2,7 +2,7 @@
 
 Giải pháp dùng `qwen/qwen3.7-flash` qua OpenRouter để chọn dữ liệu và sinh chương trình Python; phép tính chạy cục bộ trên giá trị thật trong workbook. Không đọc đáp án mẫu, không tra kết quả theo ID hoặc tên file.
 
-Xem [benchmark hiện tại](docs/CURRENT_BENCHMARK.md): mốc public v52/Gemini đạt 20/20 ba lượt, trung bình 6,543 giây / 83.712 token, giảm 73,07% thời gian / 59,86% token so với baseline cùng đợt. Tuy nhiên ngoài public chỉ đạt 249/254; chưa chấp nhận cấu hình này. Lượt mới v54 thử giải độc lập nhiều sheet: public 20, 20, 19 và ngoài public 250/254, cũng chưa đạt gate. So với public trung bình v17, v52 chỉ giảm khoảng 33,94% thời gian / 18,24% token, chưa đạt mục tiêu 50% so với mốc lịch sử. Bản sửa giới hạn kiểm chứng sau v54 mới được kiểm thử offline. Chưa chốt bản nộp hoặc xác nhận Qwen/private BTC; mọi kết quả thất bại được giữ riêng.
+Xem [benchmark hiện tại](docs/CURRENT_BENCHMARK.md): lượt đầy đủ v60/Gemini đạt public 19, 19, 20; ngoài public 252/254. Public trung bình 10,490 giây / 99.556,33 token, giảm 54,82% thời gian / 53,32% token so với baseline cùng đợt, nhưng **chưa đạt yêu cầu độ đúng nên không được chọn**. Mốc public nhanh hơn v52 vẫn là 20/20 ba lượt, 6,543 giây / 83.712 token, với ngoài public chỉ 249/254. So với mốc lịch sử v17, chưa đạt giảm 50% cho cả hai thông số. Thử rút biểu diễn, gộp 10 câu và temperature 0 chưa được chấp nhận. Bản bổ sung deque sau v60 mới qua kiểm thử offline; chưa chốt bản nộp hoặc xác nhận Qwen/private BTC.
 
 Xem [báo cáo giai đoạn đầu](docs/BENCHMARK.md): Gemini sinh mới đạt public 20/20 và holdout độc lập 23/24; candidate chưa được xác nhận bằng Qwen. Các công cụ Colab được giữ để tham khảo lịch sử, không thuộc luồng chạy hiện tại hoặc gói thi.
 

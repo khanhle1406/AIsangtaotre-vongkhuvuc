@@ -1,6 +1,7 @@
 """Explicit Gemini development transport with persistent, conservative batch limits."""
 
 import fcntl
+import hashlib
 import json
 import math
 import os
@@ -9,7 +10,7 @@ import time
 import urllib.parse
 import urllib.request
 from pathlib import Path
-from typing import Any
+from typing import Any, ClassVar
 
 from src.llm_agent import LLMAgent, QueryState
 
@@ -137,6 +138,8 @@ class BatchLimits:
 class GatewayAgent(LLMAgent):
     """No paid fallback, no OpenRouter parameters, no implicit model changes."""
 
+    default_temperature: ClassVar[float] = 1.0
+
     def __init__(
         self,
         *,
@@ -145,12 +148,25 @@ class GatewayAgent(LLMAgent):
         batch_limits: BatchLimits,
         thinking: str | None = "low",
         adaptive_thinking: bool = False,
+        temperature: float | None = None,
         **kwargs: Any,
     ) -> None:
         if thinking not in {None, "low", "minimal", "medium", "high"}:
             raise ValueError("Unsupported gateway thinking profile")
         if type(adaptive_thinking) is not bool:
             raise TypeError("adaptive_thinking must be a boolean")
+        selected_temperature = (
+            self.default_temperature if temperature is None else temperature
+        )
+        if (
+            type(selected_temperature) not in {int, float}
+            or not math.isfinite(selected_temperature)
+            or not 0 <= selected_temperature <= 1
+        ):
+            raise ValueError(
+                "Development temperature must be finite and between zero and one"
+            )
+        self.temperature = selected_temperature
         if not kwargs.get("api_key"):
             raise ValueError("DEV_LLM_API_KEY is required; judge key is never used")
         self.gateway_url = gateway_base(gateway_url)
@@ -242,11 +258,16 @@ class GatewayAgent(LLMAgent):
     def _before_request(self, payload: dict[str, Any], state: QueryState) -> None:
         payload.pop("reasoning", None)
         payload.pop("usage", None)
-        payload["temperature"] = 1.0
+        payload["temperature"] = self.temperature
         thinking = self._thinking_for_request(state)
         if thinking is not None:
             payload["reasoning_effort"] = thinking
         self.request_local.thinking = thinking
+        self.request_local.payload_sha256 = hashlib.sha256(
+            json.dumps(
+                payload, sort_keys=True, ensure_ascii=False, separators=(",", ":")
+            ).encode()
+        ).hexdigest()
         bound = (
             sum(len(m["content"].encode()) + 64 for m in payload["messages"])
             + payload["max_tokens"]
@@ -304,7 +325,8 @@ class GatewayAgent(LLMAgent):
             )
         record["reserved_token_bound"] = self.request_local.bound
         record["thinking"] = self.request_local.thinking or "unknown"
-        record["temperature"] = 1.0
+        record["temperature"] = self.temperature
+        record["payload_sha256"] = self.request_local.payload_sha256
         self.batch_limits.update(
             ticket=self.request_local.ticket, actual=record.get("provider_total_tokens")
         )

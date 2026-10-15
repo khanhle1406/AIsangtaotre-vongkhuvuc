@@ -12,9 +12,13 @@ import pytest
 from benchmarks.batched import run_batched_stage
 from benchmarks.gateway import BatchLimits, GatewayAgent
 from benchmarks.packed import (
+    PLANNING_PROFILES,
+    AllPackedAgent,
     DeferredBooks,
     PackedAgent,
     ParallelPackedAgent,
+    SampledPackedAgent,
+    TenPackedAgent,
     WidePackedAgent,
     namespace_books,
 )
@@ -116,6 +120,22 @@ def test_probability_complements_do_not_claim_cross_sheet_subtraction_ambiguity(
             book, execute_program(difference, book), question, difference
         )
     )
+    tolerance = (
+        code.split("scores=", 1)[0]
+        + "scores=[a*b,c*d];top=max(scores);result=sorted([n for n,v in zip(names,scores) if abs(v-top)<1e-9])[0]"
+    )
+    tied = execute_program(tolerance, book)
+    assert tied.success and tied.result == "Cedar"
+    assert not scope_risks(book, tied, question, tolerance)
+    signed_predicate = (
+        code.split("scores=", 1)[0] + "result=names[0] if a-b>0 else names[1]"
+    )
+    assert any(
+        "Cross-sheet derived rank" in risk
+        for risk in scope_risks(
+            book, execute_program(signed_predicate, book), question, signed_predicate
+        )
+    )
 
 
 @pytest.mark.parametrize(
@@ -174,7 +194,16 @@ def test_format_metadata_only_normalizes_identical_typed_duplicates(
 @pytest.mark.parametrize(
     "mode", ["normal", "foreign", "region", "independent", "large_view", "memory"]
 )
-@pytest.mark.parametrize("agent_class", [PackedAgent, ParallelPackedAgent])
+@pytest.mark.parametrize(
+    "agent_class",
+    [
+        PackedAgent,
+        ParallelPackedAgent,
+        SampledPackedAgent,
+        AllPackedAgent,
+        TenPackedAgent,
+    ],
+)
 def test_packed_stage_owns_sources_in_every_path_and_resumes(
     tmp_path: Path, mode: str, agent_class: type[PackedAgent]
 ) -> None:
@@ -261,15 +290,15 @@ def test_packed_stage_owns_sources_in_every_path_and_resumes(
         result.headers = {"Content-Type": "application/json"}
         return result
 
-    from benchmarks.efficient import dense_text
+    original_view = agent_class.planning_text
 
-    def view(book: WorkbookData, wire: dict[str, Any], **kwargs: Any) -> str:
+    def view(agent: PackedAgent, book: WorkbookData, wire: dict[str, Any]) -> str:
         from benchmarks.packed import ScopedBooks
 
         return (
             "x" * 800_001
             if isinstance(book, ScopedBooks)
-            else dense_text(book, wire, **kwargs)
+            else original_view(agent, book, wire)
         )
 
     from contextlib import ExitStack
@@ -280,9 +309,7 @@ def test_packed_stage_owns_sources_in_every_path_and_resumes(
             patch.object(GatewayAgent, "_open_request", side_effect=respond)
         )
         if mode == "large_view":
-            stack.enter_context(
-                patch("benchmarks.batched.dense_text", side_effect=view)
-            )
+            stack.enter_context(patch.object(agent_class, "planning_text", view))
         if mode == "memory":
             stack.enter_context(patch.object(agent_class, "file_cache_bytes", 1))
             assert isinstance(agent_class.load_group(files, queries), DeferredBooks)
@@ -306,13 +333,15 @@ def test_packed_stage_owns_sources_in_every_path_and_resumes(
         assert first["tokens"] == first["tokens_conservative_upper"] == 101 * count
         assert first["http_attempts"] == count and first["usage_missing_attempts"] == 0
         if mode == "normal":
-            assert count == 1 and seen_limits == [4096]
+            assert count == 1 and seen_limits == [agent_class.planning_max_tokens]
             from benchmarks.batched_cli import solve
             from benchmarks.budget import DevelopmentBudget
 
             query_path = tmp_path / "different queries.json"
             query_path.write_text(json.dumps(queries))
-            profile = "packed8" if agent_class is PackedAgent else "parallel8"
+            profile = next(
+                name for name, cls in PLANNING_PROFILES.items() if cls is agent_class
+            )
             with (
                 patch(
                     "benchmarks.batched_cli.workspace_budget",
@@ -341,7 +370,7 @@ def test_packed_stage_owns_sources_in_every_path_and_resumes(
                 )
             count = calls.call_count
         if mode in {"foreign", "region"}:
-            assert count == 2 and seen_limits == [4096, 2048]
+            assert count == 2 and seen_limits == [agent_class.planning_max_tokens, 2048]
         # Any input change must invalidate the checkpoint before another call.
         book = openpyxl.load_workbook(files / "z.xlsx")
         book.active["D408"] = 73
@@ -352,13 +381,19 @@ def test_packed_stage_owns_sources_in_every_path_and_resumes(
         assert calls.call_count == count
 
 
+@pytest.mark.parametrize(
+    "agent_class,count,cap", [(WidePackedAgent, 16, 8192), (TenPackedAgent, 20, 6144)]
+)
 def test_sixteen_colliding_sheet_names_keep_ownership_and_exact_token_allocation(
     tmp_path: Path,
+    agent_class: type[PackedAgent],
+    count: int,
+    cap: int,
 ) -> None:
     files = tmp_path / "books"
     files.mkdir()
     queries = []
-    for i in range(16):
+    for i in range(count):
         book = openpyxl.Workbook()
         book.active.title = "Same"
         book.active["A1"], book.active["B1"] = "Entity", "Units"
@@ -375,18 +410,18 @@ def test_sixteen_colliding_sheet_names_keep_ownership_and_exact_token_allocation
         )
     refs = tmp_path / "gold.csv"
     refs.write_text(
-        "id,answer\n" + "\n".join(f"{i},{20 + i}" for i in range(16)) + "\n"
+        "id,answer\n" + "\n".join(f"{i},{20 + i}" for i in range(count)) + "\n"
     )
 
     def respond(request: Any, **kwargs: Any) -> io.BytesIO:
         payload = json.loads(request.data)
-        assert payload["max_tokens"] == 8192
+        assert payload["max_tokens"] == cap
         questions = json.loads(
             payload["messages"][-1]["content"]
             .split("\nQUESTIONS:\n", 1)[1]
             .split("\n" + ACCURACY_CONTRACT, 1)[0]
         )
-        assert len(questions) == 16
+        assert len(questions) == agent_class.maximum_group_size
         programs = {
             f"q{i}": {
                 "code": f'result=num({q["allowed_sheets"][0]!r},"B2")',
@@ -429,8 +464,10 @@ def test_sixteen_colliding_sheet_names_keep_ownership_and_exact_token_allocation
             refs,
             BatchLimits(tmp_path / "batch.json"),
             BudgetLedger(0.01),
-            agent_class=WidePackedAgent,
-            group_size=16,
+            agent_class=agent_class,
+            group_size=agent_class.maximum_group_size,
         )
-    assert report["score"]["correct"] == 16
-    assert report["provider_tokens_known"] == 101 and calls.call_count == 1
+    assert report["score"]["correct"] == count
+    expected_calls = count // agent_class.maximum_group_size
+    assert report["provider_tokens_known"] == 101 * expected_calls
+    assert calls.call_count == expected_calls

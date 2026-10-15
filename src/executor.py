@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from functools import partial
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any
+from typing import Any, Self
 
 import psutil
 
@@ -55,6 +55,15 @@ def column_letter(index: int) -> str:
         index, remainder = divmod(index - 1, 26)
         result = string.ascii_uppercase[remainder] + result
     return result
+
+
+def clean_label(value: str) -> str:
+    """Normalize layout whitespace and word wrapping, preserving ordinary punctuation."""
+    if not isinstance(value, str):
+        raise TypeError(
+            "clean_label expects text; handle missing or numeric cells explicitly"
+        )
+    return " ".join(re.sub(r"(?<=[A-Za-z])-\s*\n\s*(?=[a-z])", "", value).split())
 
 
 def bounded_combinations(
@@ -130,6 +139,82 @@ COMPARE = {
     ast.Is: operator.is_,
     ast.IsNot: operator.is_not,
 }
+
+
+class BoundedDeque(collections.deque[Any]):
+    """Standard queue behavior within the worker's explicit input/output item cap."""
+
+    def __init__(self, iterable: Iterable[Any] = (), maxlen: int | None = None) -> None:
+        if maxlen is not None and (
+            type(maxlen) is not int or not 0 <= maxlen <= MAX_ITEMS
+        ):
+            raise ValueError("Deque maxlen must be within the worker item cap")
+        pool = self._pool(iterable)
+        super().__init__(pool, maxlen)
+
+    @staticmethod
+    def _pool(values: Iterable[Any]) -> list[Any]:
+        pool = list(itertools.islice(values, MAX_ITEMS + 1))
+        if len(pool) > MAX_ITEMS:
+            raise MemoryError("Deque input exceeds the worker item cap")
+        return pool
+
+    def _growth(self, incoming: int) -> None:
+        if self.maxlen is None and len(self) + incoming > MAX_ITEMS:
+            raise MemoryError("Deque output exceeds the worker item cap")
+
+    def append(self, value: Any) -> None:
+        self._growth(1)
+        super().append(value)
+
+    def appendleft(self, value: Any) -> None:
+        self._growth(1)
+        super().appendleft(value)
+
+    def extend(self, values: Iterable[Any]) -> None:
+        pool = self._pool(values)
+        self._growth(len(pool))
+        super().extend(pool)
+
+    def extendleft(self, values: Iterable[Any]) -> None:
+        pool = self._pool(values)
+        self._growth(len(pool))
+        super().extendleft(pool)
+
+    def __iadd__(self, values: Iterable[Any]) -> Self:
+        self.extend(values)
+        return self
+
+    def __add__(self, other: Any) -> "BoundedDeque":
+        if not isinstance(other, collections.deque):
+            raise TypeError("Deque addition requires another deque")
+        copied = self.copy()
+        copied.extend(other)
+        return copied
+
+    def __imul__(self, count: int) -> Self:
+        if not isinstance(count, int):
+            raise TypeError("Deque repetition requires an integer")
+        if len(self) * max(count, 0) > MAX_ITEMS:
+            raise MemoryError("Deque repetition exceeds the worker item cap")
+        super().__imul__(count)
+        return self
+
+    def __mul__(self, count: int) -> "BoundedDeque":
+        copied = self.copy()
+        copied *= count
+        return copied
+
+    __rmul__ = __mul__
+
+
+class DatetimeModule(SimpleNamespace):
+    """Expose the existing datetime constructor through either documented spelling."""
+
+    def __call__(self, *args: Any, **kwargs: Any) -> datetime.datetime:
+        return datetime.datetime(*args, **kwargs)
+
+
 MODULES = {
     "itertools": SimpleNamespace(
         combinations=bounded_combinations, permutations=bounded_permutations
@@ -155,7 +240,7 @@ MODULES = {
         }
     ),
     "statistics": SimpleNamespace(mean=statistics.mean, median=statistics.median),
-    "datetime": SimpleNamespace(
+    "datetime": DatetimeModule(
         datetime=datetime.datetime, date=datetime.date, timedelta=datetime.timedelta
     ),
     "re": SimpleNamespace(
@@ -168,7 +253,9 @@ MODULES = {
         IGNORECASE=re.IGNORECASE,
     ),
     "collections": SimpleNamespace(
-        Counter=collections.Counter, defaultdict=collections.defaultdict
+        Counter=collections.Counter,
+        defaultdict=collections.defaultdict,
+        deque=BoundedDeque,
     ),
 }
 METHODS = {
@@ -212,6 +299,22 @@ METHODS = {
         "issuperset",
         "isdisjoint",
     },
+    collections.deque: {
+        "append",
+        "appendleft",
+        "extend",
+        "extendleft",
+        "pop",
+        "popleft",
+        "rotate",
+        "clear",
+        "copy",
+        "count",
+        "index",
+        "remove",
+        "reverse",
+        "maxlen",
+    },
     re.Match: {"group", "groups", "start", "end", "span"},
     datetime.datetime: {"date", "isoformat", "strftime", "year", "month", "day"},
     datetime.date: {"isoformat", "strftime", "year", "month", "day"},
@@ -219,6 +322,7 @@ METHODS = {
     float: {"is_integer"},
 }
 BUILTINS = {
+    "clean_label": clean_label,
     "column_letter": column_letter,
     "ValueError": ValueError,
     "TypeError": TypeError,
@@ -440,6 +544,13 @@ def _address(row: int, col: int) -> str:
 
 class CellArray(list[Any]):
     """Preserve cells() shape provenance without changing normal list operations."""
+
+
+class SheetNames(list[str]):
+    """Retain the sheets list interface and provide an explicit zero-argument snapshot."""
+
+    def __call__(self) -> list[str]:
+        return list(self)
 
 
 @dataclass
@@ -1083,7 +1194,20 @@ class Interpreter:
 
     def bounded(self, value: Any) -> Any:
         if (
-            isinstance(value, (str, bytes, list, tuple, dict, set, frozenset, range))
+            isinstance(
+                value,
+                (
+                    str,
+                    bytes,
+                    list,
+                    tuple,
+                    dict,
+                    set,
+                    frozenset,
+                    range,
+                    collections.deque,
+                ),
+            )
             and len(value) > MAX_ITEMS
         ):
             raise MemoryError("Generated value exceeds item limit")
@@ -1341,10 +1465,10 @@ class Interpreter:
             raise ValueError(f"Attribute not allowed: {node.attr}")
         if isinstance(node, ast.Call):
             fn = self.evaluate(node.func, env)
-            if fn is MODULES["datetime"]:
+            if not callable(fn):
                 raise TypeError(
-                    "datetime is a module namespace, not a constructor: use datetime.datetime(year,month,day), "
-                    "or 'from datetime import datetime' before calling datetime(...)."
+                    f"'{type(fn).__name__}' object is not callable: {ast.unparse(node.func)} "
+                    "is a value, not a function. Use indexing for lists and avoid shadowing helpers."
                 )
             args = []
             for arg in node.args:
@@ -1427,11 +1551,17 @@ class Interpreter:
             elif isinstance(node, ast.AnnAssign) and node.value is not None:
                 self.bind(node.target, self.evaluate(node.value, env), env)
             elif isinstance(node, ast.AugAssign):
+                left = self.evaluate(node.target, env)
+                right = self.evaluate(node.value, env)
+                if isinstance(left, BoundedDeque) and isinstance(node.op, ast.Add):
+                    updated = operator.iadd(left, right)
+                elif isinstance(left, BoundedDeque) and isinstance(node.op, ast.Mult):
+                    updated = operator.imul(left, right)
+                else:
+                    updated = BINARY[type(node.op)](left, right)
                 self.bind(
                     node.target,
-                    BINARY[type(node.op)](
-                        self.evaluate(node.target, env), self.evaluate(node.value, env)
-                    ),
+                    updated,
                     env,
                 )
             elif isinstance(node, ast.Expr):
@@ -1753,7 +1883,7 @@ def _worker() -> None:
             "latest_rows": access.latest_rows,
             "argmax": access.argmax,
             "category_rows": access.category_rows,
-            "sheets": list(access.data),
+            "sheets": SheetNames(access.data),
         },
         iterator_helpers=payload.get("iterator_helpers", False),
     )

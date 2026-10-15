@@ -11,7 +11,16 @@ from run import validate_queries
 from .batched import run_batched_stage
 from .budget import workspace_budget
 from .gateway import BatchLimits, atomic_json
-from .packed import PackedAgent, ParallelPackedAgent, WidePackedAgent
+from .packed import (
+    AllPackedAgent,
+    GreedyPackedAgent,
+    PackedAgent,
+    ParallelPackedAgent,
+    RawPackedAgent,
+    SampledPackedAgent,
+    TenPackedAgent,
+    WidePackedAgent,
+)
 from .qwen_batch_signoff import source_manifest
 from .review_effort import MediumReviewAgent, probe
 from .structured_batch import CoherentPlanningAgent, StructuredBatchedAgent
@@ -32,11 +41,27 @@ def compare(
     coherent_envelope: bool = False,
     pack_workbooks: bool = False,
     pack_capacity: bool = False,
+    backend_view: bool = False,
+    whole_pack: bool = False,
+    temperature: bool = False,
 ) -> dict[str, Any]:
     """Alternate policy order across consumed families; never promote from screening."""
     if root.exists():
         raise ValueError("Preserve prior prompt comparison")
-    if sum((review_effort, coherent_envelope, pack_workbooks, pack_capacity)) > 1:
+    if (
+        sum(
+            (
+                review_effort,
+                coherent_envelope,
+                pack_workbooks,
+                pack_capacity,
+                backend_view,
+                whole_pack,
+                temperature,
+            )
+        )
+        > 1
+    ):
         raise ValueError("Change one policy at a time")
     root.mkdir(parents=True)
     source = source_manifest()
@@ -46,7 +71,13 @@ def compare(
         "promoted": False,
         "stages": {},
         "unassessed": {},
-        "experiment": "packing capacity and independent-task scheduling"
+        "experiment": "requested temperature one versus zero, otherwise identical control"
+        if temperature
+        else "all-question packing, size8 versus10 with complete source ownership"
+        if whole_pack
+        else "full cells, disclosed numeric sample, or original headers without derived hints"
+        if backend_view
+        else "packing capacity and independent-task scheduling"
         if pack_capacity
         else "multi-workbook planning, size8/output4096 vs same-workbook size4/output2048"
         if pack_workbooks
@@ -67,12 +98,32 @@ def compare(
         shutil.copy2(name, target)
     atomic_json(root / "summary.json", result)
     limits = BatchLimits(root / "batch.json")
-    if review_effort or pack_workbooks or pack_capacity:
+    if (
+        review_effort
+        or pack_workbooks
+        or pack_capacity
+        or backend_view
+        or whole_pack
+        or temperature
+    ):
         result["probe"] = probe(
             root,
             limits,
-            thinking="low" if pack_workbooks or pack_capacity else "medium",
-            max_tokens=8192 if pack_capacity else 4096 if pack_workbooks else 256,
+            thinking="low"
+            if pack_workbooks
+            or pack_capacity
+            or backend_view
+            or whole_pack
+            or temperature
+            else "medium",
+            max_tokens=6144
+            if whole_pack
+            else 8192
+            if pack_capacity
+            else 4096
+            if pack_workbooks or backend_view or temperature
+            else 256,
+            temperature=0.0 if temperature else 1.0,
         )
         if not result["probe"]["ok"]:
             result["stopped"] = (
@@ -94,7 +145,21 @@ def compare(
     ]
     stopped = None
     policies = (
-        [
+        [("one", ParallelPackedAgent), ("zero", GreedyPackedAgent)]
+        if temperature
+        else [
+            ("parallel8", ParallelPackedAgent),
+            ("all8", AllPackedAgent),
+            ("all10", TenPackedAgent),
+        ]
+        if whole_pack
+        else [
+            ("full8", ParallelPackedAgent),
+            ("sampled8", SampledPackedAgent),
+            ("raw8", RawPackedAgent),
+        ]
+        if backend_view
+        else [
             ("packed8", PackedAgent),
             ("parallel8", ParallelPackedAgent),
             ("parallel16", WidePackedAgent),
@@ -110,7 +175,7 @@ def compare(
     )
     for index, (label, folder, reference) in enumerate(datasets):
         arms = list(policies)
-        if pack_capacity:
+        if pack_capacity or backend_view or whole_pack:
             offset = index % len(arms)
             arms = arms[offset:] + arms[:offset]
         elif index % 2:
@@ -171,6 +236,9 @@ if __name__ == "__main__":
     parser.add_argument("--coherent-envelope", action="store_true")
     parser.add_argument("--pack-workbooks", action="store_true")
     parser.add_argument("--pack-capacity", action="store_true")
+    parser.add_argument("--backend-view", action="store_true")
+    parser.add_argument("--whole-pack", action="store_true")
+    parser.add_argument("--temperature", action="store_true")
     args = parser.parse_args()
     compare(
         args.root,
@@ -178,4 +246,7 @@ if __name__ == "__main__":
         coherent_envelope=args.coherent_envelope,
         pack_workbooks=args.pack_workbooks,
         pack_capacity=args.pack_capacity,
+        backend_view=args.backend_view,
+        whole_pack=args.whole_pack,
+        temperature=args.temperature,
     )

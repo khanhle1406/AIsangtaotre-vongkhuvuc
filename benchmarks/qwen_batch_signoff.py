@@ -40,6 +40,7 @@ def source_manifest() -> dict[str, str]:
                 "efficient.py",
                 "gateway_runner.py",
                 "packed.py",
+                "backend_view.py",
             )
         ],
     ]

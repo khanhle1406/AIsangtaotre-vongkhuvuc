@@ -112,6 +112,7 @@ def solve(
         metrics = {
             "planning_format": "keyed" if structured else "indexed",
             "planning_profile": planning_profile,
+            "temperature": agent.temperature,
             "planning_strategy": agent_class.planning_strategy,
             "group_size": agent_class.maximum_group_size,
             "planning_max_tokens": agent_class.planning_max_tokens or 2048,

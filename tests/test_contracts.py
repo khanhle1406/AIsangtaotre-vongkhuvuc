@@ -124,6 +124,39 @@ def test_failed_row_unpack_can_use_width_matched_cells_without_another_model_cal
     assert row_unpack_contract(code, text_wire, "Units", failure_line=1) is None
 
 
+def test_module_row_shape_repair_is_independent_of_unrelated_function_definitions() -> (
+    None
+):
+    from src.contracts import row_unpack_contract
+    from src.excel_parser import CellData, SheetData, WorkbookData
+
+    wire = WorkbookData(
+        {
+            "Moved": SheetData(
+                "Moved",
+                cells={
+                    "F408": CellData("Birch", "string"),
+                    "G408": CellData(17, "number"),
+                    "F409": CellData("Cedar", "string"),
+                    "G409": CellData(23, "number"),
+                },
+            )
+        }
+    ).wire()
+    code = "pairs=values('Moved','F408:G409')\ndef twice(v):\n return v*2\nresult=sum(twice(v) for name,v in pairs)"
+    original = execute_program(code, wire)
+    assert not original.success and "Unpacking length mismatch" in original.error
+    repaired = row_unpack_contract(code, wire, "Sum the doubled Units.", failure_line=4)
+    assert repaired and "cells(" in repaired
+    fixed = execute_program(repaired, wire)
+    assert fixed.success and fixed.result == 80
+    assert set(fixed.reads) == set(original.reads)
+    inside = "pairs=values('Moved','F408:G409')\ndef calculate():\n return sum(v for name,v in pairs)\nresult=calculate()"
+    assert row_unpack_contract(inside, wire, "Sum Units.", failure_line=3) is None
+    shadowed = code + "\ndef unrelated(values):\n return values"
+    assert row_unpack_contract(shadowed, wire, "Sum Units.", failure_line=4) is None
+
+
 def test_unbounded_string_header_domain_requests_review_but_preserves_data_rows(
     tmp_path: Path,
 ) -> None:
@@ -143,6 +176,13 @@ def test_unbounded_string_header_domain_requests_review_but_preserves_data_rows(
     assert execution.result == 3  # Existing type-filter interface is unchanged.
     query = "How many required categories are listed?"
     assert header_domain_risks(wire, execution, query, ast.parse(code))
+    for bounds in [",407,409", ",start_row=407,end_row=409"]:
+        bounded_header = code.replace(
+            "{'G':'string'})", "{'G':'string'}" + bounds + ")"
+        )
+        included = execute_program(bounded_header, wire)
+        assert included.result == 3
+        assert header_domain_risks(wire, included, query, ast.parse(bounded_header))
     bounded = code.replace(
         "{'G':'string'})", "{'G':'string'},start_row=408,end_row=409)"
     )
@@ -1364,8 +1404,9 @@ def test_standard_filter_match_groups_and_datetime_feedback_are_safe() -> None:
         "s=cell('Moved','K407'); result=sum(map(int,filter(str.isdigit,s)))", wire
     )
     assert mapped.success and mapped.result == 12
-    wrong = execute_program("result=datetime(2031,5,7)")
-    assert not wrong.success and "datetime.datetime" in wrong.error
+    constructed = execute_program("result=datetime(2031,5,7)")
+    assert constructed.success and constructed.result == "2031-05-07T00:00:00"
+    assert not execute_program("result=datetime(10000,5,7)").success
     assert execute_program("result=datetime.datetime(2031,5,7).day").result == 7
     for unsafe in [
         "result=str.__dict__",

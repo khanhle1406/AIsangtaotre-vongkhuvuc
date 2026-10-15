@@ -1528,7 +1528,7 @@ def flat_string_projection_risks(
 def header_domain_risks(
     workbook: dict[str, Any], execution: ExecutionResult, query: str, tree: ast.Module
 ) -> list[str]:
-    """Review header contamination in an unbounded categorical record domain."""
+    """Review categorical header reads even when a caller supplied explicit bounds."""
     if any(
         isinstance(node, ast.FunctionDef)
         and node.name == "data_rows"
@@ -1556,8 +1556,7 @@ def header_domain_risks(
             not isinstance(call, ast.Call)
             or not isinstance(call.func, ast.Name)
             or call.func.id != "data_rows"
-            or len(call.args) != 2
-            or any(kw.arg in {"start_row", "end_row"} for kw in call.keywords)
+            or len(call.args) < 2
         ):
             continue
         try:
@@ -1631,14 +1630,14 @@ def header_domain_risks(
     if unverified and not suspects:
         return [
             (
-                f"Unbounded string-only data_rows includes first-row cells {sorted(unverified)[:8]} whose text also names a field in the question. "
+                f"String-only data_rows includes first-row cells {sorted(unverified)[:8]} whose text also names a field in the question. "
                 "This all-text sheet has NO verified header schema: inspect the original first row to decide whether it is a heading or a genuine record. "
                 "Keep it if it is data; if it is a heading, use observed data bounds. Do not assume every string is a data record, or delete a first record merely because it is first."
             )
         ]
     return [
         (
-            f"Unbounded string-only data_rows includes probable heading cells {sorted(suspects)[:8]}. "
+            f"String-only data_rows includes probable heading cells {sorted(suspects)[:8]}. "
             "Verify whether these captions entered a record/category universe, required set, join or count. "
             "If they are headings, use observed inclusive data start/end bounds and preserve valid missing-measure records. "
             "A header can make every/coverage conditions impossible and silently yield an empty answer or fallback number. "
@@ -1741,6 +1740,33 @@ def scope_risks(
         for key, entry in execution.reads.items()
         if entry["kind"] == "number"
     }
+    rank_subtractions = []
+    if tree is not None:
+        parents = {
+            child: parent
+            for parent in ast.walk(tree)
+            for child in ast.iter_child_nodes(parent)
+        }
+        for node in ast.walk(tree):
+            if not isinstance(node, ast.BinOp) or not isinstance(node.op, ast.Sub):
+                continue
+            absolute = parents.get(node)
+            comparison = parents.get(absolute)
+            if (
+                isinstance(absolute, ast.Call)
+                and isinstance(absolute.func, ast.Name)
+                and absolute.func.id == "abs"
+                and absolute.args == [node]
+                and isinstance(comparison, ast.Compare)
+                and comparison.left is absolute
+                and len(comparison.ops) == 1
+                and isinstance(comparison.ops[0], (ast.Lt, ast.LtE, ast.Eq))
+                and isinstance((tolerance := comparison.comparators[0]), ast.Constant)
+                and type(tolerance.value) in {int, float}
+                and 0 <= tolerance.value <= 1e-6
+            ):
+                continue  # Symmetric equality tolerance is not a signed ranking objective.
+            rank_subtractions.append(node)
     if (
         len(numeric_sources) > 1
         and isinstance(execution.result, str)
@@ -1756,7 +1782,7 @@ def scope_risks(
             and isinstance(node.op, ast.Sub)
             and not isinstance(node.left, ast.Constant)
             and not isinstance(node.right, ast.Constant)
-            for node in ast.walk(tree)
+            for node in rank_subtractions
         )
     ):
         risks.append(

@@ -89,6 +89,8 @@ def dense_text(
     *,
     column_catalog: bool = False,
     deduplicate_headers: bool = False,
+    complete: bool = True,
+    header_hints: bool = True,
 ) -> str:
     """Encode every stored value once; row gaps and nondefault metadata stay explicit."""
     blocks = [
@@ -96,7 +98,12 @@ def dense_text(
             "LOSSLESS CELL RUNS: A7:[v1,v2,v3] means A7=v1,B7=v2,C7=v3. "
             "Each run stays on ONE row; its anchor is the original coordinate. "
             "JSON types preserved; metadata overrides type/date/format. Absent cells are blank. "
-            "Merged cells only store the top-left value. ALL stored cells follow; no rows omitted."
+            "Merged cells only store the top-left value. "
+            + (
+                "ALL stored cells follow; no rows omitted."
+                if complete
+                else "This VIEW omits numeric values explicitly catalogued below; the Python backend is complete."
+            )
         )
     ]
     if deduplicate_headers:
@@ -121,6 +128,12 @@ def dense_text(
             "hidden_rows": sheet.hidden_rows,
             "hidden_columns": sheet.hidden_columns,
         }
+        if not header_hints:
+            del structural["headers"]
+            structural["tables"] = [
+                {key: value for key, value in table.items() if key != "headers"}
+                for table in metadata["tables"]
+            ]
         lines.append(
             "HINTS " + json.dumps(structural, ensure_ascii=False, separators=(",", ":"))
         )
