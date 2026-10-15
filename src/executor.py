@@ -13,7 +13,7 @@ import string
 import subprocess
 import sys
 import threading
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import SimpleNamespace
@@ -260,6 +260,7 @@ class WorkbookAccess:
     data: dict[str, Any]
     reads: dict[str, dict[str, Any]] = field(default_factory=dict)
     resolving: set[str] = field(default_factory=set)
+    sorter: Callable[..., list[Any]] = field(default=sorted, repr=False)
 
     def cell(self, sheet: str, address: str) -> Any:
         address = address.replace("$", "").upper()
@@ -418,6 +419,7 @@ class WorkbookAccess:
         ):
             raise ValueError("data_rows needs explicit columns and a supported kind")
         candidates = []
+        date_mismatches = []
         for row in self.rows(sheet):
             kinds = []
             for column in required:
@@ -447,13 +449,23 @@ class WorkbookAccess:
                 for stored, expected in zip(kinds, required.values(), strict=True)
             ):
                 candidates.append(row)
+            elif all(
+                stored == expected or (stored == "datetime" and expected == "string")
+                for stored, expected in zip(kinds, required.values(), strict=True)
+            ):
+                date_mismatches.append(row)
+        if not candidates and date_mismatches:
+            raise TypeError(
+                "data_rows matched no rows because typed datetime cells were requested as string; "
+                "use kind 'datetime' for date columns, or inspect types explicitly to count string-only records"
+            )
         return candidates
 
     def age_order(
         self, sheet: str, birth: str, reference: str, descending: bool = False
     ) -> list[int]:
         candidates = self.data_rows(sheet, [birth, reference], "datetime")
-        return sorted(
+        return self.sorter(
             candidates,
             key=lambda row: self.age_days(
                 sheet, birth + str(row), reference + str(row)
@@ -1221,6 +1233,7 @@ def _worker() -> None:
         },
         iterator_helpers=payload.get("iterator_helpers", False),
     )
+    access.sorter = interpreter.sorted_values
     try:
         result = interpreter.run(payload["code"], payload["result_variable"])
         if access.data and not _grounded(

@@ -227,6 +227,7 @@ class GatewayAgent(LLMAgent):
         bound = (
             sum(len(m["content"].encode()) + 64 for m in payload["messages"])
             + payload["max_tokens"]
+            + len(json.dumps(payload.get("response_format", {})).encode())
             + 8192  # Gateway-added instructions/framing observed by the probe.
         )
         data = self.batch_limits.update(bound=bound)
@@ -268,6 +269,7 @@ class GatewayAgent(LLMAgent):
         data["usage"] = usage
 
     def _request_finished(self, record: dict[str, Any]) -> None:
+        record["reserved_token_bound"] = self.request_local.bound
         record["thinking"] = self.thinking or "unknown"
         record["temperature"] = 1.0
         self.batch_limits.update(

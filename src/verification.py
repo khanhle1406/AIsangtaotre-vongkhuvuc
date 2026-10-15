@@ -186,6 +186,28 @@ def row_scope_errors(
                 row, col = coordinate_to_tuple(address)
                 if any(other > col for other in numeric_columns_by_row.get(row, [])):
                     leading_labels.append(((row, col), canonical_label(entry["value"])))
+        # Both explicitly named measures must be read for a difference. Searching
+        # labels alone is not evidence that their numeric operands were selected.
+        if re.search(r"\bdifference between\b", query, re.IGNORECASE):
+            lower = canonical_label(query).casefold()
+            named: dict[str, set[int]] = {}
+            for (row, _), label in leading_labels:
+                text = label.casefold()
+                if len(re.findall(r"\w+", text)) >= 2 and re.search(
+                    rf"(?<!\w){re.escape(text)}(?!\w)", lower
+                ):
+                    named.setdefault(text, set()).add(row)
+            maximal = {
+                label: matches
+                for label, matches in named.items()
+                if not any(label != other and label in other for other in named)
+            }
+            if len(maximal) >= 2:
+                for label, matches in maximal.items():
+                    if not matches & numeric_rows:
+                        errors.append(
+                            f"Difference operands omit explicitly requested row measure {label!r}; read its numeric value in the requested section, not a neighboring metric."
+                        )
         # Across ALL displayed categories is a column-coverage contract when the
         # metric is a row label. Explicit leaf/weighted qualifiers override it.
         if re.search(
@@ -411,6 +433,23 @@ def complete_category_contract(
         }
         if len(columns) != 1 or len(areas) != 1 or None in areas:
             continue
+        # An unrestricted extremum cannot silently skip an intermediate category
+        # within the observed table span. Only fill existing numeric cells in the
+        # same table/column; explicit restricted queries were excluded above.
+        column = next(iter(columns))
+        low, high = (
+            min(coordinate_to_tuple(address)[0] for address, _ in observed),
+            max(coordinate_to_tuple(address)[0] for address, _ in observed),
+        )
+        region = cell_region(sheet, *coordinate_to_tuple(observed[0][0]))
+        observed = [
+            (address, entry)
+            for address, entry in sheet["cells"].items()
+            if entry["kind"] == "number"
+            and (position := coordinate_to_tuple(address))[1] == column
+            and low <= position[0] <= high
+            and cell_region(sheet, *position) == region
+        ]
         labels = row_label_index(sheet)
         label_counts: dict[str, int] = {}
         for row_labels in labels.values():

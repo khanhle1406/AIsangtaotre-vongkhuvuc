@@ -91,7 +91,14 @@ def run_stage(
     cost_ledger: BudgetLedger | None = None,
     iterator_helpers: bool = False,
     precision_profile: str | None = None,
+    efficient: bool = False,
+    concurrency: int = 2,
+    request_timeout_seconds: float = 40,
 ) -> dict[str, Any]:
+    if concurrency not in {1, 2, 4}:
+        raise ValueError("Unsupported benchmark concurrency")
+    if efficient and precision_profile is not None:
+        raise ValueError("Choose one candidate prompt profile")
     settings = gateway_settings()
     config = {
         **PROFILES[profile],
@@ -100,8 +107,10 @@ def run_stage(
         "thinking": thinking,
         "max_tokens": max_tokens,
         "temperature": 1.0,
-        "concurrency": 2,
+        "concurrency": concurrency,
     }
+    if request_timeout_seconds != 40:
+        config["request_timeout_seconds"] = request_timeout_seconds
     if config["helper_contract"]:
         config["contract_placement"] = "system and final user message"
     if iterator_helpers:
@@ -124,6 +133,18 @@ def run_stage(
                 Path(__file__).with_name("precision.py").read_bytes()
             ).hexdigest(),
         )
+    if efficient:
+        from .efficient import EfficientAgent
+
+        client_class = EfficientAgent
+        config.update(
+            efficient=True,
+            compact_prompt=True,
+            iterator_helpers=True,
+            efficient_module_sha256=hashlib.sha256(
+                Path(__file__).with_name("efficient.py").read_bytes()
+            ).hexdigest(),
+        )
     root.mkdir(parents=True, exist_ok=True)
     saved = checkpoint(root / "checkpoint.json", fingerprint(files, queries, config))
     remaining = [q for q in queries if str(q["id"]) not in saved["records"]]
@@ -137,6 +158,8 @@ def run_stage(
         iterator_helpers=iterator_helpers,
         compact_prompt=config["compact_prompt"],
         deadline=time.monotonic() + deadline - time.time(),
+        request_timeout_seconds=request_timeout_seconds,
+        worker_memory_mb=128 if concurrency == 4 else 256,
         **client_options,
     )
     if config["helper_contract"]:
@@ -144,12 +167,15 @@ def run_stage(
         agent.helper_instructions = HELPER_CONTRACT
     # References enter only the evaluator, after all generation for this stage.
     started = time.monotonic()
-    with ResourceMonitor() as monitor, ThreadPoolExecutor(max_workers=2) as pool:
-        # At most two live workbook objects; preserve the solver's 800 MiB RSS guard.
+    with (
+        ResourceMonitor() as monitor,
+        ThreadPoolExecutor(max_workers=concurrency) as pool,
+    ):
+        # Bounded live workbook objects; preserve the solver's 800 MiB RSS guard.
         pending: dict[Any, dict[str, Any]] = {}
         cursor = 0
         while cursor < len(remaining) or pending:
-            while cursor < len(remaining) and len(pending) < 2:
+            while cursor < len(remaining) and len(pending) < concurrency:
                 item = remaining[cursor]
                 if (
                     agent.fatal_error
@@ -219,6 +245,23 @@ def run_stage(
         else None,
         "wall_seconds": saved.get("wall_seconds", 0),
         "tokens": sum(r["tokens"] for r in records.values()),
+        "provider_tokens_known": sum(
+            c.get("provider_total_tokens") or 0
+            for r in records.values()
+            for c in r["calls"]
+        ),
+        "usage_missing_attempts": sum(
+            c.get("provider_total_tokens") is None
+            for r in records.values()
+            for c in r["calls"]
+        ),
+        "tokens_conservative_upper": sum(
+            c.get("provider_total_tokens")
+            if c.get("provider_total_tokens") is not None
+            else c.get("reserved_token_bound", c["tokens"])
+            for r in records.values()
+            for c in r["calls"]
+        ),
         "http_attempts": sum(r["requests"] for r in records.values()),
         "peak_total_rss_bytes": saved["peak_total_rss_bytes"],
         "fatal_error": agent.fatal_error,

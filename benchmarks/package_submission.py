@@ -7,7 +7,7 @@ from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 from dotenv import dotenv_values
 
 
-def package() -> Path:
+def package(destination: Path | None = None) -> Path:
     root = Path(__file__).resolve().parents[1]
     files = [
         root / "run.py",
@@ -17,6 +17,7 @@ def package() -> Path:
         root / "requirements-dev.txt",
         root / "pytest.ini",
         root / ".env.example",
+        *sorted((root / "docs").glob("*.md")),
         *sorted((root / "src").glob("*.py")),
         *sorted(
             path
@@ -29,8 +30,10 @@ def package() -> Path:
             if not path.name.startswith("colab_")
         ),
     ]
-    destination = root / "dist/table_qa_submission.zip"
-    destination.parent.mkdir(exist_ok=True)
+    destination = destination or root / "dist/table_qa_submission.zip"
+    if not destination.is_absolute():
+        destination = root / destination
+    destination.parent.mkdir(parents=True, exist_ok=True)
     secrets = [
         value
         for name, value in dotenv_values(root / ".env").items()

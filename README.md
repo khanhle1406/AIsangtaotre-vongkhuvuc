@@ -4,6 +4,14 @@ Giải pháp dùng `qwen/qwen3.7-flash` qua OpenRouter để chọn dữ liệu 
 
 Xem [báo cáo benchmark gần nhất](docs/BENCHMARK.md): Gemini sinh mới đạt public 20/20 và holdout độc lập 23/24; candidate chưa được xác nhận bằng Qwen. Các công cụ Colab được giữ để tham khảo lịch sử, không thuộc luồng chạy hiện tại hoặc gói thi.
 
+Vòng tối ưu tiếp theo dùng chung một lượt lập chương trình cho các câu hỏi cùng workbook; xem [benchmark hiệu suất](docs/EFFICIENCY.md). Candidate v4/Gemini đạt public 20/20 trong ba lượt sinh mới, giảm trung bình 69% tổng thời gian và 55% token; challenge độc lập mới đạt 32/32 so với baseline 31/32. V3 trước đó đạt 60/60 trên bộ độc lập khác. Mỗi chương trình vẫn chạy và được kiểm chứng riêng. CLI phát triển nhận đường dẫn mới và không cần đáp án chuẩn:
+
+```bash
+python -m benchmarks.batched_cli --input-dir /path/to/xlsx_files --queries /path/to/queries.json --output /path/to/dev_submission.csv
+```
+
+CLI này chỉ dùng Gemini gateway từ `DEV_LLM_*`; giới hạn một batch 30 phút/200 HTTP attempts/2 triệu token. `run.py` vẫn là entrypoint Qwen/OpenRouter; candidate batching chưa được xác nhận bằng Qwen và chưa thay mặc định thi.
+
 ## Cài đặt
 
 Python **3.11 trở lên**, Linux hoặc macOS:
