@@ -232,13 +232,18 @@ class GatewayAgent(LLMAgent):
         ]
         return result
 
+    def _thinking_for_request(self, state: QueryState) -> str | None:
+        """Select effort per query; development policies can specialize verification."""
+        thinking = self.thinking
+        if self.adaptive_thinking and state.requests >= 2:
+            thinking = "high"
+        return thinking
+
     def _before_request(self, payload: dict[str, Any], state: QueryState) -> None:
         payload.pop("reasoning", None)
         payload.pop("usage", None)
         payload["temperature"] = 1.0
-        thinking = self.thinking
-        if self.adaptive_thinking and state.requests >= 2:
-            thinking = "high"
+        thinking = self._thinking_for_request(state)
         if thinking is not None:
             payload["reasoning_effort"] = thinking
         self.request_local.thinking = thinking

@@ -1733,46 +1733,80 @@ def scope_risks(
                 continue
             justified = True
             features = row_context_features(sheet, matches, label)
-            if aggregate_program or re.search(
-                r"\b(?:sum|summed|total|combined|aggregate)\b", query, re.IGNORECASE
-            ):
-                regions = {
-                    region["range"]
-                    if (
-                        region := cell_region(
-                            sheet,
-                            row,
-                            min((col for col, _ in row_labels.get(row, [])), default=1),
-                        )
-                    )
-                    else None
-                    for row in matches
-                }
-                contexts = {
-                    next(
-                        (
-                            text
-                            for before, text in sorted(context_rows, reverse=True)
-                            if before < row
-                        ),
-                        "",
-                    )
-                    for row in matches
-                }
+            regions = {
+                region["range"]
                 if (
-                    len(regions) == 1
-                    and None not in regions
-                    and len(contexts) == 1
-                    and flat_record_qualifiers_match(
-                        row_context_dimensions(sheet, matches),
-                        selected_rows.intersection(matches),
-                        label,
-                        query,
+                    region := cell_region(
+                        sheet,
+                        row,
+                        min((col for col, _ in row_labels.get(row, [])), default=1),
+                    )
+                )
+                else None
+                for row in matches
+            }
+            contexts = {
+                next(
+                    (
+                        text
+                        for before, text in sorted(context_rows, reverse=True)
+                        if before < row
+                    ),
+                    "",
+                )
+                for row in matches
+            }
+            role_columns = {
+                column
+                for row in matches
+                for column, text in row_labels.get(row, [])
+                if text.casefold() == label.casefold()
+            }
+            if (
+                len(role_columns) >= 2
+                and set(matches) <= selected_rows
+                and len(regions) == len(contexts) == 1
+                and None not in regions
+            ):
+                region = next(
+                    table for table in sheet["tables"] if table["range"] in regions
+                )
+                paths = [
+                    tuple(region.get("headers", {}).get(get_column_letter(column), []))
+                    for column in role_columns
+                ]
+                if (
+                    all(paths)
+                    and len(set(paths)) == len(paths)
+                    and all(
+                        cell_region(sheet, *coordinate_to_tuple(key.rsplit("!", 1)[1]))
+                        == region
+                        for key, entry in execution.reads.items()
+                        if key.rsplit("!", 1)[0] == name and entry["kind"] == "number"
                     )
                 ):
-                    # Repeated dimension values in one flat ledger are records to
-                    # aggregate, not separate sections requiring another model call.
+                    # A fully read relation can repeat an entity in distinct
+                    # column roles. That alone is not evidence of several sections.
                     continue
+            if (
+                aggregate_program
+                or re.search(
+                    r"\b(?:sum|summed|total|combined|aggregate)\b", query, re.IGNORECASE
+                )
+            ) and (
+                len(regions) == 1
+                and None not in regions
+                and len(contexts) == 1
+                and flat_record_qualifiers_match(
+                    row_context_dimensions(sheet, matches),
+                    selected_rows.intersection(matches),
+                    label,
+                    query,
+                )
+            ):
+                # Repeated dimension values in one flat ledger are records to
+                # aggregate, not separate sections requiring another model call.
+                continue
             specific_context = any(
                 not re.fullmatch(r"(?:Total|All)", text, re.IGNORECASE)
                 and re.search(rf"(?<!\w){re.escape(text)}(?!\w)", query, re.IGNORECASE)

@@ -12,7 +12,8 @@ from .batched import run_batched_stage
 from .budget import workspace_budget
 from .gateway import BatchLimits, atomic_json
 from .qwen_batch_signoff import source_manifest
-from .structured_batch import StructuredBatchedAgent
+from .review_effort import MediumReviewAgent, probe
+from .structured_batch import CoherentPlanningAgent, StructuredBatchedAgent
 from .transfer_qualification import batch_stop_reason
 
 
@@ -23,10 +24,14 @@ class LeanStructuredAgent(StructuredBatchedAgent):
         super().__init__(lean_system=True, **kwargs)
 
 
-def compare(root: Path) -> dict[str, Any]:
+def compare(
+    root: Path, *, review_effort: bool = False, coherent_envelope: bool = False
+) -> dict[str, Any]:
     """Alternate policy order across consumed families; never promote from screening."""
     if root.exists():
         raise ValueError("Preserve prior prompt comparison")
+    if review_effort and coherent_envelope:
+        raise ValueError("Change one policy at a time")
     root.mkdir(parents=True)
     source = source_manifest()
     result: dict[str, Any] = {
@@ -35,13 +40,31 @@ def compare(root: Path) -> dict[str, Any]:
         "promoted": False,
         "stages": {},
         "unassessed": {},
+        "experiment": "shared system envelope"
+        if coherent_envelope
+        else "verification effort"
+        if review_effort
+        else "system verbosity",
+        "thinking_control": "requested gateway effort; internal implementation unverified",
     }
-    for name in [*source, "benchmarks/prompt_ablation.py"]:
+    for name in [
+        *source,
+        "benchmarks/prompt_ablation.py",
+        "benchmarks/review_effort.py",
+    ]:
         target = root / "evaluated_source" / name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(name, target)
     atomic_json(root / "summary.json", result)
     limits = BatchLimits(root / "batch.json")
+    if review_effort:
+        result["probe"] = probe(root, limits)
+        if not result["probe"]["ok"]:
+            result["stopped"] = (
+                "Medium review payload rejected; no fallback or quality ranking"
+            )
+            atomic_json(root / "summary.json", result)
+            return result
     datasets = [
         ("public", Path("data"), "sample_submission.csv"),
         *[
@@ -55,8 +78,15 @@ def compare(root: Path) -> dict[str, Any]:
         ],
     ]
     stopped = None
+    policies = (
+        [("current", StructuredBatchedAgent), ("coherent", CoherentPlanningAgent)]
+        if coherent_envelope
+        else [("low", StructuredBatchedAgent), ("medium_review", MediumReviewAgent)]
+        if review_effort
+        else [("full", StructuredBatchedAgent), ("lean", LeanStructuredAgent)]
+    )
     for index, (label, folder, reference) in enumerate(datasets):
-        arms = [("full", StructuredBatchedAgent), ("lean", LeanStructuredAgent)]
+        arms = list(policies)
         if index % 2:
             arms.reverse()
         for arm, agent_class in arms:
@@ -94,7 +124,7 @@ def compare(root: Path) -> dict[str, Any]:
             print(json.dumps({"stage": key, "score": report["score"]}), flush=True)
     if not result["unassessed"]:
         result["comparison"] = {}
-        for arm in ["full", "lean"]:
+        for arm, _ in policies:
             reports = [result["stages"][arm + "/" + label] for label, _, _ in datasets]
             result["comparison"][arm] = {
                 "correct": sum(r["score"]["correct"] for r in reports),
@@ -110,4 +140,11 @@ def compare(root: Path) -> dict[str, Any]:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
-    compare(parser.parse_args().root)
+    parser.add_argument("--review-effort", action="store_true")
+    parser.add_argument("--coherent-envelope", action="store_true")
+    args = parser.parse_args()
+    compare(
+        args.root,
+        review_effort=args.review_effort,
+        coherent_envelope=args.coherent_envelope,
+    )

@@ -308,6 +308,7 @@ def run_batched_stage(
         "base_url": settings["gateway_url"],
         "helper_contract": False,
         "thinking": thinking,
+        "verification_thinking": getattr(agent_class, "verification_thinking", None),
         "adaptive_thinking": f"high only after two prior HTTP attempts; otherwise {thinking}",
         "max_tokens": 2048,
         "concurrency": concurrency,

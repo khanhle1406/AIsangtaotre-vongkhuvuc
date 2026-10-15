@@ -2,7 +2,7 @@
 
 Các số dưới đây là **Gemini 3 Flash sinh mới**, không dùng replay làm benchmark LLM. Chúng không chứng minh điểm private của BTC hoặc điểm Qwen3.7 Flash. Ưu tiên Exact Match → thời gian → token.
 
-Thí nghiệm mới nhất **v44** đạt public **20/20 cả ba lượt**, trung bình **17,347 giây/20 câu**, **130.806,67 token/20 câu**, RSS đỉnh **116,63 MiB**. Giảm **30,38% thời gian / 33,39% token** so với baseline cùng đợt; chậm hơn v41 và mốc v17. Bộ decision đã dùng đạt **16/18** trong lượt focused. Lượt hồi quy đầy đủ riêng đạt **253/254**, gồm decision 18/18, RSS đỉnh 150,19 MiB. **Chưa chọn bản nộp**: còn lỗi và biến động, chưa đạt mục tiêu hiệu suất hoặc xác nhận Qwen/private BTC. Không ghép điểm từ nhiều phiên để tạo một lượt đủ điểm.
+Hai lượt đầy đủ mới **v46/v47** đều đạt public **20/20 cả ba lần**; hồi quy ngoài public lần lượt **253/254** và **251/254**. V47 public trung bình **15,321 giây / 116.024,67 token**, giảm **40,33% thời gian / 46,16% token** so với baseline cùng đợt; chưa đạt mục tiêu 50% cho cả hai chỉ số hoặc vượt mốc v17. V48 mới là sàng lọc trên 92 câu đã biết: hợp đồng JSON đồng bộ đạt **91/92**, đối chiếu **90/92**, đổi lại thời gian và token tăng. **Chưa chọn bản nộp** hoặc xác nhận Qwen/private BTC. Không ghép điểm từ nhiều phiên để tạo một lượt đủ điểm; mã source v48 chưa được đánh giá toàn bộ 254 câu.
 
 V41 trước đó đạt public 20/20 ba lượt, trung bình 11,007 giây / 126.576,33 token, decision 17/18. Các kết quả này vẫn thuộc snapshot v41, không thay cho đánh giá v44.
 
@@ -265,3 +265,28 @@ V44 public **20/20 ba lượt**, decision **16/18**. Chưa thể quy toàn bộ 
 Lượt `v44_all_known_254` đánh giá riêng toàn bộ 254 câu đã tiêu thụ, candidate-only, cùng source v44 và cùng cấu hình audit. Khóa danh sách cùng hash dữ liệu trước inference; một trần riêng 30 phút / 200 HTTP attempts / 2 triệu token cho cả 10 bộ. Đây là thí nghiệm mới có phạm vi định trước, không bổ sung phần còn thiếu của v39 hoặc đặt lại ngân sách v39. Không có baseline đồng thời trong lượt này, nên không dùng nó tuyên bố cải thiện tốc độ có đối chứng.
 
 Kết quả lượt hồi quy đầy đủ v44: **253/254 (99,61%)**, **116,729 giây** cho 254 câu, **693.267 token**, **122 HTTP attempts**, RSS đỉnh **150,19 MiB**. Usage đầy đủ, không có phần chưa đánh giá. Từng bộ: 60/60, 32/32, known 18/18, synthetic 24/24, structural **17/18**, generalization 18/18, transfer 24/24, compositional 18/18, robustness 24/24, decision 18/18. Câu structural sai nhân đơn giá ở cả giá trị cơ sở lẫn tổng cuối, làm bình phương đơn giá; review audit trả lại cùng code sai. Giữ nguyên lỗi, không thay đáp án. Đây là chỉ số hồi quy đã biết, không phải độ đúng private. Decision ở lượt focused trước vẫn 16/18; không chọn riêng lượt 18/18 để khẳng định ổn định.
+
+
+## V45–v48: giảm kiểm chứng thừa và sửa hợp đồng phản hồi
+
+| Thí nghiệm sinh mới | Đối chiếu | Candidate | Quyết định |
+| --- | --- | --- | --- |
+| v45, 92 câu đã biết | low 90/92; 100,656 giây; 454.664 token | medium riêng khi review 89/92; 99,233 giây; 416.722 token | Không chọn medium |
+| v48, 92 câu đã biết | system hiện tại 90/92; 61,459 giây; 321.452 token | system envelope đồng bộ 91/92; 78,240 giây; 362.895 token | Giữ để kiểm tra tiếp; chưa đổi mặc định |
+
+V45 thêm trạng thái verification riêng cho từng câu; payload và trace ghi đúng effort thực tế được yêu cầu. Probe medium thành công trong cùng ngân sách batch, không chứng minh gateway thực sự áp dụng mức reasoning nội bộ nào. Lượt đầu vẫn low, lượt cuối vẫn high, không tăng giới hạn ba lượt/five HTTP attempts. Chính sách medium không được chọn vì tổng độ đúng giảm.
+
+V46 sửa một false positive có thể tái hiện: cùng thực thể nằm ở hai cột vai trò khác nhau trong một quan hệ đã được đọc đầy đủ không tự chứng minh có nhiều section. Chỉ miễn cảnh báo trùng nhãn khi có một vùng bảng/một context, các cột vai trò có header riêng biệt, đủ mọi hàng chứa nhãn được đọc và các số đều nằm trong vùng đó. Đọc một phần, bảng khác, nhãn chỉ ở một cột và qualifier năm/nhóm vẫn qua kiểm tra cũ. Replay nguyên chương trình hợp lệ từng bị từ chối ở generalization-016 trả 1.437500 từ một response giả lập, không thêm model call: đây là bằng chứng offline.
+
+| Đợt đầy đủ | Public ba lượt | Public giây trung bình | Public token trung bình | Ngoài public đã biết | Requests toàn đợt |
+| --- | --- | --- | --- | --- | --- |
+| v46 | 20, 20, 20 | 13,588 | 140.608,33 | 253/254 | 196/200 |
+| v47 | 20, 20, 20 | 15,321 | 116.024,67 | 251/254 | 200/200 |
+
+Mỗi đợt trên chạy 334 câu gồm baseline public 20, candidate public ba lần và 254 câu hồi quy. V46 giảm 44,01% thời gian / 30,76% token public so với baseline cùng đợt, RSS đỉnh125,13MiB. V47 giảm40,33% /46,16%, RSS122,41MiB. Cả hai usage đầy đủ. V47 xử lý đủ334 bản ghi và vừa dùng hết200requests; flag stopped do chạm trần sau lượt cuối vẫn được giữ, không mở lượt mới để lấp dữ liệu. Không có holdout độc lập mới.
+
+V47 nhận root selection:[] như metadata rỗng trung tính khi đủ đúng qN, giữ metadata/needs_verification/selection riêng từng program và raw response gốc. Root selection không rỗng/null/object, key thiếu/thừa/unknown hoặc root code cạnh tranh vẫn bị từ chối; không đoán quyền sở hữu nguồn. Replay phản hồi cũ giữ được program hợp lệ và vẫn từ chối program xếp hạng sai bằng guard hiện có. Hướng dẫn data_rows được làm rõ: string-only vẫn khớp heading, cận dữ liệu cần dựa workbook. Điều này chưa bảo đảm model làm đúng; ba lỗi v47 là so ô trống None với chuỗi rỗng, hết lượt khi guard review sau sửa hasattr, và một phép tính số bước sai.
+
+V48 thử sửa mâu thuẫn cấp system: batch system mô tả keyed programs thay vì yêu cầu root code đơn, giữ nguyên toàn bộ phần helper/nguồn/ngữ nghĩa phía sau CELL TYPES. Repair đơn câu giữ prompt đơn câu. Feature chỉ bật ở CoherentPlanningAgent; StructuredBatchedAgent mặc định không đổi sang feature này. Candidate tăng một câu trên92 nhưng chậm hơn27,30% và tăng12,89% token so với đối chiếu cùng đợt; chưa đủ chứng minh cải thiện private hoặc chấp nhận. Public riêng v48 cả hai20/20: đối chiếu8,846giây/88.724token; candidate19,994giây/124.636token. Đây là **mỗi bên một lượt**, không so lượt nhanh này với trung bình lịch sử để tuyên bố thắng.
+
+Source cuối giai đoạn có304tests đạt, Ruff check/format đạt. Không promote candidate; yêu cầu kiểm tra đầy đủ và holdout độc lập còn thiếu. Benchmark vẫn chưa đạt cải thiện50% cho cả thời gian/token một cách ổn định. Mọi chi phí gateway được ghi miễn phí theo xác nhận người dùng, không phải số tiền do provider báo; không gọi Qwen trả phí trong đợt này.

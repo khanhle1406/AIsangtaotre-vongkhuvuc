@@ -928,6 +928,42 @@ def test_flat_aggregate_qualifiers_are_or_within_column_and_and_across_columns(
         assert scope_risks(wire, wrong, query, wrong_code)
 
 
+def test_complete_relation_roles_do_not_fabricate_separate_sections(
+    tmp_path: Path,
+) -> None:
+    book = openpyxl.Workbook()
+    sheet = book.active
+    rows = [
+        ["Weight", "Origin", "Destination"],
+        [0.6, "Birch", "Birch"],
+        [0.4, "Birch", "Cedar"],
+        [0.2, "Cedar", "Birch"],
+        [0.8, "Cedar", "Cedar"],
+    ]
+    for row, values in enumerate(rows, 402):
+        for column, value in enumerate(values, 10):
+            sheet.cell(row, column, value)
+    path = tmp_path / "links.xlsx"
+    book.save(path)
+    wire = load_workbook_data(path).wire()
+    query = "Starting at Birch, what is the expected number of visits to Cedar?"
+    code = "data=cells('Sheet','J403:L406'); result=data[1][0]+data[0][0]*data[1][0]+data[1][0]*data[3][0]"
+    execution = execute_program(code, wire)
+    assert execution.success
+    assert not scope_risks(wire, execution, query, code)
+    partial = code.replace("J403:L406", "J403:L404").replace("data[3][0]", "data[1][0]")
+    assert scope_risks(wire, execute_program(partial, wire), query, partial)
+    # A second physical table remains a genuine source-scope ambiguity.
+    sheet["J450"] = "Other period"
+    for row, values in enumerate(rows, 451):
+        for column, value in enumerate(values, 10):
+            sheet.cell(row, column, value)
+    book.save(path)
+    book.close()
+    multiple = load_workbook_data(path).wire()
+    assert scope_risks(multiple, execute_program(code, multiple), query, code)
+
+
 def test_flat_ledger_aggregation_is_not_mistaken_for_repeated_sections(
     tmp_path: Path,
 ) -> None:
@@ -979,6 +1015,7 @@ def test_root_batch_metadata_cannot_drop_a_review_request(tmp_path: Path) -> Non
         "programs": {"q0": item},
         "assumptions": ["shared"],
         "needs_verification": True,
+        "selection": [],
     }
     raw = {
         "choices": [{"message": {"content": json.dumps(body)}, "finish_reason": "stop"}]
@@ -989,6 +1026,7 @@ def test_root_batch_metadata_cannot_drop_a_review_request(tmp_path: Path) -> Non
         "local",
         "shared",
     ]
+
     body["unsupported_answer"] = "42"
     raw["choices"][0]["message"]["content"] = json.dumps(body)
     parsed = agent._read_response(Response(json.dumps(raw).encode()))
@@ -1019,6 +1057,67 @@ def test_root_batch_metadata_cannot_drop_a_review_request(tmp_path: Path) -> Non
         raw["choices"][0]["message"]["content"] = json.dumps(body)
         parsed = agent._read_response(Response(json.dumps(raw).encode()))
         assert json.loads(parsed["choices"][0]["message"]["content"]) == body
+
+
+@pytest.mark.parametrize(
+    "shared_selection", [[], None, {}, [{"sheet": "Other", "range": "A1"}]]
+)
+def test_shared_selection_only_accepts_empty_neutral_metadata(
+    tmp_path: Path, shared_selection: object
+) -> None:
+    import io
+
+    from benchmarks.gateway import BatchLimits
+    from benchmarks.structured_batch import StructuredBatchedAgent
+
+    class Response(io.BytesIO):
+        def __init__(self, data: bytes) -> None:
+            super().__init__(data)
+            self.headers = {"Content-Type": "application/json"}
+
+    agent = StructuredBatchedAgent(
+        api_key="test-placeholder",
+        gateway_url="https://gateway.invalid/v1",
+        gateway_model="ag/gemini-3-flash",
+        batch_limits=BatchLimits(tmp_path / "batch.json"),
+    )
+    agent.structured_state.structured_expected = ["q0", "q1"]
+    child_selection = [{"sheet": "Moved", "range": "G508:G509"}]
+    envelope = {
+        "programs": {
+            "q0": {"code": "result=num('Moved','G508')", "selection": child_selection},
+            "q1": {"code": "result=num('Moved','G509')"},
+        },
+        "selection": shared_selection,
+        "needs_verification": True,
+    }
+    original = json.dumps(envelope)
+    response = {
+        "choices": [{"message": {"content": original}, "finish_reason": "stop"}]
+    }
+    parsed = agent._read_response(Response(json.dumps(response).encode()))
+    content = parsed["choices"][0]["message"]["content"]
+    if shared_selection != []:
+        assert content == original  # No nonempty/invalid declaration is discarded.
+        return
+    programs = json.loads(content)["programs"]
+    assert len(programs) == 2 and all(p["needs_verification"] for p in programs)
+    assert programs[0]["selection"][0]["range"] == "G508:G509"
+    assert programs[1]["selection"] == []
+    assert (
+        "validated-empty-shared-selection"
+        in agent.structured_state.envelope_normalization
+    )
+    assert agent.structured_state.original_content == original
+    # Neutral metadata cannot repair missing keys or mask a competing root program.
+    for invalid in [
+        {**envelope, "code": "result=num('Other','A1')"},
+        {**envelope, "programs": {"q0": envelope["programs"]["q0"]}},
+    ]:
+        text = json.dumps(invalid)
+        response["choices"][0]["message"]["content"] = text
+        rejected = agent._read_response(Response(json.dumps(response).encode()))
+        assert rejected["choices"][0]["message"]["content"] == text
 
 
 def test_nonexistent_columns_cannot_turn_into_a_zero_count(tmp_path: Path) -> None:
@@ -1413,11 +1512,20 @@ def test_review_mode_audits_code_without_supplying_computed_answer(
     first = {"code": code, "needs_verification": True, "format": {"kind": "integer"}}
     second = {**first, "needs_verification": False}
     agent = LLMAgent(api_key="test-placeholder", pricing=(0, 0), review_candidate=audit)
-    with patch.object(
-        agent, "_request", side_effect=[json.dumps(first), json.dumps(second)]
-    ) as request:
+    verification_states = []
+    replies = iter([json.dumps(first), json.dumps(second)])
+
+    def respond(messages: list[dict[str, str]], state: object) -> str:
+        from src.llm_agent import QueryState
+
+        assert isinstance(state, QueryState)
+        verification_states.append(state.verification)
+        return next(replies)
+
+    with patch.object(agent, "_request", side_effect=respond) as request:
         solved = agent.solve_workbook(workbook, "What is three times Units for Cedar?")
     assert solved.error is None and solved.answer == "141"
+    assert verification_states == [False, True]
     review = request.call_args_list[1].args[0][-1]["content"]
     assert ("UNVERIFIED CANDIDATE" in review) is audit
     assert (code in review) is audit

@@ -79,6 +79,8 @@ data; use it to exclude titles, blank rows and footnotes BEFORE computing differ
 For mixed columns use data_rows(sheet, {'A':'string','B':'number'}): identity A is
 text, measure B is numeric. Never require an identity/name column to be numeric.
 Optional start_row/end_row bound the same type filtering to one table (inclusive).
+String-only filters ALSO match string headings. For record/category domains use observed
+data bounds; a heading is not a record. Preserve genuine rows with missing measures.
 age_order(sheet, birth_column, admission_column, descending=False) returns row numbers
 sorted by elapsed age at each person's reference date; supports typed dates and ISO text.
 For other date text, supply date_format matching the observed format; never guess locale.
@@ -189,6 +191,7 @@ class QueryState:
     reasoning_tokens: int | None = None
     max_tokens: int | None = None
     question: str | None = None
+    verification: bool = False
 
 
 @dataclass
@@ -807,6 +810,7 @@ class LLMAgent:
                 risks = scope_risks(workbook, execution, query, effective_code)
                 if (program.needs_verification or risks) and not verified:
                     verified = True
+                    state.verification = True
                     trace["verification_triggers"] = risks or [
                         "Model-reported ambiguity"
                     ]

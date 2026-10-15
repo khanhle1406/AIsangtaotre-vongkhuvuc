@@ -88,6 +88,110 @@ def test_adaptive_thinking_is_per_query_and_does_not_change_fixed_baseline(
     assert json.loads(call.call_args.args[0].data)["reasoning_effort"] == "low"
 
 
+def test_medium_effort_changes_verification_only_and_records_actual_payload(
+    tmp_path: Path,
+) -> None:
+    from benchmarks.review_effort import MediumReviewAgent
+
+    agent = MediumReviewAgent(
+        api_key="test-placeholder",
+        gateway_url="https://gateway.invalid/v1",
+        gateway_model="ag/gemini-3-flash",
+        batch_limits=BatchLimits(tmp_path / "medium.json"),
+        adaptive_thinking=True,
+    )
+    states = [
+        QueryState(time.monotonic() + 60, 0.09),
+        QueryState(time.monotonic() + 60, 0.09, requests=1),
+        QueryState(time.monotonic() + 60, 0.09, requests=1, verification=True),
+        QueryState(time.monotonic() + 60, 0.09, requests=2, verification=True),
+        QueryState(time.monotonic() + 60, 0.09),
+    ]
+    with patch.object(
+        agent,
+        "_open_request",
+        side_effect=[completion({"total_tokens": 10}) for _ in states],
+    ) as calls:
+        for state in states:
+            agent._request([{"role": "user", "content": "Return JSON"}], state)
+    expected = ["low", "low", "medium", "high", "low"]
+    assert [
+        json.loads(call.args[0].data)["reasoning_effort"]
+        for call in calls.call_args_list
+    ] == expected
+    assert [state.calls[-1]["thinking"] for state in states] == expected
+    assert all(state.calls[-1]["provider_total_tokens"] == 10 for state in states)
+
+
+def test_shared_envelope_matches_system_without_changing_helpers_or_repairs(
+    tmp_path: Path,
+) -> None:
+    from benchmarks.batched import PLAN_CONTRACT
+    from benchmarks.precision import ACCURACY_CONTRACT
+    from benchmarks.structured_batch import (
+        CoherentPlanningAgent,
+        StructuredBatchedAgent,
+    )
+    from src.llm_agent import SYSTEM_PROMPT
+
+    for agent_class in [StructuredBatchedAgent, CoherentPlanningAgent]:
+        agent = agent_class(
+            api_key="test-placeholder",
+            gateway_url="https://gateway.invalid/v1",
+            gateway_model="ag/gemini-3-flash",
+            batch_limits=BatchLimits(tmp_path / (agent_class.__name__ + ".json")),
+        )
+        payload = {
+            "max_tokens": 2048,
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {
+                    "role": "user",
+                    "content": 'WORKBOOK DATA:\nSHEET moved\nQUESTIONS:\n[{"index":0,"query":"Units for Birch?"},{"index":1,"query":"Units for Cedar?"}]\n'
+                    + ACCURACY_CONTRACT
+                    + "\n"
+                    + PLAN_CONTRACT,
+                },
+            ],
+        }
+        agent._before_request(payload, QueryState(time.monotonic() + 60, 0.09))
+        system = payload["messages"][0]["content"]
+        assert (
+            system[system.index("CELL TYPES s/n/d/b/e/u") :]
+            == SYSTEM_PROMPT[SYSTEM_PROMPT.index("CELL TYPES s/n/d/b/e/u") :]
+        )
+        assert payload["response_format"]["json_schema"]["schema"]["properties"][
+            "programs"
+        ]["required"] == ["q0", "q1"]
+        if agent_class is CoherentPlanningAgent:
+            assert system != SYSTEM_PROMPT and '"programs":{"q0"' in system
+            assert (
+                "Do not place code, result_variable, format or selection at the root"
+                in system
+            )
+        else:
+            assert system == SYSTEM_PROMPT
+        repair = {
+            "max_tokens": 2048,
+            "messages": [
+                {"role": "system", "content": SYSTEM_PROMPT},
+                {"role": "user", "content": "Return a corrected single program."},
+            ],
+        }
+        agent._before_request(
+            repair, QueryState(time.monotonic() + 60, 0.09, requests=1)
+        )
+        assert repair["messages"][0]["content"] == SYSTEM_PROMPT
+    with pytest.raises(ValueError, match="documented full system template"):
+        CoherentPlanningAgent(
+            api_key="test-placeholder",
+            gateway_url="https://gateway.invalid/v1",
+            gateway_model="ag/gemini-3-flash",
+            batch_limits=BatchLimits(tmp_path / "invalid.json"),
+            lean_system=True,
+        )
+
+
 def test_stream_heartbeats_cannot_extend_the_attempt_deadline(tmp_path: Path) -> None:
     a = make_agent(tmp_path)
     a.request_local.response_deadline = time.monotonic() - 1

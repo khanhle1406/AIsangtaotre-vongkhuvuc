@@ -75,6 +75,7 @@ class StructuredPlanningMixin:
         runtime_contract: bool = True,
         compact_contract: bool = False,
         boundary_contract: bool = False,
+        coherent_envelope: bool = False,
         **kwargs: Any,
     ) -> None:
         super().__init__(**kwargs)
@@ -82,6 +83,14 @@ class StructuredPlanningMixin:
         self.runtime_contract = runtime_contract
         self.compact_contract = compact_contract
         self.boundary_contract = boundary_contract
+        self.coherent_envelope = coherent_envelope
+        if coherent_envelope and any(
+            self.system_prompt.count(marker) != 1
+            for marker in ("Return ONE JSON object:", "CELL TYPES s/n/d/b/e/u")
+        ):
+            raise ValueError(
+                "Coherent planning requires the documented full system template"
+            )
         self.structured_state = threading.local()
 
     def _before_request(self, payload: dict[str, Any], state: QueryState) -> None:
@@ -138,6 +147,20 @@ class StructuredPlanningMixin:
             if not self.json_schema:
                 payload["response_format"] = {"type": "json_object"}
             payload["messages"] = [dict(message) for message in payload["messages"]]
+            if self.coherent_envelope:
+                system = payload["messages"][0]["content"]
+                start = system.index("Return ONE JSON object:")
+                end = system.index("CELL TYPES s/n/d/b/e/u")
+                payload["messages"][0]["content"] = (
+                    system[:start]
+                    + 'Return ONE keyed JSON object {"programs":{"q0":{"code":"Python assigning result","result_variable":"result","format":{"kind":"auto","decimals":null,"count":null,"separator":", "},"assumptions":[],"needs_verification":false}}}. '
+                    + "Include exactly the requested qN keys, each with its own independently executable program. "
+                    + "The keys and questions are supplied in the user message. Do not place code, result_variable, format or selection at the root. "
+                    + "Selection is optional inside each program; if supplied it must cover all cells read by that program. "
+                    + "format.kind must be auto, text, integer, decimal, boolean or date. "
+                    + "All calculation and formatting rules below apply independently to every program.\n"
+                    + system[end:]
+                )
             prefix = content[: -len(PLAN_CONTRACT)]
             repeated_contract = "\n" + ACCURACY_CONTRACT + "\n"
             if self.compact_contract and prefix.endswith(repeated_contract):
@@ -209,10 +232,12 @@ class StructuredPlanningMixin:
                 "needs_verification",
                 "format",
                 "result_variable",
+                "selection",
             }
             or "programs" not in envelope
             or not isinstance(envelope["programs"], dict)
             or set(envelope["programs"]) != set(expected)
+            or ("selection" in envelope and envelope["selection"] != [])
         ):
             return data
         try:
@@ -314,6 +339,13 @@ class StructuredPlanningMixin:
                 return data
             programs.append({"index": index, **program.model_dump()})
         message["content"] = json.dumps({"programs": programs})
+        if "selection" in envelope:
+            # Only an empty shared declaration is neutral. Nonempty source
+            # metadata must be attached to its own program; never guess ownership.
+            previous = getattr(self.structured_state, "envelope_normalization", None)
+            self.structured_state.envelope_normalization = "+".join(
+                item for item in (previous, "validated-empty-shared-selection") if item
+            )
         return data
 
     def _response_received(self, data: dict[str, Any], record: dict[str, Any]) -> None:
@@ -332,3 +364,10 @@ class StructuredPlanningMixin:
 
 class StructuredBatchedAgent(StructuredPlanningMixin, BatchedAgent):
     """Gemini gateway using the shared keyed planning and validation pipeline."""
+
+
+class CoherentPlanningAgent(StructuredBatchedAgent):
+    """Use matching system/user envelopes for shared planning; retain single-query repair."""
+
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(coherent_envelope=True, **kwargs)
