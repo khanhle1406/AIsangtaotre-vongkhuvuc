@@ -2,9 +2,13 @@
 
 Giải pháp dùng `qwen/qwen3.7-flash` qua OpenRouter để chọn dữ liệu và sinh chương trình Python; phép tính chạy cục bộ trên giá trị thật trong workbook. Không đọc đáp án mẫu, không tra kết quả theo ID hoặc tên file.
 
-Xem [báo cáo benchmark gần nhất](docs/BENCHMARK.md): Gemini sinh mới đạt public 20/20 và holdout độc lập 23/24; candidate chưa được xác nhận bằng Qwen. Các công cụ Colab được giữ để tham khảo lịch sử, không thuộc luồng chạy hiện tại hoặc gói thi.
+Xem [benchmark hiện tại](docs/CURRENT_BENCHMARK.md): v17/Gemini đạt public 20/20 trong ba lượt và kiểm định độc lập mới 18/18 so với baseline 17/18. Các thí nghiệm tiếp theo ghi riêng, không thay kết quả kiểm định bằng điểm regression.
 
-Vòng tối ưu tiếp theo dùng chung một lượt lập chương trình cho các câu hỏi cùng workbook; xem [benchmark hiệu suất](docs/EFFICIENCY.md). Candidate v4/Gemini đạt public 20/20 trong ba lượt sinh mới, giảm trung bình 69% tổng thời gian và 55% token; challenge độc lập mới đạt 32/32 so với baseline 31/32. V3 trước đó đạt 60/60 trên bộ độc lập khác. Mỗi chương trình vẫn chạy và được kiểm chứng riêng. CLI phát triển nhận đường dẫn mới và không cần đáp án chuẩn:
+Xem [báo cáo giai đoạn đầu](docs/BENCHMARK.md): Gemini sinh mới đạt public 20/20 và holdout độc lập 23/24; candidate chưa được xác nhận bằng Qwen. Các công cụ Colab được giữ để tham khảo lịch sử, không thuộc luồng chạy hiện tại hoặc gói thi.
+
+[Kiểm tra độ ổn định và chuyển giao](docs/TRANSFER.md) ghi riêng các vòng mới, gồm cả lượt thất bại. Mã hiện tại dùng biểu diễn gọn cho cả request sửa lỗi, hỗ trợ ngày ISO và phạm vi hàng rõ ràng, kiểm tra nguồn ngày/đơn vị/nhãn. CLI batching Qwen là tùy chọn chưa có bằng chứng Qwen sinh mới; `run.py` giữ entrypoint thông thường.
+
+Vòng tối ưu v3/v4 dùng chung một lượt lập chương trình cho các câu hỏi cùng workbook; xem [benchmark hiệu suất lịch sử](docs/EFFICIENCY.md). Candidate v4/Gemini đạt public 20/20 trong ba lượt sinh mới, giảm trung bình 69% tổng thời gian và 55% token; challenge độc lập mới đạt 32/32 so với baseline 31/32. V3 trước đó đạt 60/60 trên bộ độc lập khác. Các số này gắn với snapshot v3/v4, không thay cho đánh giá mã mới. Mỗi chương trình vẫn chạy và được kiểm chứng riêng. CLI phát triển nhận đường dẫn mới và không cần đáp án chuẩn:
 
 ```bash
 python -m benchmarks.batched_cli --input-dir /path/to/xlsx_files --queries /path/to/queries.json --output /path/to/dev_submission.csv

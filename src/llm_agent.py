@@ -18,19 +18,34 @@ from openpyxl.utils import coordinate_to_tuple, get_column_letter
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from .context import inspect_regions, project_workbook
+from .contracts import (
+    extremum_evidence_errors,
+    header_count_errors,
+    scale_conversion_errors,
+    signed_comparison_errors,
+    temporal_comparison_errors,
+)
 from .excel_parser import WorkbookData
-from .executor import ExecutionResult, execute_program, normalise_program
+from .executor import (
+    ExecutionResult,
+    execute_program,
+    normalise_program,
+    without_unused_source_reads,
+)
 from .postprocessor import AnswerFormat, format_answer
 from .verification import (
     age_reference_columns,
     age_sort_errors,
     aggregation_overlap_errors,
+    column_scope_errors,
     complete_category_contract,
     complete_mean_contract,
     complete_total_contract,
+    date_field_errors,
     entity_label_errors,
     evidence_errors,
     label_errors,
+    latest_reference_columns,
     read_header_paths,
     row_scope_errors,
     scope_risks,
@@ -52,7 +67,7 @@ Never put the final numeric answer or copied workbook measures into program lite
 Use cell(sheet, 'A1') for typed values, num(sheet, 'A1') for numeric measures,
 cells(sheet, 'B2:D5') for a 2D rectangular list (rows then columns),
 values(sheet, 'B2:D5') for a FLAT row-major list (single-column elements are scalars),
-age_days(sheet, birth_address, reference_address) for elapsed days between typed dates,
+age_days(sheet, birth_address, reference_address) for elapsed days between typed or ISO dates,
 label(sheet,'B1') for merged TEXT
 headers, rows(sheet) for populated row numbers, and sheets for sheet names.
 find_rows(sheet, 'A', 'Requested label') locates rows by normalized text (exact or
@@ -61,9 +76,15 @@ data_rows(sheet, ['B','C'], 'number') returns rows where BOTH columns have numer
 data; use it to exclude titles, blank rows and footnotes BEFORE computing differences.
 For mixed columns use data_rows(sheet, {'A':'string','B':'number'}): identity A is
 text, measure B is numeric. Never require an identity/name column to be numeric.
+Optional start_row/end_row bound the same type filtering to one table (inclusive).
 age_order(sheet, birth_column, admission_column, descending=False) returns row numbers
-sorted by elapsed days at each person's admission, with real typed dates only.
+sorted by elapsed age at each person's reference date; supports typed dates and ISO text.
+For other date text, supply date_format matching the observed format; never guess locale.
 For second-oldest: r=age_order(sheet, birth_col, admission_col, descending=True)[1].
+latest_rows(sheet,key_column,time_column) returns original row indices, one maximum
+timestamp per entity key. Use it for latest-event-per-entity tasks, instead of pandas
+or parsing typed dates. Filters before/after latest selection have different meanings;
+apply the question's order. Equal timestamps require ties='first'/'last' if specified.
 argmax(sheet, 'B2:D2') returns the CELL ADDRESS of the largest numeric value in that
 range (minimum=True selects smallest; absolute=True compares absolute magnitudes).
 For a column header, use its column letters:
@@ -73,7 +94,10 @@ Prefer values() for sum/mean/ranking. Example: values('S','B2:D2') is [b,c,d],
 cells('S','B2:D2') is [[b,c,d]], values('S','B2:B4') is [b2,b3,b4].
 Declare result_variable explicitly and assign that variable on every path.
 Python supports assignments, comprehensions, loops, functions, lambdas, sorting,
-arithmetic, and math/statistics/datetime/re/collections imports. No print, file I/O,
+arithmetic, set union/intersection, math/statistics/datetime/re/collections imports,
+and bounded itertools.combinations/permutations. Generator expressions are supported;
+generator functions using yield/yield from are unavailable: return lists instead.
+No print, file I/O,
 classes, try/except, introspection, or other imports. Use actual 1-based Excel coordinates.
 Cells tagged datetime yield datetime objects; string cells remain strings.
 NEVER parse an already typed datetime. Parse string dates using the observed format.
@@ -162,6 +186,7 @@ class QueryState:
     calls: list[dict[str, Any]] = field(default_factory=list)
     reasoning_tokens: int | None = None
     max_tokens: int | None = None
+    question: str | None = None
 
 
 @dataclass
@@ -552,7 +577,7 @@ class LLMAgent:
         self, table_text: str, workbook: dict[str, Any], query: str, max_retries: int
     ) -> SolveResult:
         start = time.monotonic()
-        state = QueryState(self.deadline, self.query_budget)
+        state = QueryState(self.deadline, self.query_budget, question=query)
         result = SolveResult()
         messages = [
             {"role": "system", "content": self.system_prompt},
@@ -562,6 +587,12 @@ class LLMAgent:
             },
         ]
         for name, sheet in workbook.items():
+            latest = latest_reference_columns(sheet, query)
+            if latest is not None:
+                key_col, time_col = latest
+                messages[1]["content"] += (
+                    f"\nLATEST-RECORD HELPER: latest_rows({name!r},{key_col!r},{time_col!r}) returns the maximum timestamp row per entity, using these verified headers. Filtering before versus after latest selection changes the meaning: follow the question. Rank returned rows using original columns; no pandas or date parsing is needed for typed timestamps."
+                )
             reference = age_reference_columns(sheet, query)
             if reference is not None and not re.search(
                 r"completed years|whole years|integer age", query, re.IGNORECASE
@@ -581,6 +612,7 @@ class LLMAgent:
                 result.error = "Run deadline reached"
                 break
             response_text = ""
+            runtime_program: str | None = None
             try:
                 response_text = self._request(messages, state)
                 stripped = response_text.strip()
@@ -627,6 +659,11 @@ class LLMAgent:
                 }
                 result.attempts.append(trace)
                 if not execution.success:
+                    if execution.error and re.match(
+                        r"(?:TypeError|SyntaxError|NameError|IndexError):",
+                        execution.error,
+                    ):
+                        runtime_program = program.code
                     raise ValueError(execution.error)
                 effective_selections = [item.model_dump() for item in program.selection]
                 contract_code = (
@@ -634,10 +671,22 @@ class LLMAgent:
                     or complete_total_contract(workbook, execution, query)
                     or complete_category_contract(workbook, execution, query)
                 )
+                contract_result_variable = "result"
+                contract_kind = "unambiguous-aggregation"
+                original_result = execution.result
+                if contract_code is None:
+                    proposed = without_unused_source_reads(
+                        program.code, program.result_variable
+                    )
+                    if proposed != program.code:
+                        contract_code = proposed
+                        contract_result_variable = program.result_variable
+                        contract_kind = "unused-source-elimination"
                 if contract_code is not None:
                     execution = execute_program(
                         contract_code,
                         workbook,
+                        result_variable=contract_result_variable,
                         memory_mb=self.worker_memory_mb,
                         timeout=min(5, max(0.1, state.deadline - time.monotonic())),
                         iterator_helpers=self.iterator_helpers,
@@ -650,8 +699,11 @@ class LLMAgent:
                             "code": contract_code,
                             "format": program.format.model_dump(),
                             "contract_repair": True,
+                            "contract_kind": contract_kind,
                             "assumptions": [
-                                "Recomputed an unambiguous aggregation or category extremum from workbook coordinates; this application repair declares its own sources."
+                                "Removed unused pure source lookups only after the original program succeeded; re-execution must preserve result and type, and declares its own sources."
+                                if contract_kind == "unused-source-elimination"
+                                else "Recomputed an unambiguous aggregation or category extremum from workbook coordinates; this application repair declares its own sources."
                             ],
                             "reads": execution.reads,
                             "raw_result": execution.result,
@@ -661,6 +713,13 @@ class LLMAgent:
                     )
                     if not execution.success:
                         raise ValueError(execution.error)
+                    if contract_kind == "unused-source-elimination" and (
+                        type(execution.result) is not type(original_result)
+                        or execution.result != original_result
+                    ):
+                        raise ValueError(
+                            "Source simplification changed the successful program result"
+                        )
                     # Application-generated repairs own their source declaration.
                     # The model's original declaration remains in the first trace.
                     effective_selections = [
@@ -674,12 +733,35 @@ class LLMAgent:
                         "No workbook cells were read; compute from workbook, not literal answers"
                     )
                 contradictions = selection_errors(workbook, execution.reads, query)
+                effective_code = contract_code or program.code
+                effective_result = (
+                    contract_result_variable
+                    if contract_code
+                    else program.result_variable
+                )
+                contradictions += scale_conversion_errors(
+                    workbook, execution, query, effective_code, effective_result
+                )
+                contradictions += header_count_errors(
+                    workbook, execution, query, effective_code, effective_result
+                )
+                contradictions += signed_comparison_errors(query, effective_code)
+                contradictions += temporal_comparison_errors(
+                    execution, query, effective_code
+                )
+                contradictions += extremum_evidence_errors(
+                    workbook, execution, query, effective_code
+                )
                 contradictions += row_scope_errors(workbook, execution.reads, query)
                 contradictions += aggregation_overlap_errors(
                     workbook, execution.reads, query
                 )
                 contradictions += age_sort_errors(workbook, execution, query)
-                contradictions += label_errors(execution, query) if workbook else []
+                contradictions += date_field_errors(workbook, execution, query)
+                contradictions += column_scope_errors(workbook, execution, query)
+                contradictions += (
+                    label_errors(execution, query, workbook) if workbook else []
+                )
                 contradictions += entity_label_errors(workbook, execution, query)
                 contradictions += evidence_errors(
                     workbook,
@@ -688,15 +770,17 @@ class LLMAgent:
                 )
                 if contradictions:
                     raise ValueError("; ".join(contradictions))
+                runtime_program = program.code
                 answer = format_answer(execution.result, query, program.format)
-                risks = scope_risks(workbook, execution, query)
+                runtime_program = None
+                risks = scope_risks(workbook, execution, query, effective_code)
                 if (program.needs_verification or risks) and not verified:
                     verified = True
-                    if attempt + 1 >= min(max_retries + 1, 3):
-                        raise ValueError("Ambiguity unresolved within inference budget")
                     trace["verification_triggers"] = risks or [
                         "Model-reported ambiguity"
                     ]
+                    if attempt + 1 >= min(max_retries + 1, 3):
+                        raise ValueError("Ambiguity unresolved within inference budget")
                     # Fresh selection avoids anchoring review on the first answer/code.
                     contexts = [
                         message
@@ -745,7 +829,9 @@ class LLMAgent:
                     )
                 if "Non-retryable API" in result.error:
                     break
-                # Regenerate from evidence instead of anchoring on rejected code.
+                # Reselect semantic sources from evidence. For a pure runtime
+                # type/syntax error, retaining the code avoids discarding a valid
+                # scope and spending another turn rebuilding it incorrectly.
                 messages = messages[:2]
                 messages.append(
                     {
@@ -758,6 +844,11 @@ class LLMAgent:
                         "Keep calculations separate from formatting. Return whole labels, not first characters.",
                     }
                 )
+                if runtime_program is not None:
+                    messages[-1]["content"] += (
+                        "\nREJECTED PROGRAM FOR LOCAL CONTRACT REPAIR (correct the runtime/output shape issue and recheck scope):\n"
+                        + json.dumps(runtime_program[:10_000], ensure_ascii=False)
+                    )
         result.cost, result.tokens, result.requests = (
             state.cost,
             state.tokens,

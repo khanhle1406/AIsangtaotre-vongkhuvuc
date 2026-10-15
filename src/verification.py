@@ -1,12 +1,12 @@
 """Observable scope/ranking invariants, independent of reference answers."""
 
-import datetime
+import ast
 import re
 from typing import Any
 
 from openpyxl.utils import coordinate_to_tuple, get_column_letter, range_boundaries
 
-from .executor import ExecutionResult
+from .executor import ISO_DATE, ExecutionResult, stored_datetime
 
 
 def canonical_label(value: Any) -> str:
@@ -81,6 +81,8 @@ def age_reference_columns(sheet: dict[str, Any], query: str) -> tuple[str, str] 
         get_column_letter(coordinate_to_tuple(address)[1])
         for address, entry in sheet["cells"].items()
         if entry["kind"] == "datetime"
+        or entry["kind"] == "string"
+        and ISO_DATE.fullmatch(str(entry["value"]).strip())
     }
     headers = sheet.get("headers", {})
     birth = [
@@ -135,6 +137,182 @@ def age_reference_columns(sheet: dict[str, Any], query: str) -> tuple[str, str] 
     return (birth[0], admission[0]) if len(admission) == 1 else None
 
 
+def latest_reference_columns(
+    sheet: dict[str, Any], query: str
+) -> tuple[str, str] | None:
+    """Offer an exact helper binding only for uniquely named entity/time headers."""
+    if (
+        not re.search(r"\blatest\b", query, re.IGNORECASE)
+        or len(sheet.get("tables", [])) > 1
+    ):
+        return None
+    keys = []
+    dates = {
+        get_column_letter(coordinate_to_tuple(address)[1])
+        for address, entry in sheet["cells"].items()
+        if entry["kind"] == "datetime"
+        or entry["kind"] == "string"
+        and ISO_DATE.fullmatch(str(entry["value"]).strip())
+    }
+    times = []
+    for column, path in sheet.get("headers", {}).items():
+        if not path:
+            continue
+        leaf = canonical_label(path[-1])
+        if re.search(
+            rf"\b(?:each|every|per)\s+{re.escape(leaf)}\b", query, re.IGNORECASE
+        ):
+            keys.append(column)
+        if column in dates and re.search(
+            rf"(?<!\w){re.escape(leaf)}(?!\w)", query, re.IGNORECASE
+        ):
+            times.append(column)
+    if not times and len(dates) == 1:
+        times = list(dates)
+    return (
+        (keys[0], times[0])
+        if len(keys) == 1 and len(times) == 1 and keys[0] != times[0]
+        else None
+    )
+
+
+def date_field_errors(
+    workbook: dict[str, Any], execution: ExecutionResult, query: str
+) -> list[str]:
+    """A direct date answer must read the uniquely named date field, when observable."""
+    values = (
+        execution.result if isinstance(execution.result, list) else [execution.result]
+    )
+    if not values or not all(
+        isinstance(value, str) and ISO_DATE.fullmatch(value.strip()) for value in values
+    ):
+        return []
+
+    def words(text: str) -> set[str]:
+        text = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", text).lower()
+        return {
+            "birth" if word == "dob" else word for word in re.findall(r"[a-z]+", text)
+        } - {
+            "date",
+            "time",
+            "timestamp",
+            "iso",
+            "text",
+            "datetime",
+            "of",
+            "the",
+            "on",
+            "at",
+            "yyyy",
+            "mm",
+            "dd",
+        }
+
+    requested = words(query)
+    for name, sheet in workbook.items():
+        reads = {
+            key.rsplit("!", 1)[1]: entry
+            for key, entry in execution.reads.items()
+            if key.rsplit("!", 1)[0] == name
+            and entry["kind"] not in {"lookup_probe", "type_probe"}
+        }
+        date_reads = [
+            address
+            for address, entry in reads.items()
+            if entry["kind"] == "datetime"
+            or entry["kind"] == "string"
+            and ISO_DATE.fullmatch(str(entry["value"]).strip())
+        ]
+        if not date_reads:
+            continue
+        headers = read_header_paths(sheet, date_reads)
+        date_columns = {
+            get_column_letter(coordinate_to_tuple(address)[1])
+            for address, entry in sheet["cells"].items()
+            if entry["kind"] == "datetime"
+            or entry["kind"] == "string"
+            and ISO_DATE.fullmatch(str(entry["value"]).strip())
+        }
+        matches = [
+            column
+            for column in date_columns
+            if words(" ".join(headers.get(column, []))) & requested
+        ]
+        if len(matches) == 1 and not any(
+            get_column_letter(coordinate_to_tuple(address)[1]) == matches[0]
+            for address in date_reads
+        ):
+            return [
+                f"Date field mismatch: question names the date header in {name!r} column {matches[0]}, but only different date fields were read. Read the requested date field from the selected record; do not substitute admission/birth/another date."
+            ]
+    return []
+
+
+def column_scope_errors(
+    workbook: dict[str, Any], execution: ExecutionResult, query: str
+) -> list[str]:
+    """Explicitly named numeric header categories must all be evidenced in a comparison."""
+    if not re.search(
+        r"\b(?:and|or|than|versus|vs|compare|difference|sum|combined)\b",
+        query,
+        re.IGNORECASE,
+    ):
+        return []
+    for name, sheet in workbook.items():
+        numeric = [
+            key.rsplit("!", 1)[1]
+            for key, entry in execution.reads.items()
+            if key.rsplit("!", 1)[0] == name and entry["kind"] == "number"
+        ]
+        if not numeric:
+            continue
+        headers = read_header_paths(sheet, numeric)
+        numeric_columns = {
+            get_column_letter(coordinate_to_tuple(address)[1])
+            for address, entry in sheet["cells"].items()
+            if entry["kind"] in {"number", "uncached_formula"}
+        }
+        named: dict[str, set[str]] = {}
+        contexts: dict[str, set[tuple[str, ...]]] = {}
+        for column, path in headers.items():
+            if column not in numeric_columns or not path:
+                continue
+            for index, raw_label in enumerate(path):
+                label = canonical_label(raw_label)
+                if sum(character.isalpha() for character in label) < 3:
+                    continue
+                if re.search(rf"(?<!\w){re.escape(label)}(?!\w)", query, re.IGNORECASE):
+                    named.setdefault(label, set()).add(column)
+                    contexts.setdefault(label, set()).add(tuple(path[: index + 1]))
+        targets = {
+            label: columns
+            for label, columns in named.items()
+            if len(contexts[label]) == 1
+        }
+        observed = {
+            get_column_letter(coordinate_to_tuple(address)[1]) for address in numeric
+        }
+        # A shared parent is a valid requested branch even when its Total and
+        # child columns all inherit the caption. Repeated captions under
+        # competing ancestry remain ambiguous. Nested aliases alone do not
+        # establish a two-category comparison.
+        disjoint = any(
+            left.isdisjoint(right)
+            for i, left in enumerate(targets.values())
+            for right in list(targets.values())[i + 1 :]
+        )
+        if disjoint and any(not columns & observed for columns in targets.values()):
+            missing = {
+                label: sorted(columns)
+                for label, columns in targets.items()
+                if not columns & observed
+            }
+            return [
+                f"Named column coverage mismatch in {name!r}: requested numeric headers {missing!r} were not read. Use exact complete header paths rather than neighboring columns."
+            ]
+    return []
+
+
 def row_scope_errors(
     workbook: dict[str, Any], reads: dict[str, Any], query: str
 ) -> list[str]:
@@ -149,11 +327,6 @@ def row_scope_errors(
         ]
         numeric_rows = {
             position[0] for position, entry in selected if entry["kind"] == "number"
-        }
-        numeric_columns = {
-            get_column_letter(position[1])
-            for position, entry in selected
-            if entry["kind"] == "number"
         }
         data_rows = {
             coordinate_to_tuple(address)[0]
@@ -174,7 +347,6 @@ def row_scope_errors(
                     f"Numeric reads omit the requested row range {lower} to {upper} in {name}; matching rows: {sorted(matching)}"
                 )
 
-        headers = sheet.get("headers", {})
         numeric_columns_by_row: dict[int, list[int]] = {}
         for address, entry in sheet["cells"].items():
             if entry["kind"] == "number":
@@ -248,20 +420,99 @@ def row_scope_errors(
                     errors.append(
                         f"Ranking reads omit the requested option {option.strip()!r}; use find_rows() to locate each label separately, not adjacent row assumptions."
                     )
-        headers = sheet.get("headers", {})
-        if (
-            "across all industries" in query.lower()
-            and len(numeric_columns) == 1
-            and len(headers) >= 4
-        ):
-            paths = [
-                " ".join(headers.get(column, [])).lower() for column in numeric_columns
+    return errors + all_category_column_errors(workbook, reads, query)
+
+
+def all_category_column_errors(
+    workbook: dict[str, Any], reads: dict[str, Any], query: str
+) -> list[str]:
+    """Flag missing siblings only in an unambiguous, homogeneous across-all branch."""
+    if not re.search(r"\bacross all\b", query, re.IGNORECASE) or re.search(
+        r"\b(?:average|mean|weighted|leaf|leaves|except|exclude|excluding|ignore)\b|\bpublished total\b",
+        query,
+        re.IGNORECASE,
+    ):
+        return []
+    errors: list[str] = []
+    for name, sheet in workbook.items():
+        observed = {
+            key[len(name) + 1 :]
+            for key, entry in reads.items()
+            if key.startswith(name + "!") and entry["kind"] == "number"
+        }
+        for row in {coordinate_to_tuple(address)[0] for address in observed}:
+            selected = [
+                address
+                for address in observed
+                if coordinate_to_tuple(address)[0] == row
             ]
-            if paths and not any(
-                "all industries" in path or "total" in path for path in paths
+            region = cell_region(sheet, *coordinate_to_tuple(selected[0]))
+            if region is None:
+                continue
+            bounds = range_boundaries(region["range"])
+            available = [
+                address
+                for address, entry in sheet["cells"].items()
+                if entry["kind"] == "number"
+                and (pos := coordinate_to_tuple(address))[0] == row
+                and bounds[0] <= pos[1] <= bounds[2]
+            ]
+            paths = {
+                address: region.get("headers", {}).get(
+                    get_column_letter(coordinate_to_tuple(address)[1]), []
+                )
+                for address in available
+            }
+            if len(paths) < 2 or any(len(path) < 2 for path in paths.values()):
+                continue
+            if len({tuple(path[:-1]) for path in paths.values()}) != 1:
+                continue
+            if (
+                len(
+                    {
+                        sheet["cells"][address].get("number_format", "General")
+                        for address in available
+                    }
+                )
+                != 1
             ):
+                continue
+            if any(
+                re.search(
+                    r"\b(?:total|all|id|identifier|code|weight|denominator)\b|sample size",
+                    path[-1],
+                    re.IGNORECASE,
+                )
+                for path in paths.values()
+            ):
+                continue
+            # Explicit category names can narrow an across-all population; such
+            # mixed row/column scope needs model interpretation, not this guard.
+            stopwords = {
+                "the",
+                "and",
+                "for",
+                "all",
+                "total",
+                "published",
+                "value",
+                "values",
+                "number",
+                "numbers",
+                "column",
+                "columns",
+            }
+            query_words = set(re.findall(r"[a-z]{3,}", query.casefold())) - stopwords
+            if any(
+                query_words & set(re.findall(r"[a-z]{3,}", path[-1].casefold()))
+                for path in paths.values()
+            ):
+                continue
+            missing = set(available) - observed
+            if missing:
                 errors.append(
-                    "The selected column is a single industry, not an overall total. Aggregate disjoint industry columns when no total column exists."
+                    f"Across-all selection omits sibling category cells in {name}: {sorted(missing)}. "
+                    "Inspect the complete shared header branch before aggregating or comparing rows; do not silently drop a category."
                 )
     return errors
 
@@ -278,17 +529,26 @@ def age_sort_errors(
         birth_col, reference_col = reference
         ages = []
         for key, entry in execution.reads.items():
-            if key.startswith(name + "!") and entry["kind"] == "datetime":
+            if key.startswith(name + "!") and (
+                entry["kind"] == "datetime"
+                or entry["kind"] == "string"
+                and ISO_DATE.fullmatch(str(entry["value"]).strip())
+            ):
                 row, col = coordinate_to_tuple(key[len(name) + 1 :])
                 if get_column_letter(col) != birth_col:
                     continue
                 other = execution.reads.get(f"{name}!{reference_col}{row}")
-                if other and other["kind"] == "datetime":
+                if other and (
+                    other["kind"] == "datetime"
+                    or other["kind"] == "string"
+                    and ISO_DATE.fullmatch(str(other["value"]).strip())
+                ):
                     ages.append(
                         (
-                            datetime.datetime.fromisoformat(other["value"])
-                            - datetime.datetime.fromisoformat(entry["value"])
-                        ).days
+                            stored_datetime(other["value"])
+                            - stored_datetime(entry["value"])
+                        ).total_seconds()
+                        / 86400
                     )
         words = {
             "first": 1,
@@ -371,7 +631,39 @@ def age_sort_errors(
     return []
 
 
-def label_errors(execution: ExecutionResult, query: str) -> list[str]:
+def label_errors(
+    execution: ExecutionResult, query: str, workbook: dict[str, Any] | None = None
+) -> list[str]:
+    requested = re.search(
+        r"answer with only (?:the )?(.*(?:name|category))\b", query, re.IGNORECASE
+    )
+    if isinstance(execution.result, (int, float)) and requested and workbook:
+
+        def tokens(text: str) -> set[str]:
+            text = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", text)
+            return {
+                word.rstrip("s") for word in re.findall(r"[a-z]+", text.casefold())
+            } - {"of", "the", "only", "with", "answer"}
+
+        identity = tokens(requested[1])
+        if "name" in identity:
+            identity = {"name"}
+        for key, entry in execution.reads.items():
+            if entry["kind"] != "number" or entry["value"] != execution.result:
+                continue
+            name, address = key.rsplit("!", 1)
+            sheet = workbook[name]
+            row, column = coordinate_to_tuple(address)
+            headers = source_headers(sheet, address)
+            own = headers.get(get_column_letter(column), [])
+            if own and identity & tokens(own[-1]):
+                return []  # Numeric identifiers/categories are legitimate labels.
+            for position, text in row_label_index(sheet).get(row, []):
+                path = headers.get(get_column_letter(position), [])
+                if position < column and path and identity & tokens(path[-1]):
+                    return [
+                        "The question requests a name/category, but the result is a numeric measure. Return the complete corresponding identity cell, not its score or percentage."
+                    ]
     if (
         not isinstance(execution.result, str)
         or not re.search(
@@ -797,17 +1089,123 @@ def complete_mean_contract(
     return f"values_to_average=[num({json.dumps(name)}, address) for address in {addresses!r}]\nresult=sum(values_to_average)/len(values_to_average)"
 
 
+def row_context_features(
+    sheet: dict[str, Any], matches: list[int], label: str
+) -> dict[int, set[str]]:
+    """Index row dimensions once per repeated label, not once per numeric read."""
+    features: dict[int, set[str]] = {}
+    matched_rows = set(matches)
+    for address, entry in sheet["cells"].items():
+        position, column = coordinate_to_tuple(address)
+        if position not in matched_rows:
+            continue
+        text = canonical_label(entry["value"]).casefold()
+        if (
+            entry["kind"] == "string"
+            and len(text) >= 2
+            and text != label.casefold()
+            and text
+            not in {
+                "of",
+                "at",
+                "in",
+                "on",
+                "an",
+                "as",
+                "is",
+                "to",
+                "or",
+                "and",
+                "the",
+                "for",
+            }
+        ):
+            features.setdefault(position, set()).add(text)
+        elif entry["kind"] == "number" and re.fullmatch(r"\d{4}", text):
+            path = source_headers(sheet, address).get(get_column_letter(column), [])
+            if any(
+                re.search(r"\b(?:year|period)\b", value, re.IGNORECASE)
+                for value in path
+            ):
+                features.setdefault(position, set()).add(text)
+    return features
+
+
+def row_context_resolves_label(
+    features: dict[int, set[str]], row: int, matches: list[int], query: str
+) -> bool:
+    """Only a unique row supported by explicit question qualifiers resolves scope."""
+    named = {
+        text
+        for text in features.get(row, set())
+        if re.search(rf"(?<!\w){re.escape(text)}(?!\w)", query, re.IGNORECASE)
+    }
+    return bool(named) and {
+        other for other in matches if named <= features.get(other, set())
+    } == {row}
+
+
 def scope_risks(
-    workbook: dict[str, Any], execution: ExecutionResult, query: str
+    workbook: dict[str, Any], execution: ExecutionResult, query: str, code: str = ""
 ) -> list[str]:
     """Application-triggered review for ambiguity, rather than model confidence."""
     risks = []
+    tree = ast.parse(code) if code else None
+    declared_arithmetic = bool(
+        re.search(
+            r"\badd(?:s|ing)?\b[\s\S]*\bsubtract(?:s|ing)?\b", query, re.IGNORECASE
+        )
+    )
+    aggregate_program = bool(
+        tree is not None
+        and any(
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Name)
+            and node.func.id in {"sum", "len", "mean", "fmean"}
+            for node in ast.walk(tree)
+        )
+    )
+    numeric_sources = {
+        key.rsplit("!", 1)[0]
+        for key, entry in execution.reads.items()
+        if entry["kind"] == "number"
+    }
+    if (
+        len(numeric_sources) > 1
+        and isinstance(execution.result, str)
+        and re.search(
+            r"\b(?:which|who)\b.*\b(?:largest|highest|lowest|most|least|maximum|minimum)\b",
+            query,
+            re.IGNORECASE,
+        )
+        and not declared_arithmetic
+        and tree is not None
+        and any(isinstance(node, ast.Sub) for node in ast.walk(tree))
+    ):
+        risks.append(
+            "Cross-sheet derived rank: independently check subtraction direction, entity joins, aggregation and ties against the question. A rank over a reversed difference can run successfully and still select the wrong entity."
+        )
     for name, sheet in workbook.items():
         selected_rows = {
             coordinate_to_tuple(key[len(name) + 1 :])[0]
             for key, entry in execution.reads.items()
             if key.startswith(name + "!") and entry["kind"] == "number"
         }
+        targets: dict[str, set[int]] = {}
+        row_labels = row_label_index(sheet)
+        for row, labels_in_row in row_labels.items():
+            for _, label in labels_in_row:
+                if re.search(
+                    rf"\bfor\s+(?:the\s+)?{re.escape(label)}\s+only\b",
+                    query,
+                    re.IGNORECASE,
+                ):
+                    targets.setdefault(label, set()).add(row)
+        for label, matching in targets.items():
+            if selected_rows and selected_rows - matching:
+                risks.append(
+                    f"{name}: question is explicitly restricted to {label!r}, but numeric reads include other rows; independently verify filtering and joins rather than summing all entities."
+                )
         if re.search(
             r"\b(?:average|mean)\b.*\bacross all\b", query, re.IGNORECASE
         ) and any(mean_scope_cells(sheet, row, query) is None for row in selected_rows):
@@ -838,12 +1236,61 @@ def scope_risks(
             if len(set(matches)) <= 1 or not selected_rows.intersection(matches):
                 continue
             justified = True
+            features = row_context_features(sheet, matches, label)
+            if aggregate_program or re.search(
+                r"\b(?:sum|summed|total|combined|aggregate)\b", query, re.IGNORECASE
+            ):
+                regions = {
+                    region["range"]
+                    if (
+                        region := cell_region(
+                            sheet,
+                            row,
+                            min((col for col, _ in row_labels.get(row, [])), default=1),
+                        )
+                    )
+                    else None
+                    for row in matches
+                }
+                contexts = {
+                    next(
+                        (
+                            text
+                            for before, text in sorted(context_rows, reverse=True)
+                            if before < row
+                        ),
+                        "",
+                    )
+                    for row in matches
+                }
+                explicit = {
+                    text
+                    for row in matches
+                    for text in features.get(row, set())
+                    if re.search(
+                        rf"(?<!\w){re.escape(text)}(?!\w)", query, re.IGNORECASE
+                    )
+                }
+                if (
+                    len(regions) == 1
+                    and None not in regions
+                    and len(contexts) == 1
+                    and all(
+                        explicit <= features.get(row, set())
+                        for row in selected_rows.intersection(matches)
+                    )
+                ):
+                    # Repeated dimension values in one flat ledger are records to
+                    # aggregate, not separate sections requiring another model call.
+                    continue
             specific_context = any(
                 not re.fullmatch(r"(?:Total|All)", text, re.IGNORECASE)
                 and re.search(rf"(?<!\w){re.escape(text)}(?!\w)", query, re.IGNORECASE)
                 for _, text in context_rows
             )
             for row in selected_rows.intersection(matches):
+                if row_context_resolves_label(features, row, matches, query):
+                    continue
                 prior = [text for before, text in sorted(context_rows) if before < row]
                 context = prior[-1] if prior else ""
                 if (

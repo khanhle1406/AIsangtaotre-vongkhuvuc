@@ -3,6 +3,7 @@
 import ast
 import collections
 import datetime
+import itertools
 import json
 import math
 import operator
@@ -13,7 +14,7 @@ import string
 import subprocess
 import sys
 import threading
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Iterable, Iterator
 from dataclasses import dataclass, field
 from pathlib import Path
 from types import SimpleNamespace
@@ -24,6 +25,62 @@ import psutil
 MAX_ITEMS = 200_000
 MAX_STEPS = 1_000_000
 MAX_OUTPUT_BYTES = 4 * 1024**2
+ISO_DATE = re.compile(
+    r"\d{4}-\d{2}-\d{2}(?:[T ]\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?"
+)
+
+
+def stored_datetime(value: Any, date_format: str | None = None) -> datetime.datetime:
+    """Parse typed dates or unambiguous ISO text; other formats require consent in code."""
+    if isinstance(value, datetime.datetime):
+        return value
+    if isinstance(value, str):
+        value = value.strip()
+        if date_format is not None:
+            return datetime.datetime.strptime(value, date_format)
+        if ISO_DATE.fullmatch(value):
+            return datetime.datetime.fromisoformat(value)
+    raise ValueError(
+        "Expected an Excel datetime or ISO date text; provide date_format for other observed formats"
+    )
+
+
+def bounded_combinations(
+    values: Iterable[Any], count: int
+) -> Iterator[tuple[Any, ...]]:
+    """Provide a pure standard operation without admitting unbounded output pools."""
+    if type(count) is not int:
+        raise TypeError("Combination size must be an integer")
+    if count < 0:
+        raise ValueError("Combination size must be nonnegative")
+    pool = tuple(itertools.islice(values, MAX_ITEMS + 1))
+    if len(pool) > MAX_ITEMS or math.comb(len(pool), count) > MAX_ITEMS:
+        raise MemoryError("Combinations exceed the worker item budget")
+    return itertools.combinations(pool, count)
+
+
+def bounded_permutations(
+    values: Iterable[Any], count: int | None = None
+) -> Iterator[tuple[Any, ...]]:
+    """Expose standard permutations only when both input and output fit the cap."""
+    if count is not None and type(count) is not int:
+        raise TypeError("Permutation size must be an integer")
+    if count is not None and count < 0:
+        raise ValueError("Permutation size must be nonnegative")
+    pool = tuple(itertools.islice(values, MAX_ITEMS + 1))
+    size = len(pool) if count is None else count
+    if len(pool) > MAX_ITEMS:
+        raise MemoryError("Permutations exceed the worker item budget")
+    # Stop multiplication at the cap rather than constructing a huge factorial.
+    cardinality = 0 if size > len(pool) else 1
+    if cardinality:
+        for factor in range(len(pool), len(pool) - size, -1):
+            cardinality *= factor
+            if cardinality > MAX_ITEMS:
+                raise MemoryError("Permutations exceed the worker item budget")
+    return itertools.permutations(pool, size)
+
+
 BINARY = {
     ast.Add: operator.add,
     ast.Sub: operator.sub,
@@ -32,6 +89,9 @@ BINARY = {
     ast.FloorDiv: operator.floordiv,
     ast.Mod: operator.mod,
     ast.Pow: operator.pow,
+    ast.BitOr: operator.or_,
+    ast.BitAnd: operator.and_,
+    ast.BitXor: operator.xor,
 }
 COMPARE = {
     ast.Eq: operator.eq,
@@ -46,6 +106,9 @@ COMPARE = {
     ast.IsNot: operator.is_not,
 }
 MODULES = {
+    "itertools": SimpleNamespace(
+        combinations=bounded_combinations, permutations=bounded_permutations
+    ),
     "string": SimpleNamespace(
         ascii_uppercase=string.ascii_uppercase,
         ascii_lowercase=string.ascii_lowercase,
@@ -131,6 +194,7 @@ BUILTINS = {
     "tuple": tuple,
     "dict": dict,
     "set": set,
+    "frozenset": frozenset,
     "range": range,
     "enumerate": enumerate,
     "zip": zip,
@@ -193,6 +257,9 @@ ALLOWED_NODES = (
     ast.FloorDiv,
     ast.Mod,
     ast.Pow,
+    ast.BitOr,
+    ast.BitAnd,
+    ast.BitXor,
     ast.UAdd,
     ast.USub,
     ast.Not,
@@ -232,6 +299,72 @@ def normalise_program(code: str) -> str:
     return code
 
 
+def without_unused_source_reads(code: str, result_variable: str = "result") -> str:
+    """Propose a smaller source declaration; caller must first execute original code."""
+    tree = ast.parse(code)
+    loaded = {
+        node.id
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load)
+    }
+    stored = {
+        node.id
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store)
+    } | {
+        node.name
+        for node in ast.walk(tree)
+        if isinstance(node, (ast.FunctionDef, ast.ClassDef))
+    }
+    helpers = {"cell", "num", "values", "cells", "label"} - stored
+    pure = helpers | ({"str", "int", "float"} - stored)
+    protected = {result_variable, "result", "answer", "ans", "final_answer"}
+
+    def removable(node: ast.stmt) -> bool:
+        if (
+            not isinstance(node, ast.Assign)
+            or len(node.targets) != 1
+            or not isinstance(node.targets[0], ast.Name)
+            or node.targets[0].id in loaded | protected
+        ):
+            return False
+        if not isinstance(node.value, (ast.Call, ast.Subscript)):
+            return False
+        children = list(ast.walk(node.value))
+        if any(
+            isinstance(
+                child,
+                (
+                    ast.NamedExpr,
+                    ast.Lambda,
+                    ast.comprehension,
+                    ast.Yield,
+                    ast.YieldFrom,
+                ),
+            )
+            for child in children
+        ):
+            return False
+        calls = [child for child in children if isinstance(child, ast.Call)]
+        return (
+            bool(calls)
+            and any(
+                isinstance(call.func, ast.Name) and call.func.id in helpers
+                for call in calls
+            )
+            and all(
+                isinstance(call.func, ast.Name) and call.func.id in pure
+                for call in calls
+            )
+        )
+
+    retained = [node for node in tree.body if not removable(node)]
+    if len(retained) == len(tree.body):
+        return code
+    tree.body = retained
+    return ast.unparse(tree)
+
+
 def _coordinate(address: str) -> tuple[int, int]:
     match = re.fullmatch(r"([A-Za-z]+)([1-9]\d*)", address.replace("$", ""))
     if not match:
@@ -253,6 +386,10 @@ def _address(row: int, col: int) -> str:
         col, digit = divmod(col - 1, 26)
         chars = chr(65 + digit) + chars
     return f"{chars}{row}"
+
+
+class CellArray(list[Any]):
+    """Preserve cells() shape provenance without changing normal list operations."""
 
 
 @dataclass
@@ -308,17 +445,18 @@ class WorkbookAccess:
         bottom, right = _coordinate(last)
         values = self.values(sheet, area)
         width = right - left + 1
-        return [
-            values[index : index + width]
-            for index in range(0, (bottom - top + 1) * width, width)
-        ]
+        return CellArray(
+            [
+                CellArray(values[index : index + width])
+                for index in range(0, (bottom - top + 1) * width, width)
+            ]
+        )
 
-    def age_days(self, sheet: str, birth: str, reference: str) -> int:
-        dob, event = self.cell(sheet, birth), self.cell(sheet, reference)
-        if not isinstance(dob, datetime.datetime) or not isinstance(
-            event, datetime.datetime
-        ):
-            raise TypeError("age_days requires typed Excel dates")
+    def age_days(
+        self, sheet: str, birth: str, reference: str, date_format: str | None = None
+    ) -> int:
+        dob = stored_datetime(self.cell(sheet, birth), date_format)
+        event = stored_datetime(self.cell(sheet, reference), date_format)
         return (event - dob).days
 
     def num(self, sheet: str, address: str) -> int | float | list[int | float]:
@@ -348,7 +486,9 @@ class WorkbookAccess:
                 r"[+-]?(?:(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?",
                 value,
             ):
-                raise ValueError(f"Ambiguous numeric text at {sheet}!{address}")
+                raise ValueError(
+                    f"Ambiguous numeric text at {sheet}!{address}: {value!r}. Use data_rows with the observed numeric columns to exclude headers before calling num; do not coerce a header to zero."
+                )
             value = float(value.replace(",", ""))
         if not isinstance(value, (int, float)) or not math.isfinite(value):
             raise ValueError(f"Not a finite number: {sheet}!{address}")
@@ -402,14 +542,46 @@ class WorkbookAccess:
         return None
 
     def rows(self, sheet: str) -> list[int]:
-        return sorted(
-            {_coordinate(address)[0] for address in self.data[sheet]["cells"]}
-        )
+        anchors: dict[int, str] = {}
+        for address in self.data[sheet]["cells"]:
+            anchors.setdefault(_coordinate(address)[0], address)
+        for address in anchors.values():
+            entry = self.data[sheet]["cells"][address]
+            self.reads.setdefault(
+                f"{sheet}!{address}",
+                {
+                    "kind": "type_probe",
+                    "stored_kind": entry["kind"],
+                    "value": None,
+                    "operation": "row-presence",
+                },
+            )
+        return sorted(anchors)
 
     def data_rows(
-        self, sheet: str, columns: list[str] | dict[str, str], kind: str = "number"
+        self,
+        sheet: str,
+        columns: list[str] | dict[str, str],
+        kind: str | int = "number",
+        end_row: int | None = None,
+        *,
+        start_row: int | None = None,
     ) -> list[int]:
         """Select rows by explicit stored types; titles/footnotes cannot masquerade as data."""
+        if type(kind) is int:
+            if not isinstance(columns, dict) or start_row is not None:
+                raise ValueError(
+                    "Positional row bounds require a typed column dictionary; otherwise use start_row/end_row keywords"
+                )
+            start_row, kind = kind, "number"
+        first = 1 if start_row is None else start_row
+        last = 1_048_576 if end_row is None else end_row
+        if (
+            type(first) is not int
+            or type(last) is not int
+            or not 1 <= first <= last <= 1_048_576
+        ):
+            raise ValueError("data_rows bounds must be ordered Excel row indices")
         required = (
             dict.fromkeys(columns, kind) if isinstance(columns, list) else columns
         )
@@ -420,7 +592,16 @@ class WorkbookAccess:
             raise ValueError("data_rows needs explicit columns and a supported kind")
         candidates = []
         date_mismatches = []
+        if self.data[sheet]["cells"]:
+            present = {_coordinate(address)[1] for address in self.data[sheet]["cells"]}
+            for column in required:
+                if _coordinate(column.upper() + "1")[1] not in present:
+                    raise ValueError(
+                        f"data_rows column {column!r} has no stored cells in {sheet!r}; use actual workbook columns instead of treating an invalid selection as zero"
+                    )
         for row in self.rows(sheet):
+            if not first <= row <= last:
+                continue
             kinds = []
             for column in required:
                 address = column.upper() + str(row)
@@ -462,14 +643,55 @@ class WorkbookAccess:
         return candidates
 
     def age_order(
-        self, sheet: str, birth: str, reference: str, descending: bool = False
+        self,
+        sheet: str,
+        birth: str,
+        reference: str,
+        descending: bool = False,
+        date_format: str | None = None,
     ) -> list[int]:
-        candidates = self.data_rows(sheet, [birth, reference], "datetime")
+        """Order elapsed ages using each row's own date; preserve intraday precision."""
+        ages = {}
+        for row in self.rows(sheet):
+            addresses = [column.upper() + str(row) for column in (birth, reference)]
+            entries = [
+                self.data[sheet]["cells"].get(address, {}) for address in addresses
+            ]
+            raw = [entry.get("value") for entry in entries]
+            for address, entry in zip(addresses, entries, strict=True):
+                self.reads.setdefault(
+                    f"{sheet}!{address}",
+                    {
+                        "kind": "type_probe",
+                        "stored_kind": entry.get("kind", "blank"),
+                        "value": None,
+                    },
+                )
+            if any(value is None for value in raw):
+                continue
+            # Inspect genuine date-like records, not title/header strings or unrelated tables.
+            date_like = [
+                entry.get("kind") == "datetime"
+                or isinstance(value, str)
+                and bool(re.search(r"\d{1,4}[-/]\d{1,2}[-/]\d{1,4}", value))
+                for entry, value in zip(entries, raw, strict=True)
+            ]
+            if not any(date_like) and date_format is None:
+                continue
+            if (
+                date_format is not None
+                and not any(date_like)
+                and not any(re.search(r"\d", str(value)) for value in raw)
+            ):
+                continue
+            dob, event = [
+                stored_datetime(self.cell(sheet, address), date_format)
+                for address in addresses
+            ]
+            ages[row] = (event - dob).total_seconds() / 86400
         return self.sorter(
-            candidates,
-            key=lambda row: self.age_days(
-                sheet, birth + str(row), reference + str(row)
-            ),
+            list(ages),
+            key=lambda row: ages[row],
             reverse=descending,
         )
 
@@ -488,6 +710,114 @@ class WorkbookAccess:
                 re.IGNORECASE,
             )
         ]
+
+    def latest_rows(
+        self,
+        sheet: str,
+        key_column: str,
+        time_column: str,
+        *,
+        date_format: str | None = None,
+        ties: str = "error",
+        start_row: int | None = None,
+        end_row: int | None = None,
+    ) -> list[int]:
+        """Select maximum timestamp per typed entity key, retaining original row indices."""
+        if ties not in {"error", "first", "last"}:
+            raise ValueError("latest_rows ties must be error, first or last")
+        first = 1 if start_row is None else start_row
+        last = 1_048_576 if end_row is None else end_row
+        if (
+            type(first) is not int
+            or type(last) is not int
+            or not 1 <= first <= last <= 1_048_576
+        ):
+            raise ValueError("latest_rows bounds must be ordered Excel row indices")
+        columns = [key_column.upper(), time_column.upper()]
+        if any(not re.fullmatch(r"[A-Z]+", column) for column in columns):
+            raise ValueError(
+                "latest_rows requires original column letters, not addresses"
+            )
+        data = self.data[sheet]
+        present = {_coordinate(address)[1] for address in data["cells"]}
+        if any(_coordinate(column + "1")[1] not in present for column in columns):
+            raise ValueError("latest_rows requires existing workbook columns")
+        selected: dict[tuple[str, Any], tuple[datetime.datetime, int]] = {}
+        dated_rows: list[int] = []
+        missing_rows: list[int] = []
+        header_rows: list[int] = []
+        ambiguous: set[tuple[str, Any]] = set()
+        captions = {
+            " ".join(str(value).split()).casefold()
+            for value in data.get("headers", {}).get(columns[1], [])
+        }
+        for row in self.rows(sheet):
+            if not first <= row <= last:
+                continue
+            key_address, time_address = [column + str(row) for column in columns]
+            key_entry = data["cells"].get(key_address, {})
+            time_entry = data["cells"].get(time_address, {})
+            if (
+                key_entry.get("value") is None
+                and time_entry.get("value") is None
+                and time_entry.get("kind") != "uncached_formula"
+            ):
+                continue
+            value = (
+                self.cell(sheet, time_address)
+                if time_entry.get("kind") == "uncached_formula"
+                else time_entry.get("value")
+            )
+            if value is None:
+                missing_rows.append(row)
+                continue
+            if (
+                time_entry.get("kind") == "string"
+                and " ".join(str(value).split()).casefold() in captions
+            ):
+                header_rows.append(row)
+                continue
+            timestamp = stored_datetime(self.cell(sheet, time_address), date_format)
+            key = self.label(sheet, key_address)
+            if key is None:
+                raise ValueError("A dated record has no entity key")
+            kind = (
+                "number"
+                if isinstance(key, (int, float)) and not isinstance(key, bool)
+                else type(key).__name__
+            )
+            identity = (kind, key)
+            dated_rows.append(row)
+            prior = selected.get(identity)
+            if prior is None or timestamp > prior[0]:
+                selected[identity] = (timestamp, row)
+                ambiguous.discard(identity)
+            elif timestamp == prior[0]:
+                if ties == "error":
+                    ambiguous.add(identity)
+                if ties == "last":
+                    selected[identity] = (timestamp, row)
+        if ambiguous:
+            raise ValueError("Equal latest timestamps require an explicit tie policy")
+        first_dated = min(dated_rows, default=last)
+        lower = (
+            first
+            if start_row is not None
+            else max(
+                (row for row in header_rows if row < first_dated), default=first - 1
+            )
+            + 1
+        )
+        upper = (
+            last
+            if end_row is not None
+            else max([*dated_rows, *missing_rows], default=last)
+        )
+        if any(lower <= row <= upper for row in missing_rows):
+            raise ValueError(
+                "A keyed record inside the dated table has no timestamp; latest selection is undefined"
+            )
+        return sorted(row for _, row in selected.values())
 
     def argmax(
         self, sheet: str, area: str, minimum: bool = False, absolute: bool = False
@@ -670,7 +1000,7 @@ class Interpreter:
 
     def bounded(self, value: Any) -> Any:
         if (
-            isinstance(value, (str, bytes, list, tuple, dict, set, range))
+            isinstance(value, (str, bytes, list, tuple, dict, set, frozenset, range))
             and len(value) > MAX_ITEMS
         ):
             raise MemoryError("Generated value exceeds item limit")
@@ -786,6 +1116,20 @@ class Interpreter:
             left = self.evaluate(node.left, env)
             for operation, part in zip(node.ops, node.comparators, strict=True):
                 right = self.evaluate(part, env)
+                if isinstance(operation, (ast.Eq, ast.NotEq)) and (
+                    isinstance(left, CellArray)
+                    and isinstance(
+                        right, (str, int, float, datetime.date, datetime.timedelta)
+                    )
+                    or isinstance(right, CellArray)
+                    and isinstance(
+                        left, (str, int, float, datetime.date, datetime.timedelta)
+                    )
+                ):
+                    raise TypeError(
+                        "cells() returns a 2D list: comparing its row/list to a scalar silently discards matches. "
+                        "Use cell(sheet,address), values() for a flat column, or cells(...)[row][column]."
+                    )
                 if not COMPARE[type(operation)](left, right):
                     return False
                 left = right
@@ -817,6 +1161,12 @@ class Interpreter:
             return sequence[index]
         if isinstance(node, ast.Attribute):
             value = self.evaluate(node.value, env)
+            if isinstance(value, datetime.datetime) and node.attr == "timestamp":
+                # Excel dates are naive. Make epoch conversion portable instead
+                # of inheriting the judge machine's local timezone/DST policy.
+                return lambda: value.replace(
+                    tzinfo=value.tzinfo or datetime.UTC
+                ).timestamp()
             if isinstance(value, list) and node.attr == "sort":
                 return lambda key=None, reverse=False: self.sort_in_place(
                     value, key, reverse
@@ -1096,11 +1446,13 @@ def _grounded(code: str, result_variable: str = "result") -> bool:
             "cells",
             "values",
             "label",
+            "rows",
             "text",
             "age_days",
             "find_rows",
             "data_rows",
             "age_order",
+            "latest_rows",
             "argmax",
             "category_rows",
         }:
@@ -1227,6 +1579,7 @@ def _worker() -> None:
             "find_rows": access.find_rows,
             "data_rows": access.data_rows,
             "age_order": access.age_order,
+            "latest_rows": access.latest_rows,
             "argmax": access.argmax,
             "category_rows": access.category_rows,
             "sheets": list(access.data),

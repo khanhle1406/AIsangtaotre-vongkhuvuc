@@ -58,6 +58,74 @@ def test_gateway_payload_and_missing_usage_are_explicit(tmp_path: Path) -> None:
     assert DEFAULT_MODEL == "qwen/qwen3.7-flash"
 
 
+def test_adaptive_thinking_is_per_query_and_does_not_change_fixed_baseline(
+    tmp_path: Path,
+) -> None:
+    agent = make_agent(tmp_path, adaptive_thinking=True)
+    states = [
+        QueryState(
+            time.monotonic() + 60, 0.09, question="How many more across all categories?"
+        ),
+        QueryState(time.monotonic() + 60, 0.09, requests=2, question="Lookup value"),
+        QueryState(time.monotonic() + 60, 0.09, question="Lookup value"),
+    ]
+    with patch.object(
+        agent, "_open_request", side_effect=[completion() for _ in states]
+    ) as calls:
+        for state in states:
+            agent._request([{"role": "user", "content": "Return JSON"}], state)
+    assert [
+        json.loads(call.args[0].data)["reasoning_effort"]
+        for call in calls.call_args_list
+    ] == ["low", "high", "low"]
+    assert [state.calls[-1]["thinking"] for state in states] == ["low", "high", "low"]
+    fixed = make_agent(tmp_path / "fixed")
+    with patch.object(fixed, "_open_request", return_value=completion()) as call:
+        fixed._request(
+            [{"role": "user", "content": "Return JSON"}],
+            QueryState(time.monotonic() + 60, 0.09, requests=1),
+        )
+    assert json.loads(call.call_args.args[0].data)["reasoning_effort"] == "low"
+
+
+def test_stream_heartbeats_cannot_extend_the_attempt_deadline(tmp_path: Path) -> None:
+    a = make_agent(tmp_path)
+    a.request_local.response_deadline = time.monotonic() - 1
+    assert a.deadline > time.monotonic()
+    with pytest.raises(TimeoutError, match="deadline"):
+        a._read_response(Response(b": keepalive\n\n", "text/event-stream"))
+
+
+def test_timed_out_stream_retains_unknown_usage_in_totals(tmp_path: Path) -> None:
+    a = make_agent(tmp_path)
+
+    class Heartbeat(Response):
+        def __init__(self) -> None:
+            super().__init__(b"", "text/event-stream")
+            a.request_local.response_deadline = time.monotonic() - 1
+
+        def __iter__(self) -> Any:
+            yield b": keepalive\n"
+
+    state = QueryState(time.monotonic() + 60, 0.09)
+    with (
+        patch.object(
+            a,
+            "_open_request",
+            side_effect=lambda *args, **kwargs: Heartbeat(),
+        ),
+        patch("src.llm_agent.time.sleep"),
+        pytest.raises(TimeoutError),
+    ):
+        a._request([{"role": "user", "content": "Read workbook"}], state)
+    assert state.requests == 5 and state.tokens > 0
+    assert state.tokens == sum(call["reserved_token_bound"] for call in state.calls)
+    assert all(
+        call["usage_missing"] and call["provider_total_tokens"] is None
+        for call in state.calls
+    )
+
+
 def test_streaming_gateway_preserves_usage_and_detects_truncation(
     tmp_path: Path,
 ) -> None:

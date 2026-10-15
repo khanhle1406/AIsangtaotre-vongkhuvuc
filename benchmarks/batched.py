@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import re
 import statistics
 import threading
 import time
@@ -13,14 +14,15 @@ from typing import Any
 
 from evaluate import read_answers
 from run import ResourceMonitor, validate_queries, write_submission
+from src.context import project_workbook
 from src.excel_parser import WorkbookData, load_workbook_data
-from src.llm_agent import BudgetLedger, Program, QueryState
-from src.verification import age_reference_columns
+from src.llm_agent import BudgetLedger, LLMAgent, Program, QueryState, SolveResult
+from src.verification import age_reference_columns, latest_reference_columns
 
 from .budget import workspace_budget
 from .compare import score
 from .efficient import dense_text
-from .gateway import BatchLimits, GatewayAgent, atomic_json, gateway_settings
+from .gateway import BatchLimits, atomic_json, gateway_settings
 from .gateway_runner import checkpoint, fingerprint
 from .precision import ACCURACY_CONTRACT, PrecisionAgent
 
@@ -93,12 +95,23 @@ def apportioned_calls(
     return shared
 
 
-class BatchedAgent(PrecisionAgent):
+class BatchPlanningMixin:
     """Reuse only newly generated plans; repairs retain all existing per-question guards."""
 
-    def __init__(self, **kwargs: Any) -> None:
+    def __init__(self, *, column_catalog: bool = True, **kwargs: Any) -> None:
         super().__init__(**kwargs)
+        self.column_catalog = column_catalog
         self.prepared = threading.local()
+
+    def solve_workbook(
+        self, workbook: WorkbookData, query: str, max_retries: int = 2
+    ) -> SolveResult:
+        """Use the same lossless encoding for individual repairs as shared planning."""
+        wire = workbook.wire()
+        text = dense_text(workbook, wire, column_catalog=self.column_catalog)
+        if len(text.encode()) > 800_000:
+            text = project_workbook(wire, query)
+        return self._solve(text, wire, query, max_retries)
 
     def _request(self, messages: list[dict[str, str]], state: QueryState) -> str:
         packet = getattr(self.prepared, "packet", None)
@@ -116,12 +129,51 @@ class BatchedAgent(PrecisionAgent):
         self, workbook: WorkbookData, questions: list[dict[str, Any]]
     ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         start = time.monotonic()
+        independent = [
+            item
+            for item in questions
+            if re.search(r"\bacross all\b", item["query"], re.IGNORECASE)
+            and re.search(
+                r"\b(?:more|less|difference|change|ratio)\b",
+                item["query"],
+                re.IGNORECASE,
+            )
+        ]
+        if len(questions) > 1 and independent:
+            remaining = [item for item in questions if item not in independent]
+            records, event = (
+                self.solve_group(workbook, remaining)
+                if remaining
+                else ([], {"calls": [], "question_ids": []})
+            )
+            for item in independent:
+                result = self.solve_workbook(workbook, item["query"])
+                records.append(
+                    {
+                        "id": str(item["id"]),
+                        "file_name": item["file_name"],
+                        **result.trace(),
+                    }
+                )
+            order = {str(item["id"]): index for index, item in enumerate(questions)}
+            records.sort(key=lambda record: order[record["id"]])
+            event["mode"] = "shared-plan-with-independent-multi-axis-comparisons"
+            event["independent_question_ids"] = [
+                str(item["id"]) for item in independent
+            ]
+            return records, event
         state = QueryState(self.deadline, self.query_budget)
         wire = workbook.wire()
-        text = dense_text(workbook, wire)
+        text = dense_text(workbook, wire, column_catalog=self.column_catalog)
         date_hints = []
         for index, question in enumerate(questions):
             for name, sheet in wire.items():
+                latest = latest_reference_columns(sheet, question["query"])
+                if latest is not None:
+                    key_col, time_col = latest
+                    date_hints.append(
+                        f"Question {index}: latest_rows({name!r},{key_col!r},{time_col!r}) selects maximum timestamp rows per entity using verified headers. Follow the question's filter-before/after order; typed timestamps require no parsing or pandas."
+                    )
                 reference = age_reference_columns(sheet, question["query"])
                 if reference is not None:
                     birth, event = reference
@@ -168,7 +220,7 @@ class BatchedAgent(PrecisionAgent):
         error = None
         response = ""
         try:
-            response = GatewayAgent._request(self, messages, state)
+            response = LLMAgent._request(self, messages, state)
             programs = parse_plans(
                 response, len(questions), [q["query"] for q in questions]
             )
@@ -205,6 +257,14 @@ class BatchedAgent(PrecisionAgent):
         return records, event
 
 
+class BatchedAgent(BatchPlanningMixin, PrecisionAgent):
+    """Gemini transport for the provider-independent shared planning pipeline."""
+
+    def __init__(self, **kwargs: Any) -> None:
+        kwargs.setdefault("adaptive_thinking", True)
+        super().__init__(**kwargs)
+
+
 def run_batched_stage(
     root: Path,
     files: Path,
@@ -215,16 +275,20 @@ def run_batched_stage(
     concurrency: int = 4,
     group_size: int = 4,
     agent_class: type[BatchedAgent] = BatchedAgent,
+    thinking: str = "low",
 ) -> dict[str, Any]:
     """Checkpoint whole planned groups and evaluate only after generation finishes."""
-    if concurrency not in {1, 2, 4} or not 1 <= group_size <= 4:
+    if concurrency not in {1, 2, 4, 8} or not 1 <= group_size <= 4:
         raise ValueError("Invalid planning concurrency or group size")
+    if thinking not in {"minimal", "low", "medium", "high"}:
+        raise ValueError("Unsupported development thinking effort")
     settings = gateway_settings()
     config = {
         "model": settings["gateway_model"],
         "base_url": settings["gateway_url"],
         "helper_contract": False,
-        "thinking": "low",
+        "thinking": thinking,
+        "adaptive_thinking": f"high only after two prior HTTP attempts; otherwise {thinking}",
         "max_tokens": 2048,
         "concurrency": concurrency,
         "group_size": group_size,
@@ -233,7 +297,7 @@ def run_batched_stage(
             name: hashlib.sha256(
                 Path(__file__).with_name(name).read_bytes()
             ).hexdigest()
-            for name in ("batched.py", "efficient.py", "precision.py")
+            for name in ("batched.py", "efficient.py", "precision.py", "gateway.py")
         },
     }
     if agent_class is not BatchedAgent:
@@ -257,10 +321,10 @@ def run_batched_stage(
     agent = agent_class(
         **settings,
         batch_limits=limits,
-        thinking="low",
+        thinking=thinking,
         max_tokens=2048,
         ledger=ledger,
-        worker_memory_mb=128 if concurrency == 4 else 256,
+        worker_memory_mb=128 if concurrency >= 4 else 256,
         deadline=time.monotonic() + limits.update()["deadline_unix"] - time.time(),
     )
     start = time.monotonic()

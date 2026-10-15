@@ -83,7 +83,9 @@ def metadata_ranges(addresses: list[str]) -> list[str]:
     return ranges
 
 
-def dense_text(workbook: WorkbookData, wire: dict[str, Any]) -> str:
+def dense_text(
+    workbook: WorkbookData, wire: dict[str, Any], *, column_catalog: bool = False
+) -> str:
     """Encode every stored value once; row gaps and nondefault metadata stay explicit."""
     blocks = [
         (
@@ -109,6 +111,28 @@ def dense_text(workbook: WorkbookData, wire: dict[str, Any]) -> str:
         entries = sorted(
             sheet.cells.items(), key=lambda item: coordinate_to_tuple(item[0])
         )
+        if column_catalog:
+            columns = sorted(
+                {coordinate_to_tuple(address)[1] for address, _ in entries}
+            )
+            spans: list[str] = []
+            if columns:
+                first = last = columns[0]
+                for column in [*columns[1:], None]:
+                    if column == last + 1:
+                        last = column
+                        continue
+                    spans.append(
+                        get_column_letter(first)
+                        if first == last
+                        else f"{get_column_letter(first)}:{get_column_letter(last)}"
+                    )
+                    first = last = column
+                lines.append(
+                    "ORIGINAL POPULATED COLUMNS: "
+                    + ",".join(spans)
+                    + ". Use these workbook letters; never rebase the table to A/B. Colons denote contiguous runs."
+                )
         anchor = ""
         previous = (0, 0)
         values: list[Any] = []

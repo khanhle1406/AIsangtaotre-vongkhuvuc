@@ -70,6 +70,24 @@ def test_structured_keys_cannot_be_silently_overwritten() -> None:
     )
 
 
+def test_keyed_json_tail_repair_only_closes_complete_containers() -> None:
+    from benchmarks.structured_batch import closed_container_json
+
+    complete = '{"programs":{"q0":{"code":"result=cell(\'New\',\'G309\')"}}}'
+    decoded, repaired = closed_container_json(complete[:-1])
+    assert repaired and decoded == json.loads(complete)
+    assert closed_container_json(complete) == (decoded, False)
+    for unsafe in (
+        '{"programs":{"q0":{"code":"result=cell(',
+        '{"programs":{"q0":{"code":',
+        '{"programs":{"q0":{"code":"result=1"} "q1":{}}}',
+        '{"programs":{"q0":{"code":"result=1"},"q0":{"code":"result=2"}}',
+        '{"programs":[}',
+    ):
+        with pytest.raises(ValueError):
+            closed_container_json(unsafe)
+
+
 @pytest.mark.parametrize("offset", [0, 310])
 def test_extremum_cannot_skip_intermediate_category(
     tmp_path: Path, offset: int
@@ -214,7 +232,10 @@ def test_age_helper_sort_is_audited_like_explicit_sort(tmp_path: Path) -> None:
     assert not age_sort_errors(wire, right, query)
 
 
-def test_live_shared_plan_executes_each_question_and_resumes(tmp_path: Path) -> None:
+@pytest.mark.parametrize("concurrency", [4, 8])
+def test_live_shared_plan_executes_each_question_and_resumes(
+    tmp_path: Path, concurrency: int
+) -> None:
     import io
 
     from benchmarks.batched import run_batched_stage
@@ -280,10 +301,22 @@ def test_live_shared_plan_executes_each_question_and_resumes(tmp_path: Path) -> 
         patch.object(GatewayAgent, "_open_request", side_effect=response) as request,
     ):
         first = run_batched_stage(
-            tmp_path / "out", files, queries, refs, limits, BudgetLedger(0.01)
+            tmp_path / "out",
+            files,
+            queries,
+            refs,
+            limits,
+            BudgetLedger(0.01),
+            concurrency=concurrency,
         )
         resumed = run_batched_stage(
-            tmp_path / "out", files, queries, refs, limits, BudgetLedger(0.01)
+            tmp_path / "out",
+            files,
+            queries,
+            refs,
+            limits,
+            BudgetLedger(0.01),
+            concurrency=concurrency,
         )
     assert first["score"]["correct"] == resumed["score"]["correct"] == 2
     assert first["http_attempts"] == request.call_count == 1
@@ -390,7 +423,10 @@ def decode_runs(text: str) -> dict[str, dict[str, Any]]:
     return cells
 
 
-def test_dense_context_round_trip_preserves_typed_cells(tmp_path: Path) -> None:
+@pytest.mark.parametrize("column_catalog", [False, True])
+def test_dense_context_round_trip_preserves_typed_cells(
+    tmp_path: Path, column_catalog: bool
+) -> None:
     book = openpyxl.Workbook()
     sheet = book.active
     sheet.title = 'Unfamiliar "section"'
@@ -410,7 +446,7 @@ def test_dense_context_round_trip_preserves_typed_cells(tmp_path: Path) -> None:
     book.close()
     parsed = load_workbook_data(path)
     wire = parsed.wire()
-    text = dense_text(parsed, wire)
+    text = dense_text(parsed, wire, column_catalog=column_catalog)
     assert decode_runs(text) == wire[sheet.title]["cells"]
     hints = json.loads(
         next(line[6:] for line in text.splitlines() if line.startswith("HINTS "))
@@ -422,7 +458,8 @@ def test_dense_context_round_trip_preserves_typed_cells(tmp_path: Path) -> None:
     assert hints["tables"] == wire[sheet.title]["tables"]
 
 
-def test_dense_context_sparse_extent_and_grouped_styles() -> None:
+@pytest.mark.parametrize("column_catalog", [False, True])
+def test_dense_context_sparse_extent_and_grouped_styles(column_catalog: bool) -> None:
     sheet = SheetData("Sparse")
     sheet.cells = {
         "A1": CellData("Title", "string"),
@@ -430,7 +467,7 @@ def test_dense_context_sparse_extent_and_grouped_styles() -> None:
     }
     book = WorkbookData({"Sparse": sheet})
     wire = book.wire()
-    text = dense_text(book, wire)
+    text = dense_text(book, wire, column_catalog=column_catalog)
     assert len(text) < 2500
     assert decode_runs(text) == wire["Sparse"]["cells"]
     assert metadata_ranges(["B8", "B9", "B11", "D6"]) == ["B8:B9", "B11", "D6"]

@@ -26,7 +26,8 @@ to exclude grand Total/All rows. Intermediate named categories are valid unless 
 are explicitly requested. Filter the section/period further if labels repeat.
 6. Rank ages by reference-date minus birth-date, not birth-date alone. Use the reference
 named in the question; only when omitted use Admission. Typed dates subtract directly.
-String dates need explicit observed parsing format; never guess an ambiguous locale.
+age_order/age_days accept typed dates and ISO text; other text requires date_format
+matching the observed format. Never guess an ambiguous locale.
 7. For lists, result is an ordered list, NOT a comma-joined string. Read full labels from
 cells; preserve punctuation. Supply format.kind and decimals as the question requires.
 8. selection is OPTIONAL. Omit it rather than declaring an incomplete range; when provided,

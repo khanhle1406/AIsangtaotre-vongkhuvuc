@@ -1,12 +1,20 @@
 """Explicit keyed planning schema; validate keys even if a gateway ignores the schema."""
 
 import json
+import threading
 from typing import Any
 
 from src.llm_agent import Program, QueryState
 
 from .batched import PLAN_CONTRACT, BatchedAgent
 from .precision import ACCURACY_CONTRACT
+
+RUNTIME_CONTRACT = (
+    "RUNTIME: cells returns plain lists of plain scalars, not objects with named attributes. "
+    "Dates tagged datetime are already datetime objects: data_rows must use kind 'datetime', not 'string'; ISO-looking string cells remain strings. "
+    "String-only data_rows filters also match string headers. For record/missing-value counts use observed table data bounds, preserving rows whose measure is blank; never count the heading as a record. "
+    "Only the documented standard-library modules are available; numpy, pandas and scipy are unavailable, as are hasattr/getattr. Implement calculations with lists, arithmetic and loops. "
+)
 
 
 def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
@@ -19,12 +27,65 @@ def unique_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return result
 
 
-class StructuredBatchedAgent(BatchedAgent):
+def closed_container_json(text: str) -> tuple[Any, bool]:
+    """Close only missing container delimiters at EOF; never invent keys/values/quotes."""
+    try:
+        return json.loads(text, object_pairs_hook=unique_object), False
+    except json.JSONDecodeError as error:
+        if error.pos != len(text.rstrip()):
+            raise
+        stack: list[str] = []
+        quoted = escaped = False
+        for char in text:
+            if quoted:
+                if escaped:
+                    escaped = False
+                elif char == "\\":
+                    escaped = True
+                elif char == '"':
+                    quoted = False
+            elif char == '"':
+                quoted = True
+            elif char in "{[":
+                stack.append("}" if char == "{" else "]")
+            elif char in "}]" and (not stack or stack.pop() != char):
+                raise
+        if quoted or not stack or len(stack) > 32:
+            raise
+        # The strict decoder still rejects incomplete values, keys and duplicate keys.
+        return json.loads(
+            text.rstrip() + "".join(reversed(stack)), object_pairs_hook=unique_object
+        ), True
+
+
+class StructuredPlanningMixin:
     """Keep the measured executor/guards; reduce ambiguous array-index generation."""
 
+    def __init__(
+        self,
+        *,
+        json_schema: bool = True,
+        runtime_contract: bool = True,
+        compact_contract: bool = False,
+        **kwargs: Any,
+    ) -> None:
+        super().__init__(**kwargs)
+        self.json_schema = json_schema
+        self.runtime_contract = runtime_contract
+        self.compact_contract = compact_contract
+        self.structured_state = threading.local()
+
     def _before_request(self, payload: dict[str, Any], state: QueryState) -> None:
-        self.request_local.structured_expected = None
-        self.request_local.original_content = None
+        prepared = getattr(self.structured_state, "prepared_payload", None) is payload
+        if prepared:
+            super()._before_request(payload, state)
+            return
+        self.structured_state.prepared_payload = payload
+        self.structured_state.structured_expected = None
+        self.structured_state.original_content = None
+        self.structured_state.question_texts = {}
+        self.structured_state.container_repaired = False
+        self.structured_state.envelope_normalization = None
         content = payload["messages"][-1]["content"]
         if content.endswith(PLAN_CONTRACT):
             raw = content.rsplit("\nQUESTIONS:\n", 1)[1].split(
@@ -32,6 +93,10 @@ class StructuredBatchedAgent(BatchedAgent):
             )[0]
             questions = json.loads(raw)
             keys = [f"q{i}" for i in range(len(questions))]
+            self.structured_state.question_texts = {
+                key: question["query"]
+                for key, question in zip(keys, questions, strict=True)
+            }
             program = {
                 "type": "object",
                 "properties": {
@@ -61,46 +126,150 @@ class StructuredBatchedAgent(BatchedAgent):
                 "type": "json_schema",
                 "json_schema": {"name": "workbook_programs", "schema": schema},
             }
+            if not self.json_schema:
+                payload["response_format"] = {"type": "json_object"}
             payload["messages"] = [dict(message) for message in payload["messages"]]
+            prefix = content[: -len(PLAN_CONTRACT)]
+            repeated_contract = "\n" + ACCURACY_CONTRACT + "\n"
+            if self.compact_contract and prefix.endswith(repeated_contract):
+                # The full system prompt retains these same semantic rules. Remove
+                # only the exact application-appended suffix, never workbook data.
+                prefix = prefix[: -len(repeated_contract)]
             payload["messages"][-1]["content"] = (
-                content[: -len(PLAN_CONTRACT)]
+                prefix
                 + '\nKEYED OUTPUT CONTRACT: Return {"programs":{"q0":{"code":"Python assigning result","format":{"kind":"integer"}},...}}.\nRequired keys: '
                 + json.dumps(keys)
                 + ". qN answers question index N; never renumber or duplicate keys. Each program runs independently. Omit selection. cell/num/label require cell addresses; age_order/data_rows/find_rows require column letters. "
-                "Every result must depend on real workbook reads, never a literal answer. Lists must be lists, and labels complete. "
+                + (RUNTIME_CONTRACT if self.runtime_contract else "")
+                + "Every result must depend on real workbook reads, never a literal answer. Lists must be lists, and labels complete. "
                 "CRITICAL UNITS: keep the displayed table scale, including thousands or millions. 'How many', 'integer', 'no units' do NOT request x1000. Convert ONLY if the question explicitly requests a different scale/actual units. Return valid JSON only."
             )
-            self.request_local.structured_expected = keys
+            self.structured_state.structured_expected = keys
         super()._before_request(payload, state)
 
     def _read_response(self, response: Any) -> dict[str, Any]:
         data = super()._read_response(response)
-        expected = getattr(self.request_local, "structured_expected", None)
-        if expected is None:
+        expected = getattr(self.structured_state, "structured_expected", None)
+        if expected is None or not isinstance(data, dict):
             return data
-        message = data["choices"][0]["message"]
+        choices = data.get("choices")
+        if (
+            not isinstance(choices, list)
+            or not choices
+            or not isinstance(choices[0], dict)
+        ):
+            return data
+        message = choices[0].get("message")
+        if not isinstance(message, dict) or not isinstance(message.get("content"), str):
+            return data
         text = message["content"]
-        self.request_local.original_content = text
+        self.structured_state.original_content = text
         stripped = text.strip()
-        if stripped.startswith("```"):
+        if stripped.startswith("```") and "\n" in stripped:
             stripped = stripped.split("\n", 1)[1].rsplit("```", 1)[0]
         try:
-            envelope = json.loads(stripped, object_pairs_hook=unique_object)
+            envelope, repaired = closed_container_json(stripped)
+            self.structured_state.container_repaired = repaired
         except ValueError:
             # Preserve malformed text for the existing application repair path;
             # usage must still be accounted for before program validation fails.
             return data
         if (
+            isinstance(envelope, dict)
+            and "programs" not in envelope
+            and len(expected) == 1
+        ):
+            try:
+                single = Program.model_validate(envelope)
+            except ValueError:
+                return data
+            envelope = {"programs": {expected[0]: single.model_dump()}}
+            self.structured_state.envelope_normalization = (
+                "single-program-for-one-question"
+            )
+        if (
             not isinstance(envelope, dict)
-            or set(envelope) != {"programs"}
+            or not set(envelope)
+            <= {
+                "programs",
+                "assumptions",
+                "needs_verification",
+                "format",
+                "result_variable",
+            }
+            or "programs" not in envelope
             or not isinstance(envelope["programs"], dict)
             or set(envelope["programs"]) != set(expected)
+        ):
+            return data
+        try:
+            shared = Program.model_validate(
+                {
+                    "code": "result=None",
+                    **{
+                        key: envelope[key]
+                        for key in ("format", "result_variable")
+                        if key in envelope
+                    },
+                }
+            )
+        except ValueError:
+            return data
+        common_format = shared.format.model_dump() if "format" in envelope else {}
+        neutral_format = Program(code="result=None").format.model_dump()
+        common_assumptions = envelope.get("assumptions", [])
+        common_review = envelope.get("needs_verification", False)
+        if (
+            not isinstance(common_assumptions, list)
+            or len(common_assumptions) > 20
+            or any(not isinstance(value, str) for value in common_assumptions)
+            or type(common_review) is not bool
         ):
             return data
         programs = []
         for index, key in enumerate(expected):
             try:
-                program = Program.model_validate(envelope["programs"][key])
+                raw_item = envelope["programs"][key]
+                if not isinstance(raw_item, dict):
+                    return data
+                raw_item = dict(raw_item)
+                if "result_variable" in envelope:
+                    if (
+                        raw_item.get("result_variable", shared.result_variable)
+                        != shared.result_variable
+                    ):
+                        return data
+                    raw_item.setdefault("result_variable", shared.result_variable)
+                if common_format:
+                    item_format = raw_item.get("format", {})
+                    if not isinstance(item_format, dict) or any(
+                        value != neutral_format[field]
+                        and field in item_format
+                        and item_format[field] != value
+                        for field, value in common_format.items()
+                    ):
+                        return data
+                    raw_item["format"] = {**common_format, **item_format}
+                    self.structured_state.envelope_normalization = (
+                        "validated-shared-format-defaults"
+                    )
+                if "index" in raw_item:
+                    echoed_index = raw_item.pop("index")
+                    if type(echoed_index) is not int or echoed_index != index:
+                        return data
+                if "query" in raw_item:
+                    known = getattr(self.structured_state, "question_texts", {})
+                    if key not in known or raw_item.pop("query") != known[key]:
+                        return data
+                validated = Program.model_validate(raw_item)
+                item = validated.model_dump()
+                item["assumptions"] = list(
+                    dict.fromkeys([*item.get("assumptions", []), *common_assumptions])
+                )
+                item["needs_verification"] = common_review or item.get(
+                    "needs_verification", False
+                )
+                program = Program.model_validate(item)
             except ValueError:
                 return data
             programs.append({"index": index, **program.model_dump()})
@@ -109,6 +278,17 @@ class StructuredBatchedAgent(BatchedAgent):
 
     def _response_received(self, data: dict[str, Any], record: dict[str, Any]) -> None:
         super()._response_received(data, record)
-        if getattr(self.request_local, "structured_expected", None) is not None:
-            record["requested_wire_format"] = "keyed-json-schema"
-            record["raw_model_content"] = self.request_local.original_content
+        if getattr(self.structured_state, "structured_expected", None) is not None:
+            record["requested_wire_format"] = (
+                "keyed-json-schema" if self.json_schema else "keyed-json-object"
+            )
+            record["raw_model_content"] = self.structured_state.original_content
+            if self.structured_state.container_repaired:
+                record["wire_repair"] = "closed-container-tail; no keys/values changed"
+            normalized = getattr(self.structured_state, "envelope_normalization", None)
+            if normalized:
+                record["envelope_normalization"] = normalized
+
+
+class StructuredBatchedAgent(StructuredPlanningMixin, BatchedAgent):
+    """Gemini gateway using the shared keyed planning and validation pipeline."""

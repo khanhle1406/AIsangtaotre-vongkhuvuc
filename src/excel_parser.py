@@ -176,7 +176,17 @@ class WorkbookData:
         captioned_columns: set[int] = set()
         for row, entries in sorted(rows.items()):
             numbers = [cell.value for _, cell in entries if cell.kind == "number"]
-            dates = [cell for _, cell in entries if cell.kind == "datetime"]
+            # ISO text remains a string in the wire, but can mark the first data
+            # row for advisory headers on an otherwise entirely textual table.
+            dates = [
+                cell
+                for _, cell in entries
+                if cell.kind == "datetime"
+                or cell.kind == "string"
+                and re.fullmatch(
+                    r"\d{4}-\d{2}-\d{2}(?:[ T].+)?", str(cell.value).strip()
+                )
+            ]
             numeric_columns = {
                 coordinate_to_tuple(address)[1]
                 for address, cell in entries

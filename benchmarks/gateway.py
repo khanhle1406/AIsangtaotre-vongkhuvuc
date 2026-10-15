@@ -144,20 +144,30 @@ class GatewayAgent(LLMAgent):
         gateway_model: str,
         batch_limits: BatchLimits,
         thinking: str | None = "low",
+        adaptive_thinking: bool = False,
         **kwargs: Any,
     ) -> None:
-        if thinking not in {None, "low", "minimal"}:
+        if thinking not in {None, "low", "minimal", "medium", "high"}:
             raise ValueError("Unsupported gateway thinking profile")
+        if type(adaptive_thinking) is not bool:
+            raise TypeError("adaptive_thinking must be a boolean")
         if not kwargs.get("api_key"):
             raise ValueError("DEV_LLM_API_KEY is required; judge key is never used")
         self.gateway_url = gateway_base(gateway_url)
         self.batch_limits, self.thinking = batch_limits, thinking
+        self.adaptive_thinking = adaptive_thinking
         self.request_local = threading.local()
         kwargs.update(model=gateway_model, pricing=(0.0, 0.0), reasoning_tokens=0)
         super().__init__(**kwargs)
 
     def _request_url(self) -> str:
         return self.gateway_url + "/chat/completions"
+
+    def _request(self, messages: list[dict[str, str]], state: QueryState) -> str:
+        try:
+            return super()._request(messages, state)
+        finally:
+            state.tokens = sum(call["tokens"] for call in state.calls)
 
     def _open_request(self, request: urllib.request.Request, timeout: float) -> Any:
         request.add_header("Connection", "close")
@@ -170,9 +180,13 @@ class GatewayAgent(LLMAgent):
         content: list[str] = []
         finish = None
         size = 0
+        response_deadline = min(
+            self.deadline,
+            getattr(self.request_local, "response_deadline", self.deadline),
+        )
         for line in response:
             size += len(line)
-            if size > 4 * 1024**2 or time.monotonic() >= self.deadline:
+            if size > 4 * 1024**2 or time.monotonic() >= response_deadline:
                 raise TimeoutError("Gateway response exceeded size/deadline limit")
             if not line.startswith(b"data:"):
                 continue
@@ -222,8 +236,12 @@ class GatewayAgent(LLMAgent):
         payload.pop("reasoning", None)
         payload.pop("usage", None)
         payload["temperature"] = 1.0
-        if self.thinking is not None:
-            payload["reasoning_effort"] = self.thinking
+        thinking = self.thinking
+        if self.adaptive_thinking and state.requests >= 2:
+            thinking = "high"
+        if thinking is not None:
+            payload["reasoning_effort"] = thinking
+        self.request_local.thinking = thinking
         bound = (
             sum(len(m["content"].encode()) + 64 for m in payload["messages"])
             + payload["max_tokens"]
@@ -235,6 +253,9 @@ class GatewayAgent(LLMAgent):
         self.request_local.bound = bound
         state.deadline = min(
             state.deadline, time.monotonic() + data["deadline_unix"] - time.time()
+        )
+        self.request_local.response_deadline = min(
+            state.deadline, time.monotonic() + self.request_timeout_seconds
         )
 
     def _response_received(self, data: dict[str, Any], record: dict[str, Any]) -> None:
@@ -269,8 +290,15 @@ class GatewayAgent(LLMAgent):
         data["usage"] = usage
 
     def _request_finished(self, record: dict[str, Any]) -> None:
+        if "usage_missing" not in record:
+            record.update(
+                usage_missing=True,
+                tokens_estimated=True,
+                provider_total_tokens=None,
+                tokens=self.request_local.bound,
+            )
         record["reserved_token_bound"] = self.request_local.bound
-        record["thinking"] = self.thinking or "unknown"
+        record["thinking"] = self.request_local.thinking or "unknown"
         record["temperature"] = 1.0
         self.batch_limits.update(
             ticket=self.request_local.ticket, actual=record.get("provider_total_tokens")
