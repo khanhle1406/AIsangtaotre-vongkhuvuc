@@ -1,0 +1,54 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "temperature": 1.0,
+    "verification_thinking": null,
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "planning_max_tokens": 4096,
+    "concurrency": 4,
+    "group_size": 8,
+    "strategy": "live-multi-workbook-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "e486c7a3259efe8c21f324178280dfb097ac6e98ae2ee2e2588157dacf407b58",
+      "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "3f9b48301df14d589ece8bb3b4112b91d053952e27183046488d70a8c95cc738"
+    },
+    "agent_class": "ParallelPackedAgent",
+    "agent_sha256": "f4d772ca430bc4c8d55fc6771ff48ded2dc4275cd5a4279fa50e52ad31bc53ea"
+  },
+  "fingerprint": "d799cfafb97023609b6e9bc272fc35c5083f796aa6fde3d8b213de375c8e12c1",
+  "complete": false,
+  "score": {
+    "correct": 19,
+    "total": 20,
+    "errors": {
+      "p4_q019": {
+        "prediction": "",
+        "reference": "40.60, 37.60"
+      }
+    }
+  },
+  "wall_seconds": 18.303564042027574,
+  "mean_query_seconds": 6.007599454099545,
+  "tokens": 149793,
+  "provider_tokens_known": 149793,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 149793,
+  "http_attempts": 12,
+  "peak_total_rss_bytes": 108265472,
+  "fatal_error": null,
+  "errors": {
+    "p4_q019": "ValidationError: 1 validation error for Program\n  Invalid JSON: expected value at line 1 column 1 [type=json_invalid, input_value='sheet = \\'W0::cpsaat22\\'...rification\": false\\n}\\n', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.12/v/json_invalid"
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

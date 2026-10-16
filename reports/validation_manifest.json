@@ -1,0 +1,83 @@
+{
+  "source_sha256": "cd23a2f12c9430d2124d4c34f2f379ab2bb6b563bbf865c7224db5a97bf52b1b",
+  "zip_sha256": "53f1a067d539adfbb9a45234741de56d48b3b70c2a21a9622e82b358f4200320",
+  "zip_bytes": 52193,
+  "zip_files": 16,
+  "unit_tests_passed": 63,
+  "api_budget_usd": 0.5,
+  "development_cost_conservative_upper_usd": 0.23357314150000003,
+  "final_config": {
+    "model": "qwen/qwen3.7-flash",
+    "reasoning_tokens": 256,
+    "max_tokens": 2048,
+    "concurrency": 2
+  },
+  "live_evaluations": [
+    {
+      "name": "Public native",
+      "correct": 20,
+      "total": 20,
+      "metrics": {
+        "queries": 20,
+        "answered": 20,
+        "elapsed_seconds": 103.05581537500257,
+        "cost_usd": 0.0063068658,
+        "tokens": 221207,
+        "peak_total_rss_bytes": 84459520,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 256,
+        "max_tokens": 2048,
+        "concurrency": 2,
+        "failures": {}
+      }
+    },
+    {
+      "name": "ZIP relocated",
+      "correct": 20,
+      "total": 20,
+      "metrics": {
+        "queries": 20,
+        "answered": 20,
+        "elapsed_seconds": 89.23641379100445,
+        "cost_usd": 0.005577406900000001,
+        "tokens": 198156,
+        "peak_total_rss_bytes": 88719360,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 256,
+        "max_tokens": 2048,
+        "concurrency": 2,
+        "failures": {}
+      }
+    },
+    {
+      "name": "Synthetic seed 94049",
+      "correct": 24,
+      "total": 24,
+      "metrics": {
+        "queries": 24,
+        "answered": 24,
+        "elapsed_seconds": 66.29683458400541,
+        "cost_usd": 0.002081881,
+        "tokens": 44347,
+        "peak_total_rss_bytes": 82083840,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 256,
+        "max_tokens": 2048,
+        "concurrency": 2,
+        "failures": {}
+      }
+    }
+  ],
+  "replay": {
+    "correct": 20,
+    "total": 20,
+    "paid_llm_calls": 0,
+    "method": "Replay accepted programs from real relocated ZIP run against current source and original workbooks."
+  },
+  "limitations": [
+    "Final live attempt returned HTTP 402; final date-reference and fail-fast changes verified locally/replayed.",
+    "Linux judge machine and private tests unavailable.",
+    "Synthetic families informed earlier debugging; final regenerated examples are validation, not an unbiased private-test estimate.",
+    "No full Excel formula recalculation engine."
+  ]
+}

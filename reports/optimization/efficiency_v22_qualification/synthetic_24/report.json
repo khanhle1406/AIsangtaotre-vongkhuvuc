@@ -1,0 +1,47 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "concurrency": 4,
+    "group_size": 4,
+    "strategy": "live-workbook-plan",
+    "modules": {
+      "batched.py": "6b2adccf47ef1611edfd27d7ba6d4a631cd991180d687df7fa36274881082a03",
+      "efficient.py": "86094a8c6ffc5c266520598b1285c4ac00015ded37157d3d1561565a0cbae6b1",
+      "precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4",
+      "gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05"
+    },
+    "agent_class": "StructuredBatchedAgent",
+    "agent_sha256": "976788c16cc4415098266f79c4715e8eb2f359f743225c70cd1b4a30b8585867"
+  },
+  "fingerprint": "22829efe88a11c4268b732e6034affbd4d00f18ee903a48502e4675f3a21c409",
+  "complete": false,
+  "score": {
+    "correct": 23,
+    "total": 24,
+    "errors": {
+      "generated-015": {
+        "prediction": "",
+        "reference": "101"
+      }
+    }
+  },
+  "wall_seconds": 11.264508583000861,
+  "mean_query_seconds": 2.6982931006677973,
+  "tokens": 51674,
+  "provider_tokens_known": 51674,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 51674,
+  "http_attempts": 10,
+  "peak_total_rss_bytes": 103563264,
+  "fatal_error": null,
+  "errors": {
+    "generated-015": "ValueError: Across-all selection omits sibling category cells in Survey: ['C3', 'D3', 'E3']. Inspect the complete shared header branch before aggregating or comparing rows; do not silently drop a category."
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

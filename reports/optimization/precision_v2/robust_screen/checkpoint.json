@@ -1,0 +1,975 @@
+{
+  "fingerprint": "fdb41413e6942d0dd716d295cf5cc8ff2733512232c9e0ae61eae4d92abe11a9",
+  "records": {
+    "generated-011": {
+      "file_name": "registrations.xlsx",
+      "answer": "Nova",
+      "cost": 0.0,
+      "tokens": 4593,
+      "requests": 1,
+      "elapsed": 2.194940666988259,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_order = age_order('Registrations', 'B', 'C', descending=True)\noldest_row = rows_order[0]\nresult = cell('Registrations', f'A{oldest_row}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Registrations",
+              "range": "A1:C5",
+              "operation": "age_order",
+              "unit": "days"
+            }
+          ],
+          "reads": {
+            "Registrations!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Registrations!C1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Registrations!B2": {
+              "value": "1990-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C2": {
+              "value": "2010-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B3": {
+              "value": "1992-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C3": {
+              "value": "2025-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B4": {
+              "value": "1994-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C4": {
+              "value": "2024-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B5": {
+              "value": "2000-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C5": {
+              "value": "2021-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!A3": {
+              "value": "Nova",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Nova",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4593,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4593,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4431,
+          "completion_tokens": 162,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27754496
+    },
+    "generated-001": {
+      "file_name": "renamed_invoice_0.xlsx",
+      "answer": "133",
+      "cost": 0.0,
+      "tokens": 4381,
+      "requests": 1,
+      "elapsed": 3.3429208750021644,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = find_rows('Invoices 828', 'F', 'Delta Co.')\nresult = int(num('Invoices 828', 'D' + str(rows[0])))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ",",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Invoices 828",
+              "range": "D4:F7",
+              "operation": "lookup",
+              "unit": "Units sold"
+            }
+          ],
+          "reads": {
+            "Invoices 828!F5": {
+              "value": "Delta Co.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!D5": {
+              "value": 133,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 133,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4381,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4381,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4201,
+          "completion_tokens": 180,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27639808
+    },
+    "generated-015": {
+      "file_name": "survey.xlsx",
+      "answer": "101",
+      "cost": 0.0,
+      "tokens": 4463,
+      "requests": 1,
+      "elapsed": 2.952288290980505,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Survey', 'B3'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ",",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Survey",
+              "range": "A3:B3",
+              "operation": "lookup",
+              "unit": "workers"
+            }
+          ],
+          "reads": {
+            "Survey!B3": {
+              "value": 101,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 101,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4463,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4463,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4327,
+          "completion_tokens": 136,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27656192
+    },
+    "generated-021": {
+      "file_name": "two_tables.xlsx",
+      "answer": "465",
+      "cost": 0.0,
+      "tokens": 4488,
+      "requests": 1,
+      "elapsed": 1.8263515410071705,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Annual and pilot'\nresult = int(num(sheet, 'D4'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Annual and pilot",
+              "range": "A3:E5",
+              "operation": "lookup",
+              "unit": "employees"
+            }
+          ],
+          "reads": {
+            "Annual and pilot!D4": {
+              "value": 465,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 465,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4488,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4488,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4336,
+          "completion_tokens": 152,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27754496
+    },
+    "generated-012": {
+      "file_name": "registrations.xlsx",
+      "answer": "61",
+      "cost": 0.0,
+      "tokens": 4624,
+      "requests": 1,
+      "elapsed": 2.7319847919861786,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_order = age_order('Registrations', 'B', 'C', descending=True)\nsecond_oldest_row = rows_order[1]\nresult = num('Registrations', f'D{second_oldest_row}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Registrations",
+              "range": "A1:D5",
+              "operation": "age_order",
+              "unit": "observed unit"
+            }
+          ],
+          "reads": {
+            "Registrations!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Registrations!C1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Registrations!B2": {
+              "value": "1990-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C2": {
+              "value": "2010-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B3": {
+              "value": "1992-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C3": {
+              "value": "2025-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B4": {
+              "value": "1994-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C4": {
+              "value": "2024-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B5": {
+              "value": "2000-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C5": {
+              "value": "2021-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!D4": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 61,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4624,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4624,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4436,
+          "completion_tokens": 188,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27639808
+    },
+    "generated-016": {
+      "file_name": "survey.xlsx",
+      "answer": "62.50",
+      "cost": 0.0,
+      "tokens": 4504,
+      "requests": 1,
+      "elapsed": 2.6122293330263346,
+      "error": null,
+      "attempts": [
+        {
+          "code": "val = num('Survey', 'C3')\nresult = round(val * 100, 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Completion rate in percent is the stored fraction multiplied by 100"
+          ],
+          "selection": [
+            {
+              "sheet": "Survey",
+              "range": "C3:C3",
+              "operation": "lookup",
+              "unit": "fraction"
+            }
+          ],
+          "reads": {
+            "Survey!C3": {
+              "value": 0.625,
+              "kind": "number",
+              "number_format": "0.0%",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 62.5,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4504,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4504,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4327,
+          "completion_tokens": 177,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27705344
+    },
+    "generated-002": {
+      "file_name": "renamed_invoice_0.xlsx",
+      "answer": "Orion Ltd.",
+      "cost": 0.0,
+      "tokens": 9031,
+      "requests": 2,
+      "elapsed": 5.446034874999896,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = data_rows('Invoices 828', {'F': 'string', 'D': 'number'})\ncompanies = values('Invoices 828', [f'F{r}' for r in rows])\nsold = values('Invoices 828', [f'D{r}' for r in rows])\nmax_idx = sold.index(max(sold))\nresult = companies[max_idx]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Invoices 828",
+              "range": "D5:D7",
+              "operation": "max",
+              "unit": "Units sold"
+            },
+            {
+              "sheet": "Invoices 828",
+              "range": "F5:F7",
+              "operation": "lookup",
+              "unit": "Company"
+            }
+          ],
+          "reads": {
+            "Invoices 828!F1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!D1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!F3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!D3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!F4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!F5": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D5": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Invoices 828!F6": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D6": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Invoices 828!F7": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D7": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "AttributeError: 'list' object has no attribute 'replace'"
+        },
+        {
+          "code": "rows_idx = data_rows('Invoices 828', {'F': 'string', 'D': 'number'})\nbest_row = max(rows_idx, key=lambda r: num('Invoices 828', f'D{r}'))\nresult = cell('Invoices 828', f'F{best_row}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Invoices 828",
+              "range": "D5:D7",
+              "operation": "argmax",
+              "unit": "Units sold"
+            },
+            {
+              "sheet": "Invoices 828",
+              "range": "F5:F7",
+              "operation": "lookup",
+              "unit": "Company"
+            }
+          ],
+          "reads": {
+            "Invoices 828!F1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!D1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!F3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!D3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!F4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!F5": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D5": {
+              "value": 133,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!F6": {
+              "value": "Orion Ltd.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!D6": {
+              "value": 165,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!F7": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D7": {
+              "value": 117,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Orion Ltd.",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4459,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4459,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4200,
+          "completion_tokens": 259,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4572,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4572,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4308,
+          "completion_tokens": 264,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27754496
+    },
+    "generated-022": {
+      "file_name": "two_tables.xlsx",
+      "answer": "651",
+      "cost": 0.0,
+      "tokens": 4539,
+      "requests": 1,
+      "elapsed": 1.9796901250083465,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Annual and pilot'\nrows = data_rows(sheet, {'A': 'string', 'D': 'number'})\nresult = int(sum(num(sheet, f'D{r}') for r in rows if label(sheet, f'A{r}') in ['East', 'West']))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Annual and pilot",
+              "range": "A3:E5",
+              "operation": "sum",
+              "unit": "employees"
+            }
+          ],
+          "reads": {
+            "Annual and pilot!A1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Annual and pilot!D1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Annual and pilot!A2": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Annual and pilot!D2": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Annual and pilot!A3": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Annual and pilot!D3": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Annual and pilot!A4": {
+              "value": "East",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Annual and pilot!D4": {
+              "value": 465,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Annual and pilot!A5": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Annual and pilot!D5": {
+              "value": 186,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Annual and pilot!A20": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Annual and pilot!D20": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Annual and pilot!A21": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Annual and pilot!D21": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            }
+          },
+          "raw_result": 651,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4539,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4539,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4339,
+          "completion_tokens": 200,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27738112
+    }
+  },
+  "complete": true,
+  "wall_seconds": 12.540095249016304,
+  "peak_total_rss_bytes": 104529920
+}

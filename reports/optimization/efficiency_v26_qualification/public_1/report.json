@@ -1,0 +1,47 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "concurrency": 4,
+    "group_size": 4,
+    "strategy": "live-workbook-plan",
+    "modules": {
+      "batched.py": "6b2adccf47ef1611edfd27d7ba6d4a631cd991180d687df7fa36274881082a03",
+      "efficient.py": "86094a8c6ffc5c266520598b1285c4ac00015ded37157d3d1561565a0cbae6b1",
+      "precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4",
+      "gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05"
+    },
+    "agent_class": "StructuredBatchedAgent",
+    "agent_sha256": "6238055cc577cbd6335a77323b297171399cf1800cd8af8039d3e23f12656004"
+  },
+  "fingerprint": "857200d8010be59834a639b95c44c6822e17123bc22069adea55fd413c2b4eea",
+  "complete": false,
+  "score": {
+    "correct": 19,
+    "total": 20,
+    "errors": {
+      "p4_q006": {
+        "prediction": "",
+        "reference": "7668"
+      }
+    }
+  },
+  "wall_seconds": 20.528883874038,
+  "mean_query_seconds": 3.890094176954881,
+  "tokens": 135910,
+  "provider_tokens_known": 135910,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 135910,
+  "http_attempts": 16,
+  "peak_total_rss_bytes": 99352576,
+  "fatal_error": null,
+  "errors": {
+    "p4_q006": "ValueError: Read cpsaat07!B6 lies outside the declared evidence; include all input/header regions"
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

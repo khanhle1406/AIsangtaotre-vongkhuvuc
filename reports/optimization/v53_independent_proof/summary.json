@@ -1,0 +1,213 @@
+{
+  "source_lock": {
+    "modules": {
+      "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+      "src/verification.py": "b95505aa5a6ea439941611c7f9a1d320896678c533840d16de348b4d8b501f6b",
+      "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+      "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+      "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+      "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+      "src/llm_agent.py": "0c794a5d08327a8e734a5398bd8688d2578a4dc10d4e9fc4cf72471c3c2efde2",
+      "src/contracts.py": "9e742a7e8c729ecb53df140e9cf011384e0ba3c12b8ff764886b91a8773e6468",
+      "src/executor.py": "ee5db2a5193e088bd9cfd9486af322a716b2ddd2c45e637d4d281edf1e7b05a7",
+      "benchmarks/batched.py": "d383406e3a99ac6b18e8878e2bb0755dfa805ba39b8a1e549dd0b29de04e0ff9",
+      "benchmarks/structured_batch.py": "149bbde4215918d40277adb2aaef35589ac76ffca7afe37c9c6a4175a501d03a",
+      "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+      "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+      "benchmarks/gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be",
+      "benchmarks/precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "benchmarks/efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+      "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0",
+      "benchmarks/packed.py": "435817a7647900b559c8bca4f4c30f801ea20b1a252fb43c53e8ac73f5ad3a91"
+    },
+    "scope": "Fixed qualification then once-only unseen comparison; no tuning on holdout",
+    "independent_validation": true,
+    "public_repetitions": 3,
+    "configuration": {
+      "thinking": "low",
+      "concurrency": 4,
+      "review_candidate": true,
+      "deduplicate_headers": false,
+      "boundary_contract": false,
+      "planning_profile": "independent8",
+      "group_size": 8,
+      "planning_max_tokens": 4096,
+      "agent_class": "IndependentPackedAgent"
+    },
+    "regression_extensions": {
+      "decision_18": {
+        "folder": "reports/optimization/decision_v1_holdout",
+        "count": 18
+      },
+      "structural_18": {
+        "folder": "reports/optimization/structural_v1_holdout",
+        "count": 18
+      },
+      "generalization_18": {
+        "folder": "reports/optimization/generalization_v1_holdout",
+        "count": 18
+      },
+      "transfer_24": {
+        "folder": "reports/optimization/efficiency_v5_holdout",
+        "count": 24
+      },
+      "compositional_18": {
+        "folder": "reports/optimization/compositional_v1_holdout",
+        "count": 18
+      },
+      "robustness_24": {
+        "folder": "reports/optimization/robustness_v1_holdout",
+        "count": 24
+      }
+    },
+    "expected_case_counts": {
+      "baseline_public": 20,
+      "public_1": 20,
+      "public_2": 20,
+      "public_3": 20,
+      "regression_60": 60,
+      "regression_32": 32,
+      "known_18": 18,
+      "synthetic_24": 24,
+      "decision_18": 18,
+      "structural_18": 18,
+      "generalization_18": 18,
+      "transfer_24": 24,
+      "compositional_18": 18,
+      "robustness_24": 24
+    },
+    "validation_dataset": "reports/optimization/prospective_v1_holdout",
+    "validation_manifest_sha256": "3215a0f85603315b705323fafb51651760c94d0667c2036ae3211c1c0c43d4ba",
+    "harness_sha256": "c636045bf27d5e11a778eb93fbda2393bee3c37c2cfdc9928755a3fd2fffd01c"
+  },
+  "stages": {
+    "baseline_public": {
+      "profile": "B",
+      "config": {
+        "compact_prompt": true,
+        "helper_contract": false,
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "thinking": "low",
+        "max_tokens": 2048,
+        "temperature": 1.0,
+        "concurrency": 2,
+        "iterator_helpers": true,
+        "precision_profile": "robust",
+        "accuracy_contract_sha256": "61b3a878298434580d1d16a56e1fbedd44a23d4e5c0d81936c8eb4c3204f2d02",
+        "precision_module_sha256": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267"
+      },
+      "source_sha256": "b7850453c2e3e31d5b239a667872360c2cbd4861003553fc50e96c2eba5a20d9",
+      "fingerprint": "dab8247e0549f8b19dbf61385273af68161bbf71b5af23c53bed2ecd29a9c6d3",
+      "complete": false,
+      "generation_complete": true,
+      "score": {
+        "correct": 18,
+        "total": 20,
+        "errors": {
+          "p4_q006": {
+            "prediction": "",
+            "reference": "7668"
+          },
+          "p4_q005": {
+            "prediction": "",
+            "reference": "Airline fares"
+          }
+        }
+      },
+      "mean_query_seconds": 5.912517143854347,
+      "wall_seconds": 60.02067233491107,
+      "tokens": 799118,
+      "provider_tokens_known": 180183,
+      "usage_missing_attempts": 22,
+      "tokens_conservative_upper": 799118,
+      "http_attempts": 41,
+      "peak_total_rss_bytes": 115343360,
+      "fatal_error": null,
+      "errors": {
+        "p4_q005": "TimeoutError: Five-request limit reached",
+        "p4_q006": "TimeoutError: Five-request limit reached"
+      },
+      "tokens_estimated": true,
+      "cost_basis": "user-confirmed-free; see calls for provider-reported cost",
+      "provider_cost_available": false,
+      "provider_reported_cost_usd": null
+    },
+    "public_1": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "d383406e3a99ac6b18e8878e2bb0755dfa805ba39b8a1e549dd0b29de04e0ff9",
+          "efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "IndependentPackedAgent",
+        "agent_sha256": "435817a7647900b559c8bca4f4c30f801ea20b1a252fb43c53e8ac73f5ad3a91"
+      },
+      "fingerprint": "ecebc0d64c53de1f711d773e98a5d34db64dca9b0d8c07a7cba1dd601f43c2c5",
+      "complete": false,
+      "score": {
+        "correct": 18,
+        "total": 20,
+        "errors": {
+          "p4_q010": {
+            "prediction": "",
+            "reference": "Leisure and hospitality"
+          },
+          "p4_q020": {
+            "prediction": "",
+            "reference": "152987"
+          }
+        }
+      },
+      "wall_seconds": 8.962814248981886,
+      "mean_query_seconds": 4.9440756249910915,
+      "tokens": 100077,
+      "provider_tokens_known": 100077,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 100077,
+      "http_attempts": 8,
+      "peak_total_rss_bytes": 93454336,
+      "fatal_error": null,
+      "errors": {
+        "p4_q020": "TimeoutError: Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "p4_q010": "TimeoutError: Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations"
+      },
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    }
+  },
+  "unassessed": {
+    "public_2": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "public_3": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "regression_60": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "regression_32": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "known_18": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "synthetic_24": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "decision_18": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "structural_18": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "generalization_18": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "transfer_24": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "compositional_18": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+    "robustness_24": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations"
+  },
+  "btc_private_verified": false,
+  "qwen_confirmed": false,
+  "stopped": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+  "holdout_status": "not evaluated; failed qualification"
+}

@@ -36,7 +36,7 @@ Theo lịch trong đề, public đợt 2 ngày 16/10 lúc 09:00, hạn nộp 17/
 
 Commit nền lúc bàn giao: `9edd41e` — `Validate projected workbook columns and finalize Gemini benchmark selection`.
 
-Phạm vi bản cập nhật bàn giao trên GitHub: `run.py`, `src/llm_agent.py`, `benchmarks/package_submission.py`, `README.md`; file mới `.dockerignore`, `Dockerfile`, `benchmarks/docker_smoke.py`, `tests/test_submission_guide.py`, `docs/SUBMISSION_GUIDE.md`, tài liệu này và hai file đề. Các sửa từng nằm ở working tree đã được đưa vào đợt commit/push bàn giao theo yêu cầu người dùng. Xác minh HEAD thực tế bằng `git log -1` và mã commit trong `START_HERE.md` của gói bàn giao; `9edd41e` là commit nền v64, không phải hash bản cập nhật Docker. Không reset/checkout làm mất thay đổi; kiểm tra `git status` trước mọi thao tác.
+Commit `76f99e3` đã đưa các sửa Docker/CLI và tài liệu bàn giao lên GitHub. Đợt cập nhật tiếp theo đưa cả `data/`, benchmark/evidence, các bộ giả lập và ledger lên repository theo yêu cầu người dùng. Xác minh HEAD mới nhất bằng `git log -1`; `9edd41e` chỉ là commit nền v64, không phải bản cập nhật Docker hoặc dữ liệu. Không reset/checkout làm mất thay đổi; kiểm tra `git status` trước mọi thao tác.
 
 | Artifact | Trạng thái |
 | --- | --- |
@@ -49,9 +49,11 @@ Phạm vi bản cập nhật bàn giao trên GitHub: `run.py`, `src/llm_agent.py
 
 `HANDOVER.md` được tạo sau ZIP kể trên và **chưa có trong ZIP**. Package hiện chỉ cho phép một số file gốc, `docs/*.md`, Python source/tests/benchmarks; không tự thêm tài liệu này hoặc hai file đề vào ZIP thi. Không thay đổi artifact lịch sử chỉ để khớp tài liệu mới. Mỗi lần đổi source cần build/package/QA lại và có receipt mới.
 
-`reports/`, `data/`, `dist/` bị Git ignore. Agent chỉ nhận Git checkout hoặc ZIP thi sẽ thiếu evidence, oracle và ledger. Khi chuyển môi trường làm việc, mang riêng tài liệu này, hai đề, dữ liệu và evidence cần thiết cùng ledger; **không mang khóa/.env vào gói bàn giao công khai**. Không tạo ledger mới để bỏ qua chi phí cũ. Source hash trong receipt hoặc source lock là bằng chứng theo thời điểm, không phải xác nhận mọi HEAD tương lai.
+**Chỉ cần clone GitHub để có source, cả hai đề, dữ liệu public, toàn bộ các bộ giả lập đã dùng, checkpoint/trace/source snapshot benchmark và ledger.** Danh sách file/byte/SHA-256 nằm trong `docs/DATA_MANIFEST.json`. Đã track 12 file `data/`, 4.222 file `reports/` và bốn artifact `dist/` ở bảng trên. Các bản QA giải nén trùng, report Colab đã ngừng, cache, OS lock, thư mục xuất bàn giao và ZIP dư thừa vẫn không track; đây không phải dữ liệu cần để tiếp tục pipeline hiện tại. Các file Python trong `reports/` là snapshot lịch sử để giữ hash/evidence, không phải runtime hiện hành; không format/sửa chúng hàng loạt. QA runtime nhắm `run.py evaluate.py src tests benchmarks` như hướng dẫn.
 
-Gói chuyển tiếp `dist/Fprinciples_TDTU1_agent_handover.zip` được xuất riêng cho agent, có `START_HERE.md`, manifest SHA-256, source snapshot đúng commit GitHub, dữ liệu và lịch sử báo cáo cần thiết cùng các artifact đã chọn. Gói này khác ZIP nộp thi; không dùng để nộp BTC. Những phần loại trừ được ghi trong START_HERE/manifest; khóa API cần cấu hình riêng từ môi trường hoặc `.env` của chủ dự án. Các đường dẫn máy cũ trong báo cáo là provenance lịch sử, không phải cấu hình để tạo mới ledger.
+Không còn cần gửi ZIP bàn giao riêng khi agent đã clone đủ repo. Chỉ cấu hình thêm API từ môi trường hoặc `.env` riêng của chủ dự án; **không đưa khóa/.env lên GitHub**. Không tạo ledger mới để bỏ qua chi phí cũ. Source hash trong receipt hoặc source lock là bằng chứng theo thời điểm, không phải xác nhận mọi HEAD tương lai. Khi chạy experiment mới, dùng report directory mới, giữ gold/oracle chỉ trong evaluator dù chúng hiện diện trong checkout; không đưa chúng vào inference.
+
+Gói chuyển tiếp `dist/Fprinciples_TDTU1_agent_handover.zip` là bản offline lịch sử tại commit `76f99e3`, không bắt buộc và không thay HEAD mới trên GitHub. Gói này khác ZIP nộp thi; không dùng để nộp BTC. Các đường dẫn máy cũ trong báo cáo là provenance lịch sử, không phải cấu hình để tạo mới ledger. `.dockerignore` và allowlist của packager vẫn loại data/evidence khỏi image và ZIP nộp thi, dù dữ liệu nay đã được track trên GitHub.
 
 ## 3. Benchmark có bằng chứng
 

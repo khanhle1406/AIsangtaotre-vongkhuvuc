@@ -1,0 +1,58 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "verification_thinking": "medium",
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "concurrency": 4,
+    "group_size": 4,
+    "strategy": "live-workbook-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "2e68bdab08f5bccd72b68a53b8d8c2e819fdc63ae8409785ec7a0e1c6940efdc",
+      "efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+    },
+    "agent_class": "MediumReviewAgent",
+    "agent_sha256": "9087b5861b56d3d8a6142bd688d01f8622260ed0b3d11b54151b90504903c026"
+  },
+  "fingerprint": "f03cb1ce188dd10ba1a3b1fbd1f61357ed96f574f1de1fb8bb9993d3a001f6f6",
+  "complete": true,
+  "score": {
+    "correct": 15,
+    "total": 18,
+    "errors": {
+      "compositional-018": {
+        "prediction": "1",
+        "reference": "2"
+      },
+      "compositional-011": {
+        "prediction": "0.764706",
+        "reference": "2.166667"
+      },
+      "compositional-002": {
+        "prediction": "Survey, Prep, Launch",
+        "reference": "Survey, Design, Review, Launch"
+      }
+    }
+  },
+  "wall_seconds": 6.495475125993835,
+  "mean_query_seconds": 3.4036179703317533,
+  "tokens": 35826,
+  "provider_tokens_known": 35826,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 35826,
+  "http_attempts": 6,
+  "peak_total_rss_bytes": 122503168,
+  "fatal_error": null,
+  "errors": {},
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

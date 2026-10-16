@@ -1,0 +1,1085 @@
+{
+  "fingerprint": "0688ca50aa1b635728e9245173f931008868238102db8d519a13c833459fc96a",
+  "records": {
+    "unseen-013": {
+      "file_name": "audit_records.xlsx",
+      "answer": "Beryl",
+      "cost": 0.0,
+      "tokens": 6143,
+      "requests": 2,
+      "elapsed": 6.3116528329846915,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nplan_2=[plan_1 for plan_1 in range(2,6) if True]\nplan_2=sorted(plan_2,key=lambda plan_1:((cell('W0::Audit people','D'+str(plan_1)) - cell('W0::Audit people','B'+str(plan_1)))).days,reverse=True)\nplan_2=plan_2[0:1]\nplan_3=[label('W0::Audit people','A'+str(plan_1)) for plan_1 in plan_2]\nresult=plan_3[0]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "TypeError: unsupported operand type(s) for -: 'str' and 'str'"
+        },
+        {
+          "code": "from datetime import date\nfrom datetime import datetime\ndef parse_d(v):\n    if isinstance(v, datetime):\n        return v.date()\n    if isinstance(v, date):\n        return v\n    return datetime.strptime(v, '%Y-%m-%d').date()\nrows_idx = age_order('W0::Audit people', 'B', 'D', descending=True)\nresult = label('W0::Audit people', 'A' + str(rows_idx[0]))",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!A1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::Audit people!A2": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::Audit people!A3": {
+              "value": "Beryl",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!A4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::Audit people!A5": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::Audit people!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W0::Audit people!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W0::Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B3": {
+              "value": "1991-05-06",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D3": {
+              "value": "2026-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B4": {
+              "value": "1995-07-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D4": {
+              "value": "2024-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B5": {
+              "value": "2001-09-10",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D5": {
+              "value": "2023-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Beryl",
+          "sorts": [
+            {
+              "keys": [
+                11815.0,
+                12848.0,
+                10594.0,
+                7972.0
+              ],
+              "reverse": true,
+              "selected": [
+                0
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 863,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 863,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 655,
+          "completion_tokens": 208,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 3339,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "d032cb23942150ec7757b58849f8a6f8d9acca12ed13b6fb339c940ba8f98302",
+          "shared_http_id": "725cbc0c6d6446678619911b0775439e",
+          "shared_questions": 6,
+          "allocation_index": 0
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5280,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5280,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5089,
+          "completion_tokens": 191,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22818,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "cbf5ab59c4092f971031160a6f597435a160ad61d67584a830a7aa5aa324748c"
+        }
+      ],
+      "peak_worker_bytes": 29605888
+    },
+    "unseen-014": {
+      "file_name": "audit_records.xlsx",
+      "answer": "39",
+      "cost": 0.0,
+      "tokens": 6216,
+      "requests": 2,
+      "elapsed": 6.443465708987787,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nplan_2=[plan_1 for plan_1 in range(2,6) if True]\nplan_2=sorted(plan_2,key=lambda plan_1:((cell('W0::Audit people','D'+str(plan_1)) - cell('W0::Audit people','B'+str(plan_1)))).days,reverse=True)\nplan_2=plan_2[1:2]\nplan_3=[num('W0::Audit people','E'+str(plan_1)) for plan_1 in plan_2]\nresult=plan_3[0]",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "TypeError: unsupported operand type(s) for -: 'str' and 'str'"
+        },
+        {
+          "code": "from datetime import datetime\nsheet = 'W0::Audit people'\nrows = [2, 3, 4, 5]\ndef parse_dt(val):\n    if isinstance(val, datetime):\n        return val\n    return datetime.strptime(val, '%Y-%m-%d')\nages = []\nfor r in rows:\n    dob = parse_dt(cell(sheet, f'B{r}'))\n    audit = parse_dt(cell(sheet, f'D{r}'))\n    ages.append((audit - dob, r))\nages.sort(key=lambda x: x[0], reverse=True)\nsecond_oldest_row = ages[1][1]\nresult = int(num(sheet, f'E{second_oldest_row}'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B3": {
+              "value": "1991-05-06",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D3": {
+              "value": "2026-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B4": {
+              "value": "1995-07-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D4": {
+              "value": "2024-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B5": {
+              "value": "2001-09-10",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D5": {
+              "value": "2023-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!E2": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 39,
+          "sorts": [
+            {
+              "keys": [],
+              "reverse": true,
+              "selected": [
+                1
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 863,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 863,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 655,
+          "completion_tokens": 208,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 3339,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "d032cb23942150ec7757b58849f8a6f8d9acca12ed13b6fb339c940ba8f98302",
+          "shared_http_id": "725cbc0c6d6446678619911b0775439e",
+          "shared_questions": 6,
+          "allocation_index": 1
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5353,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5353,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5092,
+          "completion_tokens": 261,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22820,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "380d145a4415e6ded7474c9ed07052f74b61e5451703ebdd531eb435bb3f9316"
+        }
+      ],
+      "peak_worker_bytes": 29949952
+    },
+    "unseen-015": {
+      "file_name": "audit_records.xlsx",
+      "answer": "62",
+      "cost": 0.0,
+      "tokens": 6079,
+      "requests": 2,
+      "elapsed": 6.211703000008129,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nplan_2=[plan_1 for plan_1 in range(2,6) if True]\nplan_2=sorted(plan_2,key=lambda plan_1:((cell('W0::Audit people','D'+str(plan_1)) - cell('W0::Audit people','B'+str(plan_1)))).days,reverse=False)\nplan_2=plan_2[0:2]\nplan_3=[num('W0::Audit people','E'+str(plan_1)) for plan_1 in plan_2]\nresult=max(plan_3)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "TypeError: unsupported operand type(s) for -: 'str' and 'str'"
+        },
+        {
+          "code": "from datetime import datetime\nrows = age_order('W0::Audit people', 'B', 'D', descending=False)[:2]\nresult = max(num('W0::Audit people', f'E{r}') for r in rows)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!A1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::Audit people!A2": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::Audit people!A3": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::Audit people!A4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::Audit people!A5": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::Audit people!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W0::Audit people!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W0::Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B3": {
+              "value": "1991-05-06",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D3": {
+              "value": "2026-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B4": {
+              "value": "1995-07-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D4": {
+              "value": "2024-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B5": {
+              "value": "2001-09-10",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D5": {
+              "value": "2023-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!E5": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!E4": {
+              "value": 62,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 62,
+          "sorts": [
+            {
+              "keys": [
+                11815.0,
+                12848.0,
+                10594.0,
+                7972.0
+              ],
+              "reverse": false,
+              "selected": [
+                [
+                  0,
+                  1
+                ]
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 862,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 862,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 655,
+          "completion_tokens": 208,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 3339,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "d032cb23942150ec7757b58849f8a6f8d9acca12ed13b6fb339c940ba8f98302",
+          "shared_http_id": "725cbc0c6d6446678619911b0775439e",
+          "shared_questions": 6,
+          "allocation_index": 2
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5217,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5217,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5087,
+          "completion_tokens": 130,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22810,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "862cd3f77c1994d159c07948184c9b230a1b80c7ca98815caad25c5da1a6791d"
+        }
+      ],
+      "peak_worker_bytes": 29704192
+    },
+    "unseen-016": {
+      "file_name": "audit_records.xlsx",
+      "answer": "2026-07-09",
+      "cost": 0.0,
+      "tokens": 862,
+      "requests": 1,
+      "elapsed": 3.979234332975466,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=label('W0::Audit people','D3')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!D3": {
+              "value": "2026-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "2026-07-09",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 862,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 862,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 655,
+          "completion_tokens": 207,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 3338,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "d032cb23942150ec7757b58849f8a6f8d9acca12ed13b6fb339c940ba8f98302",
+          "shared_http_id": "725cbc0c6d6446678619911b0775439e",
+          "shared_questions": 6,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 29491200
+    },
+    "unseen-017": {
+      "file_name": "audit_records.xlsx",
+      "answer": "No",
+      "cost": 0.0,
+      "tokens": 6023,
+      "requests": 2,
+      "elapsed": 5.761224624991883,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=(((cell('W0::Audit people','D2') - cell('W0::Audit people','B2'))).days > ((cell('W0::Audit people','D3') - cell('W0::Audit people','B3'))).days)",
+          "result_variable": "result",
+          "format": {
+            "kind": "boolean",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "TypeError: unsupported operand type(s) for -: 'str' and 'str'"
+        },
+        {
+          "code": "from datetime import date\niris_dob = date.fromisoformat(cell('W0::Audit people', 'B2'))\niris_audit = date.fromisoformat(cell('W0::Audit people', 'D2'))\nberyl_dob = date.fromisoformat(cell('W0::Audit people', 'B3'))\nberyl_audit = date.fromisoformat(cell('W0::Audit people', 'D3'))\niris_age = (iris_audit - iris_dob).days\nberyl_age = (beryl_audit - beryl_dob).days\nresult = \"Yes\" if iris_age > beryl_age else \"No\"",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B3": {
+              "value": "1991-05-06",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D3": {
+              "value": "2026-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "No",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 862,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 862,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 655,
+          "completion_tokens": 207,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 3338,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "d032cb23942150ec7757b58849f8a6f8d9acca12ed13b6fb339c940ba8f98302",
+          "shared_http_id": "725cbc0c6d6446678619911b0775439e",
+          "shared_questions": 6,
+          "allocation_index": 4
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5161,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5161,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4927,
+          "completion_tokens": 234,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22292,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "8885a18660bed0e32ecd9b7d6968fa2881905e9b088c5d3c93551a270c99bddd"
+        }
+      ],
+      "peak_worker_bytes": 29573120
+    },
+    "unseen-018": {
+      "file_name": "audit_records.xlsx",
+      "answer": "10594",
+      "cost": 0.0,
+      "tokens": 5908,
+      "requests": 2,
+      "elapsed": 6.0304529999848455,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=((cell('W0::Audit people','D4') - cell('W0::Audit people','B4'))).days",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!D4": {
+              "value": "2024-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!B4": {
+              "value": "1995-07-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "TypeError: unsupported operand type(s) for -: 'str' and 'str'"
+        },
+        {
+          "code": "from datetime import datetime\ndob = datetime.strptime(cell('W0::Audit people', 'B4'), '%Y-%m-%d')\naudit = datetime.strptime(cell('W0::Audit people', 'D4'), '%Y-%m-%d')\nresult = (audit - dob).days",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::Audit people!B4": {
+              "value": "1995-07-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::Audit people!D4": {
+              "value": "2024-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 10594,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 862,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 862,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 654,
+          "completion_tokens": 207,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 3338,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "d032cb23942150ec7757b58849f8a6f8d9acca12ed13b6fb339c940ba8f98302",
+          "shared_http_id": "725cbc0c6d6446678619911b0775439e",
+          "shared_questions": 6,
+          "allocation_index": 5
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5046,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5046,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4900,
+          "completion_tokens": 146,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22217,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "ab2527e6e3b16e1ad35076c5d2b6db701659b00b45a5f9b5d766a1d54b1fdc46"
+        }
+      ],
+      "peak_worker_bytes": 29802496
+    }
+  },
+  "complete": true,
+  "events": [
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5174,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5174,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 3929,
+          "completion_tokens": 1245,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 20031,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "d032cb23942150ec7757b58849f8a6f8d9acca12ed13b6fb339c940ba8f98302",
+          "shared_http_id": "725cbc0c6d6446678619911b0775439e"
+        }
+      ],
+      "elapsed": 3.912892499996815,
+      "error": null,
+      "model_output": "```json\n{\n  \"plans\": {\n    \"q0\": {\n      \"expr\": {\n        \"op\": \"first\",\n        \"args\": [\n          {\n            \"op\": \"scan\",\n            \"sheet\": \"W0::Audit people\",\n            \"rows\": [\n              2,\n              5\n            ],\n            \"value\": {\n              \"col\": \"A\",\n              \"kind\": \"text\"\n            },\n            \"sort\": {\n              \"op\": \"days\",\n              \"args\": [\n                {\n                  \"op\": \"sub\",\n                  \"args\": [\n                    {\n                      \"col\": \"D\",\n                      \"kind\": \"date\"\n                    },\n                    {\n                      \"col\": \"B\",\n                      \"kind\": \"date\"\n                    }\n                  ]\n                }\n              ]\n            },\n            \"descending\": true,\n            \"take\": [\n              0,\n              1\n            ]\n          }\n        ]\n      },\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q1\": {\n      \"expr\": {\n        \"op\": \"first\",\n        \"args\": [\n          {\n            \"op\": \"scan\",\n            \"sheet\": \"W0::Audit people\",\n            \"rows\": [\n              2,\n              5\n            ],\n            \"value\": {\n              \"col\": \"E\",\n              \"kind\": \"number\"\n            },\n            \"sort\": {\n              \"op\": \"days\",\n              \"args\": [\n                {\n                  \"op\": \"sub\",\n                  \"args\": [\n                    {\n                      \"col\": \"D\",\n                      \"kind\": \"date\"\n                    },\n                    {\n                      \"col\": \"B\",\n                      \"kind\": \"date\"\n                    }\n                  ]\n                }\n              ]\n            },\n            \"descending\": true,\n            \"take\": [\n              1,\n              1\n            ]\n          }\n        ]\n      },\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q2\": {\n      \"expr\": {\n        \"op\": \"max\",\n        \"args\": [\n          {\n            \"op\": \"scan\",\n            \"sheet\": \"W0::Audit people\",\n            \"rows\": [\n              2,\n              5\n            ],\n            \"value\": {\n              \"col\": \"E\",\n              \"kind\": \"number\"\n            },\n            \"sort\": {\n              \"op\": \"days\",\n              \"args\": [\n                {\n                  \"op\": \"sub\",\n                  \"args\": [\n                    {\n                      \"col\": \"D\",\n                      \"kind\": \"date\"\n                    },\n                    {\n                      \"col\": \"B\",\n                      \"kind\": \"date\"\n                    }\n                  ]\n                }\n              ]\n            },\n            \"descending\": false,\n            \"take\": [\n              0,\n              2\n            ]\n          }\n        ]\n      },\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q3\": {\n      \"expr\": {\n        \"cell\": [\n          \"W0::Audit people\",\n          \"D3\"\n        ],\n        \"kind\": \"text\"\n      },\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q4\": {\n      \"expr\": {\n        \"op\": \"gt\",\n        \"args\": [\n          {\n            \"op\": \"days\",\n            \"args\": [\n              {\n                \"op\": \"sub\",\n                \"args\": [\n                  {\n                    \"cell\": [\n                      \"W0::Audit people\",\n                      \"D2\"\n                    ],\n                    \"kind\": \"date\"\n                  },\n                  {\n                    \"cell\": [\n                      \"W0::Audit people\",\n                      \"B2\"\n                    ],\n                    \"kind\": \"date\"\n                  }\n                ]\n              }\n            ]\n          },\n          {\n            \"op\": \"days\",\n            \"args\": [\n              {\n                \"op\": \"sub\",\n                \"args\": [\n                  {\n                    \"cell\": [\n                      \"W0::Audit people\",\n                      \"D3\"\n                    ],\n                    \"kind\": \"date\"\n                  },\n                  {\n                    \"cell\": [\n                      \"W0::Audit people\",\n                      \"B3\"\n                    ],\n                    \"kind\": \"date\"\n                  }\n                ]\n              }\n            ]\n          }\n        ]\n      },\n      \"format\": {\n        \"kind\": \"boolean\"\n      }\n    },\n    \"q5\": {\n      \"expr\": {\n        \"op\": \"days\",\n        \"args\": [\n          {\n            \"op\": \"sub\",\n            \"args\": [\n              {\n                \"cell\": [\n                  \"W0::Audit people\",\n                  \"D4\"\n                ],\n                \"kind\": \"date\"\n              },\n              {\n                \"cell\": [\n                  \"W0::Audit people\",\n                  \"B4\"\n                ],\n                \"kind\": \"date\"\n              }\n            ]\n          }\n        ]\n      },\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+      "question_ids": [
+        "unseen-013",
+        "unseen-014",
+        "unseen-015",
+        "unseen-016",
+        "unseen-017",
+        "unseen-018"
+      ]
+    }
+  ],
+  "wall_seconds": 15.17615791701246,
+  "peak_total_rss_bytes": 98549760
+}

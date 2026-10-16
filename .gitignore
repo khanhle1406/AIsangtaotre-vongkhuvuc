@@ -9,8 +9,19 @@ __pycache__/
 .ruff_cache/
 .ipynb_checkpoints/
 submission.csv
-data/
-reports/
-dist/
+# Publish development data/evidence; keep transient or duplicated workspaces local.
+/reports/agent_delivery_*/
+/reports/colab*/
+/reports/submission_guide/*extracted*/
+/reports/**/*.lock
+/reports/**/*.tmp
+/dist/*
+!/dist/Fprinciples_TDTU1.zip
+!/dist/public_submission_v64.csv
+!/dist/table_qa_final_gemini_v64.zip
+!/dist/table_qa_final_v64_evidence.zip
 *.trace.jsonl
 *.metrics.json
+!/reports/**/*.trace.jsonl
+!/reports/**/*.metrics.json
+!/reports/**/submission.csv

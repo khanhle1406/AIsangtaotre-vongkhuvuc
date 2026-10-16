@@ -1,6 +1,6 @@
 # Hỏi đáp trên workbook Excel
 
-Agent tiếp nhận dự án: đọc [HANDOVER.md](HANDOVER.md), trong đó có hai file đề, kiến trúc, benchmark, giới hạn bằng chứng và các hướng tối ưu đã sàng lọc. Dữ liệu/evidence và ledger bị Git ignore cần nhận thêm từ gói bàn giao riêng; không dùng ZIP nộp thi thay cho toàn bộ workspace phát triển.
+Agent tiếp nhận dự án: clone repository rồi đọc [HANDOVER.md](HANDOVER.md), trong đó có hai file đề, kiến trúc, benchmark, giới hạn bằng chứng và các hướng tối ưu đã sàng lọc. `data/`, các bộ giả lập, benchmark/evidence và ledger trong `reports/` đã được lưu trên GitHub; không cần gói bàn giao riêng. Xem [manifest dữ liệu](docs/DATA_MANIFEST.json) để đối chiếu SHA-256. Chỉ cấu hình API qua môi trường hoặc `.env` riêng; khóa không có trên GitHub. Không dùng ZIP nộp thi thay cho toàn bộ workspace phát triển.
 
 Giải pháp dùng `qwen/qwen3.7-flash` qua OpenRouter để chọn dữ liệu và sinh chương trình Python; phép tính chạy cục bộ trên giá trị thật trong workbook. Không đọc đáp án mẫu, không tra kết quả theo ID hoặc tên file.
 

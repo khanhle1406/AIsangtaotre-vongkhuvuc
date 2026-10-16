@@ -1,0 +1,5502 @@
+{
+  "fingerprint": "e82b77663576496ad338cc3275e5269bb86f1b3464672ba90939b6f8449b4085",
+  "records": {
+    "p4_q017": {
+      "file_name": "p4_t09.xlsx",
+      "answer": "4826",
+      "cost": 0.0,
+      "tokens": 1530,
+      "requests": 1,
+      "elapsed": 2.385563500021817,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=abs((num('W0::cpsaat21','B11') - num('W0::cpsaat21','B10')))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::cpsaat21!B11": {
+              "value": 14880,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat21!B10": {
+              "value": 10054,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 4826,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1530,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1530,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1480,
+          "completion_tokens": 51,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 6112,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "c58c23b8a9ea2cbc611f5e982862f878d97ad38ec840d2c9d575d0b62d4a4586",
+          "shared_http_id": "db6e69dba1794b949b11cdee96a529b1",
+          "shared_questions": 4,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 29704192
+    },
+    "p4_q018": {
+      "file_name": "p4_t10.xlsx",
+      "answer": "34282, 118705",
+      "cost": 0.0,
+      "tokens": 9792,
+      "requests": 2,
+      "elapsed": 5.00710399998934,
+      "error": null,
+      "attempts": [
+        {
+          "error": "ValidationError: 2 validation errors for Program\ncode\n  Field required [type=missing, input_value={'planning_error': 'Value...omplete Python helpers'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/missing\nplanning_error\n  Extra inputs are not permitted [type=extra_forbidden, input_value='ValueError: Calculation ...complete Python helpers', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.12/v/extra_forbidden",
+          "model_output": "{\"planning_error\": \"ValueError: Calculation exceeds expression capabilities; use the complete Python helpers\"}"
+        },
+        {
+          "code": "sheet = sheets()[0]\n# Total, 16 years and over is in row 10\n# Column B = Total at work, C = Worked 1 to 34 hours (Total), G = Worked 35 hours or more\n# Question asks: \"what are number of people who worked 1 to 34 hours and worked 35 hours or more. Answer as two integers in the order `1 to 34 hours, 35 hours or more`\"\n# We should use the total row for the overall population (row 10).\nval_34 = num(sheet, 'C10')\nval_35 = num(sheet, 'G10')\nresult = [int(val_34), int(val_35)]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Used the overall total row ('Total, 16 years and over', row 10) for the primary population."
+          ],
+          "selection": [],
+          "reads": {
+            "W1::cpsaat22!C10": {
+              "value": 34282,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat22!G10": {
+              "value": 118705,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": [
+            34282,
+            118705
+          ],
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1530,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1530,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1480,
+          "completion_tokens": 51,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 6112,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "c58c23b8a9ea2cbc611f5e982862f878d97ad38ec840d2c9d575d0b62d4a4586",
+          "shared_http_id": "db6e69dba1794b949b11cdee96a529b1",
+          "shared_questions": 4,
+          "allocation_index": 1
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 8262,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 8262,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 7978,
+          "completion_tokens": 284,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 27797,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "cb6c63f25257f2e6baab5a217d4802940542aae14370357853ef2866ad3d474f"
+        }
+      ],
+      "peak_worker_bytes": 29786112
+    },
+    "p4_q019": {
+      "file_name": "p4_t10.xlsx",
+      "answer": "40.60, 37.60",
+      "cost": 0.0,
+      "tokens": 9632,
+      "requests": 2,
+      "elapsed": 4.1187910420121625,
+      "error": null,
+      "attempts": [
+        {
+          "error": "ValidationError: 2 validation errors for Program\ncode\n  Field required [type=missing, input_value={'planning_error': 'Value...omplete Python helpers'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/missing\nplanning_error\n  Extra inputs are not permitted [type=extra_forbidden, input_value='ValueError: Calculation ...complete Python helpers', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.12/v/extra_forbidden",
+          "model_output": "{\"planning_error\": \"ValueError: Calculation exceeds expression capabilities; use the complete Python helpers\"}"
+        },
+        {
+          "code": "sheet = 'W1::cpsaat22'\nmen_val = num(sheet, 'H57')\nwomen_val = num(sheet, 'H61')\nresult = f\"{men_val:.2f}, {women_val:.2f}\"",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W1::cpsaat22!H57": {
+              "value": 40.6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat22!H61": {
+              "value": 37.6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "40.60, 37.60",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1530,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1530,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1479,
+          "completion_tokens": 50,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 6112,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "c58c23b8a9ea2cbc611f5e982862f878d97ad38ec840d2c9d575d0b62d4a4586",
+          "shared_http_id": "db6e69dba1794b949b11cdee96a529b1",
+          "shared_questions": 4,
+          "allocation_index": 2
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 8102,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 8102,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 7963,
+          "completion_tokens": 139,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 27769,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "9632d8198e33142cc6067b9fb5932f9c1ddd4d2383df218a06171310b0ea8666"
+        }
+      ],
+      "peak_worker_bytes": 29786112
+    },
+    "p4_q020": {
+      "file_name": "p4_t10.xlsx",
+      "answer": "152987",
+      "cost": 0.0,
+      "tokens": 1530,
+      "requests": 1,
+      "elapsed": 2.3614137500117067,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=num('W1::cpsaat22','B10')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W1::cpsaat22!B10": {
+              "value": 152987,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 152987,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1530,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1530,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1479,
+          "completion_tokens": 50,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 6111,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "c58c23b8a9ea2cbc611f5e982862f878d97ad38ec840d2c9d575d0b62d4a4586",
+          "shared_http_id": "db6e69dba1794b949b11cdee96a529b1",
+          "shared_questions": 4,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 29753344
+    },
+    "p4_q009": {
+      "file_name": "p4_t05.xlsx",
+      "answer": "2218",
+      "cost": 0.0,
+      "tokens": 1340,
+      "requests": 1,
+      "elapsed": 3.337006082991138,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=sum([num('W0::cpsaat14','C11'),num('W0::cpsaat14','D11')])",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::cpsaat14!C11": {
+              "value": 1055,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D11": {
+              "value": 1163,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 2218,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1340,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1340,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1256,
+          "completion_tokens": 84,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4489,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "a8e4c054b5d03ea185182da9612206873a482abf790e36ad6795ce6b22f93f76",
+          "shared_http_id": "c34cb19c00e244309da3e9927b98ef4a",
+          "shared_questions": 8,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 30048256
+    },
+    "p4_q010": {
+      "file_name": "p4_t05.xlsx",
+      "answer": "Leisure and hospitality",
+      "cost": 0.0,
+      "tokens": 25076,
+      "requests": 3,
+      "elapsed": 15.20080870698439,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=clean_label(num('W0::cpsaat14','B5'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::cpsaat14!B5": {
+              "value": "Mining, quarrying, and oil and gas extraction",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "ValueError: Ambiguous numeric text at W0::cpsaat14!B5: 'Mining, quarrying, and oil and gas extraction'. Use data_rows with the observed numeric columns to exclude headers before calling num; do not coerce a header to zero."
+        },
+        {
+          "code": "sheet = 'W0::cpsaat14'\ncols = [column_letter(i) for i in range(2, 14)]\nheaders = [cell(sheet, c + '5') for c in cols]\nrow_indices = [9, 16, 23, 32, 39, 48, 55, 64, 71, 80, 87]\nvals = [sum(num(sheet, c + str(r)) for r in row_indices if num(sheet, c + str(r)) is not None) for c in cols]\nbest_idx = argmax(sheet, 'B9:M9') # wait, let's just find max from vals\nbest_col = cols[vals.index(max(vals))]\nresult = clean_label(cell(sheet, best_col + '5'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::cpsaat14!B5": {
+              "value": "Mining, quarrying, and oil and gas extraction",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C5": {
+              "value": "Con-\nstruction",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D5": {
+              "value": "Manu-\nfacturing",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E5": {
+              "value": "Wholesale and retail trade",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F5": {
+              "value": "Trans-\nportation\nand utilities",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G5": {
+              "value": "Infor-\nmation",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H5": {
+              "value": "Financial activities",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I5": {
+              "value": "Professional and business services",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J5": {
+              "value": "Education and\nhealth\nservices",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K5": {
+              "value": "Leisure\nand\nhospitality",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L5": {
+              "value": "Other\nservices(1)",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M5": {
+              "value": "Public\nadminis-\ntration",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B9": {
+              "value": 11,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B16": {
+              "value": 10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B23": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B32": {
+              "value": 9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B39": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B48": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B55": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B64": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B71": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B80": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!B87": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C9": {
+              "value": 254,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C16": {
+              "value": 233,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C23": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C32": {
+              "value": 215,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C39": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C48": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C55": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C64": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C71": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C80": {
+              "value": 80,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C87": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D9": {
+              "value": 228,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D16": {
+              "value": 149,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D23": {
+              "value": 79,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D32": {
+              "value": 123,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D39": {
+              "value": 66,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D48": {
+              "value": 14,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D55": {
+              "value": 5,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D64": {
+              "value": 4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D71": {
+              "value": 4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D80": {
+              "value": 43,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D87": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E9": {
+              "value": 1308,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E16": {
+              "value": 680,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E23": {
+              "value": 628,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E32": {
+              "value": 541,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E39": {
+              "value": 477,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E48": {
+              "value": 79,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E55": {
+              "value": 80,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E64": {
+              "value": 17,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E71": {
+              "value": 25,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E80": {
+              "value": 147,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E87": {
+              "value": 160,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F9": {
+              "value": 156,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F16": {
+              "value": 108,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F23": {
+              "value": 48,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F32": {
+              "value": 77,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F39": {
+              "value": 30,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F48": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F55": {
+              "value": 9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F64": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F71": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F80": {
+              "value": 34,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F87": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G9": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G16": {
+              "value": 19,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G23": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G32": {
+              "value": 16,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G39": {
+              "value": 17,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G48": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G55": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G64": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G71": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G80": {
+              "value": 5,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G87": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H9": {
+              "value": 66,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H16": {
+              "value": 34,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H23": {
+              "value": 32,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H32": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H39": {
+              "value": 25,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H48": {
+              "value": 6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H55": {
+              "value": 5,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H64": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H71": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H80": {
+              "value": 6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H87": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I9": {
+              "value": 215,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I16": {
+              "value": 145,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I23": {
+              "value": 70,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I32": {
+              "value": 120,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I39": {
+              "value": 53,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I48": {
+              "value": 10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I55": {
+              "value": 10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I64": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I71": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I80": {
+              "value": 42,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I87": {
+              "value": 16,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J9": {
+              "value": 639,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J16": {
+              "value": 154,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J23": {
+              "value": 485,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J32": {
+              "value": 109,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J39": {
+              "value": 366,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J48": {
+              "value": 22,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J55": {
+              "value": 66,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J64": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J71": {
+              "value": 24,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J80": {
+              "value": 23,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J87": {
+              "value": 87,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K9": {
+              "value": 2344,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K16": {
+              "value": 1067,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K23": {
+              "value": 1277,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K32": {
+              "value": 808,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K39": {
+              "value": 989,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K48": {
+              "value": 144,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K55": {
+              "value": 119,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K64": {
+              "value": 46,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K71": {
+              "value": 42,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K80": {
+              "value": 259,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K87": {
+              "value": 260,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L9": {
+              "value": 232,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L16": {
+              "value": 111,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L23": {
+              "value": 121,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L32": {
+              "value": 86,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L39": {
+              "value": 103,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L48": {
+              "value": 13,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L55": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L64": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L71": {
+              "value": 5,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L80": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L87": {
+              "value": 30,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M9": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M16": {
+              "value": 27,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M23": {
+              "value": 28,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M32": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M39": {
+              "value": 19,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M48": {
+              "value": 4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M55": {
+              "value": 6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M64": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M71": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M80": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M87": {
+              "value": 4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Leisure and hospitality",
+          "sorts": [],
+          "error": null,
+          "verification_triggers": [
+            "W0::cpsaat14: label '16 to 19 years' occurs in several sections; independently verify table, group and year."
+          ],
+          "verification_mode": "candidate-audit"
+        },
+        {
+          "code": "sheet = 'W0::cpsaat14'\nbest_cell = argmax(sheet, 'B9:M9')\nresult = clean_label(cell(sheet, best_cell.rstrip('0123456789') + '5'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::cpsaat14!B9": {
+              "value": 11,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!C9": {
+              "value": 254,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!D9": {
+              "value": 228,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!E9": {
+              "value": 1308,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F9": {
+              "value": 156,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!G9": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!H9": {
+              "value": 66,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!I9": {
+              "value": 215,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!J9": {
+              "value": 639,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K9": {
+              "value": 2344,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!L9": {
+              "value": 232,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!M9": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!K5": {
+              "value": "Leisure\nand\nhospitality",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Leisure and hospitality",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1339,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1339,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1256,
+          "completion_tokens": 84,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4489,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "a8e4c054b5d03ea185182da9612206873a482abf790e36ad6795ce6b22f93f76",
+          "shared_http_id": "c34cb19c00e244309da3e9927b98ef4a",
+          "shared_questions": 8,
+          "allocation_index": 1
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 10293,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 10293,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 10100,
+          "completion_tokens": 193,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 29930,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "26165951030e6c003bb4e11b610b00f50f9650addd3c547b352f0dfc12606b1b"
+        },
+        {
+          "request": 3,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 13444,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 13444,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 10321,
+          "completion_tokens": 3123,
+          "reasoning_tokens": 2989,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 30416,
+          "thinking": "high",
+          "temperature": 1.0,
+          "payload_sha256": "3ae6966532b63a5ef0b393610a43a53080b70fcc652bf55af73d6fb38d5da156"
+        }
+      ],
+      "peak_worker_bytes": 30179328
+    },
+    "p4_q011": {
+      "file_name": "p4_t05.xlsx",
+      "answer": "Yes",
+      "cost": 0.0,
+      "tokens": 11675,
+      "requests": 2,
+      "elapsed": 5.628686291020131,
+      "error": null,
+      "attempts": [
+        {
+          "error": "ValidationError: 2 validation errors for Program\ncode\n  Field required [type=missing, input_value={'planning_error': 'Value...nd on workbook sources'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/missing\nplanning_error\n  Extra inputs are not permitted [type=extra_forbidden, input_value='ValueError: Result must ...end on workbook sources', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.12/v/extra_forbidden",
+          "model_output": "{\"planning_error\": \"ValueError: Result must depend on workbook sources\"}"
+        },
+        {
+          "code": "sheet = sheets()[0]\n# Total, 20 years and over is row 10 in TOTAL section\n# Financial activities is column H (column 8)\n# Transportation and utilities is column F (column 6)\nfin_act = num(sheet, 'H10')\ntrans_util = num(sheet, 'F10')\nresult = 'Yes' if fin_act > trans_util else 'No'",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::cpsaat14!H10": {
+              "value": 10952,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::cpsaat14!F10": {
+              "value": 9794,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Yes",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1339,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1339,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1256,
+          "completion_tokens": 84,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4489,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "a8e4c054b5d03ea185182da9612206873a482abf790e36ad6795ce6b22f93f76",
+          "shared_http_id": "c34cb19c00e244309da3e9927b98ef4a",
+          "shared_questions": 8,
+          "allocation_index": 2
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 10336,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 10336,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 10184,
+          "completion_tokens": 152,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 30228,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "0fdb01308b668c2605a1a8d19127e54544e6f13287acd444919a8be1eaf899e8"
+        }
+      ],
+      "peak_worker_bytes": 30064640
+    },
+    "p4_q012": {
+      "file_name": "p4_t06.xlsx",
+      "answer": "35",
+      "cost": 0.0,
+      "tokens": 1339,
+      "requests": 1,
+      "elapsed": 3.3978516249917448,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nplan_2=[plan_1 for plan_1 in range(7,17) if True]\nplan_3=[num('W1::cpsaat15','E'+str(plan_1)) for plan_1 in plan_2]\nresult=sum(plan_3)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W1::cpsaat15!E7": {
+              "value": 35,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat15!E8": {
+              "value": 16,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat15!E9": {
+              "value": 10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat15!E10": {
+              "value": 6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat15!E11": {
+              "value": 4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat15!E12": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat15!E13": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat15!E14": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat15!E15": {
+              "value": 6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::cpsaat15!E16": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 86,
+          "sorts": [],
+          "error": null
+        },
+        {
+          "code": "result=num('W1::cpsaat15', 'E7')",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "contract_repair": true,
+          "contract_kind": "unambiguous-aggregation",
+          "assumptions": [
+            "Recomputed an unambiguous aggregation or category extremum from workbook coordinates; this application repair declares its own sources."
+          ],
+          "reads": {
+            "W1::cpsaat15!E7": {
+              "value": 35,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 35,
+          "error": null,
+          "sorts": [],
+          "selection": [
+            {
+              "sheet": "W1::cpsaat15",
+              "range": "E7"
+            }
+          ]
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1339,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1339,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1255,
+          "completion_tokens": 84,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4489,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "a8e4c054b5d03ea185182da9612206873a482abf790e36ad6795ce6b22f93f76",
+          "shared_http_id": "c34cb19c00e244309da3e9927b98ef4a",
+          "shared_questions": 8,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 29884416
+    },
+    "p4_q013": {
+      "file_name": "p4_t07.xlsx",
+      "answer": "Manufacturing, Construction, Agriculture",
+      "cost": 0.0,
+      "tokens": 13052,
+      "requests": 2,
+      "elapsed": 5.759779874992091,
+      "error": null,
+      "attempts": [
+        {
+          "error": "ValidationError: 2 validation errors for Program\ncode\n  Field required [type=missing, input_value={'planning_error': 'Value...nd on workbook sources'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/missing\nplanning_error\n  Extra inputs are not permitted [type=extra_forbidden, input_value='ValueError: Result must ...end on workbook sources', input_type=str]\n    For further information visit https://errors.pydantic.dev/2.12/v/extra_forbidden",
+          "model_output": "{\"planning_error\": \"ValueError: Result must depend on workbook sources\"}"
+        },
+        {
+          "code": "sheet = 'W2::cpsaat17'\nsectors = ['Agriculture and related', 'Manufacturing', 'Construction']\nres = []\nfor s in sectors:\n    r = find_rows(sheet, 'A', s)[0]\n    val = num(sheet, f'M{r}')\n    res.append((s, val))\nres.sort(key=lambda x: x[1], reverse=True)\nresult = [x[0] for x in res]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W2::cpsaat17!A9": {
+              "kind": "lookup_probe",
+              "value": "Agriculture and related",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A30": {
+              "kind": "lookup_probe",
+              "value": "Agriculture and related",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A51": {
+              "kind": "lookup_probe",
+              "value": "Agriculture and related",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A72": {
+              "kind": "lookup_probe",
+              "value": "Agriculture and related",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A93": {
+              "kind": "lookup_probe",
+              "value": "Agriculture and related",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A114": {
+              "kind": "lookup_probe",
+              "value": "Agriculture and related",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!M9": {
+              "value": 105,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::cpsaat17!A12": {
+              "kind": "lookup_probe",
+              "value": "Manufacturing",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A33": {
+              "kind": "lookup_probe",
+              "value": "Manufacturing",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A54": {
+              "kind": "lookup_probe",
+              "value": "Manufacturing",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A75": {
+              "kind": "lookup_probe",
+              "value": "Manufacturing",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A96": {
+              "kind": "lookup_probe",
+              "value": "Manufacturing",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A117": {
+              "kind": "lookup_probe",
+              "value": "Manufacturing",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!M12": {
+              "value": 1217,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::cpsaat17!A11": {
+              "kind": "lookup_probe",
+              "value": "Construction",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A32": {
+              "kind": "lookup_probe",
+              "value": "Construction",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A53": {
+              "kind": "lookup_probe",
+              "value": "Construction",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A74": {
+              "kind": "lookup_probe",
+              "value": "Construction",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A95": {
+              "kind": "lookup_probe",
+              "value": "Construction",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!A116": {
+              "kind": "lookup_probe",
+              "value": "Construction",
+              "stored_kind": "string"
+            },
+            "W2::cpsaat17!M11": {
+              "value": 335,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": [
+            "Manufacturing",
+            "Construction",
+            "Agriculture and related"
+          ],
+          "sorts": [
+            {
+              "keys": [
+                105,
+                1217,
+                335
+              ],
+              "reverse": true,
+              "selected": []
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1339,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1339,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1255,
+          "completion_tokens": 84,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4489,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "a8e4c054b5d03ea185182da9612206873a482abf790e36ad6795ce6b22f93f76",
+          "shared_http_id": "c34cb19c00e244309da3e9927b98ef4a",
+          "shared_questions": 8,
+          "allocation_index": 4
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 11713,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 11713,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 11547,
+          "completion_tokens": 166,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 34390,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "d54a2517de30d6cbdd1e7eee4330c9ab86498404f81c1a36656e13fb10bdd340"
+        }
+      ],
+      "peak_worker_bytes": 30343168
+    },
+    "p4_q014": {
+      "file_name": "p4_t07.xlsx",
+      "answer": "265",
+      "cost": 0.0,
+      "tokens": 1339,
+      "requests": 1,
+      "elapsed": 3.3386252490163315,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=sum([num('W2::cpsaat17','E12'),num('W2::cpsaat17','F12')])",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W2::cpsaat17!E12": {
+              "value": 45,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::cpsaat17!F12": {
+              "value": 220,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 265,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1339,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1339,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1255,
+          "completion_tokens": 84,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4489,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "a8e4c054b5d03ea185182da9612206873a482abf790e36ad6795ce6b22f93f76",
+          "shared_http_id": "c34cb19c00e244309da3e9927b98ef4a",
+          "shared_questions": 8,
+          "allocation_index": 5
+        }
+      ],
+      "peak_worker_bytes": 30343168
+    },
+    "p4_q015": {
+      "file_name": "p4_t08.xlsx",
+      "answer": "134",
+      "cost": 0.0,
+      "tokens": 1339,
+      "requests": 1,
+      "elapsed": 3.3341955830110237,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=num('W3::cpsaat19','C8')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W3::cpsaat19!C8": {
+              "value": 134,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 134,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1339,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1339,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1255,
+          "completion_tokens": 83,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4488,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "a8e4c054b5d03ea185182da9612206873a482abf790e36ad6795ce6b22f93f76",
+          "shared_http_id": "c34cb19c00e244309da3e9927b98ef4a",
+          "shared_questions": 8,
+          "allocation_index": 6
+        }
+      ],
+      "peak_worker_bytes": 29556736
+    },
+    "p4_q016": {
+      "file_name": "p4_t08.xlsx",
+      "answer": "35 hours and over",
+      "cost": 0.0,
+      "tokens": 6984,
+      "requests": 2,
+      "elapsed": 4.936387582973111,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=num('W3::cpsaat19','A6')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W3::cpsaat19!A6": {
+              "value": "1 to 34 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "ValueError: Ambiguous numeric text at W3::cpsaat19!A6: '1 to 34 hours'. Use data_rows with the observed numeric columns to exclude headers before calling num; do not coerce a header to zero."
+        },
+        {
+          "code": "sheet = 'W3::cpsaat19'\nrows = range(6, 18)\npercents = [(num(sheet, f'F{r}'), cell(sheet, f'A{r}')) for r in rows]\nbest_pct, best_cat = max(percents, key=lambda x: x[0])\nresult = best_cat",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W3::cpsaat19!F6": {
+              "value": 26.9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A6": {
+              "value": "1 to 34 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F7": {
+              "value": 1.9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A7": {
+              "value": "1 to 4 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F8": {
+              "value": 6.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A8": {
+              "value": "5 to 14 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F9": {
+              "value": 12.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A9": {
+              "value": "15 to 29 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F10": {
+              "value": 6.5,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A10": {
+              "value": "30 to 34 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F11": {
+              "value": 73.1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A11": {
+              "value": "35 hours and over",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F12": {
+              "value": 4.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A12": {
+              "value": "35 to 39 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F13": {
+              "value": 33.8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A13": {
+              "value": "40 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F14": {
+              "value": 34.8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A14": {
+              "value": "41 hours and over",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F15": {
+              "value": 6.5,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A15": {
+              "value": "41 to 48 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F16": {
+              "value": 11.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A16": {
+              "value": "49 to 59 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!F17": {
+              "value": 17,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat19!A17": {
+              "value": "60 hours and over",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "35 hours and over",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1339,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1339,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1255,
+          "completion_tokens": 83,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4488,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "a8e4c054b5d03ea185182da9612206873a482abf790e36ad6795ce6b22f93f76",
+          "shared_http_id": "c34cb19c00e244309da3e9927b98ef4a",
+          "shared_questions": 8,
+          "allocation_index": 7
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5645,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5645,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5505,
+          "completion_tokens": 140,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 23583,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "f3bf8b5157d55e0e3316a7cad0d4aa28f21dddb37d86690bbeb3bee6fb46fd64"
+        }
+      ],
+      "peak_worker_bytes": 29671424
+    },
+    "p4_q001": {
+      "file_name": "p4_t01.xlsx",
+      "answer": "Ngo",
+      "cost": 0.0,
+      "tokens": 7552,
+      "requests": 2,
+      "elapsed": 4.6325145839946344,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=num('W0::People','D19')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::People!D19": {
+              "value": "Ngo",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "ValueError: Ambiguous numeric text at W0::People!D19: 'Ngo'. Use data_rows with the observed numeric columns to exclude headers before calling num; do not coerce a header to zero."
+        },
+        {
+          "code": "r = age_order('W0::People', 'E', 'F', descending=False)[1]\nresult = cell('W0::People', 'D' + str(r))",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::People!A1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!B2": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A3": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A4": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A5": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A6": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A7": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A8": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A9": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A10": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A11": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A12": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A13": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A14": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A15": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A16": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A17": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A18": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A19": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A20": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A21": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!A22": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W0::People!E1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W0::People!F1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "W0::People!E2": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W0::People!F2": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W0::People!E3": {
+              "value": "2005-01-03T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F3": {
+              "value": "2025-02-12T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E4": {
+              "value": "1995-02-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F4": {
+              "value": "2024-02-08T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E5": {
+              "value": "2004-02-08T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F5": {
+              "value": "2025-01-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E6": {
+              "value": "1995-09-28T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F6": {
+              "value": "2022-05-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E7": {
+              "value": "1999-09-27T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F7": {
+              "value": "2022-02-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E8": {
+              "value": "1996-09-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F8": {
+              "value": "2021-10-02T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E9": {
+              "value": "2001-06-15T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F9": {
+              "value": "2025-08-12T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E10": {
+              "value": "1996-10-10T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F10": {
+              "value": "2025-08-11T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E11": {
+              "value": "1996-09-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F11": {
+              "value": "2022-06-05T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E12": {
+              "value": "2003-10-26T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F12": {
+              "value": "2023-06-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E13": {
+              "value": "2002-02-27T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F13": {
+              "value": "2021-05-16T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E14": {
+              "value": "1999-11-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F14": {
+              "value": "2024-05-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E15": {
+              "value": "2002-06-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F15": {
+              "value": "2025-02-16T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E16": {
+              "value": "1998-07-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F16": {
+              "value": "2024-02-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E17": {
+              "value": "1997-07-28T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F17": {
+              "value": "2025-05-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E18": {
+              "value": "1997-02-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F18": {
+              "value": "2022-04-22T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E19": {
+              "value": "1997-05-10T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F19": {
+              "value": "2021-03-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E20": {
+              "value": "2000-03-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F20": {
+              "value": "2025-10-21T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E21": {
+              "value": "2005-09-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F21": {
+              "value": "2024-07-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!E22": {
+              "value": "1998-02-07T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!F22": {
+              "value": "2024-03-04T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W0::People!D13": {
+              "value": "Ngo",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Ngo",
+          "sorts": [
+            {
+              "keys": [
+                7345.0,
+                10586.0,
+                7651.0,
+                9725.0,
+                8181.0,
+                9140.0,
+                8824.0,
+                10532.0,
+                9395.0,
+                7180.0,
+                7018.0,
+                8952.0,
+                8291.0,
+                9339.0,
+                10161.0,
+                9206.0,
+                8709.0,
+                9343.0,
+                6878.0,
+                9522.0
+              ],
+              "reverse": false,
+              "selected": [
+                1
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1391,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1391,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1344,
+          "completion_tokens": 47,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4464,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "71ce17646985d210fb2466284619056ef93df6548066466910ab3607bd48398f",
+          "shared_http_id": "df898356981440f9beea50e46b8f5636",
+          "shared_questions": 8,
+          "allocation_index": 0
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 6161,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 6161,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 6081,
+          "completion_tokens": 80,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 24144,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "284f302c7ca927d43d2354f2feda729ff383e7d3d82266356d0b4d6fa2406dc1"
+        }
+      ],
+      "peak_worker_bytes": 29638656
+    },
+    "p4_q002": {
+      "file_name": "p4_t01.xlsx",
+      "answer": "60",
+      "cost": 0.0,
+      "tokens": 1391,
+      "requests": 1,
+      "elapsed": 2.7666304579761345,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=num('W0::People','G4')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::People!G4": {
+              "value": 60,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 60,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1391,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1391,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1344,
+          "completion_tokens": 47,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4463,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "71ce17646985d210fb2466284619056ef93df6548066466910ab3607bd48398f",
+          "shared_http_id": "df898356981440f9beea50e46b8f5636",
+          "shared_questions": 8,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 29622272
+    },
+    "p4_q003": {
+      "file_name": "p4_t01.xlsx",
+      "answer": "92",
+      "cost": 0.0,
+      "tokens": 1391,
+      "requests": 1,
+      "elapsed": 2.761028915992938,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=num('W0::People','G3')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W0::People!G3": {
+              "value": 92,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 92,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1391,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1391,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1344,
+          "completion_tokens": 47,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4463,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "71ce17646985d210fb2466284619056ef93df6548066466910ab3607bd48398f",
+          "shared_http_id": "df898356981440f9beea50e46b8f5636",
+          "shared_questions": 8,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 29589504
+    },
+    "p4_q004": {
+      "file_name": "p4_t02.xlsx",
+      "answer": "No",
+      "cost": 0.0,
+      "tokens": 1391,
+      "requests": 1,
+      "elapsed": 2.764939083979698,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=(num('W1::Monsumtable','G4') > num('W1::Monsumtable','F4'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "boolean",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W1::Monsumtable!G4": {
+              "value": 174.428419723,
+              "kind": "number",
+              "number_format": "#,##0.000_);\\(#,##0.000\\)",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W1::Monsumtable!F4": {
+              "value": 178.18369752,
+              "kind": "number",
+              "number_format": "#,##0.000_);\\(#,##0.000\\)",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": false,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1391,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1391,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1344,
+          "completion_tokens": 47,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4463,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "71ce17646985d210fb2466284619056ef93df6548066466910ab3607bd48398f",
+          "shared_http_id": "df898356981440f9beea50e46b8f5636",
+          "shared_questions": 8,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 29605888
+    },
+    "p4_q005": {
+      "file_name": "p4_t03.xlsx",
+      "answer": "Airline fares",
+      "cost": 0.0,
+      "tokens": 9596,
+      "requests": 2,
+      "elapsed": 5.485996625007829,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=num('W2::Sheet0','B33')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W2::Sheet0!B33": {
+              "value": "Shelter",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 3,
+              "bold": false
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "ValueError: Ambiguous numeric text at W2::Sheet0!B33: 'Shelter'. Use data_rows with the observed numeric columns to exclude headers before calling num; do not coerce a header to zero."
+        },
+        {
+          "code": "sheet = 'W2::Sheet0'\n# Column H is 'Unadjusted percent change', 'Sep. 2024- Oct. 2024'\n# Rows are 4 to 42, excluding index 4 (All items) or use data rows where B is string and H is number\nvalid_rows = data_rows(sheet, {'B': 'string', 'H': 'number'})\n# Exclude row 4 ('All items') if it represents the total, but the question asks 'Considering all categories'\n# Let's check all rows in data_rows(sheet, {'B': 'string', 'H': 'number'})\n# Actually, row 4 is All items, let's include or exclude? 'Considering all categories'\nrows_to_check = [r for r in valid_rows if r != 4]\nbest_row = max(rows_to_check, key=lambda r: abs(num(sheet, f'H{r}')))\nresult = cell(sheet, f'B{best_row}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Excluded 'All items' (row 4) as it represents the grand total, considering only specific categories."
+          ],
+          "selection": [],
+          "reads": {
+            "W2::Sheet0!A1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!D2": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A3": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A4": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A5": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A6": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A7": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A8": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A9": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A10": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A11": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A12": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A13": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A15": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A16": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A17": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A18": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A19": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A20": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A21": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A22": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A24": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A25": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A26": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A27": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A28": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A29": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A30": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A31": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A32": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A33": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A34": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A35": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A36": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A37": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A38": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A39": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A40": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A41": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!A42": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null,
+              "operation": "row-presence"
+            },
+            "W2::Sheet0!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!B2": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "W2::Sheet0!H2": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!B3": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "W2::Sheet0!B4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H4": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "W2::Sheet0!B5": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H5": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B6": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H6": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B7": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H7": {
+              "value": 0.8,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B8": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H8": {
+              "value": -1.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B9": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H9": {
+              "value": 0.8,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B10": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H10": {
+              "value": 0.5,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B11": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H11": {
+              "value": 0.5,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B12": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H12": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B13": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H13": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B15": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H15": {
+              "value": -1.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B16": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H16": {
+              "value": -1.7,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B17": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H17": {
+              "value": 1.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B18": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H18": {
+              "value": -1.8,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B19": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H19": {
+              "value": -1.9,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B20": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H20": {
+              "value": -0.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B21": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H21": {
+              "value": -0.7,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B22": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H22": {
+              "value": 0.9,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B24": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H24": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B25": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H25": {
+              "value": -0.3,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B26": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H26": {
+              "value": -1.7,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B27": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H27": {
+              "value": -0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B28": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H28": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B29": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H29": {
+              "value": -0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B30": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H30": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B31": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H31": {
+              "value": 0.6,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B32": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H32": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B33": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H33": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B34": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H34": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B35": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H35": {
+              "value": 0.5,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B36": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H36": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B37": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H37": {
+              "value": 0.5,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B38": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H38": {
+              "value": 0.5,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B39": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H39": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B40": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H40": {
+              "value": 1.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B41": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "W2::Sheet0!H41": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W2::Sheet0!B42": {
+              "value": "Airline fares",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 4,
+              "bold": false
+            },
+            "W2::Sheet0!H42": {
+              "value": 6.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Airline fares",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1391,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1391,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1344,
+          "completion_tokens": 47,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4463,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "71ce17646985d210fb2466284619056ef93df6548066466910ab3607bd48398f",
+          "shared_http_id": "df898356981440f9beea50e46b8f5636",
+          "shared_questions": 8,
+          "allocation_index": 4
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 8205,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 8205,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 7861,
+          "completion_tokens": 344,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 27103,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "dc524e2f713b7d4181ad15013f20f4c4404c102854448a467e503c5a9e474bed"
+        }
+      ],
+      "peak_worker_bytes": 29786112
+    },
+    "p4_q006": {
+      "file_name": "p4_t04.xlsx",
+      "answer": "7668",
+      "cost": 0.0,
+      "tokens": 19821,
+      "requests": 3,
+      "elapsed": 13.363443540991284,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=num('W3::cpsaat07','E25')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W3::cpsaat07!E25": {
+              "value": 16796,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 16796,
+          "sorts": [],
+          "error": null
+        },
+        {
+          "error": "ValueError: Difference operands omit explicitly requested row measure 'civilian labor force'; read its numeric value in the requested section, not a neighboring metric.",
+          "model_output": "{\"code\":\"import statistics\\nresult=num('W3::cpsaat07','E25')\",\"result_variable\":\"result\",\"format\":{\"kind\":\"integer\",\"decimals\":null,\"count\":null,\"separator\":\", \",\"rounding\":\"half_even\",\"date_format\":\"iso\"},\"assumptions\":[],\"needs_verification\":false,\"selection\":[],\"request_regions\":[]}"
+        },
+        {
+          "code": "sheet = sheets()[0]\npop = num(sheet, 'E28')\nlf = num(sheet, 'E26')\nresult = abs(int(pop - lf))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": "",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W3::cpsaat07!E28": {
+              "value": 8826,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat07!E26": {
+              "value": 9128,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 302,
+          "sorts": [],
+          "error": null
+        },
+        {
+          "error": "ValueError: Difference operands omit explicitly requested row measure 'civilian noninstitutional population'; read its numeric value in the requested section, not a neighboring metric.",
+          "model_output": "```json\n{\n  \"code\": \"sheet = sheets()[0]\\npop = num(sheet, 'E28')\\nlf = num(sheet, 'E26')\\nresult = abs(int(pop - lf))\",\n  \"result_variable\": \"result\",\n  \"format\": {\n    \"kind\": \"integer\",\n    \"decimals\": null,\n    \"count\": null,\n    \"separator\": \"\"\n  },\n  \"assumptions\": [],\n  \"needs_verification\": false\n}\n```"
+        },
+        {
+          "code": "sheet = 'W3::cpsaat07'\nw = find_rows(sheet, 'A', 'Women')[0]\nresult = int(abs(num(sheet, f'E{w+1}') - num(sheet, f'E{w+2}')))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W3::cpsaat07!A24": {
+              "kind": "lookup_probe",
+              "value": "Women",
+              "stored_kind": "string"
+            },
+            "W3::cpsaat07!E25": {
+              "value": 16796,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat07!E26": {
+              "value": 9128,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 7668,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1390,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1390,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1343,
+          "completion_tokens": 47,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4463,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "71ce17646985d210fb2466284619056ef93df6548066466910ab3607bd48398f",
+          "shared_http_id": "df898356981440f9beea50e46b8f5636",
+          "shared_questions": 8,
+          "allocation_index": 5
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 7802,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 7802,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 7682,
+          "completion_tokens": 120,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 27489,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "f343132cccf5144f290d230225a0081850455770fcd214ca506eb031b8b678ce"
+        },
+        {
+          "request": 3,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 10629,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 10629,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 7683,
+          "completion_tokens": 2946,
+          "reasoning_tokens": 2829,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 27505,
+          "thinking": "high",
+          "temperature": 1.0,
+          "payload_sha256": "aa049904e4ea33a781e777070aa4d66d1810f8521e282552e3d56f139d7adbc4"
+        }
+      ],
+      "peak_worker_bytes": 29868032
+    },
+    "p4_q007": {
+      "file_name": "p4_t04.xlsx",
+      "answer": "3.14",
+      "cost": 0.0,
+      "tokens": 1390,
+      "requests": 1,
+      "elapsed": 2.824216166016413,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=num('W3::cpsaat07','B31')",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W3::cpsaat07!B31": {
+              "value": 6.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 6.4,
+          "sorts": [],
+          "error": null
+        },
+        {
+          "code": "import statistics\nvalues_to_average=[num(\"W3::cpsaat07\", address) for address in ['B31', 'C31', 'D31', 'E31', 'F31', 'G31', 'H31', 'I31']]\nresult=statistics.mean(values_to_average)",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "contract_repair": true,
+          "contract_kind": "unambiguous-aggregation",
+          "assumptions": [
+            "Recomputed an unambiguous aggregation or category extremum from workbook coordinates; this application repair declares its own sources."
+          ],
+          "reads": {
+            "W3::cpsaat07!B31": {
+              "value": 6.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat07!C31": {
+              "value": 3.8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat07!D31": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat07!E31": {
+              "value": 3.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat07!F31": {
+              "value": 2.6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat07!G31": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat07!H31": {
+              "value": 2.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W3::cpsaat07!I31": {
+              "value": 1.8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 3.1375,
+          "error": null,
+          "sorts": [],
+          "selection": [
+            {
+              "sheet": "W3::cpsaat07",
+              "range": "B31"
+            },
+            {
+              "sheet": "W3::cpsaat07",
+              "range": "C31"
+            },
+            {
+              "sheet": "W3::cpsaat07",
+              "range": "D31"
+            },
+            {
+              "sheet": "W3::cpsaat07",
+              "range": "E31"
+            },
+            {
+              "sheet": "W3::cpsaat07",
+              "range": "F31"
+            },
+            {
+              "sheet": "W3::cpsaat07",
+              "range": "G31"
+            },
+            {
+              "sheet": "W3::cpsaat07",
+              "range": "H31"
+            },
+            {
+              "sheet": "W3::cpsaat07",
+              "range": "I31"
+            }
+          ]
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1390,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1390,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1343,
+          "completion_tokens": 47,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4463,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "71ce17646985d210fb2466284619056ef93df6548066466910ab3607bd48398f",
+          "shared_http_id": "df898356981440f9beea50e46b8f5636",
+          "shared_questions": 8,
+          "allocation_index": 6
+        }
+      ],
+      "peak_worker_bytes": 29818880
+    },
+    "p4_q008": {
+      "file_name": "p4_t05.xlsx",
+      "answer": "9017",
+      "cost": 0.0,
+      "tokens": 27008,
+      "requests": 3,
+      "elapsed": 16.525737874995684,
+      "error": null,
+      "attempts": [
+        {
+          "code": "import statistics\nresult=num('W4::cpsaat14','B8')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W4::cpsaat14!B8": {
+              "value": 590,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 590,
+          "sorts": [],
+          "error": null
+        },
+        {
+          "error": "ValueError: Numeric reads omit the requested row range 20 to 24 in W4::cpsaat14; matching rows: [11, 18, 25, 34, 41, 50, 57, 66, 73, 82, 89]; Numeric reads omit the requested row range 16 to 19 in W4::cpsaat14; matching rows: [9, 16, 23, 32, 39, 48, 55, 64, 71, 80, 87]; Across-all selection omits sibling category cells in W4::cpsaat14: ['C8', 'D8', 'E8', 'F8', 'G8', 'H8', 'I8', 'J8', 'K8', 'L8', 'M8']. Inspect the complete shared header branch before aggregating or comparing rows; do not silently drop a category.",
+          "model_output": "{\"code\":\"import statistics\\nresult=num('W4::cpsaat14','B8')\",\"result_variable\":\"result\",\"format\":{\"kind\":\"integer\",\"decimals\":null,\"count\":null,\"separator\":\", \",\"rounding\":\"half_even\",\"date_format\":\"iso\"},\"assumptions\":[],\"needs_verification\":false,\"selection\":[],\"request_regions\":[]}"
+        },
+        {
+          "code": "sheet_name = 'W4::cpsaat14'\nage_20_24 = sum(num(sheet_name, f'B{r}') for r in [11, 18, 25, 34, 41, 50, 57, 66, 73, 82, 89])\nage_16_19 = sum(num(sheet_name, f'B{r}') for r in [9, 16, 23, 32, 39, 48, 55, 64, 71, 80, 87])\nresult = int(age_20_24 - age_16_19)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": "",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Across all industries means using column B (TOTAL) which contains the sum across all industries for each age group, and summing the demographic subgroup totals (Men, Women, White, Black, Asian, Hispanic) for each age band as presented in the table structure."
+          ],
+          "selection": [],
+          "reads": {
+            "W4::cpsaat14!B11": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B18": {
+              "value": 30,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B25": {
+              "value": 9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B34": {
+              "value": 28,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B41": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B50": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B57": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B66": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B73": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B82": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B89": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B9": {
+              "value": 11,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B16": {
+              "value": 10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B23": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B32": {
+              "value": 9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B39": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B48": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B55": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B64": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B71": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B80": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B87": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 87,
+          "sorts": [],
+          "error": null
+        },
+        {
+          "error": "ValueError: Across-all selection omits sibling category cells in W4::cpsaat14: ['C9', 'D9', 'E9', 'F9', 'G9', 'H9', 'I9', 'J9', 'K9', 'L9', 'M9']. Inspect the complete shared header branch before aggregating or comparing rows; do not silently drop a category.; Across-all selection omits sibling category cells in W4::cpsaat14: ['C11', 'D11', 'E11', 'F11', 'G11', 'H11', 'I11', 'J11', 'K11', 'L11', 'M11']. Inspect the complete shared header branch before aggregating or comparing rows; do not silently drop a category.; Across-all selection omits sibling category cells in W4::cpsaat14: ['C16', 'D16', 'E16', 'F16', 'G16', 'H16', 'I16', 'J16', 'K16', 'L16', 'M16']. Inspect the complete shared header branch before aggregating or comparing rows; do not silently drop a category.; Across-all selection omits sibling category cells in W4::cpsaat14: ['C18', 'D18', 'E18', 'F18', 'G18', 'H18', 'I18', 'J18', 'K18', 'L18', 'M18']. Inspect the complete shared header branch before aggregating or comparing rows; do not silently drop a category.; Across-all selection omits sibling category cells in W4::cpsaat14: ['C23', 'D23', 'E23', 'F23', 'G23', 'H23', 'I23', 'J23', 'K23', 'L23', 'M23']. Inspect the complete shared header branch before aggregating or comparing rows; do not silently drop a category.; Across-all selection omits sibling category cells in W4::cpsaat14: ['C25', 'D25', 'E25', 'F25', 'G25', 'H25', 'I25', 'J25', 'K25', 'L25', 'M25']. Inspect the complete shared header branch before aggregating or comparing rows; do not silently drop a category.",
+          "model_output": "```json\n{\n  \"code\": \"sheet_name = 'W4::cpsaat14'\\nage_20_24 = sum(num(sheet_name, f'B{r}') for r in [11, 18, 25, 34, 41, 50, 57, 66, 73, 82, 89])\\nage_16_19 = sum(num(sheet_name, f'B{r}') for r in [9, 16, 23, 32, 39, 48, 55, 64, 71, 80, 87])\\nresult = int(age_20_24 - age_16_19)\",\n  \"result_variable\": \"result\",\n  \"format\": {\n    \"kind\": \"integer\",\n    \"decimals\": null,\n    \"count\": null,\n    \"separator\": \"\"\n  },\n  \"assumptions\": [\n    \"Across all industries means using column B (TOTAL) which contains the sum across all industries for each age group, and summing the demographic subgroup totals (Men, Women, White, Black, Asian, Hispanic) for each age band as presented in the table structure.\"\n  ],\n  \"needs_verification\": false\n}\n```"
+        },
+        {
+          "code": "s = 'W4::cpsaat14'\ncols = [column_letter(i) for i in range(2, 14)]\nsum_16_19 = sum(num(s, c + '9') for c in cols)\nsum_20_24 = sum(num(s, c + '11') for c in cols)\nresult = int(sum_20_24 - sum_16_19)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "W4::cpsaat14!B9": {
+              "value": 11,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!C9": {
+              "value": 254,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!D9": {
+              "value": 228,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!E9": {
+              "value": 1308,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!F9": {
+              "value": 156,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!G9": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!H9": {
+              "value": 66,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!I9": {
+              "value": 215,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!J9": {
+              "value": 639,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!K9": {
+              "value": 2344,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!L9": {
+              "value": 232,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!M9": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!B11": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!C11": {
+              "value": 1055,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!D11": {
+              "value": 1163,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!E11": {
+              "value": 2737,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!F11": {
+              "value": 793,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!G11": {
+              "value": 199,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!H11": {
+              "value": 578,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!I11": {
+              "value": 1485,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!J11": {
+              "value": 2887,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!K11": {
+              "value": 2578,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!L11": {
+              "value": 739,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "W4::cpsaat14!M11": {
+              "value": 311,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 9017,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1390,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1390,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1343,
+          "completion_tokens": 47,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 4463,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "71ce17646985d210fb2466284619056ef93df6548066466910ab3607bd48398f",
+          "shared_http_id": "df898356981440f9beea50e46b8f5636",
+          "shared_questions": 8,
+          "allocation_index": 7
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 10584,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 10584,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 10277,
+          "completion_tokens": 307,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 30237,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "c9e888581ebea6b4283889ac1c46e931e64054804ef21225888addbfcc4e863b"
+        },
+        {
+          "request": 3,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 15034,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 15034,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 10406,
+          "completion_tokens": 4628,
+          "reasoning_tokens": 4475,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 30719,
+          "thinking": "high",
+          "temperature": 1.0,
+          "payload_sha256": "223549da8613d00c8b22592d1e43a01e52a740b97d5c7bcdbfd0a195ddfdaba2"
+        }
+      ],
+      "peak_worker_bytes": 30081024
+    }
+  },
+  "complete": true,
+  "events": [
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 6120,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 6120,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5918,
+          "completion_tokens": 202,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 24447,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "c58c23b8a9ea2cbc611f5e982862f878d97ad38ec840d2c9d575d0b62d4a4586",
+          "shared_http_id": "db6e69dba1794b949b11cdee96a529b1"
+        }
+      ],
+      "elapsed": 2.2973425000091083,
+      "error": null,
+      "model_output": "```json\n{\n  \"plans\": {\n    \"q0\": {\n      \"expr\": {\n        \"op\": \"abs\",\n        \"args\": [\n          {\n            \"op\": \"sub\",\n            \"args\": [\n              {\"cell\": [\"W0::cpsaat21\", \"B11\"]},\n              {\"cell\": [\"W0::cpsaat21\", \"B10\"]}\n            ]\n          }\n        ]\n      },\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q1\": {\"defer\": true},\n    \"q2\": {\"defer\": true},\n    \"q3\": {\n      \"expr\": {\"cell\": [\"W1::cpsaat22\", \"B10\"]},\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+      "question_ids": [
+        "p4_q017",
+        "p4_q018",
+        "p4_q019",
+        "p4_q020"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 10713,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 10713,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 10043,
+          "completion_tokens": 670,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 35910,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "a8e4c054b5d03ea185182da9612206873a482abf790e36ad6795ce6b22f93f76",
+          "shared_http_id": "c34cb19c00e244309da3e9927b98ef4a"
+        }
+      ],
+      "elapsed": 3.268986915994901,
+      "error": null,
+      "model_output": "```json\n{\n  \"plans\": {\n    \"q0\": {\n      \"expr\": {\n        \"op\": \"sum\",\n        \"args\": [\n          {\n            \"op\": \"list\",\n            \"args\": [\n              {\"cell\": [\"W0::cpsaat14\", \"C11\"]},\n              {\"cell\": [\"W0::cpsaat14\", \"D11\"]}\n            ]\n          }\n        ]\n      },\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q1\": {\n      \"expr\": {\n        \"op\": \"clean\",\n        \"args\": [\n          {\"cell\": [\"W0::cpsaat14\", \"B5\"]}\n        ]\n      },\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q2\": {\n      \"expr\": {\n        \"const\": \"Yes\"\n      },\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q3\": {\n      \"expr\": {\n        \"op\": \"sum\",\n        \"args\": [\n          {\n            \"op\": \"scan\",\n            \"sheet\": \"W1::cpsaat15\",\n            \"rows\": [\n              7,\n              16\n            ],\n            \"value\": {\n              \"col\": \"E\",\n              \"kind\": \"number\"\n            }\n          }\n        ]\n      },\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q4\": {\n      \"expr\": {\n        \"op\": \"list\",\n        \"args\": [\n          {\"const\": \"Manufacturing\"},\n          {\"const\": \"Construction\"},\n          {\"const\": \"Agriculture and related\"}\n        ]\n      },\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q5\": {\n      \"expr\": {\n        \"op\": \"sum\",\n        \"args\": [\n          {\n            \"op\": \"list\",\n            \"args\": [\n              {\"cell\": [\"W2::cpsaat17\", \"E12\"]},\n              {\"cell\": [\"W2::cpsaat17\", \"F12\"]}\n            ]\n          }\n        ]\n      },\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q6\": {\n      \"expr\": {\n        \"cell\": [\"W3::cpsaat19\", \"C8\"]\n      },\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q7\": {\n      \"expr\": {\n        \"cell\": [\"W3::cpsaat19\", \"A6\"]\n      },\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    }\n  }\n}\n```",
+      "question_ids": [
+        "p4_q009",
+        "p4_q010",
+        "p4_q011",
+        "p4_q012",
+        "p4_q013",
+        "p4_q014",
+        "p4_q015",
+        "p4_q016"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 11125,
+          "reasoning_limit": 0,
+          "output_limit": 4096,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 11125,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 10749,
+          "completion_tokens": 376,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 35705,
+          "thinking": "low",
+          "temperature": 1.0,
+          "payload_sha256": "71ce17646985d210fb2466284619056ef93df6548066466910ab3607bd48398f",
+          "shared_http_id": "df898356981440f9beea50e46b8f5636"
+        }
+      ],
+      "elapsed": 2.699897874990711,
+      "error": null,
+      "model_output": "```json\n{\n  \"plans\": {\n    \"q0\": {\n      \"expr\": {\"cell\": [\"W0::People\", \"D19\"]},\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"expr\": {\"cell\": [\"W0::People\", \"G4\"]},\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"expr\": {\"cell\": [\"W0::People\", \"G3\"]},\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"expr\": {\"op\": \"gt\", \"args\": [{\"cell\": [\"W1::Monsumtable\", \"G4\"]}, {\"cell\": [\"W1::Monsumtable\", \"F4\"]}]},\n      \"format\": {\"kind\": \"boolean\"}\n    },\n    \"q4\": {\n      \"expr\": {\"cell\": [\"W2::Sheet0\", \"B33\"]},\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q5\": {\n      \"expr\": {\"cell\": [\"W3::cpsaat07\", \"E25\"]},\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q6\": {\n      \"expr\": {\"cell\": [\"W3::cpsaat07\", \"B31\"]},\n      \"format\": {\"kind\": \"decimal\", \"decimals\": 2}\n    },\n    \"q7\": {\n      \"expr\": {\"cell\": [\"W4::cpsaat14\", \"B8\"]},\n      \"format\": {\"kind\": \"integer\"}\n    }\n  }\n}\n```",
+      "question_ids": [
+        "p4_q001",
+        "p4_q002",
+        "p4_q003",
+        "p4_q004",
+        "p4_q005",
+        "p4_q006",
+        "p4_q007",
+        "p4_q008"
+      ]
+    }
+  ],
+  "wall_seconds": 32.26372716599144,
+  "peak_total_rss_bytes": 97320960
+}

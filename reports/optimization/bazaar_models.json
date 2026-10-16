@@ -1,0 +1,837 @@
+{
+  "response_keys": [
+    "object",
+    "data"
+  ],
+  "model_count": 124,
+  "qwen_models": [
+    {
+      "id": "qwen3.8-max",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.8 Max",
+      "description": "Qwen3.8 Max is the flagship model in Alibaba's Qwen3.8 series, the general-availability successor to the Qwen3.8 Max Preview. It is a multimodal reasoning model intended for complex reasoning, visual understanding,...",
+      "context_length": 1000000,
+      "aliases": [
+        "qwen/qwen3.8-max"
+      ],
+      "pricing": {
+        "prompt": "0.000002",
+        "completion": "0.000006",
+        "input_cache_read": "0.00000025",
+        "input_cache_write": "0.0000025"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "supported_efforts": [
+          "xhigh",
+          "high",
+          "medium",
+          "low",
+          "minimal"
+        ],
+        "default_effort": "xhigh",
+        "default_enabled": true,
+        "mandatory": true
+      }
+    },
+    {
+      "id": "qwen3.7-plus",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.7 Plus",
+      "description": "Qwen3.7-Plus is a cost-effective model in Alibaba's Qwen3.7 series. It supports text and image input with text output, building on the series' text capabilities with a comprehensive upgrade to its...",
+      "context_length": 1000000,
+      "aliases": [
+        "qwen/qwen3.7-plus"
+      ],
+      "pricing": {
+        "prompt": "3.2e-7",
+        "completion": "0.00000128"
+      },
+      "architecture": {
+        "modality": "text+image->text",
+        "input_modalities": [
+          "text",
+          "image"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "default_enabled": true,
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3.7-max",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.7 Max",
+      "description": "Qwen3.7-Max is the flagship model in Alibaba's Qwen3.7 series. It supports text input and output and is designed for agent-centric workloads, with particular strengths in coding, office and productivity tasks,...",
+      "context_length": 1000000,
+      "aliases": [
+        "qwen/qwen3.7-max"
+      ],
+      "pricing": {
+        "prompt": "0.000001475",
+        "completion": "0.000004425",
+        "input_cache_read": "0.000000295",
+        "input_cache_write": "0.00000184375"
+      },
+      "architecture": {
+        "modality": "text->text",
+        "input_modalities": [
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "default_enabled": true,
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3.7-flash",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.7 Flash",
+      "description": null,
+      "context_length": 1000000,
+      "aliases": [
+        "qwen/qwen3.7-flash"
+      ],
+      "pricing": {
+        "prompt": "3e-8",
+        "completion": "1.3e-7",
+        "input_cache_read": "0.000000006",
+        "input_cache_write": "0.000000038"
+      },
+      "pricing_tiers": [
+        {
+          "above_prompt_tokens": 32768,
+          "prompt": "1.0000000000000001e-7",
+          "completion": "4.0000000000000003e-7"
+        },
+        {
+          "above_prompt_tokens": 262144,
+          "prompt": "2.0000000000000002e-7",
+          "completion": "8.000000000000001e-7"
+        }
+      ],
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "default_enabled": true,
+        "supports_max_tokens": true,
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3.5-35b-a3b",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.5-35B-A3B",
+      "description": "The Qwen3.5 Series 35B-A3B is a native vision-language model designed with a hybrid architecture that integrates linear attention mechanisms and a sparse mixture-of-experts model, achieving higher inference efficiency. Its overall...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3.5-35b-a3b"
+      ],
+      "pricing": {
+        "prompt": "3.125e-7",
+        "completion": "0.00000125",
+        "input_cache_read": "0.00000025"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3.5-9b",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.5-9B",
+      "description": "Qwen3.5-9B is a multimodal foundation model from the Qwen3.5 family, designed to deliver strong reasoning, coding, and visual understanding in an efficient 9B-parameter architecture. It uses a unified vision-language design...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3.5-9b"
+      ],
+      "pricing": {
+        "prompt": "1.0000000000000001e-7",
+        "completion": "1.5e-7"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3.5-27b",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.5-27B",
+      "description": "The Qwen3.5 27B native vision-language Dense model incorporates a linear attention mechanism, delivering fast response times while balancing inference speed and performance. Its overall capabilities are comparable to those of...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3.5-27b"
+      ],
+      "pricing": {
+        "prompt": "2.6e-7",
+        "completion": "0.0000026"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3-next-80b-a3b-instruct",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3 Next 80B A3B Instruct",
+      "description": "Qwen3-Next-80B-A3B-Instruct is an instruction-tuned chat model in the Qwen3-Next series optimized for fast, stable responses without \u201cthinking\u201d traces. It targets complex tasks across reasoning, code generation, knowledge QA, and multilingual...",
+      "context_length": 262140,
+      "aliases": [
+        "qwen/qwen3-next-80b-a3b-instruct"
+      ],
+      "pricing": {
+        "prompt": "1.0000000000000001e-7",
+        "completion": "0.0000011",
+        "input_cache_read": "0.00000007"
+      },
+      "architecture": {
+        "modality": "text->text",
+        "input_modalities": [
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      }
+    },
+    {
+      "id": "qwen3.5-397b-a17b",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.5 397B A17B",
+      "description": "The Qwen3.5 series 397B-A17B native vision-language model is built on a hybrid architecture that integrates a linear attention mechanism with a sparse mixture-of-experts model, achieving higher inference efficiency. It delivers...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3.5-397b-a17b"
+      ],
+      "pricing": {
+        "prompt": "5.5e-7",
+        "completion": "0.0000035",
+        "input_cache_read": "0.0000003"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3.6-plus",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.6 Plus",
+      "description": "Qwen 3.6 Plus builds on a hybrid architecture that combines efficient linear attention with sparse mixture-of-experts routing, enabling strong scalability and high-performance inference. Compared to the 3.5 series, it delivers...",
+      "context_length": 1000000,
+      "aliases": [
+        "qwen/qwen3.6-plus"
+      ],
+      "pricing": {
+        "prompt": "3.25e-7",
+        "completion": "0.00000195",
+        "input_cache_write": "0.00000040625"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3-coder-flash",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3 Coder Flash",
+      "description": "Qwen3 Coder Flash is Alibaba's fast and cost efficient version of their proprietary Qwen3 Coder Plus. It is a powerful coding agent model specializing in autonomous programming via tool calling...",
+      "context_length": 128000,
+      "aliases": [
+        "qwen/qwen3-coder-flash"
+      ],
+      "pricing": {
+        "prompt": "1.95e-7",
+        "completion": "9.75e-7",
+        "input_cache_read": "0.000000039",
+        "input_cache_write": "0.00000024375"
+      },
+      "architecture": {
+        "modality": "text->text",
+        "input_modalities": [
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      }
+    },
+    {
+      "id": "qwen3.5-122b-a10b",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.5-122B-A10B",
+      "description": "The Qwen3.5 122B-A10B native vision-language model is built on a hybrid architecture that integrates a linear attention mechanism with a sparse mixture-of-experts model, achieving higher inference efficiency. In terms of...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3.5-122b-a10b"
+      ],
+      "pricing": {
+        "prompt": "2.9e-7",
+        "completion": "0.0000024"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3-vl-235b-a22b-instruct",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3 VL 235B A22B Instruct",
+      "description": "Qwen3-VL-235B-A22B Instruct is an open-weight multimodal model that unifies strong text generation with visual understanding across images and video. The Instruct model targets general vision-language use (VQA, document parsing, chart/table...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3-vl-235b-a22b-instruct"
+      ],
+      "pricing": {
+        "prompt": "2.1e-7",
+        "completion": "0.0000018999999999999998",
+        "input_cache_read": "0.0000001"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      }
+    },
+    {
+      "id": "qwen3.8-27b",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.8 27B",
+      "description": "Qwen3.8 27B is an open-weight dense vision-language model from Qwen. It is suited for coding, professional workflows, research, multimodal interaction, and long-running agent tasks, with flexible thinking that can be...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3.8-27b"
+      ],
+      "pricing": {
+        "prompt": "5.5e-7",
+        "completion": "0.0000032000000000000003",
+        "input_cache_read": "0.00000055",
+        "input_cache_write": "0.00000069"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "supported_efforts": [
+          "xhigh",
+          "medium",
+          "low"
+        ],
+        "default_effort": "xhigh",
+        "default_enabled": true,
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3.8-2.4t-a95b",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.8 2.4T A95B",
+      "description": "Qwen3.8 2.4T A95B is an open-weight sparse mixture-of-experts model from Qwen and the open-weight variant of Qwen3.8 Max, with 95 billion active parameters out of 2.4 trillion total. It is...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3.8-2.4t-a95b"
+      ],
+      "pricing": {
+        "prompt": "0.000002",
+        "completion": "0.000006",
+        "input_cache_read": "0.0000002"
+      },
+      "architecture": {
+        "modality": "text->text",
+        "input_modalities": [
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "supported_efforts": [
+          "xhigh",
+          "medium",
+          "low"
+        ],
+        "default_effort": "xhigh",
+        "default_enabled": true,
+        "mandatory": true
+      }
+    },
+    {
+      "id": "qwen3.5-flash-02-23",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.5 Flash 02 23",
+      "description": "The Qwen3.5 native vision-language Flash models are built on a hybrid architecture that integrates a linear attention mechanism with a sparse mixture-of-experts model, achieving higher inference efficiency. Compared to the...",
+      "context_length": 1000000,
+      "aliases": [
+        "qwen/qwen3.5-flash-02-23"
+      ],
+      "pricing": {
+        "prompt": "6.5e-8",
+        "completion": "2.6e-7",
+        "input_cache_write": "0.00000008125"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3-coder-30b-a3b-instruct",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3 Coder 30B A3B Instruct",
+      "description": "Qwen3-Coder-30B-A3B-Instruct is a 30.5B parameter Mixture-of-Experts (MoE) model with 128 experts (8 active per forward pass), designed for advanced code generation, repository-scale understanding, and agentic tool use. Built on the...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3-coder-30b-a3b-instruct"
+      ],
+      "pricing": {
+        "prompt": "7e-8",
+        "completion": "2.8e-7"
+      },
+      "architecture": {
+        "modality": "text->text",
+        "input_modalities": [
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      }
+    },
+    {
+      "id": "qwen3.6-35b-a3b",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.6 35B A3B",
+      "description": "Qwen3.6-35B-A3B is an open-weight multimodal model from Alibaba Cloud with 35 billion total parameters and 3 billion active parameters per token. It uses a hybrid sparse mixture-of-experts architecture combining Gated...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3.6-35b-a3b"
+      ],
+      "pricing": {
+        "prompt": "1.5e-7",
+        "completion": "0.000001",
+        "input_cache_read": "0.00000005"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "default_enabled": true,
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3-coder-next",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3 Coder Next",
+      "description": "Qwen3-Coder-Next is an open-weight causal language model optimized for coding agents and local development workflows. It uses a sparse MoE design with 80B total parameters and only 3B activated per...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3-coder-next"
+      ],
+      "pricing": {
+        "prompt": "1.2e-7",
+        "completion": "8.000000000000001e-7",
+        "input_cache_read": "0.00000007"
+      },
+      "architecture": {
+        "modality": "text->text",
+        "input_modalities": [
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      }
+    },
+    {
+      "id": "qwen3-vl-30b-a3b-instruct",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3 VL 30B A3B Instruct",
+      "description": "Qwen3-VL-30B-A3B-Instruct is a multimodal model that unifies strong text generation with visual understanding for images and videos. Its Instruct variant optimizes instruction-following for general multimodal tasks. It excels in perception...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3-vl-30b-a3b-instruct"
+      ],
+      "pricing": {
+        "prompt": "1.5e-7",
+        "completion": "6e-7"
+      },
+      "architecture": {
+        "modality": "text+image->text",
+        "input_modalities": [
+          "text",
+          "image"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      }
+    },
+    {
+      "id": "qwen3.5-plus-02-15",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.5 Plus 02 15",
+      "description": "The Qwen3.5 native vision-language series Plus models are built on a hybrid architecture that integrates linear attention mechanisms with sparse mixture-of-experts models, achieving higher inference efficiency. In a variety of...",
+      "context_length": 1000000,
+      "aliases": [
+        "qwen/qwen3.5-plus-02-15"
+      ],
+      "pricing": {
+        "prompt": "2.6e-7",
+        "completion": "0.00000156",
+        "input_cache_write": "0.000000325"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3.6-27b",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.6 27B",
+      "description": "Qwen3.6 27B is a dense 27-billion-parameter language model from the Qwen Team at Alibaba, released in April 2026. It features hybrid multimodal capabilities \u2014 accepting text, image, and video inputs...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3.6-27b"
+      ],
+      "pricing": {
+        "prompt": "2.8899999999999995e-7",
+        "completion": "0.0000024",
+        "input_cache_read": "0.00000015"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "default_enabled": true,
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen3-coder",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3 Coder",
+      "description": "Qwen3-Coder-480B-A35B-Instruct is a Mixture-of-Experts (MoE) code generation model developed by the Qwen team. It is optimized for agentic coding tasks such as function calling, tool use, and long-context reasoning over...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3-coder"
+      ],
+      "pricing": {
+        "prompt": "3e-7",
+        "completion": "0.000001",
+        "input_cache_read": "0.0000001"
+      },
+      "architecture": {
+        "modality": "text->text",
+        "input_modalities": [
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      }
+    },
+    {
+      "id": "qwen3.5-plus-20260420",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.5 Plus 20260420",
+      "description": "Qwen3.5 Plus (April 2026) is a large-scale multimodal language model from Alibaba. It accepts text, image, and video input and produces text output, with a 1M token context window. This...",
+      "context_length": 1000000,
+      "aliases": [
+        "qwen/qwen3.5-plus-20260420"
+      ],
+      "pricing": {
+        "prompt": "3e-7",
+        "completion": "0.0000018000000000000001",
+        "input_cache_write": "0.000000375"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "mandatory": false
+      }
+    },
+    {
+      "id": "qwen-2.5-72b-instruct",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen2.5 72B Instruct",
+      "description": "Qwen2.5 72B is the latest series of Qwen large language models. Qwen2.5 brings the following improvements upon Qwen2: - Significantly more knowledge and has greatly improved capabilities in coding and...",
+      "context_length": 32768,
+      "aliases": [
+        "qwen/qwen-2.5-72b-instruct"
+      ],
+      "pricing": {
+        "prompt": "3.6e-7",
+        "completion": "4.0000000000000003e-7"
+      },
+      "architecture": {
+        "modality": "text->text",
+        "input_modalities": [
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      }
+    },
+    {
+      "id": "qwen3-vl-8b-instruct",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3 VL 8B Instruct",
+      "description": "Qwen3-VL-8B-Instruct is a multimodal vision-language model from the Qwen3-VL series, built for high-fidelity understanding and reasoning across text, images, and video. It features improved multimodal fusion with Interleaved-MRoPE for long-horizon...",
+      "context_length": 262144,
+      "aliases": [
+        "qwen/qwen3-vl-8b-instruct"
+      ],
+      "pricing": {
+        "prompt": "1.17e-7",
+        "completion": "4.5500000000000004e-7"
+      },
+      "architecture": {
+        "modality": "text+image->text",
+        "input_modalities": [
+          "image",
+          "text"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      }
+    },
+    {
+      "id": "qwen/qwen3.7-flash:free",
+      "object": "model",
+      "created": 1792028793,
+      "owned_by": "qwen",
+      "name": "Qwen3.7 Flash (free)",
+      "description": "Rate-limited free tier.",
+      "context_length": 1000000,
+      "aliases": [],
+      "pricing": {
+        "prompt": "0",
+        "completion": "0"
+      },
+      "architecture": {
+        "modality": "text+image+video->text",
+        "input_modalities": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output_modalities": [
+          "text"
+        ]
+      },
+      "reasoning": {
+        "default_enabled": true,
+        "supports_max_tokens": true,
+        "mandatory": false
+      }
+    }
+  ]
+}

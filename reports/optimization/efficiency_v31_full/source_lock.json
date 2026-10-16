@@ -1,0 +1,49 @@
+{
+  "modules": {
+    "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+    "src/verification.py": "0a5f5d8d138e474ae1a7ae6f66df3062447a4b94b5ac560305b528f2d8b35df7",
+    "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+    "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+    "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+    "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+    "src/llm_agent.py": "1d91f54ae60465f74365344f864506ae02aa57f2f637b0cce5c0b41831f6663d",
+    "src/contracts.py": "80a916bd29ae190088e63a507d777579aff90ff0471dca9671d343ff70b7c02b",
+    "src/executor.py": "b104ff49875a95eca5f07cb35904165c2186b13f7475393384e90165944368bf",
+    "benchmarks/batched.py": "dec1ea919249252bc42ec36d6a4c5425f76be24537b2f7262920e035c733ea7a",
+    "benchmarks/structured_batch.py": "6238055cc577cbd6335a77323b297171399cf1800cd8af8039d3e23f12656004",
+    "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+    "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+    "benchmarks/gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05",
+    "benchmarks/precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4",
+    "benchmarks/efficient.py": "86094a8c6ffc5c266520598b1285c4ac00015ded37157d3d1561565a0cbae6b1",
+    "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0"
+  },
+  "scope": "Known datasets and consumed validation: regression only, no independent holdout claim",
+  "independent_validation": false,
+  "public_repetitions": 3,
+  "configuration": {
+    "thinking": "low",
+    "concurrency": 4
+  },
+  "regression_extensions": {
+    "structural_18": {
+      "folder": "reports/optimization/structural_v1_holdout",
+      "count": 18
+    },
+    "generalization_18": {
+      "folder": "reports/optimization/generalization_v1_holdout",
+      "count": 18
+    },
+    "transfer_24": {
+      "folder": "reports/optimization/efficiency_v5_holdout",
+      "count": 24
+    },
+    "compositional_18": {
+      "folder": "reports/optimization/compositional_v1_holdout",
+      "count": 18
+    }
+  },
+  "validation_dataset": "reports/optimization/robustness_v1_holdout",
+  "validation_manifest_sha256": "4e4448eb86140c969145693f1b24f4ebde0eff5372d8a9c70b591484870c0503",
+  "harness_sha256": "0b868b94f56b36cae6342c8567b8760b913fe790247c12666074dbb157c58b0e"
+}

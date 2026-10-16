@@ -1,0 +1,49 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "max_tokens": 2048,
+    "concurrency": 4,
+    "group_size": 4,
+    "strategy": "live-workbook-plan",
+    "modules": {
+      "batched.py": "8d818141f5efaa3bc00b22de484e470cab8b673a1a5311e0bdfebfd5c9edfcc1",
+      "efficient.py": "75f477de4b7f76e4f8394be5a211a09c43a19d95353025570dcaae17c4fbaa73",
+      "precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4"
+    },
+    "agent_class": "StructuredBatchedAgent",
+    "agent_sha256": "d64933eaf68a1a385ca742def8978d386226e8c499a3f1ed08ab2750cc512b87"
+  },
+  "fingerprint": "a83f19a1b9d531cc1d82441076ec8e52f8692f0d01008db1349ba20c5f7410fc",
+  "complete": false,
+  "score": {
+    "correct": 18,
+    "total": 20,
+    "errors": {
+      "p4_q009": {
+        "prediction": "1094",
+        "reference": "2218"
+      },
+      "p4_q008": {
+        "prediction": "",
+        "reference": "9017"
+      }
+    }
+  },
+  "wall_seconds": 11.536761334020412,
+  "mean_query_seconds": 3.412688037758926,
+  "tokens": 117588,
+  "provider_tokens_known": 117588,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 117588,
+  "http_attempts": 15,
+  "peak_total_rss_bytes": 101023744,
+  "fatal_error": null,
+  "errors": {
+    "p4_q008": "ValueError: The selected column is a single industry, not an overall total. Aggregate disjoint industry columns when no total column exists."
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

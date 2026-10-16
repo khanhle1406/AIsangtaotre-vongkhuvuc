@@ -1,0 +1,308 @@
+{
+  "rows": [
+    {
+      "id": "generated-001",
+      "file_name": "renamed_invoice_0.xlsx",
+      "answer": "133",
+      "cost": 0.0,
+      "tokens": 2318,
+      "requests": 1,
+      "elapsed": 2.2407365000108257,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_d = data_rows('Invoices 828', {'F':'string', 'D':'number'})\nr = [r for r in rows_d if cell('Invoices 828', f'F{r}') == 'Delta Co.'][0]\nresult = int(num('Invoices 828', f'D{r}'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 828!F1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!D1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!F3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!D3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!F4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!F5": {
+              "value": "Delta Co.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!D5": {
+              "value": 133,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!F6": {
+              "value": "Orion Ltd.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!D6": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Invoices 828!F7": {
+              "value": "Zenith Inc.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!D7": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            }
+          },
+          "raw_result": 133,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2318,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2318,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_d = data_rows('Invoices 828', {'F':'string', 'D':'number'})\\nr = [r for r in rows_d if cell('Invoices 828', f'F{r}') == 'Delta Co.'][0]\\nresult = int(num('Invoices 828', f'D{r}'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_d = data_rows('Invoices 828', {'F':'string', 'D':'number'})\\nmax_r = max(rows_d, key=lambda r: num('Invoices 828', f'D{r}'))\\nresult = cell('Invoices 828', f'F{max_r}')\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2201,
+          "completion_tokens": 117,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 10465,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "76eaee15dfca48a8ba2c19ebdac7bf94",
+          "shared_questions": 2,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 27836416
+    },
+    {
+      "id": "generated-002",
+      "file_name": "renamed_invoice_0.xlsx",
+      "answer": "Orion Ltd.",
+      "cost": 0.0,
+      "tokens": 2317,
+      "requests": 1,
+      "elapsed": 2.1994230000127573,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_d = data_rows('Invoices 828', {'F':'string', 'D':'number'})\nmax_r = max(rows_d, key=lambda r: num('Invoices 828', f'D{r}'))\nresult = cell('Invoices 828', f'F{max_r}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 828!F1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!D1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!F3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!D3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!F4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!F5": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D5": {
+              "value": 133,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!F6": {
+              "value": "Orion Ltd.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!D6": {
+              "value": 165,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!F7": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D7": {
+              "value": 117,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Orion Ltd.",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2317,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2317,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_d = data_rows('Invoices 828', {'F':'string', 'D':'number'})\\nr = [r for r in rows_d if cell('Invoices 828', f'F{r}') == 'Delta Co.'][0]\\nresult = int(num('Invoices 828', f'D{r}'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_d = data_rows('Invoices 828', {'F':'string', 'D':'number'})\\nmax_r = max(rows_d, key=lambda r: num('Invoices 828', f'D{r}'))\\nresult = cell('Invoices 828', f'F{max_r}')\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2201,
+          "completion_tokens": 116,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 10464,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "76eaee15dfca48a8ba2c19ebdac7bf94",
+          "shared_questions": 2,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 27787264
+    }
+  ],
+  "event": {
+    "mode": "live-shared-workbook-plan",
+    "calls": [
+      {
+        "request": 1,
+        "reserved_usd": 0.0,
+        "cost_estimated": true,
+        "tokens": 4635,
+        "reasoning_limit": 0,
+        "output_limit": 2048,
+        "usage_missing": false,
+        "tokens_estimated": false,
+        "provider_total_tokens": 4635,
+        "provider_cost_usd": null,
+        "cost_basis": "user-confirmed-free; provider cost recorded separately",
+        "requested_wire_format": "keyed-json-schema",
+        "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_d = data_rows('Invoices 828', {'F':'string', 'D':'number'})\\nr = [r for r in rows_d if cell('Invoices 828', f'F{r}') == 'Delta Co.'][0]\\nresult = int(num('Invoices 828', f'D{r}'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_d = data_rows('Invoices 828', {'F':'string', 'D':'number'})\\nmax_r = max(rows_d, key=lambda r: num('Invoices 828', f'D{r}'))\\nresult = cell('Invoices 828', f'F{max_r}')\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+        "response_model": "gemini-3-flash",
+        "finish_reason": "stop",
+        "prompt_tokens": 4402,
+        "completion_tokens": 233,
+        "reasoning_tokens": null,
+        "cost_usd": 0.0,
+        "reserved_token_bound": 20929,
+        "thinking": "low",
+        "temperature": 1.0,
+        "shared_http_id": "76eaee15dfca48a8ba2c19ebdac7bf94"
+      }
+    ],
+    "elapsed": 2.1223742500005756,
+    "error": null,
+    "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"rows_d = data_rows('Invoices 828', {'F':'string', 'D':'number'})\\nr = [r for r in rows_d if cell('Invoices 828', f'F{r}') == 'Delta Co.'][0]\\nresult = int(num('Invoices 828', f'D{r}'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"rows_d = data_rows('Invoices 828', {'F':'string', 'D':'number'})\\nmax_r = max(rows_d, key=lambda r: num('Invoices 828', f'D{r}'))\\nresult = cell('Invoices 828', f'F{max_r}')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+    "question_ids": [
+      "generated-001",
+      "generated-002"
+    ]
+  },
+  "schema_acceptance": "accepted only if no HTTP 400/422; enforcement not assumed"
+}

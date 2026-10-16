@@ -1,0 +1,57 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "temperature": 1.0,
+    "verification_thinking": null,
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "planning_max_tokens": 4096,
+    "concurrency": 4,
+    "repair_concurrency": 4,
+    "group_size": 8,
+    "strategy": "live-multi-workbook-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "fa05f4ef64f24719a843d2847e41de424d8131dd761079074258734ab368db17",
+      "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "3f9b48301df14d589ece8bb3b4112b91d053952e27183046488d70a8c95cc738",
+      "plan_agent.py": "1d2a8670dc3c81a4c18afcd9c5ac2d91075190bc812464c17596e040d9a3801e",
+      "scheduled.py": "9793ab3f859b08bda27fb9f8af6fc660738c1956104779a4044caf8a1bd09187"
+    },
+    "agent_class": "ScheduledPackedAgent",
+    "agent_sha256": "cd226a4ccf4a79c6ca1d8b982d69c2b5bc3e3cae62cfe88650b1741177c305d0"
+  },
+  "fingerprint": "d959aa2d03bc2af24233a75f44530bf762dfc71667ae30440d4eeb3c7a3371d1",
+  "complete": false,
+  "score": {
+    "correct": 31,
+    "total": 32,
+    "errors": {
+      "challenge-029": {
+        "prediction": "",
+        "reference": "2028-07-14"
+      }
+    }
+  },
+  "wall_seconds": 19.359195124998223,
+  "mean_query_seconds": 8.014293918099611,
+  "tokens": 132926,
+  "provider_tokens_known": 132926,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 132926,
+  "http_attempts": 20,
+  "peak_total_rss_bytes": 133382144,
+  "fatal_error": null,
+  "errors": {
+    "challenge-029": "ValueError: NameError: Unknown name: hasattr"
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

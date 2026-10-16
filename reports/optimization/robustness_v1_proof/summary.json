@@ -1,0 +1,150 @@
+{
+  "lock": {
+    "modules": {
+      "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+      "src/verification.py": "78fbb6786ad4bf4a6e4feb9655b1913af27b2ee3d31f32674a08473fe69a68fc",
+      "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+      "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+      "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+      "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+      "src/llm_agent.py": "40b8cf3047b33652df2675a5ed09a1c05f7049d31587afa4b096aaeaedc7e78f",
+      "src/contracts.py": "80a916bd29ae190088e63a507d777579aff90ff0471dca9671d343ff70b7c02b",
+      "src/executor.py": "652332f053cd34fd9442326307b4ff51253ac3974dca483ba1abf707e4799827",
+      "benchmarks/batched.py": "554730b2f981e291abe50c3c6fe95970bea3fddd26c0cd8409b365d76d0c0265",
+      "benchmarks/structured_batch.py": "d64933eaf68a1a385ca742def8978d386226e8c499a3f1ed08ab2750cc512b87",
+      "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+      "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+      "benchmarks/gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05",
+      "benchmarks/precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4",
+      "benchmarks/efficient.py": "75f477de4b7f76e4f8394be5a211a09c43a19d95353025570dcaae17c4fbaa73",
+      "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0"
+    },
+    "scope": "New independent comparison, unchanged runtime source; qualification copied from measured parent with hashes",
+    "independent_validation": true,
+    "qualification_parent": "reports/optimization/efficiency_v15_regression",
+    "qualification_reports_sha256": {
+      "public_1": "e1419a24d5e009605f5597325320c3a1851df081a89a1fe0a04ce36ad2261b14",
+      "public_2": "1176be13b8d9a7d6e3bf1e0f95ae347b5506afabf17c5e130aa8fb787e1647b9",
+      "public_3": "9d3d8038fed46cfcc8676cb8c92821043b31d9627e2dc4fbcda3829a5513f7cf",
+      "regression_60": "5635b6749622b1c8a18acb31b19e9aad8896a4e15713eed44bc808b6cd01738c",
+      "regression_32": "abbd3e925b2aecd2e44ddf7d7748b34f2bc0f414dbd6654bd017fffebdefb2c0",
+      "known_18": "91056f728659fb704757c13bf7bf9d846f95b86a1897722efb86e0784c14fa41",
+      "synthetic_24": "f7e155289cac22dfe46e34ae72547e51b76f1c0267be28902dfe4aa99e712f21",
+      "consumed_validation": "2d22c021f54d1dc9b5e4e5edd9f2e06fb2644f7a80ad1e3c7109f8bd7a8068c3"
+    },
+    "validation_dataset": "reports/optimization/robustness_v1_holdout",
+    "validation_manifest_sha256": "4e4448eb86140c969145693f1b24f4ebde0eff5372d8a9c70b591484870c0503",
+    "harness_sha256": "49f806e233844a7d8d87c60c0a2cf5c0b63fd6e398961c97c90b0e68aa3c35f1"
+  },
+  "stages": {
+    "baseline": {
+      "profile": "B",
+      "config": {
+        "compact_prompt": true,
+        "helper_contract": false,
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "thinking": "low",
+        "max_tokens": 2048,
+        "temperature": 1.0,
+        "concurrency": 2,
+        "iterator_helpers": true,
+        "precision_profile": "robust",
+        "accuracy_contract_sha256": "61b3a878298434580d1d16a56e1fbedd44a23d4e5c0d81936c8eb4c3204f2d02",
+        "precision_module_sha256": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4"
+      },
+      "source_sha256": "e60ea2dd9b5009544529c52068a82cb4ad8a45c032f2be3bfa38666c465103c8",
+      "fingerprint": "7a9c9a19d48bf58b836ff692fb0cc39e50945657d5cc1a34a566faedf34aa00b",
+      "complete": false,
+      "generation_complete": true,
+      "score": {
+        "correct": 23,
+        "total": 24,
+        "errors": {
+          "robust-001": {
+            "prediction": "",
+            "reference": "27"
+          }
+        }
+      },
+      "mean_query_seconds": 3.1265963611270613,
+      "wall_seconds": 37.666978542052675,
+      "tokens": 151532,
+      "provider_tokens_known": 151532,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 151532,
+      "http_attempts": 32,
+      "peak_total_rss_bytes": 85164032,
+      "fatal_error": null,
+      "errors": {
+        "robust-001": "SyntaxError: invalid syntax (<unknown>, line 6)"
+      },
+      "tokens_estimated": false,
+      "cost_basis": "user-confirmed-free; see calls for provider-reported cost",
+      "provider_cost_available": false,
+      "provider_reported_cost_usd": null
+    },
+    "candidate": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "concurrency": 4,
+        "group_size": 4,
+        "strategy": "live-workbook-plan",
+        "modules": {
+          "batched.py": "554730b2f981e291abe50c3c6fe95970bea3fddd26c0cd8409b365d76d0c0265",
+          "efficient.py": "75f477de4b7f76e4f8394be5a211a09c43a19d95353025570dcaae17c4fbaa73",
+          "precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4",
+          "gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05"
+        },
+        "agent_class": "StructuredBatchedAgent",
+        "agent_sha256": "d64933eaf68a1a385ca742def8978d386226e8c499a3f1ed08ab2750cc512b87"
+      },
+      "fingerprint": "bab653852def1576becef365a2b80ae46abca66c640d32f50388c4b86bf348c0",
+      "complete": false,
+      "score": {
+        "correct": 22,
+        "total": 24,
+        "errors": {
+          "robust-014": {
+            "prediction": "",
+            "reference": "68.00"
+          },
+          "robust-020": {
+            "prediction": "",
+            "reference": "2031-04"
+          }
+        }
+      },
+      "wall_seconds": 46.64619512599893,
+      "mean_query_seconds": 8.962020232407667,
+      "tokens": 199878,
+      "provider_tokens_known": 199878,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 199878,
+      "http_attempts": 36,
+      "peak_total_rss_bytes": 103694336,
+      "fatal_error": null,
+      "errors": {
+        "robust-014": "ValueError: Ambiguity unresolved within inference budget",
+        "robust-020": "ValueError: Ambiguity unresolved within inference budget"
+      },
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    }
+  },
+  "btc_private_verified": false,
+  "qwen_confirmed": false,
+  "comparison": {
+    "both_complete": false,
+    "correct_gain": -1,
+    "wall_reduction": -0.238384307196861,
+    "token_reduction_known": -0.31904812184885034,
+    "usage_complete": true,
+    "independent_test_consumed": true
+  }
+}

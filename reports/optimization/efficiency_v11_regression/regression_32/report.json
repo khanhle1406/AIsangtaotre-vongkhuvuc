@@ -1,0 +1,49 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "max_tokens": 2048,
+    "concurrency": 4,
+    "group_size": 4,
+    "strategy": "live-workbook-plan",
+    "modules": {
+      "batched.py": "a4275a5a09aed9c8db57fd0718d16a21f17db07726a28d8b894ae6835c2c3f90",
+      "efficient.py": "75f477de4b7f76e4f8394be5a211a09c43a19d95353025570dcaae17c4fbaa73",
+      "precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4"
+    },
+    "agent_class": "StructuredBatchedAgent",
+    "agent_sha256": "d64933eaf68a1a385ca742def8978d386226e8c499a3f1ed08ab2750cc512b87"
+  },
+  "fingerprint": "05b0dbc24f61f57b31e0b1107e7d4f9bd89e7d72d195644d348fc2468da8df39",
+  "complete": false,
+  "score": {
+    "correct": 30,
+    "total": 32,
+    "errors": {
+      "challenge-007": {
+        "prediction": "",
+        "reference": "48"
+      },
+      "challenge-006": {
+        "prediction": "8",
+        "reference": "4"
+      }
+    }
+  },
+  "wall_seconds": 80.06374608399346,
+  "mean_query_seconds": 12.257679688806093,
+  "tokens": 167866,
+  "provider_tokens_known": 145109,
+  "usage_missing_attempts": 1,
+  "tokens_conservative_upper": 167866,
+  "http_attempts": 26,
+  "peak_total_rss_bytes": 109527040,
+  "fatal_error": null,
+  "errors": {
+    "challenge-007": "ValueError: ValueError: Final result does not depend on workbook reads"
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

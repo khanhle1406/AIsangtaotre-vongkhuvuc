@@ -1,0 +1,740 @@
+{
+  "scope": "Gemini fresh generations and independent offline replays; no Qwen/private BTC verification",
+  "goal_status": "active; no final candidate accepted",
+  "model": "ag/gemini-3-flash",
+  "paid_fallback": false,
+  "provider_free_basis": "User assertion; missing provider price is not measured zero billing",
+  "phases": {
+    "v49_packed_screen": {
+      "summary_path": "reports/optimization/v49_packed_screen/summary.json",
+      "summary_sha256": "a2768a65e7a51a08e3d37cbb1f6835eead0b18866026ec662e6fdad996313e0d",
+      "source": {
+        "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+        "src/verification.py": "bc4a4d0b85cf6994ffc9ba441cc328a4cf62b77ca140d898b5bfbc3d48b29e69",
+        "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+        "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+        "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+        "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+        "src/llm_agent.py": "2a0d6e62c12ab8f951f13000f7aa74f34187b994a6f387a8faa601e41cc9724f",
+        "src/contracts.py": "9e742a7e8c729ecb53df140e9cf011384e0ba3c12b8ff764886b91a8773e6468",
+        "src/executor.py": "236e9673f7eb13066593ede47a7becb121761942c4ee039d984f106186146d60",
+        "benchmarks/batched.py": "b2d7b3ffb9f0149c06cd26bb78abe6ee3a8d1494346a9bad6d01b793a39b7fa4",
+        "benchmarks/structured_batch.py": "f3e98f63b51c3f81ed408b9e740dd151242f255edb3574f6e38e36d6972fe317",
+        "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+        "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+        "benchmarks/gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be",
+        "benchmarks/precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+        "benchmarks/efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+        "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0",
+        "benchmarks/packed.py": "795af6e550f254b82a4378816a1d4917780cdb3f12c536a8cdfcdc7906bc1a71"
+      },
+      "comparison": {
+        "same_book": {
+          "correct": 92,
+          "total": 92,
+          "seconds": 87.95684933313169,
+          "tokens_known": 350398,
+          "usage_missing": 0
+        },
+        "packed": {
+          "correct": 92,
+          "total": 92,
+          "seconds": 71.01434950108523,
+          "tokens_known": 218825,
+          "usage_missing": 0
+        }
+      },
+      "independent_validation": false,
+      "promoted": false,
+      "allowance": {
+        "attempts": 80,
+        "token_upper": 571239,
+        "usage_missing_attempts": 0,
+        "fatal_error": null
+      },
+      "holdout_status": null,
+      "operationally_valid_for_quality_comparison": true,
+      "stopped": null,
+      "unassessed": {}
+    },
+    "v50_pack_capacity": {
+      "summary_path": "reports/optimization/v50_pack_capacity/summary.json",
+      "summary_sha256": "7488875e946e05e5e31503b4a6f33785e4ee6aca5b7dea3388bee82476656437",
+      "source": {
+        "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+        "src/verification.py": "bc4a4d0b85cf6994ffc9ba441cc328a4cf62b77ca140d898b5bfbc3d48b29e69",
+        "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+        "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+        "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+        "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+        "src/llm_agent.py": "2a0d6e62c12ab8f951f13000f7aa74f34187b994a6f387a8faa601e41cc9724f",
+        "src/contracts.py": "9e742a7e8c729ecb53df140e9cf011384e0ba3c12b8ff764886b91a8773e6468",
+        "src/executor.py": "236e9673f7eb13066593ede47a7becb121761942c4ee039d984f106186146d60",
+        "benchmarks/batched.py": "d383406e3a99ac6b18e8878e2bb0755dfa805ba39b8a1e549dd0b29de04e0ff9",
+        "benchmarks/structured_batch.py": "f3e98f63b51c3f81ed408b9e740dd151242f255edb3574f6e38e36d6972fe317",
+        "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+        "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+        "benchmarks/gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be",
+        "benchmarks/precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+        "benchmarks/efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+        "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0",
+        "benchmarks/packed.py": "b9a248f65c2ba2a5ca4d6ec23dadc0b69c89d23ee83c1cc63546ad4e87ff5595"
+      },
+      "comparison": {
+        "packed8": {
+          "correct": 89,
+          "total": 92,
+          "seconds": 99.88754358293954,
+          "tokens_known": 342607,
+          "usage_missing": 0
+        },
+        "parallel8": {
+          "correct": 92,
+          "total": 92,
+          "seconds": 90.47068312802003,
+          "tokens_known": 326601,
+          "usage_missing": 0
+        },
+        "parallel16": {
+          "correct": 90,
+          "total": 92,
+          "seconds": 86.2964823320508,
+          "tokens_known": 214542,
+          "usage_missing": 0
+        }
+      },
+      "independent_validation": false,
+      "promoted": false,
+      "allowance": {
+        "attempts": 115,
+        "token_upper": 885766,
+        "usage_missing_attempts": 0,
+        "fatal_error": null
+      },
+      "holdout_status": null,
+      "operationally_valid_for_quality_comparison": true,
+      "stopped": null,
+      "unassessed": {}
+    },
+    "v51_parallel8_proof": {
+      "summary_path": "reports/optimization/v51_parallel8_proof/summary.json",
+      "summary_sha256": "2d2661b404d8b42b942c4fc63b9de68cd538047fbc00f9db986c5cbc75364cf6",
+      "source": {
+        "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+        "src/verification.py": "9e4c4136c0b912eae0265e92f9ddbfeda9cb70268d85544711fae7e87710256f",
+        "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+        "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+        "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+        "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+        "src/llm_agent.py": "5ff6ebf96f7256aefc1e5feb351e841855e94c11e5cf11729ce0751f53fdd0b2",
+        "src/contracts.py": "9e742a7e8c729ecb53df140e9cf011384e0ba3c12b8ff764886b91a8773e6468",
+        "src/executor.py": "236e9673f7eb13066593ede47a7becb121761942c4ee039d984f106186146d60",
+        "benchmarks/batched.py": "d383406e3a99ac6b18e8878e2bb0755dfa805ba39b8a1e549dd0b29de04e0ff9",
+        "benchmarks/structured_batch.py": "149bbde4215918d40277adb2aaef35589ac76ffca7afe37c9c6a4175a501d03a",
+        "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+        "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+        "benchmarks/gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be",
+        "benchmarks/precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+        "benchmarks/efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+        "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0",
+        "benchmarks/packed.py": "dcc302565ffe47937eddc1f3bb2c5ddbfe330d38e86e383fde21e06d540bb8fe"
+      },
+      "comparison": null,
+      "independent_validation": false,
+      "promoted": false,
+      "allowance": {
+        "attempts": 127,
+        "token_upper": 1026891,
+        "usage_missing_attempts": 0,
+        "fatal_error": null
+      },
+      "holdout_status": "not evaluated; failed qualification",
+      "operationally_valid_for_quality_comparison": true,
+      "stopped": null,
+      "unassessed": {},
+      "baseline_public": {
+        "profile": "B",
+        "config": {
+          "compact_prompt": true,
+          "helper_contract": false,
+          "model": "ag/gemini-3-flash",
+          "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+          "thinking": "low",
+          "max_tokens": 2048,
+          "temperature": 1.0,
+          "concurrency": 2,
+          "iterator_helpers": true,
+          "precision_profile": "robust",
+          "accuracy_contract_sha256": "61b3a878298434580d1d16a56e1fbedd44a23d4e5c0d81936c8eb4c3204f2d02",
+          "precision_module_sha256": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267"
+        },
+        "source_sha256": "86eebff15b2ba97099a11d96e2f6bf39c0f94bb2335a424ae55af4d997f4d4d7",
+        "fingerprint": "1957ae0eced9f22a432d300f26e804929c72dad2f791c2b4993a82a91bdaa5d7",
+        "complete": true,
+        "generation_complete": true,
+        "score": {
+          "correct": 20,
+          "total": 20,
+          "errors": {}
+        },
+        "mean_query_seconds": 2.4581427814031485,
+        "wall_seconds": 24.72651866596425,
+        "tokens": 190793,
+        "provider_tokens_known": 190793,
+        "usage_missing_attempts": 0,
+        "tokens_conservative_upper": 190793,
+        "http_attempts": 20,
+        "peak_total_rss_bytes": 105627648,
+        "fatal_error": null,
+        "errors": {},
+        "tokens_estimated": false,
+        "cost_basis": "user-confirmed-free; see calls for provider-reported cost",
+        "provider_cost_available": false,
+        "provider_reported_cost_usd": null
+      },
+      "public_scores": [
+        20,
+        19,
+        19
+      ],
+      "public_mean_seconds": 14.755669915990438,
+      "public_mean_tokens": 94983,
+      "known_correct": 253,
+      "known_total": 254,
+      "known_seconds": 177.76945708302082,
+      "known_tokens": 551149,
+      "rss_max_bytes": 150896640,
+      "failures": {
+        "public_2": {
+          "p4_q010": {
+            "prediction": "",
+            "reference": "Leisure and hospitality"
+          }
+        },
+        "public_3": {
+          "p4_q019": {
+            "prediction": "40.60, 41.40",
+            "reference": "40.60, 37.60"
+          }
+        },
+        "compositional_18": {
+          "compositional-005": {
+            "prediction": "2",
+            "reference": "1"
+          }
+        }
+      },
+      "records_processed": 334,
+      "per_record_allowance_errors": 0,
+      "paired_wall_reduction": 0.40324515087109947,
+      "paired_token_reduction": 0.502167270287694
+    },
+    "v52_per_record_proof": {
+      "summary_path": "reports/optimization/v52_per_record_proof/summary.json",
+      "summary_sha256": "e051c4ad0ebf3c0dbca70ea3e7bc5a428a01db82dbeade59ae3ae6a2533f8375",
+      "source": {
+        "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+        "src/verification.py": "ae7c4b0feb73affc1b4ce474806f77ad4aa24982738179d87c9c9b2ed5c33687",
+        "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+        "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+        "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+        "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+        "src/llm_agent.py": "7562af82368bb589af116ea70e400513d7908670fc79b650f191f3f28e895e16",
+        "src/contracts.py": "9e742a7e8c729ecb53df140e9cf011384e0ba3c12b8ff764886b91a8773e6468",
+        "src/executor.py": "ee5db2a5193e088bd9cfd9486af322a716b2ddd2c45e637d4d281edf1e7b05a7",
+        "benchmarks/batched.py": "d383406e3a99ac6b18e8878e2bb0755dfa805ba39b8a1e549dd0b29de04e0ff9",
+        "benchmarks/structured_batch.py": "149bbde4215918d40277adb2aaef35589ac76ffca7afe37c9c6a4175a501d03a",
+        "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+        "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+        "benchmarks/gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be",
+        "benchmarks/precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+        "benchmarks/efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+        "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0",
+        "benchmarks/packed.py": "dcc302565ffe47937eddc1f3bb2c5ddbfe330d38e86e383fde21e06d540bb8fe"
+      },
+      "comparison": null,
+      "independent_validation": false,
+      "promoted": false,
+      "allowance": {
+        "attempts": 122,
+        "token_upper": 1016846,
+        "usage_missing_attempts": 0,
+        "fatal_error": null
+      },
+      "holdout_status": "not evaluated; failed qualification",
+      "operationally_valid_for_quality_comparison": true,
+      "stopped": null,
+      "unassessed": {},
+      "baseline_public": {
+        "profile": "B",
+        "config": {
+          "compact_prompt": true,
+          "helper_contract": false,
+          "model": "ag/gemini-3-flash",
+          "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+          "thinking": "low",
+          "max_tokens": 2048,
+          "temperature": 1.0,
+          "concurrency": 2,
+          "iterator_helpers": true,
+          "precision_profile": "robust",
+          "accuracy_contract_sha256": "61b3a878298434580d1d16a56e1fbedd44a23d4e5c0d81936c8eb4c3204f2d02",
+          "precision_module_sha256": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267"
+        },
+        "source_sha256": "ac4deba23a5b0304b7d17e1d98c090fd952f989eaf4f324e60c56275645ae49b",
+        "fingerprint": "6d2efdc185b98a89787c75cd6b6b6224e17d6a02dd74cdc0ce088b8864b77cf4",
+        "complete": true,
+        "generation_complete": true,
+        "score": {
+          "correct": 20,
+          "total": 20,
+          "errors": {}
+        },
+        "mean_query_seconds": 2.379549421007687,
+        "wall_seconds": 24.296428877132712,
+        "tokens": 208540,
+        "provider_tokens_known": 208540,
+        "usage_missing_attempts": 0,
+        "tokens_conservative_upper": 208540,
+        "http_attempts": 21,
+        "peak_total_rss_bytes": 109658112,
+        "fatal_error": null,
+        "errors": {},
+        "tokens_estimated": false,
+        "cost_basis": "user-confirmed-free; see calls for provider-reported cost",
+        "provider_cost_available": false,
+        "provider_reported_cost_usd": null
+      },
+      "public_scores": [
+        20,
+        20,
+        20
+      ],
+      "public_mean_seconds": 6.5432080283256555,
+      "public_mean_tokens": 83712,
+      "known_correct": 249,
+      "known_total": 254,
+      "known_seconds": 190.69270612296532,
+      "known_tokens": 557170,
+      "rss_max_bytes": 131891200,
+      "failures": {
+        "decision_18": {
+          "decision-010": {
+            "prediction": "0.340000",
+            "reference": "0.540000"
+          },
+          "decision-006": {
+            "prediction": "0",
+            "reference": "1"
+          }
+        },
+        "transfer_24": {
+          "transfer-001": {
+            "prediction": "1800.00",
+            "reference": "8500.00"
+          },
+          "transfer-002": {
+            "prediction": "10.00",
+            "reference": "15.45"
+          }
+        },
+        "compositional_18": {
+          "compositional-002": {
+            "prediction": "Review",
+            "reference": "Survey, Design, Review, Launch"
+          }
+        }
+      },
+      "records_processed": 334,
+      "per_record_allowance_errors": 0,
+      "paired_wall_reduction": 0.7306926025460481,
+      "paired_token_reduction": 0.5985806080368274
+    },
+    "v53_independent_proof": {
+      "summary_path": "reports/optimization/v53_independent_proof/summary.json",
+      "summary_sha256": "23c7e6f6c19293f684bf1aa83708858e6c1affd6bc160aaca95e3155370179dc",
+      "source": {
+        "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+        "src/verification.py": "b95505aa5a6ea439941611c7f9a1d320896678c533840d16de348b4d8b501f6b",
+        "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+        "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+        "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+        "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+        "src/llm_agent.py": "0c794a5d08327a8e734a5398bd8688d2578a4dc10d4e9fc4cf72471c3c2efde2",
+        "src/contracts.py": "9e742a7e8c729ecb53df140e9cf011384e0ba3c12b8ff764886b91a8773e6468",
+        "src/executor.py": "ee5db2a5193e088bd9cfd9486af322a716b2ddd2c45e637d4d281edf1e7b05a7",
+        "benchmarks/batched.py": "d383406e3a99ac6b18e8878e2bb0755dfa805ba39b8a1e549dd0b29de04e0ff9",
+        "benchmarks/structured_batch.py": "149bbde4215918d40277adb2aaef35589ac76ffca7afe37c9c6a4175a501d03a",
+        "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+        "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+        "benchmarks/gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be",
+        "benchmarks/precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+        "benchmarks/efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+        "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0",
+        "benchmarks/packed.py": "435817a7647900b559c8bca4f4c30f801ea20b1a252fb43c53e8ac73f5ad3a91"
+      },
+      "comparison": null,
+      "independent_validation": false,
+      "promoted": false,
+      "allowance": {
+        "attempts": 49,
+        "token_upper": 899195,
+        "usage_missing_attempts": 22,
+        "fatal_error": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations"
+      },
+      "holdout_status": "not evaluated; failed qualification",
+      "operationally_valid_for_quality_comparison": false,
+      "stopped": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+      "unassessed": {
+        "public_2": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "public_3": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "regression_60": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "regression_32": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "known_18": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "synthetic_24": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "decision_18": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "structural_18": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "generalization_18": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "transfer_24": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "compositional_18": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations",
+        "robustness_24": "Stopped quality comparison: repeated gateway network failures; missing usage keeps conservative reservations"
+      },
+      "baseline_public": {
+        "profile": "B",
+        "config": {
+          "compact_prompt": true,
+          "helper_contract": false,
+          "model": "ag/gemini-3-flash",
+          "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+          "thinking": "low",
+          "max_tokens": 2048,
+          "temperature": 1.0,
+          "concurrency": 2,
+          "iterator_helpers": true,
+          "precision_profile": "robust",
+          "accuracy_contract_sha256": "61b3a878298434580d1d16a56e1fbedd44a23d4e5c0d81936c8eb4c3204f2d02",
+          "precision_module_sha256": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267"
+        },
+        "source_sha256": "b7850453c2e3e31d5b239a667872360c2cbd4861003553fc50e96c2eba5a20d9",
+        "fingerprint": "dab8247e0549f8b19dbf61385273af68161bbf71b5af23c53bed2ecd29a9c6d3",
+        "complete": false,
+        "generation_complete": true,
+        "score": {
+          "correct": 18,
+          "total": 20,
+          "errors": {
+            "p4_q006": {
+              "prediction": "",
+              "reference": "7668"
+            },
+            "p4_q005": {
+              "prediction": "",
+              "reference": "Airline fares"
+            }
+          }
+        },
+        "mean_query_seconds": 5.912517143854347,
+        "wall_seconds": 60.02067233491107,
+        "tokens": 799118,
+        "provider_tokens_known": 180183,
+        "usage_missing_attempts": 22,
+        "tokens_conservative_upper": 799118,
+        "http_attempts": 41,
+        "peak_total_rss_bytes": 115343360,
+        "fatal_error": null,
+        "errors": {
+          "p4_q005": "TimeoutError: Five-request limit reached",
+          "p4_q006": "TimeoutError: Five-request limit reached"
+        },
+        "tokens_estimated": true,
+        "cost_basis": "user-confirmed-free; see calls for provider-reported cost",
+        "provider_cost_available": false,
+        "provider_reported_cost_usd": null
+      },
+      "public_scores": [
+        18
+      ],
+      "public_mean_seconds": 8.962814248981886,
+      "public_mean_tokens": 100077,
+      "known_correct": 0,
+      "known_total": 0,
+      "known_seconds": 0,
+      "known_tokens": 0,
+      "rss_max_bytes": 115343360,
+      "failures": {
+        "baseline_public": {
+          "p4_q006": {
+            "prediction": "",
+            "reference": "7668"
+          },
+          "p4_q005": {
+            "prediction": "",
+            "reference": "Airline fares"
+          }
+        },
+        "public_1": {
+          "p4_q010": {
+            "prediction": "",
+            "reference": "Leisure and hospitality"
+          },
+          "p4_q020": {
+            "prediction": "",
+            "reference": "152987"
+          }
+        }
+      },
+      "records_processed": 40,
+      "per_record_allowance_errors": 0
+    },
+    "v54_independent_recovery": {
+      "summary_path": "reports/optimization/v54_independent_recovery/summary.json",
+      "summary_sha256": "980973dd1b90d5fb2b1049261f7fec04f371db4e0d5bef0a126f6b7d084e2da8",
+      "source": {
+        "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+        "src/verification.py": "b95505aa5a6ea439941611c7f9a1d320896678c533840d16de348b4d8b501f6b",
+        "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+        "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+        "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+        "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+        "src/llm_agent.py": "0c794a5d08327a8e734a5398bd8688d2578a4dc10d4e9fc4cf72471c3c2efde2",
+        "src/contracts.py": "9e742a7e8c729ecb53df140e9cf011384e0ba3c12b8ff764886b91a8773e6468",
+        "src/executor.py": "ee5db2a5193e088bd9cfd9486af322a716b2ddd2c45e637d4d281edf1e7b05a7",
+        "benchmarks/batched.py": "d383406e3a99ac6b18e8878e2bb0755dfa805ba39b8a1e549dd0b29de04e0ff9",
+        "benchmarks/structured_batch.py": "149bbde4215918d40277adb2aaef35589ac76ffca7afe37c9c6a4175a501d03a",
+        "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+        "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+        "benchmarks/gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be",
+        "benchmarks/precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+        "benchmarks/efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+        "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0",
+        "benchmarks/packed.py": "435817a7647900b559c8bca4f4c30f801ea20b1a252fb43c53e8ac73f5ad3a91"
+      },
+      "comparison": null,
+      "independent_validation": false,
+      "promoted": false,
+      "allowance": {
+        "attempts": 200,
+        "token_upper": 1600299,
+        "usage_missing_attempts": 0,
+        "fatal_error": null
+      },
+      "holdout_status": "not evaluated; failed qualification",
+      "operationally_valid_for_quality_comparison": true,
+      "stopped": "Batch HTTP attempt allowance exhausted",
+      "unassessed": {},
+      "baseline_public": {
+        "profile": "B",
+        "config": {
+          "compact_prompt": true,
+          "helper_contract": false,
+          "model": "ag/gemini-3-flash",
+          "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+          "thinking": "low",
+          "max_tokens": 2048,
+          "temperature": 1.0,
+          "concurrency": 2,
+          "iterator_helpers": true,
+          "precision_profile": "robust",
+          "accuracy_contract_sha256": "61b3a878298434580d1d16a56e1fbedd44a23d4e5c0d81936c8eb4c3204f2d02",
+          "precision_module_sha256": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267"
+        },
+        "source_sha256": "b7850453c2e3e31d5b239a667872360c2cbd4861003553fc50e96c2eba5a20d9",
+        "fingerprint": "dab8247e0549f8b19dbf61385273af68161bbf71b5af23c53bed2ecd29a9c6d3",
+        "complete": true,
+        "generation_complete": true,
+        "score": {
+          "correct": 20,
+          "total": 20,
+          "errors": {}
+        },
+        "mean_query_seconds": 2.4829838083984215,
+        "wall_seconds": 25.87386949895881,
+        "tokens": 212715,
+        "provider_tokens_known": 212715,
+        "usage_missing_attempts": 0,
+        "tokens_conservative_upper": 212715,
+        "http_attempts": 22,
+        "peak_total_rss_bytes": 98549760,
+        "fatal_error": null,
+        "errors": {},
+        "tokens_estimated": false,
+        "cost_basis": "user-confirmed-free; see calls for provider-reported cost",
+        "provider_cost_available": false,
+        "provider_reported_cost_usd": null
+      },
+      "public_scores": [
+        20,
+        20,
+        19
+      ],
+      "public_mean_seconds": 33.60888874999364,
+      "public_mean_tokens": 168431,
+      "known_correct": 250,
+      "known_total": 254,
+      "known_seconds": 318.21965095901396,
+      "known_tokens": 882291,
+      "rss_max_bytes": 144293888,
+      "failures": {
+        "public_3": {
+          "p4_q010": {
+            "prediction": "",
+            "reference": "Leisure and hospitality"
+          }
+        },
+        "regression_60": {
+          "unseen-001": {
+            "prediction": "",
+            "reference": "1224"
+          },
+          "unseen-003": {
+            "prediction": "",
+            "reference": "Lumen"
+          }
+        },
+        "decision_18": {
+          "decision-016": {
+            "prediction": "",
+            "reference": "50.00"
+          }
+        },
+        "structural_18": {
+          "structural-018": {
+            "prediction": "",
+            "reference": "Alloy"
+          }
+        }
+      },
+      "records_processed": 334,
+      "per_record_allowance_errors": 0,
+      "paired_wall_reduction": -0.29895100349586645,
+      "paired_token_reduction": 0.20818466022612414
+    }
+  },
+  "current_source": {
+    "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+    "src/verification.py": "b95505aa5a6ea439941611c7f9a1d320896678c533840d16de348b4d8b501f6b",
+    "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+    "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+    "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+    "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+    "src/llm_agent.py": "6d7081779cf3462f08a0d8ba5ee85fa3529a01f838901d73b3d2184c78243590",
+    "src/contracts.py": "9e742a7e8c729ecb53df140e9cf011384e0ba3c12b8ff764886b91a8773e6468",
+    "src/executor.py": "ee5db2a5193e088bd9cfd9486af322a716b2ddd2c45e637d4d281edf1e7b05a7",
+    "benchmarks/batched.py": "d383406e3a99ac6b18e8878e2bb0755dfa805ba39b8a1e549dd0b29de04e0ff9",
+    "benchmarks/structured_batch.py": "149bbde4215918d40277adb2aaef35589ac76ffca7afe37c9c6a4175a501d03a",
+    "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+    "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+    "benchmarks/gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be",
+    "benchmarks/precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+    "benchmarks/efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+    "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0",
+    "benchmarks/packed.py": "435817a7647900b559c8bca4f4c30f801ea20b1a252fb43c53e8ac73f5ad3a91"
+  },
+  "current_source_delta_from_latest_live": [
+    "src/llm_agent.py"
+  ],
+  "current_source_delta_reason": "After V54: require two remaining inference turns before starting independent solution/adjudication. Unit tested only; no fresh Gemini benchmark for this edit.",
+  "official_signoff_gate_sha256": "06c2593a904f736e49cf50dc88536548697aeb80099705bdfcc7367b6c755a9b",
+  "official_experimental_profiles_blocked": true,
+  "prospective_holdout": {
+    "folder": "reports/optimization/prospective_v1_holdout",
+    "unconsumed": true,
+    "families": [
+      "balanced_panel_difference_in_differences",
+      "continuous_two_product_resource_allocation",
+      "working_calendar_service_deadlines"
+    ]
+  },
+  "budget": {
+    "conservative_upper_usd": 0.31892700450000006,
+    "limit_usd": 0.5,
+    "retained_v25_reservation_usd": 0.001,
+    "actual_billed_cost_claim": false
+  },
+  "offline_replays": [
+    "reports/optimization/v51_format_metadata_replay.json",
+    "reports/optimization/v51_complement_replay.json",
+    "reports/optimization/v52_per_record_scope_replay.json",
+    "reports/optimization/v53_named_row_replay.json"
+  ],
+  "best_public_only_v52": {
+    "mean_seconds": 6.543208028,
+    "mean_tokens": 83712,
+    "public": [
+      20,
+      20,
+      20
+    ],
+    "known": [
+      249,
+      254
+    ],
+    "accepted": false,
+    "reduction_vs_historical_v17_time": 0.3393368307754443,
+    "reduction_vs_historical_v17_tokens": 0.18234562515058184
+  },
+  "verification": {
+    "root": {
+      "tests": 335,
+      "seconds": 26.46,
+      "ruff_check": "All checks passed!",
+      "ruff_format": "82 files already formatted",
+      "git_diff_check": "passed"
+    },
+    "extracted_package": {
+      "source_archive": "/Users/xuannguyen/Desktop/Competitions/2026/Sáng tạo trẻ/Vòng khu vực/dist/table_qa_gemini_v55_development_checkpoint.zip",
+      "extraction": "/var/folders/37/k102566s7v39pbgrzypptyd80000gn/T/tableqa_v55_qa_wmkci852",
+      "environment": "Only HOME/PATH/TMPDIR/LANG/TZ; no API credentials",
+      "results": [
+        {
+          "command": [
+            "/Users/xuannguyen/Desktop/Competitions/2026/Sáng tạo trẻ/Vòng khu vực/.venv/bin/ruff",
+            "check",
+            "run.py",
+            "evaluate.py",
+            "src",
+            "benchmarks",
+            "tests"
+          ],
+          "exit_code": 0,
+          "seconds": 0.07455675001256168,
+          "stdout": "All checks passed!\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/xuannguyen/Desktop/Competitions/2026/Sáng tạo trẻ/Vòng khu vực/.venv/bin/ruff",
+            "format",
+            "--check",
+            "run.py",
+            "evaluate.py",
+            "src",
+            "benchmarks",
+            "tests"
+          ],
+          "exit_code": 0,
+          "seconds": 0.02492487500421703,
+          "stdout": "74 files already formatted\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/xuannguyen/Desktop/Competitions/2026/Sáng tạo trẻ/Vòng khu vực/.venv/bin/python",
+            "-m",
+            "pytest",
+            "-q"
+          ],
+          "exit_code": 0,
+          "seconds": 24.164300125004956,
+          "stdout": "........................................................................ [ 22%]\n........................................................................ [ 45%]\n........................................................................ [ 68%]\n........................................................................ [ 90%]\n.............................                                            [100%]\n317 passed in 23.97s\n",
+          "stderr": ""
+        }
+      ],
+      "passed": true
+    },
+    "source_archive": {
+      "path": "dist/table_qa_gemini_v55_development_checkpoint.zip",
+      "sha256": "e76e13088651bf68dbf6bb419124aeb92a482612098a9b908b4891071e7b17ae"
+    }
+  }
+}

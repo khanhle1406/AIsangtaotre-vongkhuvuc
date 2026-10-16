@@ -1,0 +1,57 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "verification_thinking": null,
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "planning_max_tokens": 6144,
+    "concurrency": 4,
+    "group_size": 10,
+    "strategy": "live-multi-workbook-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+      "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "45b095edf2719b1c15f4db3aab28670c3dce0da1bb7ba3d84953a505b8fde33a"
+    },
+    "agent_class": "TenPackedAgent",
+    "agent_sha256": "beafc811c32c0f10cbfc82308aca5a25856057a88fd7726729122be10dd3aa8e"
+  },
+  "fingerprint": "e7ed2996365f49e955eb1fb23e1b8af554d7f6013a95ccb9f7e2f0fda7eb1ad9",
+  "complete": false,
+  "score": {
+    "correct": 16,
+    "total": 18,
+    "errors": {
+      "compositional-005": {
+        "prediction": "-1",
+        "reference": "1"
+      },
+      "compositional-003": {
+        "prediction": "",
+        "reference": "4"
+      }
+    }
+  },
+  "wall_seconds": 41.8370166659879,
+  "mean_query_seconds": 10.78089471505114,
+  "tokens": 97114,
+  "provider_tokens_known": 97114,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 97114,
+  "http_attempts": 15,
+  "peak_total_rss_bytes": 114638848,
+  "fatal_error": null,
+  "errors": {
+    "compositional-003": "ValueError: TypeError: Cannot index scalar int in row[0] at line 2. cell()/num() return scalars; values() is FLAT, not rows. If this variable comes from values(sheet,multi_column_range), replace the source with cells(sheet,range) for 2D rows, or use the scalar directly; adding more indices cannot fix its shape."
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

@@ -1,0 +1,2537 @@
+{
+  "fingerprint": "1b71fba5e9bd0e1e00d27a1c5e2607d6a2d1082f7fe3bc1265d9c9956f308b13",
+  "records": {
+    "generated-010": {
+      "file_name": "renamed_invoice_1.xlsx",
+      "answer": "Yes",
+      "cost": 0.0,
+      "tokens": 4622,
+      "requests": 1,
+      "elapsed": 1.6633724170387723,
+      "error": null,
+      "attempts": [
+        {
+          "code": "delta_units = num('Invoices 322', 'D309')\norion_units = num('Invoices 322', 'D310')\nresult = 'Yes' if delta_units > orion_units else 'No'",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 322!D309": {
+              "value": 192,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 322!D310": {
+              "value": 92,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Yes",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4622,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4622,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"delta_units = num('Invoices 322', 'D309')\\norion_units = num('Invoices 322', 'D310')\\nresult = 'Yes' if delta_units > orion_units else 'No'\", \"format\": {\"kind\": \"text\"}}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4541,
+          "completion_tokens": 81,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 21157,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "e82cfe8202d04293ac0ee86e228cec21",
+          "shared_questions": 1,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28049408
+    },
+    "generated-005": {
+      "file_name": "renamed_invoice_0.xlsx",
+      "answer": "No",
+      "cost": 0.0,
+      "tokens": 4622,
+      "requests": 1,
+      "elapsed": 1.9744323749910109,
+      "error": null,
+      "attempts": [
+        {
+          "code": "delta_units = num('Invoices 828', 'D5')\norion_units = num('Invoices 828', 'D6')\nresult = 'Yes' if delta_units > orion_units else 'No'",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Current period units sold are in column D of 'Invoices 828'."
+          ],
+          "selection": [],
+          "reads": {
+            "Invoices 828!D5": {
+              "value": 133,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!D6": {
+              "value": 165,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "No",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4622,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4622,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\"programs\": {\"q0\": {\"code\": \"delta_units = num('Invoices 828', 'D5')\\norion_units = num('Invoices 828', 'D6')\\nresult = 'Yes' if delta_units > orion_units else 'No'\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [\"Current period units sold are in column D of 'Invoices 828'.\"], \"needs_verification\": false}}}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4511,
+          "completion_tokens": 111,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 21127,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "6792158318634b54a752af4ef3f26972",
+          "shared_questions": 1,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28147712
+    },
+    "generated-001": {
+      "file_name": "renamed_invoice_0.xlsx",
+      "answer": "133",
+      "cost": 0.0,
+      "tokens": 1267,
+      "requests": 1,
+      "elapsed": 2.2896903330110945,
+      "error": null,
+      "attempts": [
+        {
+          "code": "r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\nresult = num('Invoices 828', f'D{r}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 828!F5": {
+              "kind": "lookup_probe",
+              "value": "Delta Co.",
+              "stored_kind": "string"
+            },
+            "Invoices 828!D5": {
+              "value": 133,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 133,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1267,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1267,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = num('Invoices 828', f'D{r}')\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q1\": {\n      \"code\": \"rows = data_rows('Invoices 828', {'F': 'string', 'D': 'number'})\\nbest_row = max(rows, key=lambda r: num('Invoices 828', f'D{r}'))\\nresult = label('Invoices 828', f'F{best_row}')\",\n      \"format\": {\"kind\": \"text\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q2\": {\n      \"code\": \"r1 = find_rows('Invoices 828', 'F', 'Orion Ltd.')[0]\\nr2 = find_rows('Invoices 828', 'F', 'Zenith Inc.')[0]\\nresult = num('Invoices 828', f'D{r1}') + num('Invoices 828', f'D{r2}')\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q3\": {\n      \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = int(num('Invoices 828', f'D{r}') - num('Invoices 828', f'B{r}'))\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1153,
+          "completion_tokens": 114,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5608,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "893aa16627c9466abb989f44a945b048",
+          "shared_questions": 4,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 27967488
+    },
+    "generated-002": {
+      "file_name": "renamed_invoice_0.xlsx",
+      "answer": "Orion Ltd.",
+      "cost": 0.0,
+      "tokens": 1266,
+      "requests": 1,
+      "elapsed": 2.2835388329986017,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = data_rows('Invoices 828', {'F': 'string', 'D': 'number'})\nbest_row = max(rows, key=lambda r: num('Invoices 828', f'D{r}'))\nresult = label('Invoices 828', f'F{best_row}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 828!F1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!D1": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!F3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!D3": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Invoices 828!F4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D4": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!F5": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D5": {
+              "value": 133,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!F6": {
+              "value": "Orion Ltd.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!D6": {
+              "value": 165,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!F7": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Invoices 828!D7": {
+              "value": 117,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Orion Ltd.",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1266,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1266,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = num('Invoices 828', f'D{r}')\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q1\": {\n      \"code\": \"rows = data_rows('Invoices 828', {'F': 'string', 'D': 'number'})\\nbest_row = max(rows, key=lambda r: num('Invoices 828', f'D{r}'))\\nresult = label('Invoices 828', f'F{best_row}')\",\n      \"format\": {\"kind\": \"text\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q2\": {\n      \"code\": \"r1 = find_rows('Invoices 828', 'F', 'Orion Ltd.')[0]\\nr2 = find_rows('Invoices 828', 'F', 'Zenith Inc.')[0]\\nresult = num('Invoices 828', f'D{r1}') + num('Invoices 828', f'D{r2}')\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q3\": {\n      \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = int(num('Invoices 828', f'D{r}') - num('Invoices 828', f'B{r}'))\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1153,
+          "completion_tokens": 113,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5608,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "893aa16627c9466abb989f44a945b048",
+          "shared_questions": 4,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 28065792
+    },
+    "generated-003": {
+      "file_name": "renamed_invoice_0.xlsx",
+      "answer": "282",
+      "cost": 0.0,
+      "tokens": 1266,
+      "requests": 1,
+      "elapsed": 2.277270999009488,
+      "error": null,
+      "attempts": [
+        {
+          "code": "r1 = find_rows('Invoices 828', 'F', 'Orion Ltd.')[0]\nr2 = find_rows('Invoices 828', 'F', 'Zenith Inc.')[0]\nresult = num('Invoices 828', f'D{r1}') + num('Invoices 828', f'D{r2}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 828!F6": {
+              "kind": "lookup_probe",
+              "value": "Orion Ltd.",
+              "stored_kind": "string"
+            },
+            "Invoices 828!F7": {
+              "kind": "lookup_probe",
+              "value": "Zenith Inc.",
+              "stored_kind": "string"
+            },
+            "Invoices 828!D6": {
+              "value": 165,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!D7": {
+              "value": 117,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 282,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1266,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1266,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = num('Invoices 828', f'D{r}')\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q1\": {\n      \"code\": \"rows = data_rows('Invoices 828', {'F': 'string', 'D': 'number'})\\nbest_row = max(rows, key=lambda r: num('Invoices 828', f'D{r}'))\\nresult = label('Invoices 828', f'F{best_row}')\",\n      \"format\": {\"kind\": \"text\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q2\": {\n      \"code\": \"r1 = find_rows('Invoices 828', 'F', 'Orion Ltd.')[0]\\nr2 = find_rows('Invoices 828', 'F', 'Zenith Inc.')[0]\\nresult = num('Invoices 828', f'D{r1}') + num('Invoices 828', f'D{r2}')\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q3\": {\n      \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = int(num('Invoices 828', f'D{r}') - num('Invoices 828', f'B{r}'))\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1153,
+          "completion_tokens": 113,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5608,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "893aa16627c9466abb989f44a945b048",
+          "shared_questions": 4,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 28098560
+    },
+    "generated-004": {
+      "file_name": "renamed_invoice_0.xlsx",
+      "answer": "126",
+      "cost": 0.0,
+      "tokens": 1266,
+      "requests": 1,
+      "elapsed": 2.3420938329945784,
+      "error": null,
+      "attempts": [
+        {
+          "code": "r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\nresult = int(num('Invoices 828', f'D{r}') - num('Invoices 828', f'B{r}'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 828!F5": {
+              "kind": "lookup_probe",
+              "value": "Delta Co.",
+              "stored_kind": "string"
+            },
+            "Invoices 828!D5": {
+              "value": 133,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 828!B5": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 126,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1266,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1266,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = num('Invoices 828', f'D{r}')\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q1\": {\n      \"code\": \"rows = data_rows('Invoices 828', {'F': 'string', 'D': 'number'})\\nbest_row = max(rows, key=lambda r: num('Invoices 828', f'D{r}'))\\nresult = label('Invoices 828', f'F{best_row}')\",\n      \"format\": {\"kind\": \"text\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q2\": {\n      \"code\": \"r1 = find_rows('Invoices 828', 'F', 'Orion Ltd.')[0]\\nr2 = find_rows('Invoices 828', 'F', 'Zenith Inc.')[0]\\nresult = num('Invoices 828', f'D{r1}') + num('Invoices 828', f'D{r2}')\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q3\": {\n      \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = int(num('Invoices 828', f'D{r}') - num('Invoices 828', f'B{r}'))\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1153,
+          "completion_tokens": 113,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5607,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "893aa16627c9466abb989f44a945b048",
+          "shared_questions": 4,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 28082176
+    },
+    "generated-006": {
+      "file_name": "renamed_invoice_1.xlsx",
+      "answer": "192",
+      "cost": 0.0,
+      "tokens": 1236,
+      "requests": 1,
+      "elapsed": 2.343228915997315,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Invoices 322', 'D309'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 322!D309": {
+              "value": 192,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 192,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1236,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1236,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"result = int(num('Invoices 322', 'D309'))\", \"format\": {\"kind\": \"integer\"}}, \"q1\": {\"code\": \"rows = find_rows('Invoices 322', 'B', 'Delta Co.') + find_rows('Invoices 322', 'B', 'Orion Ltd.') + find_rows('Invoices 322', 'B', 'Zenith Inc.')\\ndata = [(label('Invoices 322', f'B{r}'), num('Invoices 322', f'D{r}')) for r in rows]\\nresult = max(data, key=lambda x: x[1])[0]\", \"format\": {\"kind\": \"text\"}}, \"q2\": {\"code\": \"result = int(num('Invoices 322', 'D310') + num('Invoices 322', 'D311'))\", \"format\": {\"kind\": \"integer\"}}, \"q3\": {\"code\": \"result = int(num('Invoices 322', 'D309') - num('Invoices 322', 'F309'))\", \"format\": {\"kind\": \"integer\"}}}, \"assumptions\": [], \"needs_verification\": false}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1161,
+          "completion_tokens": 75,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5616,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "8e8cbc129ef442b78c8072228838a3f0",
+          "shared_questions": 4,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28098560
+    },
+    "generated-007": {
+      "file_name": "renamed_invoice_1.xlsx",
+      "answer": "Delta Co.",
+      "cost": 0.0,
+      "tokens": 1235,
+      "requests": 1,
+      "elapsed": 2.3390252079989295,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = find_rows('Invoices 322', 'B', 'Delta Co.') + find_rows('Invoices 322', 'B', 'Orion Ltd.') + find_rows('Invoices 322', 'B', 'Zenith Inc.')\ndata = [(label('Invoices 322', f'B{r}'), num('Invoices 322', f'D{r}')) for r in rows]\nresult = max(data, key=lambda x: x[1])[0]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 322!B309": {
+              "value": "Delta Co.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 322!B310": {
+              "value": "Orion Ltd.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 322!B311": {
+              "value": "Zenith Inc.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 322!D309": {
+              "value": 192,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 322!D310": {
+              "value": 92,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 322!D311": {
+              "value": 140,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Delta Co.",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1235,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1235,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"result = int(num('Invoices 322', 'D309'))\", \"format\": {\"kind\": \"integer\"}}, \"q1\": {\"code\": \"rows = find_rows('Invoices 322', 'B', 'Delta Co.') + find_rows('Invoices 322', 'B', 'Orion Ltd.') + find_rows('Invoices 322', 'B', 'Zenith Inc.')\\ndata = [(label('Invoices 322', f'B{r}'), num('Invoices 322', f'D{r}')) for r in rows]\\nresult = max(data, key=lambda x: x[1])[0]\", \"format\": {\"kind\": \"text\"}}, \"q2\": {\"code\": \"result = int(num('Invoices 322', 'D310') + num('Invoices 322', 'D311'))\", \"format\": {\"kind\": \"integer\"}}, \"q3\": {\"code\": \"result = int(num('Invoices 322', 'D309') - num('Invoices 322', 'F309'))\", \"format\": {\"kind\": \"integer\"}}}, \"assumptions\": [], \"needs_verification\": false}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1161,
+          "completion_tokens": 75,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5615,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "8e8cbc129ef442b78c8072228838a3f0",
+          "shared_questions": 4,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 28016640
+    },
+    "generated-008": {
+      "file_name": "renamed_invoice_1.xlsx",
+      "answer": "232",
+      "cost": 0.0,
+      "tokens": 1235,
+      "requests": 1,
+      "elapsed": 2.4125871669966727,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Invoices 322', 'D310') + num('Invoices 322', 'D311'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 322!D310": {
+              "value": 92,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 322!D311": {
+              "value": 140,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 232,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1235,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1235,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"result = int(num('Invoices 322', 'D309'))\", \"format\": {\"kind\": \"integer\"}}, \"q1\": {\"code\": \"rows = find_rows('Invoices 322', 'B', 'Delta Co.') + find_rows('Invoices 322', 'B', 'Orion Ltd.') + find_rows('Invoices 322', 'B', 'Zenith Inc.')\\ndata = [(label('Invoices 322', f'B{r}'), num('Invoices 322', f'D{r}')) for r in rows]\\nresult = max(data, key=lambda x: x[1])[0]\", \"format\": {\"kind\": \"text\"}}, \"q2\": {\"code\": \"result = int(num('Invoices 322', 'D310') + num('Invoices 322', 'D311'))\", \"format\": {\"kind\": \"integer\"}}, \"q3\": {\"code\": \"result = int(num('Invoices 322', 'D309') - num('Invoices 322', 'F309'))\", \"format\": {\"kind\": \"integer\"}}}, \"assumptions\": [], \"needs_verification\": false}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1160,
+          "completion_tokens": 75,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5615,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "8e8cbc129ef442b78c8072228838a3f0",
+          "shared_questions": 4,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 28196864
+    },
+    "generated-009": {
+      "file_name": "renamed_invoice_1.xlsx",
+      "answer": "173",
+      "cost": 0.0,
+      "tokens": 1235,
+      "requests": 1,
+      "elapsed": 2.342771708004875,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Invoices 322', 'D309') - num('Invoices 322', 'F309'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Invoices 322!D309": {
+              "value": 192,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Invoices 322!F309": {
+              "value": 19,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 173,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1235,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1235,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"result = int(num('Invoices 322', 'D309'))\", \"format\": {\"kind\": \"integer\"}}, \"q1\": {\"code\": \"rows = find_rows('Invoices 322', 'B', 'Delta Co.') + find_rows('Invoices 322', 'B', 'Orion Ltd.') + find_rows('Invoices 322', 'B', 'Zenith Inc.')\\ndata = [(label('Invoices 322', f'B{r}'), num('Invoices 322', f'D{r}')) for r in rows]\\nresult = max(data, key=lambda x: x[1])[0]\", \"format\": {\"kind\": \"text\"}}, \"q2\": {\"code\": \"result = int(num('Invoices 322', 'D310') + num('Invoices 322', 'D311'))\", \"format\": {\"kind\": \"integer\"}}, \"q3\": {\"code\": \"result = int(num('Invoices 322', 'D309') - num('Invoices 322', 'F309'))\", \"format\": {\"kind\": \"integer\"}}}, \"assumptions\": [], \"needs_verification\": false}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1160,
+          "completion_tokens": 74,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5615,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "8e8cbc129ef442b78c8072228838a3f0",
+          "shared_questions": 4,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 28114944
+    },
+    "generated-015": {
+      "file_name": "survey.xlsx",
+      "answer": "101",
+      "cost": 0.0,
+      "tokens": 1222,
+      "requests": 1,
+      "elapsed": 1.8097160829929635,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Survey', 'B3'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Survey!B3": {
+              "value": 101,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 101,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1222,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1222,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"result = int(num('Survey', 'B3'))\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"result = round(num('Survey', 'C3') * 100, 2)\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2\n      }\n    },\n    \"q2\": {\n      \"code\": \"result = round(num('Survey', 'D4'), 2)\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2\n      }\n    },\n    \"q3\": {\n      \"code\": \"result = int(num('Survey', 'E4') + num('Survey', 'E5'))\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1163,
+          "completion_tokens": 59,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5632,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "7f76c1270b3f4f5c8fb738d47dc5d60d",
+          "shared_questions": 4,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28164096
+    },
+    "generated-016": {
+      "file_name": "survey.xlsx",
+      "answer": "62.50",
+      "cost": 0.0,
+      "tokens": 1222,
+      "requests": 1,
+      "elapsed": 1.8447212500032037,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = round(num('Survey', 'C3') * 100, 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Survey!C3": {
+              "value": 0.625,
+              "kind": "number",
+              "number_format": "0.0%",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 62.5,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1222,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1222,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"result = int(num('Survey', 'B3'))\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"result = round(num('Survey', 'C3') * 100, 2)\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2\n      }\n    },\n    \"q2\": {\n      \"code\": \"result = round(num('Survey', 'D4'), 2)\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2\n      }\n    },\n    \"q3\": {\n      \"code\": \"result = int(num('Survey', 'E4') + num('Survey', 'E5'))\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1163,
+          "completion_tokens": 59,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5632,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "7f76c1270b3f4f5c8fb738d47dc5d60d",
+          "shared_questions": 4,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 28147712
+    },
+    "generated-017": {
+      "file_name": "survey.xlsx",
+      "answer": "1.50",
+      "cost": 0.0,
+      "tokens": 1221,
+      "requests": 1,
+      "elapsed": 1.8041991669742856,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = round(num('Survey', 'D4'), 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Survey!D4": {
+              "value": 1.5,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 1.5,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1221,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1221,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"result = int(num('Survey', 'B3'))\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"result = round(num('Survey', 'C3') * 100, 2)\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2\n      }\n    },\n    \"q2\": {\n      \"code\": \"result = round(num('Survey', 'D4'), 2)\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2\n      }\n    },\n    \"q3\": {\n      \"code\": \"result = int(num('Survey', 'E4') + num('Survey', 'E5'))\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1163,
+          "completion_tokens": 58,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5631,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "7f76c1270b3f4f5c8fb738d47dc5d60d",
+          "shared_questions": 4,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 28295168
+    },
+    "generated-018": {
+      "file_name": "survey.xlsx",
+      "answer": "-30",
+      "cost": 0.0,
+      "tokens": 1221,
+      "requests": 1,
+      "elapsed": 1.7894931249902584,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Survey', 'E4') + num('Survey', 'E5'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Survey!E4": {
+              "value": -10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Survey!E5": {
+              "value": -20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": -30,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1221,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1221,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"result = int(num('Survey', 'B3'))\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"result = round(num('Survey', 'C3') * 100, 2)\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2\n      }\n    },\n    \"q2\": {\n      \"code\": \"result = round(num('Survey', 'D4'), 2)\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2\n      }\n    },\n    \"q3\": {\n      \"code\": \"result = int(num('Survey', 'E4') + num('Survey', 'E5'))\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1163,
+          "completion_tokens": 58,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5631,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "7f76c1270b3f4f5c8fb738d47dc5d60d",
+          "shared_questions": 4,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 28000256
+    },
+    "generated-011": {
+      "file_name": "registrations.xlsx",
+      "answer": "Nova",
+      "cost": 0.0,
+      "tokens": 1289,
+      "requests": 1,
+      "elapsed": 2.1298204170016106,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\noldest_row = rows_ordered[0]\nresult = cell('Registrations', f'A{oldest_row}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Registrations!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Registrations!C1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Registrations!B2": {
+              "value": "1990-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C2": {
+              "value": "2010-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B3": {
+              "value": "1992-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C3": {
+              "value": "2025-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B4": {
+              "value": "1994-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C4": {
+              "value": "2024-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B5": {
+              "value": "2000-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C5": {
+              "value": "2021-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!A3": {
+              "value": "Nova",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Nova",
+          "sorts": [
+            {
+              "keys": [
+                7305.0,
+                12054.0,
+                10957.0,
+                7671.0
+              ],
+              "reverse": true,
+              "selected": [
+                0
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1289,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1289,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\noldest_row = rows_ordered[0]\\nresult = cell('Registrations', f'A{oldest_row}')\",\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\nsecond_oldest_row = rows_ordered[1]\\nresult = num('Registrations', f'D{second_oldest_row}')\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=False)\\nyoungest_two = rows_ordered[:2]\\nscores = [num('Registrations', f'D{r}') for r in youngest_two]\\nresult = max(scores)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"r = find_rows('Registrations', 'A', 'Mira')[0]\\nval = cell('Registrations', f'C{r}')\\nresult = val if isinstance(val, str) else val.isoformat()\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1204,
+          "completion_tokens": 86,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5720,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "b114ed07d113464ea88a05cb9df7a9e6",
+          "shared_questions": 4,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28098560
+    },
+    "generated-012": {
+      "file_name": "registrations.xlsx",
+      "answer": "61",
+      "cost": 0.0,
+      "tokens": 1289,
+      "requests": 1,
+      "elapsed": 2.1725907500076573,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\nsecond_oldest_row = rows_ordered[1]\nresult = num('Registrations', f'D{second_oldest_row}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Registrations!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Registrations!C1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Registrations!B2": {
+              "value": "1990-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C2": {
+              "value": "2010-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B3": {
+              "value": "1992-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C3": {
+              "value": "2025-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B4": {
+              "value": "1994-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C4": {
+              "value": "2024-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B5": {
+              "value": "2000-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C5": {
+              "value": "2021-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!D4": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 61,
+          "sorts": [
+            {
+              "keys": [
+                7305.0,
+                12054.0,
+                10957.0,
+                7671.0
+              ],
+              "reverse": true,
+              "selected": [
+                1
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1289,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1289,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\noldest_row = rows_ordered[0]\\nresult = cell('Registrations', f'A{oldest_row}')\",\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\nsecond_oldest_row = rows_ordered[1]\\nresult = num('Registrations', f'D{second_oldest_row}')\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=False)\\nyoungest_two = rows_ordered[:2]\\nscores = [num('Registrations', f'D{r}') for r in youngest_two]\\nresult = max(scores)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"r = find_rows('Registrations', 'A', 'Mira')[0]\\nval = cell('Registrations', f'C{r}')\\nresult = val if isinstance(val, str) else val.isoformat()\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1203,
+          "completion_tokens": 86,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5719,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "b114ed07d113464ea88a05cb9df7a9e6",
+          "shared_questions": 4,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 26869760
+    },
+    "generated-013": {
+      "file_name": "registrations.xlsx",
+      "answer": "74",
+      "cost": 0.0,
+      "tokens": 1289,
+      "requests": 1,
+      "elapsed": 2.1323154589917976,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_ordered = age_order('Registrations', 'B', 'C', descending=False)\nyoungest_two = rows_ordered[:2]\nscores = [num('Registrations', f'D{r}') for r in youngest_two]\nresult = max(scores)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Registrations!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Registrations!C1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Registrations!B2": {
+              "value": "1990-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C2": {
+              "value": "2010-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B3": {
+              "value": "1992-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C3": {
+              "value": "2025-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B4": {
+              "value": "1994-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C4": {
+              "value": "2024-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!B5": {
+              "value": "2000-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!C5": {
+              "value": "2021-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!D2": {
+              "value": 74,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Registrations!D5": {
+              "value": 58,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 74,
+          "sorts": [
+            {
+              "keys": [
+                7305.0,
+                12054.0,
+                10957.0,
+                7671.0
+              ],
+              "reverse": false,
+              "selected": [
+                [
+                  0,
+                  1
+                ]
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1289,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1289,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\noldest_row = rows_ordered[0]\\nresult = cell('Registrations', f'A{oldest_row}')\",\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\nsecond_oldest_row = rows_ordered[1]\\nresult = num('Registrations', f'D{second_oldest_row}')\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=False)\\nyoungest_two = rows_ordered[:2]\\nscores = [num('Registrations', f'D{r}') for r in youngest_two]\\nresult = max(scores)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"r = find_rows('Registrations', 'A', 'Mira')[0]\\nval = cell('Registrations', f'C{r}')\\nresult = val if isinstance(val, str) else val.isoformat()\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1203,
+          "completion_tokens": 86,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5719,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "b114ed07d113464ea88a05cb9df7a9e6",
+          "shared_questions": 4,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 28164096
+    },
+    "generated-014": {
+      "file_name": "registrations.xlsx",
+      "answer": "2024-01-01",
+      "cost": 0.0,
+      "tokens": 1289,
+      "requests": 1,
+      "elapsed": 2.1186181259981822,
+      "error": null,
+      "attempts": [
+        {
+          "code": "r = find_rows('Registrations', 'A', 'Mira')[0]\nval = cell('Registrations', f'C{r}')\nresult = val if isinstance(val, str) else val.isoformat()",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Registrations!A4": {
+              "kind": "lookup_probe",
+              "value": "Mira",
+              "stored_kind": "string"
+            },
+            "Registrations!C4": {
+              "value": "2024-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "2024-01-01T00:00:00",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1289,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1289,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\noldest_row = rows_ordered[0]\\nresult = cell('Registrations', f'A{oldest_row}')\",\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\nsecond_oldest_row = rows_ordered[1]\\nresult = num('Registrations', f'D{second_oldest_row}')\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=False)\\nyoungest_two = rows_ordered[:2]\\nscores = [num('Registrations', f'D{r}') for r in youngest_two]\\nresult = max(scores)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"r = find_rows('Registrations', 'A', 'Mira')[0]\\nval = cell('Registrations', f'C{r}')\\nresult = val if isinstance(val, str) else val.isoformat()\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1203,
+          "completion_tokens": 85,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5719,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "b114ed07d113464ea88a05cb9df7a9e6",
+          "shared_questions": 4,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 28016640
+    },
+    "generated-019": {
+      "file_name": "survey.xlsx",
+      "answer": "1",
+      "cost": 0.0,
+      "tokens": 2335,
+      "requests": 1,
+      "elapsed": 1.8120174160285387,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Survey', 'B8'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Survey!B8": {
+              "value": null,
+              "kind": "uncached_formula",
+              "number_format": "General",
+              "formula": "=B3-B4-B5",
+              "indent": 0,
+              "bold": false
+            },
+            "Survey!B3": {
+              "value": 101,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Survey!B4": {
+              "value": 40,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Survey!B5": {
+              "value": 60,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 1,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2335,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2335,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"result = int(num('Survey', 'B8'))\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [], \"needs_verification\": false}, \"q1\": {\"code\": \"result = [int(num('Survey', 'B4')), int(num('Survey', 'B5'))]\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [], \"needs_verification\": false}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2286,
+          "completion_tokens": 49,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 10806,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "50ebd424c7654869945a64ff3acc1fe4",
+          "shared_questions": 2,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28049408
+    },
+    "generated-020": {
+      "file_name": "survey.xlsx",
+      "answer": "40, 60",
+      "cost": 0.0,
+      "tokens": 2335,
+      "requests": 1,
+      "elapsed": 1.7969988750119228,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = [int(num('Survey', 'B4')), int(num('Survey', 'B5'))]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Survey!B4": {
+              "value": 40,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Survey!B5": {
+              "value": 60,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": [
+            40,
+            60
+          ],
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2335,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2335,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"result = int(num('Survey', 'B8'))\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [], \"needs_verification\": false}, \"q1\": {\"code\": \"result = [int(num('Survey', 'B4')), int(num('Survey', 'B5'))]\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [], \"needs_verification\": false}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2286,
+          "completion_tokens": 49,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 10806,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "50ebd424c7654869945a64ff3acc1fe4",
+          "shared_questions": 2,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 27951104
+    },
+    "generated-021": {
+      "file_name": "two_tables.xlsx",
+      "answer": "465",
+      "cost": 0.0,
+      "tokens": 1228,
+      "requests": 1,
+      "elapsed": 1.8406079160049558,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Annual and pilot', 'D4'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Annual and pilot!D4": {
+              "value": 465,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 465,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1228,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1228,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"result = int(num('Annual and pilot', 'D4'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"result = int(num('Annual and pilot', 'D4') + num('Annual and pilot', 'D5'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"result = round(num('Annual and pilot', 'E4') * 100, 2)\",\n      \"format\": {\"kind\": \"decimal\", \"decimals\": 2}\n    },\n    \"q3\": {\n      \"code\": \"e0 = num('Annual and pilot', 'D4'); w0 = num('Annual and pilot', 'D5'); result = 'East' if e0 > w0 else 'West'\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1169,
+          "completion_tokens": 59,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5633,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "8c2960904d53436d8a6934f6136e9047",
+          "shared_questions": 4,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28131328
+    },
+    "generated-022": {
+      "file_name": "two_tables.xlsx",
+      "answer": "651",
+      "cost": 0.0,
+      "tokens": 1227,
+      "requests": 1,
+      "elapsed": 1.8432298329717014,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Annual and pilot', 'D4') + num('Annual and pilot', 'D5'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Annual and pilot!D4": {
+              "value": 465,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Annual and pilot!D5": {
+              "value": 186,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 651,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1227,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1227,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"result = int(num('Annual and pilot', 'D4'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"result = int(num('Annual and pilot', 'D4') + num('Annual and pilot', 'D5'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"result = round(num('Annual and pilot', 'E4') * 100, 2)\",\n      \"format\": {\"kind\": \"decimal\", \"decimals\": 2}\n    },\n    \"q3\": {\n      \"code\": \"e0 = num('Annual and pilot', 'D4'); w0 = num('Annual and pilot', 'D5'); result = 'East' if e0 > w0 else 'West'\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1168,
+          "completion_tokens": 59,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5633,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "8c2960904d53436d8a6934f6136e9047",
+          "shared_questions": 4,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 28082176
+    },
+    "generated-023": {
+      "file_name": "two_tables.xlsx",
+      "answer": "60.00",
+      "cost": 0.0,
+      "tokens": 1227,
+      "requests": 1,
+      "elapsed": 1.840503749990603,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = round(num('Annual and pilot', 'E4') * 100, 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Annual and pilot!E4": {
+              "value": 0.6,
+              "kind": "number",
+              "number_format": "0.0%",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 60.0,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1227,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1227,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"result = int(num('Annual and pilot', 'D4'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"result = int(num('Annual and pilot', 'D4') + num('Annual and pilot', 'D5'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"result = round(num('Annual and pilot', 'E4') * 100, 2)\",\n      \"format\": {\"kind\": \"decimal\", \"decimals\": 2}\n    },\n    \"q3\": {\n      \"code\": \"e0 = num('Annual and pilot', 'D4'); w0 = num('Annual and pilot', 'D5'); result = 'East' if e0 > w0 else 'West'\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1168,
+          "completion_tokens": 59,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5632,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "8c2960904d53436d8a6934f6136e9047",
+          "shared_questions": 4,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 27934720
+    },
+    "generated-024": {
+      "file_name": "two_tables.xlsx",
+      "answer": "East",
+      "cost": 0.0,
+      "tokens": 5948,
+      "requests": 2,
+      "elapsed": 3.748515207960736,
+      "error": null,
+      "attempts": [
+        {
+          "code": "e0 = num('Annual and pilot', 'D4'); w0 = num('Annual and pilot', 'D5'); result = 'East' if e0 > w0 else 'West'",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Annual and pilot!D4": {
+              "value": 465,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Annual and pilot!D5": {
+              "value": 186,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "East",
+          "sorts": [],
+          "error": null
+        },
+        {
+          "error": "ValueError: Final label does not match a whole selected workbook label. Do not index a scalar string to obtain a name; use cell(), or a complete element from values().",
+          "model_output": "{\"code\":\"e0 = num('Annual and pilot', 'D4'); w0 = num('Annual and pilot', 'D5'); result = 'East' if e0 > w0 else 'West'\",\"result_variable\":\"result\",\"format\":{\"kind\":\"text\",\"decimals\":null,\"count\":null,\"separator\":\", \",\"rounding\":\"half_even\",\"date_format\":\"iso\"},\"assumptions\":[],\"needs_verification\":false,\"selection\":[],\"request_regions\":[]}"
+        },
+        {
+          "code": "sheet = 'Annual and pilot'\nrows = data_rows(sheet, {'A': 'string', 'D': 'number'}, start_row=4, end_row=5)\nmax_row = max(rows, key=lambda r: num(sheet, f'D{r}'))\nresult = cell(sheet, f'A{max_row}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Annual and pilot",
+              "range": "A3:E5",
+              "operation": "lookup",
+              "unit": "observed unit"
+            }
+          ],
+          "reads": {
+            "Annual and pilot!A4": {
+              "value": "East",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Annual and pilot!D4": {
+              "value": 465,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Annual and pilot!A5": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Annual and pilot!D5": {
+              "value": 186,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "East",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1227,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1227,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"result = int(num('Annual and pilot', 'D4'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"result = int(num('Annual and pilot', 'D4') + num('Annual and pilot', 'D5'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"result = round(num('Annual and pilot', 'E4') * 100, 2)\",\n      \"format\": {\"kind\": \"decimal\", \"decimals\": 2}\n    },\n    \"q3\": {\n      \"code\": \"e0 = num('Annual and pilot', 'D4'); w0 = num('Annual and pilot', 'D5'); result = 'East' if e0 > w0 else 'West'\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1168,
+          "completion_tokens": 59,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5632,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "8c2960904d53436d8a6934f6136e9047",
+          "shared_questions": 4,
+          "allocation_index": 3
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4721,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4721,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4508,
+          "completion_tokens": 213,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 20630,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28131328
+    }
+  },
+  "complete": true,
+  "events": [
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4622,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4622,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"delta_units = num('Invoices 322', 'D309')\\norion_units = num('Invoices 322', 'D310')\\nresult = 'Yes' if delta_units > orion_units else 'No'\", \"format\": {\"kind\": \"text\"}}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4541,
+          "completion_tokens": 81,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 21157,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "e82cfe8202d04293ac0ee86e228cec21"
+        }
+      ],
+      "elapsed": 1.566224250011146,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"delta_units = num('Invoices 322', 'D309')\\norion_units = num('Invoices 322', 'D310')\\nresult = 'Yes' if delta_units > orion_units else 'No'\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "generated-010"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4622,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4622,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\"programs\": {\"q0\": {\"code\": \"delta_units = num('Invoices 828', 'D5')\\norion_units = num('Invoices 828', 'D6')\\nresult = 'Yes' if delta_units > orion_units else 'No'\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [\"Current period units sold are in column D of 'Invoices 828'.\"], \"needs_verification\": false}}}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4511,
+          "completion_tokens": 111,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 21127,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "6792158318634b54a752af4ef3f26972"
+        }
+      ],
+      "elapsed": 1.8997314159933012,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"delta_units = num('Invoices 828', 'D5')\\norion_units = num('Invoices 828', 'D6')\\nresult = 'Yes' if delta_units > orion_units else 'No'\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [\"Current period units sold are in column D of 'Invoices 828'.\"], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "generated-005"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5065,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5065,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = num('Invoices 828', f'D{r}')\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q1\": {\n      \"code\": \"rows = data_rows('Invoices 828', {'F': 'string', 'D': 'number'})\\nbest_row = max(rows, key=lambda r: num('Invoices 828', f'D{r}'))\\nresult = label('Invoices 828', f'F{best_row}')\",\n      \"format\": {\"kind\": \"text\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q2\": {\n      \"code\": \"r1 = find_rows('Invoices 828', 'F', 'Orion Ltd.')[0]\\nr2 = find_rows('Invoices 828', 'F', 'Zenith Inc.')[0]\\nresult = num('Invoices 828', f'D{r1}') + num('Invoices 828', f'D{r2}')\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    \"q3\": {\n      \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = int(num('Invoices 828', f'D{r}') - num('Invoices 828', f'B{r}'))\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4612,
+          "completion_tokens": 453,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22431,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "893aa16627c9466abb989f44a945b048"
+        }
+      ],
+      "elapsed": 2.2147390409954824,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = num('Invoices 828', f'D{r}')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"rows = data_rows('Invoices 828', {'F': 'string', 'D': 'number'})\\nbest_row = max(rows, key=lambda r: num('Invoices 828', f'D{r}'))\\nresult = label('Invoices 828', f'F{best_row}')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 2, \"code\": \"r1 = find_rows('Invoices 828', 'F', 'Orion Ltd.')[0]\\nr2 = find_rows('Invoices 828', 'F', 'Zenith Inc.')[0]\\nresult = num('Invoices 828', f'D{r1}') + num('Invoices 828', f'D{r2}')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 3, \"code\": \"r = find_rows('Invoices 828', 'F', 'Delta Co.')[0]\\nresult = int(num('Invoices 828', f'D{r}') - num('Invoices 828', f'B{r}'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "generated-001",
+        "generated-002",
+        "generated-003",
+        "generated-004"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4941,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4941,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"result = int(num('Invoices 322', 'D309'))\", \"format\": {\"kind\": \"integer\"}}, \"q1\": {\"code\": \"rows = find_rows('Invoices 322', 'B', 'Delta Co.') + find_rows('Invoices 322', 'B', 'Orion Ltd.') + find_rows('Invoices 322', 'B', 'Zenith Inc.')\\ndata = [(label('Invoices 322', f'B{r}'), num('Invoices 322', f'D{r}')) for r in rows]\\nresult = max(data, key=lambda x: x[1])[0]\", \"format\": {\"kind\": \"text\"}}, \"q2\": {\"code\": \"result = int(num('Invoices 322', 'D310') + num('Invoices 322', 'D311'))\", \"format\": {\"kind\": \"integer\"}}, \"q3\": {\"code\": \"result = int(num('Invoices 322', 'D309') - num('Invoices 322', 'F309'))\", \"format\": {\"kind\": \"integer\"}}}, \"assumptions\": [], \"needs_verification\": false}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4642,
+          "completion_tokens": 299,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22461,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "8e8cbc129ef442b78c8072228838a3f0"
+        }
+      ],
+      "elapsed": 2.2744925830047578,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"result = int(num('Invoices 322', 'D309'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"rows = find_rows('Invoices 322', 'B', 'Delta Co.') + find_rows('Invoices 322', 'B', 'Orion Ltd.') + find_rows('Invoices 322', 'B', 'Zenith Inc.')\\ndata = [(label('Invoices 322', f'B{r}'), num('Invoices 322', f'D{r}')) for r in rows]\\nresult = max(data, key=lambda x: x[1])[0]\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 2, \"code\": \"result = int(num('Invoices 322', 'D310') + num('Invoices 322', 'D311'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 3, \"code\": \"result = int(num('Invoices 322', 'D309') - num('Invoices 322', 'F309'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "generated-006",
+        "generated-007",
+        "generated-008",
+        "generated-009"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4886,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4886,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"result = int(num('Survey', 'B3'))\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"result = round(num('Survey', 'C3') * 100, 2)\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2\n      }\n    },\n    \"q2\": {\n      \"code\": \"result = round(num('Survey', 'D4'), 2)\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2\n      }\n    },\n    \"q3\": {\n      \"code\": \"result = int(num('Survey', 'E4') + num('Survey', 'E5'))\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4652,
+          "completion_tokens": 234,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22526,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "7f76c1270b3f4f5c8fb738d47dc5d60d"
+        }
+      ],
+      "elapsed": 1.7212686669954564,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"result = int(num('Survey', 'B3'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"result = round(num('Survey', 'C3') * 100, 2)\", \"result_variable\": \"result\", \"format\": {\"kind\": \"decimal\", \"decimals\": 2, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 2, \"code\": \"result = round(num('Survey', 'D4'), 2)\", \"result_variable\": \"result\", \"format\": {\"kind\": \"decimal\", \"decimals\": 2, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 3, \"code\": \"result = int(num('Survey', 'E4') + num('Survey', 'E5'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "generated-015",
+        "generated-016",
+        "generated-017",
+        "generated-018"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5156,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5156,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\noldest_row = rows_ordered[0]\\nresult = cell('Registrations', f'A{oldest_row}')\",\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\nsecond_oldest_row = rows_ordered[1]\\nresult = num('Registrations', f'D{second_oldest_row}')\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=False)\\nyoungest_two = rows_ordered[:2]\\nscores = [num('Registrations', f'D{r}') for r in youngest_two]\\nresult = max(scores)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"r = find_rows('Registrations', 'A', 'Mira')[0]\\nval = cell('Registrations', f'C{r}')\\nresult = val if isinstance(val, str) else val.isoformat()\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4813,
+          "completion_tokens": 343,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22877,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "b114ed07d113464ea88a05cb9df7a9e6"
+        }
+      ],
+      "elapsed": 2.0513778339955024,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\noldest_row = rows_ordered[0]\\nresult = cell('Registrations', f'A{oldest_row}')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=True)\\nsecond_oldest_row = rows_ordered[1]\\nresult = num('Registrations', f'D{second_oldest_row}')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 2, \"code\": \"rows_ordered = age_order('Registrations', 'B', 'C', descending=False)\\nyoungest_two = rows_ordered[:2]\\nscores = [num('Registrations', f'D{r}') for r in youngest_two]\\nresult = max(scores)\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 3, \"code\": \"r = find_rows('Registrations', 'A', 'Mira')[0]\\nval = cell('Registrations', f'C{r}')\\nresult = val if isinstance(val, str) else val.isoformat()\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "generated-011",
+        "generated-012",
+        "generated-013",
+        "generated-014"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4670,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4670,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"result = int(num('Survey', 'B8'))\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [], \"needs_verification\": false}, \"q1\": {\"code\": \"result = [int(num('Survey', 'B4')), int(num('Survey', 'B5'))]\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [], \"needs_verification\": false}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4572,
+          "completion_tokens": 98,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 21612,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "50ebd424c7654869945a64ff3acc1fe4"
+        }
+      ],
+      "elapsed": 1.7310499160084873,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"result = int(num('Survey', 'B8'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"result = [int(num('Survey', 'B4')), int(num('Survey', 'B5'))]\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "generated-019",
+        "generated-020"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4909,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4909,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"result = int(num('Annual and pilot', 'D4'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"result = int(num('Annual and pilot', 'D4') + num('Annual and pilot', 'D5'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"result = round(num('Annual and pilot', 'E4') * 100, 2)\",\n      \"format\": {\"kind\": \"decimal\", \"decimals\": 2}\n    },\n    \"q3\": {\n      \"code\": \"e0 = num('Annual and pilot', 'D4'); w0 = num('Annual and pilot', 'D5'); result = 'East' if e0 > w0 else 'West'\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4673,
+          "completion_tokens": 236,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22530,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "8c2960904d53436d8a6934f6136e9047"
+        }
+      ],
+      "elapsed": 1.7747927499876823,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"result = int(num('Annual and pilot', 'D4'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"result = int(num('Annual and pilot', 'D4') + num('Annual and pilot', 'D5'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 2, \"code\": \"result = round(num('Annual and pilot', 'E4') * 100, 2)\", \"result_variable\": \"result\", \"format\": {\"kind\": \"decimal\", \"decimals\": 2, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 3, \"code\": \"e0 = num('Annual and pilot', 'D4'); w0 = num('Annual and pilot', 'D5'); result = 'East' if e0 > w0 else 'West'\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "generated-021",
+        "generated-022",
+        "generated-023",
+        "generated-024"
+      ]
+    }
+  ],
+  "wall_seconds": 6.572238625987666,
+  "peak_total_rss_bytes": 101613568
+}

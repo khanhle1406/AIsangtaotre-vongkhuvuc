@@ -1,0 +1,51 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "concurrency": 4,
+    "group_size": 4,
+    "strategy": "live-workbook-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "aa8d93cd10663a85b0398416bb4afbb886f92787ccae8f81f2ebc866a2e443f9",
+      "efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05"
+    },
+    "agent_class": "LeanStructuredAgent",
+    "agent_sha256": "4b98b46f46106b1a90db19d65942a55b21f70d43e83c2677aeccdae454832fc4"
+  },
+  "fingerprint": "37b6d903e12e4879f96feb391b1361bbc015187bf6f83371f72cf54089e97307",
+  "complete": false,
+  "score": {
+    "correct": 17,
+    "total": 18,
+    "errors": {
+      "generalization-001": {
+        "prediction": "",
+        "reference": "3"
+      }
+    }
+  },
+  "wall_seconds": 29.262855499982834,
+  "mean_query_seconds": 5.64219065061641,
+  "tokens": 78272,
+  "provider_tokens_known": 78272,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 78272,
+  "http_attempts": 16,
+  "peak_total_rss_bytes": 110690304,
+  "fatal_error": null,
+  "errors": {
+    "generalization-001": "ValidationError: 1 validation error for Program\nselection.0.unit\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.12/v/string_type"
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

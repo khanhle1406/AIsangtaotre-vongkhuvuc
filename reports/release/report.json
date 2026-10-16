@@ -1,0 +1,111 @@
+{
+  "source_sha256": "381834030104910f9b9dff6c51197fbd53f42a95dc6075a99bc406d133057540",
+  "initial_exploratory_cost_usd": 0.0561440896,
+  "candidates": [
+    {
+      "label": "low",
+      "correct": 15,
+      "total": 16,
+      "errors": {
+        "p4_q001": {
+          "prediction": "",
+          "reference": "Ngo"
+        }
+      },
+      "metrics": {
+        "queries": 16,
+        "answered": 15,
+        "elapsed_seconds": 59.94435574999079,
+        "cost_usd": 0.0043035862,
+        "tokens": 128182,
+        "peak_total_rss_bytes": 84770816,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 256,
+        "max_tokens": 2048,
+        "concurrency": 2,
+        "failures": {
+          "p4_q001": "ValueError: IndexError: list index out of range"
+        }
+      }
+    },
+    {
+      "label": "high",
+      "correct": 16,
+      "total": 16,
+      "errors": {},
+      "metrics": {
+        "queries": 16,
+        "answered": 16,
+        "elapsed_seconds": 179.18791079201037,
+        "cost_usd": 0.0055586014,
+        "tokens": 178496,
+        "peak_total_rss_bytes": 110804992,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 1024,
+        "max_tokens": 4096,
+        "concurrency": 2,
+        "failures": {}
+      }
+    }
+  ],
+  "selected": "high",
+  "public": {
+    "score": {
+      "correct": 18,
+      "total": 20,
+      "errors": {
+        "p4_q005": {
+          "prediction": "",
+          "reference": "Airline fares"
+        },
+        "p4_q010": {
+          "prediction": "",
+          "reference": "Leisure and hospitality"
+        }
+      }
+    },
+    "metrics": {
+      "queries": 20,
+      "answered": 18,
+      "elapsed_seconds": 238.07468362500367,
+      "cost_usd": 0.0084580428,
+      "tokens": 267504,
+      "peak_total_rss_bytes": 74776576,
+      "model": "qwen/qwen3.7-flash",
+      "reasoning_tokens": 1024,
+      "max_tokens": 4096,
+      "concurrency": 2,
+      "failures": {
+        "p4_q005": "ValueError: TypeError: float() argument must be a string or a real number, not 'NoneType'",
+        "p4_q010": "ValueError: ValueError: Invalid cell address: B9:M9"
+      }
+    }
+  },
+  "synthetic_holdout": {
+    "score": {
+      "correct": 23,
+      "total": 24,
+      "errors": {
+        "generated-007": {
+          "prediction": "Zenith Inc.",
+          "reference": "Orion Ltd."
+        }
+      }
+    },
+    "metrics": {
+      "queries": 24,
+      "answered": 24,
+      "elapsed_seconds": 165.97713120799745,
+      "cost_usd": 0.0044394887999999995,
+      "tokens": 58544,
+      "peak_total_rss_bytes": 74317824,
+      "model": "qwen/qwen3.7-flash",
+      "reasoning_tokens": 1024,
+      "max_tokens": 4096,
+      "concurrency": 2,
+      "failures": {}
+    }
+  },
+  "total_development_cost_upper_usd": 0.0789038088,
+  "budget_usd": 0.5
+}

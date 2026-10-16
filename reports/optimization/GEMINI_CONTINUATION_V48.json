@@ -1,0 +1,245 @@
+{
+  "model": "ag/gemini-3-flash",
+  "provenance": "new live model generations; offline replays labeled separately",
+  "goal_status": "active",
+  "selected_final_submission": false,
+  "current_runtime": {
+    "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+    "src/verification.py": "bc4a4d0b85cf6994ffc9ba441cc328a4cf62b77ca140d898b5bfbc3d48b29e69",
+    "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+    "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+    "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+    "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+    "src/llm_agent.py": "2a0d6e62c12ab8f951f13000f7aa74f34187b994a6f387a8faa601e41cc9724f",
+    "src/contracts.py": "9e742a7e8c729ecb53df140e9cf011384e0ba3c12b8ff764886b91a8773e6468",
+    "src/executor.py": "454ee9d1d3b26fb72185d865d80e61e889c00363fe91f86e6997658f6de532ed",
+    "benchmarks/batched.py": "2e68bdab08f5bccd72b68a53b8d8c2e819fdc63ae8409785ec7a0e1c6940efdc",
+    "benchmarks/structured_batch.py": "f3e98f63b51c3f81ed408b9e740dd151242f255edb3574f6e38e36d6972fe317",
+    "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+    "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+    "benchmarks/gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be",
+    "benchmarks/precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+    "benchmarks/efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+    "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0"
+  },
+  "root_tests_passed": 304,
+  "ruff": "check and format passed",
+  "independent_validation": false,
+  "qwen_new_inference": false,
+  "cost_basis": "gateway free per user; provider prices/cost not reported, not a billing measurement",
+  "runs": {
+    "v46_complete_regression": {
+      "public_scores": [
+        {
+          "correct": 20,
+          "total": 20,
+          "errors": {}
+        },
+        {
+          "correct": 20,
+          "total": 20,
+          "errors": {}
+        },
+        {
+          "correct": 20,
+          "total": 20,
+          "errors": {}
+        }
+      ],
+      "public_seconds_each": [
+        15.984309668070637,
+        10.259317127027316,
+        14.518989209056599
+      ],
+      "public_mean_seconds": 13.587538668051517,
+      "public_mean_tokens": 140608.33333333334,
+      "time_reduction_vs_same_phase_baseline": 0.44011438618909515,
+      "token_reduction_vs_same_phase_baseline": 0.30759710383294014,
+      "mean_trace_latency_seconds": 2.940206638933159,
+      "nonpublic_correct": 253,
+      "nonpublic_total": 254,
+      "nonpublic_seconds": 124.98967874707887,
+      "nonpublic_tokens": 711294,
+      "errors": {
+        "decision_18": {
+          "decision-006": {
+            "prediction": "0",
+            "reference": "1"
+          }
+        }
+      },
+      "usage_missing_attempts": 0,
+      "peak_total_rss_bytes": 131203072,
+      "batch": {
+        "deadline_unix": 1792094719.858565,
+        "attempt_limit": 200,
+        "token_limit": 2000000,
+        "attempts": 196,
+        "token_upper": 1336192,
+        "usage_missing_attempts": 0,
+        "fatal_error": null
+      },
+      "unassessed": {},
+      "stopped_flag": null,
+      "all_334_records_present": true,
+      "promoted": false
+    },
+    "v47_domains_and_envelope": {
+      "public_scores": [
+        {
+          "correct": 20,
+          "total": 20,
+          "errors": {}
+        },
+        {
+          "correct": 20,
+          "total": 20,
+          "errors": {}
+        },
+        {
+          "correct": 20,
+          "total": 20,
+          "errors": {}
+        }
+      ],
+      "public_seconds_each": [
+        18.51565883102012,
+        19.803065332002006,
+        7.643930499965791
+      ],
+      "public_mean_seconds": 15.320884887662638,
+      "public_mean_tokens": 116024.66666666667,
+      "time_reduction_vs_same_phase_baseline": 0.4032686277655081,
+      "token_reduction_vs_same_phase_baseline": 0.4616374496939101,
+      "mean_trace_latency_seconds": 2.8202466430477213,
+      "nonpublic_correct": 251,
+      "nonpublic_total": 254,
+      "nonpublic_seconds": 147.4427689531003,
+      "nonpublic_tokens": 773679,
+      "errors": {
+        "regression_60": {
+          "unseen-010": {
+            "prediction": "0",
+            "reference": "2"
+          }
+        },
+        "regression_32": {
+          "challenge-003": {
+            "prediction": "",
+            "reference": "Account-34"
+          }
+        },
+        "generalization_18": {
+          "generalization-017": {
+            "prediction": "0.343750",
+            "reference": "0.359375"
+          }
+        }
+      },
+      "usage_missing_attempts": 0,
+      "peak_total_rss_bytes": 128352256,
+      "batch": {
+        "deadline_unix": 1792095043.531651,
+        "attempt_limit": 200,
+        "token_limit": 2000000,
+        "attempts": 200,
+        "token_upper": 1337267,
+        "usage_missing_attempts": 0,
+        "fatal_error": null
+      },
+      "unassessed": {},
+      "stopped_flag": "Batch HTTP attempt allowance exhausted",
+      "all_334_records_present": true,
+      "promoted": false
+    },
+    "v45_review_effort": {
+      "comparison": {
+        "low": {
+          "correct": 90,
+          "total": 92,
+          "seconds": 100.6562802529952,
+          "tokens_known": 454664,
+          "usage_missing": 0
+        },
+        "medium_review": {
+          "correct": 89,
+          "total": 92,
+          "seconds": 99.23272921197349,
+          "tokens_known": 416722,
+          "usage_missing": 0
+        }
+      },
+      "unassessed": {},
+      "public": {
+        "low/public": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "seconds": 11.067395584017504,
+          "tokens": 111769
+        },
+        "medium_review/public": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "seconds": 11.03718179295538,
+          "tokens": 114832
+        }
+      },
+      "promoted": false
+    },
+    "v48_coherent_envelope": {
+      "comparison": {
+        "current": {
+          "correct": 90,
+          "total": 92,
+          "seconds": 61.45930412400048,
+          "tokens_known": 321452,
+          "usage_missing": 0
+        },
+        "coherent": {
+          "correct": 91,
+          "total": 92,
+          "seconds": 78.23965037491871,
+          "tokens_known": 362895,
+          "usage_missing": 0
+        }
+      },
+      "unassessed": {},
+      "public": {
+        "current/public": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "seconds": 8.845928290014854,
+          "tokens": 88724
+        },
+        "coherent/public": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "seconds": 19.993875707004918,
+          "tokens": 124636
+        }
+      },
+      "promoted": false
+    }
+  },
+  "development_cost_conservative_upper_usd": 0.31892700450000006,
+  "replays": [
+    "v46_relation_replay.json",
+    "v47_empty_selection_replay.json"
+  ],
+  "policy_decisions": {
+    "medium_review": "rejected: 89/92 vs90/92",
+    "coherent_envelope": "screening candidate only:91/92 vs90/92; slower and more tokens; not full qualification or new holdout"
+  }
+}

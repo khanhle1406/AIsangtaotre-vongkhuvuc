@@ -1,0 +1,557 @@
+{
+  "fingerprint": "ecb74ad90313b7f17a2959f1de20e57b6355f62060f96da31babd3f0a71d6782",
+  "records": {
+    "changed-738": {
+      "file_name": "mutation_120.xlsx",
+      "answer": "37",
+      "cost": 0.0,
+      "tokens": 4178,
+      "requests": 1,
+      "elapsed": 2.0755272499809507,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 52'\nrows = data_rows(sheet, {'A': 'string', 'B': 'number'})\nresult = int([num(sheet, f'B{r}') for r in rows if cell(sheet, f'A{r}') == 'Lyra Co.'][0])",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Ledger 52",
+              "range": "A1:B3",
+              "operation": "lookup",
+              "unit": "units"
+            }
+          ],
+          "reads": {
+            "Ledger 52!A1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 52!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 52!A2": {
+              "value": "Lyra Co.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 52!B2": {
+              "value": 37,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 52!A3": {
+              "value": "Vega Inc.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 52!B3": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 52!A5": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 52!B5": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            }
+          },
+          "raw_result": 37,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4178,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4178,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4018,
+          "completion_tokens": 160,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27672576
+    },
+    "changed-775": {
+      "file_name": "mutation_137.xlsx",
+      "answer": "37",
+      "cost": 0.0,
+      "tokens": 4165,
+      "requests": 1,
+      "elapsed": 1.8361330420011654,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = find_rows('Ledger 53', 'A', 'Lyra Co.')\nresult = int(num('Ledger 53', f'B{rows[0]}'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Ledger 53",
+              "range": "A308:B310",
+              "operation": "lookup",
+              "unit": "units"
+            }
+          ],
+          "reads": {
+            "Ledger 53!A309": {
+              "kind": "lookup_probe",
+              "value": "Lyra Co.",
+              "stored_kind": "string"
+            },
+            "Ledger 53!B309": {
+              "value": 37,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 37,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4165,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4165,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4032,
+          "completion_tokens": 133,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27705344
+    },
+    "changed-701": {
+      "file_name": "mutation_103.xlsx",
+      "answer": "37",
+      "cost": 0.0,
+      "tokens": 4180,
+      "requests": 1,
+      "elapsed": 4.88591529201949,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = find_rows('Current', 'A', 'Lyra Co.')\nresult = int(num('Current', f'B{rows[0]}'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Current",
+              "range": "A1:B3",
+              "operation": "lookup",
+              "unit": "Units sold"
+            }
+          ],
+          "reads": {
+            "Current!A2": {
+              "kind": "lookup_probe",
+              "value": "Lyra Co.",
+              "stored_kind": "string"
+            },
+            "Current!B2": {
+              "value": 37,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 37,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4180,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4180,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4014,
+          "completion_tokens": 166,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27820032
+    },
+    "changed-812": {
+      "file_name": "mutation_154.xlsx",
+      "answer": "37",
+      "cost": 0.0,
+      "tokens": 4195,
+      "requests": 1,
+      "elapsed": 2.259495333011728,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = find_rows('Ledger 54', 'D', 'Lyra Co.')\nresult = int(num('Ledger 54', f'B{rows[0]}'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Ledger 54",
+              "range": "B1:D3",
+              "operation": "lookup",
+              "unit": "units"
+            }
+          ],
+          "reads": {
+            "Ledger 54!D2": {
+              "kind": "lookup_probe",
+              "value": "Lyra Co.",
+              "stored_kind": "string"
+            },
+            "Ledger 54!B2": {
+              "value": 37,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 37,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4195,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4195,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4018,
+          "completion_tokens": 177,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27623424
+    },
+    "changed-849": {
+      "file_name": "mutation_171.xlsx",
+      "answer": "37",
+      "cost": 0.0,
+      "tokens": 4286,
+      "requests": 1,
+      "elapsed": 3.0000981669873,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = data_rows('Ledger 55', {'B': 'string', 'E': 'number'})\nresult = int([num('Ledger 55', f'E{r}') for r in rows if cell('Ledger 55', f'B{r}') == 'Lyra Co.'][0])",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Ledger 55",
+              "range": "B8:E10",
+              "operation": "lookup",
+              "unit": "units"
+            }
+          ],
+          "reads": {
+            "Ledger 55!B8": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 55!E8": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 55!B9": {
+              "value": "Lyra Co.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 55!E9": {
+              "value": 37,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 55!B10": {
+              "value": "Vega Inc.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 55!E10": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 55!B12": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 55!E12": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            }
+          },
+          "raw_result": 37,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4286,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4286,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4127,
+          "completion_tokens": 159,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27721728
+    },
+    "changed-886": {
+      "file_name": "mutation_188.xlsx",
+      "answer": "48",
+      "cost": 0.0,
+      "tokens": 4315,
+      "requests": 1,
+      "elapsed": 2.220887041010428,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = data_rows('Ledger 56', {'B': 'number', 'D': 'string'})\nfor r in rows:\n    if cell('Ledger 56', f'D{r}') == 'Lyra Co.':\n        result = int(num('Ledger 56', f'B{r}'))\n        break",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Ledger 56",
+              "range": "B308:D310",
+              "operation": "lookup",
+              "unit": "units"
+            }
+          ],
+          "reads": {
+            "Ledger 56!B308": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 56!D308": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 56!B309": {
+              "value": 48,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 56!D309": {
+              "value": "Lyra Co.",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 56!B310": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 56!D310": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 56!B312": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 56!D312": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            }
+          },
+          "raw_result": 48,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4315,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4315,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4139,
+          "completion_tokens": 176,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27738112
+    }
+  },
+  "complete": true,
+  "wall_seconds": 8.404566083016107,
+  "peak_total_rss_bytes": 86228992
+}

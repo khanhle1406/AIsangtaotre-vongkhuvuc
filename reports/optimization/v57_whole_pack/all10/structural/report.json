@@ -1,0 +1,53 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "verification_thinking": null,
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "planning_max_tokens": 6144,
+    "concurrency": 4,
+    "group_size": 10,
+    "strategy": "live-multi-workbook-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+      "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "45b095edf2719b1c15f4db3aab28670c3dce0da1bb7ba3d84953a505b8fde33a"
+    },
+    "agent_class": "TenPackedAgent",
+    "agent_sha256": "beafc811c32c0f10cbfc82308aca5a25856057a88fd7726729122be10dd3aa8e"
+  },
+  "fingerprint": "8cb2180ccf3699e57b79c41afe5588e73a73e9e43bf5f78e3d5d747dd9e83ad6",
+  "complete": false,
+  "score": {
+    "correct": 17,
+    "total": 18,
+    "errors": {
+      "structural-018": {
+        "prediction": "",
+        "reference": "Alloy"
+      }
+    }
+  },
+  "wall_seconds": 61.918252125004074,
+  "mean_query_seconds": 12.075457977202152,
+  "tokens": 153148,
+  "provider_tokens_known": 153148,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 153148,
+  "http_attempts": 23,
+  "peak_total_rss_bytes": 96468992,
+  "fatal_error": null,
+  "errors": {
+    "structural-018": "ValueError: Ambiguity unresolved within inference budget"
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

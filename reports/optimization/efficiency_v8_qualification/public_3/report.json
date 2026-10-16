@@ -1,0 +1,45 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "max_tokens": 2048,
+    "concurrency": 4,
+    "group_size": 4,
+    "strategy": "live-workbook-plan",
+    "modules": {
+      "batched.py": "8d818141f5efaa3bc00b22de484e470cab8b673a1a5311e0bdfebfd5c9edfcc1",
+      "efficient.py": "75f477de4b7f76e4f8394be5a211a09c43a19d95353025570dcaae17c4fbaa73",
+      "precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4"
+    },
+    "agent_class": "StructuredBatchedAgent",
+    "agent_sha256": "d64933eaf68a1a385ca742def8978d386226e8c499a3f1ed08ab2750cc512b87"
+  },
+  "fingerprint": "55732009ea6fea788dbbf9ab0ffaedb5d1de0597b0a4e88d3a81c46293d82e22",
+  "complete": false,
+  "score": {
+    "correct": 19,
+    "total": 20,
+    "errors": {
+      "p4_q008": {
+        "prediction": "",
+        "reference": "9017"
+      }
+    }
+  },
+  "wall_seconds": 8.64298029098427,
+  "mean_query_seconds": 2.307585410257161,
+  "tokens": 95319,
+  "provider_tokens_known": 95319,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 95319,
+  "http_attempts": 12,
+  "peak_total_rss_bytes": 113442816,
+  "fatal_error": null,
+  "errors": {
+    "p4_q008": "ValueError: ValueError: Ambiguous numeric text at cpsaat14!A9: '16 to 19 years'. Use data_rows with the observed numeric columns to exclude headers before calling num; do not coerce a header to zero."
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

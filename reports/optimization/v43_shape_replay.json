@@ -1,0 +1,769 @@
+{
+  "kind": "offline same-program replay only; not fresh model accuracy",
+  "answer": "14",
+  "mock_calls": 1,
+  "attempts": [
+    {
+      "code": "provs = values('Providers', 'C42:D47')\ncovs = values('Coverage', 'C804:D813')\nreqs = set(values('Required', 'C42:C45'))\np_dict = {p: c for c, p in provs if p != 'Aster'}\np_areas = {}\nfor p, a in covs:\n    if p != 'Aster':\n        p_areas.setdefault(p, set()).add(a)\nprov_list = list(p_dict.keys())\nbest_cost = 999999\nfor i in range(1 << len(prov_list)):\n    sel = [prov_list[j] for j in range(len(prov_list)) if (i & (1 << j))]\n    covered = set()\n    cost = 0\n    for p in sel:\n        cost += p_dict[p]\n        covered.update(p_areas.get(p, set()))\n    if reqs.issubset(covered):\n        if cost < best_cost:\n            best_cost = cost\nresult = best_cost",
+      "result_variable": "result",
+      "format": {
+        "kind": "integer",
+        "decimals": null,
+        "count": null,
+        "separator": ", ",
+        "rounding": "half_even",
+        "date_format": "iso"
+      },
+      "assumptions": [],
+      "selection": [],
+      "reads": {
+        "Providers!C42": {
+          "value": 8,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D42": {
+          "value": "Aster",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!C43": {
+          "value": 5,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D43": {
+          "value": "Birch",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!C44": {
+          "value": 5,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D44": {
+          "value": "Cedar",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!C45": {
+          "value": 4,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D45": {
+          "value": "Dune",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!C46": {
+          "value": 7,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D46": {
+          "value": "Elm",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!C47": {
+          "value": 9,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D47": {
+          "value": "Fir",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C804": {
+          "value": "Aster",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D804": {
+          "value": "R",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C805": {
+          "value": "Aster",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D805": {
+          "value": "S",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C806": {
+          "value": "Birch",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D806": {
+          "value": "R",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C807": {
+          "value": "Cedar",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D807": {
+          "value": "S",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C808": {
+          "value": "Cedar",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D808": {
+          "value": "T",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C809": {
+          "value": "Dune",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D809": {
+          "value": "T",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C810": {
+          "value": "Dune",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D810": {
+          "value": "U",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C811": {
+          "value": "Elm",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D811": {
+          "value": "U",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C812": {
+          "value": "Fir",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D812": {
+          "value": "S",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C813": {
+          "value": "Fir",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D813": {
+          "value": "U",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Required!C42": {
+          "value": "R",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Required!C43": {
+          "value": "S",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Required!C44": {
+          "value": "T",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Required!C45": {
+          "value": "U",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        }
+      },
+      "raw_result": null,
+      "sorts": [],
+      "error": "TypeError: Cannot unpack scalar int into (c, p) at line 4 from provs. values() returns FLAT scalars even for a multi-column range. When row tuples are required, replace that values(sheet,range) call with cells(sheet,range). Keep values() for a flat vector; cell()/num() also return scalars."
+    },
+    {
+      "code": "provs = cells('Providers', 'C42:D47')\ncovs = cells('Coverage', 'C804:D813')\nreqs = set(values('Required', 'C42:C45'))\np_dict = {p: c for c, p in provs if p != 'Aster'}\np_areas = {}\nfor p, a in covs:\n    if p != 'Aster':\n        p_areas.setdefault(p, set()).add(a)\nprov_list = list(p_dict.keys())\nbest_cost = 999999\nfor i in range(1 << len(prov_list)):\n    sel = [prov_list[j] for j in range(len(prov_list)) if i & 1 << j]\n    covered = set()\n    cost = 0\n    for p in sel:\n        cost += p_dict[p]\n        covered.update(p_areas.get(p, set()))\n    if reqs.issubset(covered):\n        if cost < best_cost:\n            best_cost = cost\nresult = best_cost",
+      "format": {
+        "kind": "integer",
+        "decimals": null,
+        "count": null,
+        "separator": ", ",
+        "rounding": "half_even",
+        "date_format": "iso"
+      },
+      "contract_repair": true,
+      "contract_kind": "row-unpack-shape",
+      "assumptions": [
+        "After scalar-unpack failure, changed only width-matched row iteration from values to cells over the same workbook ranges; no measures copied or guessed."
+      ],
+      "reads": {
+        "Providers!C42": {
+          "value": 8,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D42": {
+          "value": "Aster",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!C43": {
+          "value": 5,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D43": {
+          "value": "Birch",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!C44": {
+          "value": 5,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D44": {
+          "value": "Cedar",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!C45": {
+          "value": 4,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D45": {
+          "value": "Dune",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!C46": {
+          "value": 7,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D46": {
+          "value": "Elm",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!C47": {
+          "value": 9,
+          "kind": "number",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Providers!D47": {
+          "value": "Fir",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C804": {
+          "value": "Aster",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D804": {
+          "value": "R",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C805": {
+          "value": "Aster",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D805": {
+          "value": "S",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C806": {
+          "value": "Birch",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D806": {
+          "value": "R",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C807": {
+          "value": "Cedar",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D807": {
+          "value": "S",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C808": {
+          "value": "Cedar",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D808": {
+          "value": "T",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C809": {
+          "value": "Dune",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D809": {
+          "value": "T",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C810": {
+          "value": "Dune",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D810": {
+          "value": "U",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C811": {
+          "value": "Elm",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D811": {
+          "value": "U",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C812": {
+          "value": "Fir",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D812": {
+          "value": "S",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!C813": {
+          "value": "Fir",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Coverage!D813": {
+          "value": "U",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Required!C42": {
+          "value": "R",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Required!C43": {
+          "value": "S",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Required!C44": {
+          "value": "T",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        },
+        "Required!C45": {
+          "value": "U",
+          "kind": "string",
+          "number_format": "General",
+          "formula": null,
+          "indent": 0,
+          "bold": false
+        }
+      },
+      "raw_result": 14,
+      "error": null,
+      "sorts": [],
+      "selection": [
+        {
+          "sheet": "Providers",
+          "range": "C42"
+        },
+        {
+          "sheet": "Providers",
+          "range": "D42"
+        },
+        {
+          "sheet": "Providers",
+          "range": "C43"
+        },
+        {
+          "sheet": "Providers",
+          "range": "D43"
+        },
+        {
+          "sheet": "Providers",
+          "range": "C44"
+        },
+        {
+          "sheet": "Providers",
+          "range": "D44"
+        },
+        {
+          "sheet": "Providers",
+          "range": "C45"
+        },
+        {
+          "sheet": "Providers",
+          "range": "D45"
+        },
+        {
+          "sheet": "Providers",
+          "range": "C46"
+        },
+        {
+          "sheet": "Providers",
+          "range": "D46"
+        },
+        {
+          "sheet": "Providers",
+          "range": "C47"
+        },
+        {
+          "sheet": "Providers",
+          "range": "D47"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "C804"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "D804"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "C805"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "D805"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "C806"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "D806"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "C807"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "D807"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "C808"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "D808"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "C809"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "D809"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "C810"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "D810"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "C811"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "D811"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "C812"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "D812"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "C813"
+        },
+        {
+          "sheet": "Coverage",
+          "range": "D813"
+        },
+        {
+          "sheet": "Required",
+          "range": "C42"
+        },
+        {
+          "sheet": "Required",
+          "range": "C43"
+        },
+        {
+          "sheet": "Required",
+          "range": "C44"
+        },
+        {
+          "sheet": "Required",
+          "range": "C45"
+        }
+      ]
+    }
+  ]
+}

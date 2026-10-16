@@ -1,0 +1,4921 @@
+{
+  "fingerprint": "52dc807a9b9e64044b02887376891fee6454fd99376b50579680e46200dc7e92",
+  "records": {
+    "unseen-011": {
+      "file_name": "joined_projects.xlsx",
+      "answer": "48300",
+      "cost": 0.0,
+      "tokens": 2393,
+      "requests": 1,
+      "elapsed": 1.6935640830197372,
+      "error": null,
+      "attempts": [
+        {
+          "code": "actual_vals = values('Actual spending', 'A2:A5')\nresult = sum(actual_vals)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Actual spending!A2": {
+              "value": 14800,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A3": {
+              "value": 7300,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A4": {
+              "value": 14200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A5": {
+              "value": 12000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 48300,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2393,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2393,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"actual_vals = values('Actual spending', 'A2:A5')\\nresult = sum(actual_vals)\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [], \"needs_verification\": false}, \"q1\": {\"code\": \"actual_vals = values('Actual spending', 'A2:A5')\\nbudget_vals = values('Approved', 'B2:B5')\\ntotal_actual = sum(actual_vals)\\ntotal_budget = sum(budget_vals)\\nresult = round((total_actual / total_budget) * 100, 2)\", \"format\": {\"kind\": \"decimal\", \"decimals\": 2}, \"assumptions\": [], \"needs_verification\": false}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2307,
+          "completion_tokens": 86,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 10846,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "161ca8f0226e45ed8da48e01297f2716",
+          "shared_questions": 2,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28098560
+    },
+    "unseen-012": {
+      "file_name": "joined_projects.xlsx",
+      "answer": "101.90",
+      "cost": 0.0,
+      "tokens": 2393,
+      "requests": 1,
+      "elapsed": 1.7021527089818846,
+      "error": null,
+      "attempts": [
+        {
+          "code": "actual_vals = values('Actual spending', 'A2:A5')\nbudget_vals = values('Approved', 'B2:B5')\ntotal_actual = sum(actual_vals)\ntotal_budget = sum(budget_vals)\nresult = round((total_actual / total_budget) * 100, 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Actual spending!A2": {
+              "value": 14800,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A3": {
+              "value": 7300,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A4": {
+              "value": 14200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A5": {
+              "value": 12000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B2": {
+              "value": 9500,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B3": {
+              "value": 11200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B4": {
+              "value": 12500,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B5": {
+              "value": 14200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 101.9,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2393,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2393,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"actual_vals = values('Actual spending', 'A2:A5')\\nresult = sum(actual_vals)\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [], \"needs_verification\": false}, \"q1\": {\"code\": \"actual_vals = values('Actual spending', 'A2:A5')\\nbudget_vals = values('Approved', 'B2:B5')\\ntotal_actual = sum(actual_vals)\\ntotal_budget = sum(budget_vals)\\nresult = round((total_actual / total_budget) * 100, 2)\", \"format\": {\"kind\": \"decimal\", \"decimals\": 2}, \"assumptions\": [], \"needs_verification\": false}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2307,
+          "completion_tokens": 86,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 10846,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "161ca8f0226e45ed8da48e01297f2716",
+          "shared_questions": 2,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 27967488
+    },
+    "unseen-005": {
+      "file_name": "events_renamed.xlsx",
+      "answer": "South",
+      "cost": 0.0,
+      "tokens": 2825,
+      "requests": 1,
+      "elapsed": 2.0689746669959277,
+      "error": null,
+      "attempts": [
+        {
+          "code": "r = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\nsums = {}\nfor row in r:\n    reg = cell('Current ledger', f'B{row}')\n    net = num('Current ledger', f'D{row}')\n    sums[reg] = sums.get(reg, 0) + net\nsorted_regs = sorted(sums.keys(), key=lambda x: (-sums[x], x))\nresult = sorted_regs[0]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Current ledger!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!B2": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D2": {
+              "value": 4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B3": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D3": {
+              "value": -1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B4": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D4": {
+              "value": 11,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B5": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D5": {
+              "value": -6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B6": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D6": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B7": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D7": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B8": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D8": {
+              "value": -1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B9": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D9": {
+              "value": 27,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B10": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D10": {
+              "value": 31,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B11": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D11": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B12": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D12": {
+              "value": 25,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B13": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D13": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B14": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D14": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B15": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D15": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B16": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D16": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B17": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D17": {
+              "value": 13,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B18": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D18": {
+              "value": 30,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B19": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D19": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B20": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D20": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B21": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D21": {
+              "value": 34,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B22": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D22": {
+              "value": 24,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B23": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D23": {
+              "value": 23,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B24": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D24": {
+              "value": 14,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B25": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D25": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "South",
+          "sorts": [
+            {
+              "keys": [
+                -68,
+                -158,
+                -147
+              ],
+              "reverse": false,
+              "selected": [
+                0
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2825,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2825,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\\nsums = {}\\nfor row in r:\\n    reg = cell('Current ledger', f'B{row}')\\n    net = num('Current ledger', f'D{row}')\\n    sums[reg] = sums.get(reg, 0) + net\\nsorted_regs = sorted(sums.keys(), key=lambda x: (-sums[x], x))\\nresult = sorted_regs[0]\",\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"r = data_rows('Current ledger', {'A': 'datetime', 'B': 'string', 'D': 'number'})\\ntotal = 0\\nfor row in r:\\n    dt = cell('Current ledger', f'A{row}')\\n    reg = cell('Current ledger', f'B{row}')\\n    net = num('Current ledger', f'D{row}')\\n    if reg in ('South', 'West') and dt < datetime.datetime(2025, 3, 1):\\n        total += net\\nresult = int(total)\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2661,
+          "completion_tokens": 164,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 11333,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "04e3ee938d094d68b0cad8071169662c",
+          "shared_questions": 2,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28475392
+    },
+    "unseen-006": {
+      "file_name": "events_renamed.xlsx",
+      "answer": "146",
+      "cost": 0.0,
+      "tokens": 2824,
+      "requests": 1,
+      "elapsed": 2.0422046250023413,
+      "error": null,
+      "attempts": [
+        {
+          "code": "r = data_rows('Current ledger', {'A': 'datetime', 'B': 'string', 'D': 'number'})\ntotal = 0\nfor row in r:\n    dt = cell('Current ledger', f'A{row}')\n    reg = cell('Current ledger', f'B{row}')\n    net = num('Current ledger', f'D{row}')\n    if reg in ('South', 'West') and dt < datetime.datetime(2025, 3, 1):\n        total += net\nresult = int(total)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Current ledger!A1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!A2": {
+              "value": "2025-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B2": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D2": {
+              "value": 4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A3": {
+              "value": "2025-02-02T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B3": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D3": {
+              "value": -1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A4": {
+              "value": "2025-03-03T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B4": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D4": {
+              "value": 11,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A5": {
+              "value": "2025-04-04T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B5": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D5": {
+              "value": -6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A6": {
+              "value": "2025-01-05T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B6": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D6": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A7": {
+              "value": "2025-02-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B7": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D7": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A8": {
+              "value": "2025-03-07T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B8": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D8": {
+              "value": -1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A9": {
+              "value": "2025-04-08T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B9": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D9": {
+              "value": 27,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A10": {
+              "value": "2025-01-09T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B10": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D10": {
+              "value": 31,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A11": {
+              "value": "2025-02-10T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B11": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D11": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A12": {
+              "value": "2025-03-11T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B12": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D12": {
+              "value": 25,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A13": {
+              "value": "2025-04-12T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B13": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D13": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A14": {
+              "value": "2025-01-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B14": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D14": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A15": {
+              "value": "2025-02-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B15": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D15": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A16": {
+              "value": "2025-03-15T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B16": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D16": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A17": {
+              "value": "2025-04-16T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B17": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D17": {
+              "value": 13,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A18": {
+              "value": "2025-01-17T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B18": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D18": {
+              "value": 30,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A19": {
+              "value": "2025-02-18T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B19": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D19": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A20": {
+              "value": "2025-03-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B20": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D20": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A21": {
+              "value": "2025-04-20T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B21": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D21": {
+              "value": 34,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A22": {
+              "value": "2025-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B22": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D22": {
+              "value": 24,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A23": {
+              "value": "2025-02-02T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B23": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D23": {
+              "value": 23,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A24": {
+              "value": "2025-03-03T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B24": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D24": {
+              "value": 14,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A25": {
+              "value": "2025-04-04T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B25": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D25": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 146,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2824,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2824,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\\nsums = {}\\nfor row in r:\\n    reg = cell('Current ledger', f'B{row}')\\n    net = num('Current ledger', f'D{row}')\\n    sums[reg] = sums.get(reg, 0) + net\\nsorted_regs = sorted(sums.keys(), key=lambda x: (-sums[x], x))\\nresult = sorted_regs[0]\",\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"r = data_rows('Current ledger', {'A': 'datetime', 'B': 'string', 'D': 'number'})\\ntotal = 0\\nfor row in r:\\n    dt = cell('Current ledger', f'A{row}')\\n    reg = cell('Current ledger', f'B{row}')\\n    net = num('Current ledger', f'D{row}')\\n    if reg in ('South', 'West') and dt < datetime.datetime(2025, 3, 1):\\n        total += net\\nresult = int(total)\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2660,
+          "completion_tokens": 164,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 11332,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "04e3ee938d094d68b0cad8071169662c",
+          "shared_questions": 2,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 28131328
+    },
+    "unseen-007": {
+      "file_name": "joined_projects.xlsx",
+      "answer": "K-08",
+      "cost": 0.0,
+      "tokens": 1276,
+      "requests": 1,
+      "elapsed": 2.1263534589961637,
+      "error": null,
+      "attempts": [
+        {
+          "code": "app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\ndiff = {p: act[p] - app[p] for p in app}\nmax_diff = max(diff.values())\nresult = sorted([p for p, d in diff.items() if d == max_diff])[0]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Approved!A2": {
+              "value": "R-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!A3": {
+              "value": "K-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!A4": {
+              "value": "M-72",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!A5": {
+              "value": "P-19",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B2": {
+              "value": 9500,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B3": {
+              "value": 11200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B4": {
+              "value": 12500,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B5": {
+              "value": 14200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B2": {
+              "value": "P-19",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B3": {
+              "value": "R-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B4": {
+              "value": "K-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B5": {
+              "value": "M-72",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A2": {
+              "value": 14800,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A3": {
+              "value": 7300,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A4": {
+              "value": 14200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A5": {
+              "value": 12000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "K-08",
+          "sorts": [
+            {
+              "keys": [
+                "K-08"
+              ],
+              "reverse": false,
+              "selected": [
+                0
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1276,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1276,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\ndiff = {p: act[p] - app[p] for p in app}\\nmax_diff = max(diff.values())\\nresult = sorted([p for p, d in diff.items() if d == max_diff])[0]\", \"format\": {\"kind\": \"text\"}}, \"q1\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = sum(1 for p in app if act[p] > app[p])\", \"format\": {\"kind\": \"integer\"}}, \"q2\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['K-08'] - app['K-08']\", \"format\": {\"kind\": \"integer\"}}, \"q3\": {\"code\": \"act = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['R-41'] + act['M-72']\", \"format\": {\"kind\": \"integer\"}}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1175,
+          "completion_tokens": 101,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5657,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "6713e675528545258a410f33294ed641",
+          "shared_questions": 4,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28131328
+    },
+    "unseen-008": {
+      "file_name": "joined_projects.xlsx",
+      "answer": "2",
+      "cost": 0.0,
+      "tokens": 1275,
+      "requests": 1,
+      "elapsed": 2.1570795840234496,
+      "error": null,
+      "attempts": [
+        {
+          "code": "app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\nresult = sum(1 for p in app if act[p] > app[p])",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Approved!A2": {
+              "value": "R-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!A3": {
+              "value": "K-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!A4": {
+              "value": "M-72",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!A5": {
+              "value": "P-19",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B2": {
+              "value": 9500,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B3": {
+              "value": 11200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B4": {
+              "value": 12500,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B5": {
+              "value": 14200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B2": {
+              "value": "P-19",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B3": {
+              "value": "R-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B4": {
+              "value": "K-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B5": {
+              "value": "M-72",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A2": {
+              "value": 14800,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A3": {
+              "value": 7300,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A4": {
+              "value": 14200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A5": {
+              "value": 12000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 2,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1275,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1275,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\ndiff = {p: act[p] - app[p] for p in app}\\nmax_diff = max(diff.values())\\nresult = sorted([p for p, d in diff.items() if d == max_diff])[0]\", \"format\": {\"kind\": \"text\"}}, \"q1\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = sum(1 for p in app if act[p] > app[p])\", \"format\": {\"kind\": \"integer\"}}, \"q2\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['K-08'] - app['K-08']\", \"format\": {\"kind\": \"integer\"}}, \"q3\": {\"code\": \"act = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['R-41'] + act['M-72']\", \"format\": {\"kind\": \"integer\"}}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1174,
+          "completion_tokens": 101,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5657,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "6713e675528545258a410f33294ed641",
+          "shared_questions": 4,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 28213248
+    },
+    "unseen-009": {
+      "file_name": "joined_projects.xlsx",
+      "answer": "3000",
+      "cost": 0.0,
+      "tokens": 1275,
+      "requests": 1,
+      "elapsed": 2.151821874984307,
+      "error": null,
+      "attempts": [
+        {
+          "code": "app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\nresult = act['K-08'] - app['K-08']",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Approved!A2": {
+              "value": "R-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!A3": {
+              "value": "K-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!A4": {
+              "value": "M-72",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!A5": {
+              "value": "P-19",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B2": {
+              "value": 9500,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B3": {
+              "value": 11200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B4": {
+              "value": 12500,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Approved!B5": {
+              "value": 14200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B2": {
+              "value": "P-19",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B3": {
+              "value": "R-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B4": {
+              "value": "K-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B5": {
+              "value": "M-72",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A2": {
+              "value": 14800,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A3": {
+              "value": 7300,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A4": {
+              "value": 14200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A5": {
+              "value": 12000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 3000,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1275,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1275,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\ndiff = {p: act[p] - app[p] for p in app}\\nmax_diff = max(diff.values())\\nresult = sorted([p for p, d in diff.items() if d == max_diff])[0]\", \"format\": {\"kind\": \"text\"}}, \"q1\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = sum(1 for p in app if act[p] > app[p])\", \"format\": {\"kind\": \"integer\"}}, \"q2\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['K-08'] - app['K-08']\", \"format\": {\"kind\": \"integer\"}}, \"q3\": {\"code\": \"act = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['R-41'] + act['M-72']\", \"format\": {\"kind\": \"integer\"}}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1174,
+          "completion_tokens": 101,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5657,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "6713e675528545258a410f33294ed641",
+          "shared_questions": 4,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 28295168
+    },
+    "unseen-010": {
+      "file_name": "joined_projects.xlsx",
+      "answer": "19300",
+      "cost": 0.0,
+      "tokens": 1275,
+      "requests": 1,
+      "elapsed": 2.1005183339875657,
+      "error": null,
+      "attempts": [
+        {
+          "code": "act = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\nresult = act['R-41'] + act['M-72']",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Actual spending!B2": {
+              "value": "P-19",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B3": {
+              "value": "R-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B4": {
+              "value": "K-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!B5": {
+              "value": "M-72",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A2": {
+              "value": 14800,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A3": {
+              "value": 7300,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A4": {
+              "value": 14200,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Actual spending!A5": {
+              "value": 12000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 19300,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1275,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1275,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\ndiff = {p: act[p] - app[p] for p in app}\\nmax_diff = max(diff.values())\\nresult = sorted([p for p, d in diff.items() if d == max_diff])[0]\", \"format\": {\"kind\": \"text\"}}, \"q1\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = sum(1 for p in app if act[p] > app[p])\", \"format\": {\"kind\": \"integer\"}}, \"q2\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['K-08'] - app['K-08']\", \"format\": {\"kind\": \"integer\"}}, \"q3\": {\"code\": \"act = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['R-41'] + act['M-72']\", \"format\": {\"kind\": \"integer\"}}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1174,
+          "completion_tokens": 101,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5657,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "6713e675528545258a410f33294ed641",
+          "shared_questions": 4,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 28049408
+    },
+    "unseen-013": {
+      "file_name": "audit_records.xlsx",
+      "answer": "Beryl",
+      "cost": 0.0,
+      "tokens": 1269,
+      "requests": 1,
+      "elapsed": 1.8138248760078568,
+      "error": null,
+      "attempts": [
+        {
+          "code": "r = age_order('Audit people', 'B', 'D', descending=True)[0]\nresult = cell('Audit people', 'A' + str(r))",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Audit people!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Audit people!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!B3": {
+              "value": "1991-05-06",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D3": {
+              "value": "2026-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!B4": {
+              "value": "1995-07-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D4": {
+              "value": "2024-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!B5": {
+              "value": "2001-09-10",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D5": {
+              "value": "2023-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!A3": {
+              "value": "Beryl",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Beryl",
+          "sorts": [
+            {
+              "keys": [
+                11815.0,
+                12848.0,
+                10594.0,
+                7972.0
+              ],
+              "reverse": true,
+              "selected": [
+                0
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1269,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1269,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[0]\\nresult = cell('Audit people', 'A' + str(r))\",\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[1]\\nresult = num('Audit people', 'E' + str(r))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows = age_order('Audit people', 'B', 'D', descending=False)[:2]\\nscores = [num('Audit people', 'E' + str(r)) for r in rows]\\nresult = max(scores)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"row = find_rows('Audit people', 'A', 'Beryl')[0]\\nresult = cell('Audit people', 'D' + str(row))\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1197,
+          "completion_tokens": 72,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5714,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "24df6337695c44cd95ec1df8491d7510",
+          "shared_questions": 4,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28000256
+    },
+    "unseen-014": {
+      "file_name": "audit_records.xlsx",
+      "answer": "39",
+      "cost": 0.0,
+      "tokens": 1269,
+      "requests": 1,
+      "elapsed": 1.793033583991928,
+      "error": null,
+      "attempts": [
+        {
+          "code": "r = age_order('Audit people', 'B', 'D', descending=True)[1]\nresult = num('Audit people', 'E' + str(r))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Audit people!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Audit people!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!B3": {
+              "value": "1991-05-06",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D3": {
+              "value": "2026-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!B4": {
+              "value": "1995-07-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D4": {
+              "value": "2024-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!B5": {
+              "value": "2001-09-10",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D5": {
+              "value": "2023-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!E2": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 39,
+          "sorts": [
+            {
+              "keys": [
+                11815.0,
+                12848.0,
+                10594.0,
+                7972.0
+              ],
+              "reverse": true,
+              "selected": [
+                1
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1269,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1269,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[0]\\nresult = cell('Audit people', 'A' + str(r))\",\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[1]\\nresult = num('Audit people', 'E' + str(r))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows = age_order('Audit people', 'B', 'D', descending=False)[:2]\\nscores = [num('Audit people', 'E' + str(r)) for r in rows]\\nresult = max(scores)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"row = find_rows('Audit people', 'A', 'Beryl')[0]\\nresult = cell('Audit people', 'D' + str(row))\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1197,
+          "completion_tokens": 72,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5714,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "24df6337695c44cd95ec1df8491d7510",
+          "shared_questions": 4,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 27967488
+    },
+    "unseen-015": {
+      "file_name": "audit_records.xlsx",
+      "answer": "62",
+      "cost": 0.0,
+      "tokens": 1268,
+      "requests": 1,
+      "elapsed": 1.7914809590147343,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = age_order('Audit people', 'B', 'D', descending=False)[:2]\nscores = [num('Audit people', 'E' + str(r)) for r in rows]\nresult = max(scores)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Audit people!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Audit people!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!B3": {
+              "value": "1991-05-06",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D3": {
+              "value": "2026-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!B4": {
+              "value": "1995-07-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D4": {
+              "value": "2024-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!B5": {
+              "value": "2001-09-10",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D5": {
+              "value": "2023-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!E5": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!E4": {
+              "value": 62,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 62,
+          "sorts": [
+            {
+              "keys": [
+                11815.0,
+                12848.0,
+                10594.0,
+                7972.0
+              ],
+              "reverse": false,
+              "selected": [
+                [
+                  0,
+                  1
+                ]
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1268,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1268,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[0]\\nresult = cell('Audit people', 'A' + str(r))\",\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[1]\\nresult = num('Audit people', 'E' + str(r))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows = age_order('Audit people', 'B', 'D', descending=False)[:2]\\nscores = [num('Audit people', 'E' + str(r)) for r in rows]\\nresult = max(scores)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"row = find_rows('Audit people', 'A', 'Beryl')[0]\\nresult = cell('Audit people', 'D' + str(row))\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1197,
+          "completion_tokens": 71,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5714,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "24df6337695c44cd95ec1df8491d7510",
+          "shared_questions": 4,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 28033024
+    },
+    "unseen-016": {
+      "file_name": "audit_records.xlsx",
+      "answer": "2026-07-09",
+      "cost": 0.0,
+      "tokens": 1268,
+      "requests": 1,
+      "elapsed": 1.7922669169784058,
+      "error": null,
+      "attempts": [
+        {
+          "code": "row = find_rows('Audit people', 'A', 'Beryl')[0]\nresult = cell('Audit people', 'D' + str(row))",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Audit people!A3": {
+              "kind": "lookup_probe",
+              "value": "Beryl",
+              "stored_kind": "string"
+            },
+            "Audit people!D3": {
+              "value": "2026-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "2026-07-09",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1268,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1268,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[0]\\nresult = cell('Audit people', 'A' + str(r))\",\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[1]\\nresult = num('Audit people', 'E' + str(r))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows = age_order('Audit people', 'B', 'D', descending=False)[:2]\\nscores = [num('Audit people', 'E' + str(r)) for r in rows]\\nresult = max(scores)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"row = find_rows('Audit people', 'A', 'Beryl')[0]\\nresult = cell('Audit people', 'D' + str(row))\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1197,
+          "completion_tokens": 71,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5713,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "24df6337695c44cd95ec1df8491d7510",
+          "shared_questions": 4,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 28114944
+    },
+    "unseen-001": {
+      "file_name": "events_renamed.xlsx",
+      "answer": "68",
+      "cost": 0.0,
+      "tokens": 1445,
+      "requests": 1,
+      "elapsed": 2.09748845899594,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_idx = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\nresult = sum(num('Current ledger', f'D{r}') for r in rows_idx if label('Current ledger', f'B{r}') == 'North')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Current ledger!B1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!B2": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D2": {
+              "value": 4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B3": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D3": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B4": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D4": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B5": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D5": {
+              "value": -6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B6": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D6": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B7": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D7": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B8": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D8": {
+              "value": -1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B9": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D9": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B10": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D10": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B11": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D11": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B12": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D12": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B13": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D13": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B14": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D14": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B15": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D15": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B16": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D16": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B17": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D17": {
+              "value": 13,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B18": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D18": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B19": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D19": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B20": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D20": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B21": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D21": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B22": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D22": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B23": {
+              "value": "North",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D23": {
+              "value": 23,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!B24": {
+              "value": "South",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D24": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!B25": {
+              "value": "West",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D25": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            }
+          },
+          "raw_result": 68,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1445,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1445,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\\nresult = sum(num('Current ledger', f'D{r}') for r in rows_idx if label('Current ledger', f'B{r}') == 'North')\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'D': 'number'})\\nresult = sum(1 for r in rows_idx if num('Current ledger', f'D{r}') < 0)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'A': 'string', 'D': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) for r in rows_idx if str(cell('Current ledger', f'A{r}')).startswith('2025-02'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'C': 'string', 'D': 'number', 'E': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) * int(num('Current ledger', f'E{r}')) for r in rows_idx if label('Current ledger', f'C{r}') == 'Orchid')\",\n      \"format\": {\"kind\": \"integer\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1346,
+          "completion_tokens": 99,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5884,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "a10d304c8d414e8e93daa9f7d3e18880",
+          "shared_questions": 4,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28393472
+    },
+    "unseen-002": {
+      "file_name": "events_renamed.xlsx",
+      "answer": "3",
+      "cost": 0.0,
+      "tokens": 1444,
+      "requests": 1,
+      "elapsed": 2.093829333985923,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_idx = data_rows('Current ledger', {'D': 'number'})\nresult = sum(1 for r in rows_idx if num('Current ledger', f'D{r}') < 0)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Current ledger!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!D2": {
+              "value": 4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D3": {
+              "value": -1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D4": {
+              "value": 11,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D5": {
+              "value": -6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D6": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D7": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D8": {
+              "value": -1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D9": {
+              "value": 27,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D10": {
+              "value": 31,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D11": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D12": {
+              "value": 25,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D13": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D14": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D15": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D16": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D17": {
+              "value": 13,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D18": {
+              "value": 30,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D19": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D20": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D21": {
+              "value": 34,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D22": {
+              "value": 24,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D23": {
+              "value": 23,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D24": {
+              "value": 14,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D25": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 3,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1444,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1444,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\\nresult = sum(num('Current ledger', f'D{r}') for r in rows_idx if label('Current ledger', f'B{r}') == 'North')\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'D': 'number'})\\nresult = sum(1 for r in rows_idx if num('Current ledger', f'D{r}') < 0)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'A': 'string', 'D': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) for r in rows_idx if str(cell('Current ledger', f'A{r}')).startswith('2025-02'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'C': 'string', 'D': 'number', 'E': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) * int(num('Current ledger', f'E{r}')) for r in rows_idx if label('Current ledger', f'C{r}') == 'Orchid')\",\n      \"format\": {\"kind\": \"integer\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1346,
+          "completion_tokens": 99,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5883,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "a10d304c8d414e8e93daa9f7d3e18880",
+          "shared_questions": 4,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 28164096
+    },
+    "unseen-003": {
+      "file_name": "events_renamed.xlsx",
+      "answer": "107",
+      "cost": 0.0,
+      "tokens": 6986,
+      "requests": 2,
+      "elapsed": 4.176517916988814,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_idx = data_rows('Current ledger', {'A': 'string', 'D': 'number'})\nresult = sum(int(num('Current ledger', f'D{r}')) for r in rows_idx if str(cell('Current ledger', f'A{r}')).startswith('2025-02'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Current ledger!A1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!A2": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D2": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A3": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D3": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A4": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D4": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A5": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D5": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A6": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D6": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A7": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D7": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A8": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D8": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A9": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D9": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A10": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D10": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A11": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D11": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A12": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D12": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A13": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D13": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A14": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D14": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A15": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D15": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A16": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D16": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A17": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D17": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A18": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D18": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A19": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D19": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A20": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D20": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A21": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D21": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A22": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D22": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A23": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D23": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A24": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D24": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A25": {
+              "kind": "type_probe",
+              "stored_kind": "datetime",
+              "value": null
+            },
+            "Current ledger!D25": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            }
+          },
+          "raw_result": null,
+          "sorts": [],
+          "error": "TypeError: data_rows matched no rows because typed datetime cells were requested as string; use kind 'datetime' for date columns, or inspect types explicitly to count string-only records"
+        },
+        {
+          "code": "rows = data_rows('Current ledger', {'D': 'number'})\nresult = sum(int(num('Current ledger', f'D{r}')) for r in rows if cell('Current ledger', f'A{r}').month == 2 and cell('Current ledger', f'A{r}').year == 2025)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Current ledger",
+              "range": "A1:E25",
+              "operation": "sum",
+              "unit": "Net units"
+            }
+          ],
+          "reads": {
+            "Current ledger!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!D2": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D3": {
+              "value": -1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D4": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D5": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D6": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D7": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D8": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D9": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D10": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D11": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D12": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D13": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D14": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D15": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D16": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D17": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D18": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D19": {
+              "value": 26,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D20": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D21": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D22": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D23": {
+              "value": 23,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D24": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!D25": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!A2": {
+              "value": "2025-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A3": {
+              "value": "2025-02-02T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A4": {
+              "value": "2025-03-03T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A5": {
+              "value": "2025-04-04T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A6": {
+              "value": "2025-01-05T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A7": {
+              "value": "2025-02-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A8": {
+              "value": "2025-03-07T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A9": {
+              "value": "2025-04-08T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A10": {
+              "value": "2025-01-09T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A11": {
+              "value": "2025-02-10T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A12": {
+              "value": "2025-03-11T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A13": {
+              "value": "2025-04-12T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A14": {
+              "value": "2025-01-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A15": {
+              "value": "2025-02-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A16": {
+              "value": "2025-03-15T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A17": {
+              "value": "2025-04-16T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A18": {
+              "value": "2025-01-17T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A19": {
+              "value": "2025-02-18T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A20": {
+              "value": "2025-03-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A21": {
+              "value": "2025-04-20T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A22": {
+              "value": "2025-01-01T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A23": {
+              "value": "2025-02-02T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A24": {
+              "value": "2025-03-03T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!A25": {
+              "value": "2025-04-04T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd h:mm:ss",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 107,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1444,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1444,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\\nresult = sum(num('Current ledger', f'D{r}') for r in rows_idx if label('Current ledger', f'B{r}') == 'North')\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'D': 'number'})\\nresult = sum(1 for r in rows_idx if num('Current ledger', f'D{r}') < 0)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'A': 'string', 'D': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) for r in rows_idx if str(cell('Current ledger', f'A{r}')).startswith('2025-02'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'C': 'string', 'D': 'number', 'E': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) * int(num('Current ledger', f'E{r}')) for r in rows_idx if label('Current ledger', f'C{r}') == 'Orchid')\",\n      \"format\": {\"kind\": \"integer\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1345,
+          "completion_tokens": 99,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5883,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "a10d304c8d414e8e93daa9f7d3e18880",
+          "shared_questions": 4,
+          "allocation_index": 2
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5542,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5542,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5333,
+          "completion_tokens": 209,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 21934,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28229632
+    },
+    "unseen-004": {
+      "file_name": "events_renamed.xlsx",
+      "answer": "1190",
+      "cost": 0.0,
+      "tokens": 1444,
+      "requests": 1,
+      "elapsed": 2.0629497919871937,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_idx = data_rows('Current ledger', {'C': 'string', 'D': 'number', 'E': 'number'})\nresult = sum(int(num('Current ledger', f'D{r}')) * int(num('Current ledger', f'E{r}')) for r in rows_idx if label('Current ledger', f'C{r}') == 'Orchid')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Current ledger!C1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!D1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!E1": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Current ledger!C2": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D2": {
+              "value": 4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E2": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C3": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D3": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E3": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C4": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D4": {
+              "value": 11,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E4": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C5": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D5": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E5": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C6": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D6": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E6": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C7": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D7": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E7": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C8": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D8": {
+              "value": -1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E8": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C9": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D9": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E9": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C10": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D10": {
+              "value": 31,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E10": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C11": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D11": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E11": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C12": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D12": {
+              "value": 25,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E12": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C13": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D13": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E13": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C14": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D14": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E14": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C15": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D15": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E15": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C16": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D16": {
+              "value": 20,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E16": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C17": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D17": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E17": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C18": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D18": {
+              "value": 30,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E18": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C19": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D19": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E19": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C20": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D20": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E20": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C21": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D21": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E21": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C22": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D22": {
+              "value": 24,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E22": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C23": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D23": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E23": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!C24": {
+              "value": "Orchid",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D24": {
+              "value": 14,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!E24": {
+              "value": 7,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!C25": {
+              "value": "Cedar",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Current ledger!D25": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Current ledger!E25": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            }
+          },
+          "raw_result": 1190,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 1444,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 1444,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\\nresult = sum(num('Current ledger', f'D{r}') for r in rows_idx if label('Current ledger', f'B{r}') == 'North')\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'D': 'number'})\\nresult = sum(1 for r in rows_idx if num('Current ledger', f'D{r}') < 0)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'A': 'string', 'D': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) for r in rows_idx if str(cell('Current ledger', f'A{r}')).startswith('2025-02'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'C': 'string', 'D': 'number', 'E': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) * int(num('Current ledger', f'E{r}')) for r in rows_idx if label('Current ledger', f'C{r}') == 'Orchid')\",\n      \"format\": {\"kind\": \"integer\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1345,
+          "completion_tokens": 98,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 5883,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "a10d304c8d414e8e93daa9f7d3e18880",
+          "shared_questions": 4,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 28114944
+    },
+    "unseen-017": {
+      "file_name": "audit_records.xlsx",
+      "answer": "No",
+      "cost": 0.0,
+      "tokens": 2411,
+      "requests": 1,
+      "elapsed": 2.2228717090038117,
+      "error": null,
+      "attempts": [
+        {
+          "code": "from datetime import datetime\ndef get_age_days(birth_str, audit_str):\n    b = datetime.fromisoformat(birth_str)\n    a = datetime.fromisoformat(audit_str)\n    return (a - b).days\n\niris_age = get_age_days(cell('Audit people', 'B2'), cell('Audit people', 'D2'))\nberyl_age = get_age_days(cell('Audit people', 'B3'), cell('Audit people', 'D3'))\nresult = \"Yes\" if iris_age > beryl_age else \"No\"",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Audit people!B2": {
+              "value": "1988-03-04",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D2": {
+              "value": "2020-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!B3": {
+              "value": "1991-05-06",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D3": {
+              "value": "2026-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "No",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2411,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2411,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"from datetime import datetime\\ndef get_age_days(birth_str, audit_str):\\n    b = datetime.fromisoformat(birth_str)\\n    a = datetime.fromisoformat(audit_str)\\n    return (a - b).days\\n\\niris_age = get_age_days(cell('Audit people', 'B2'), cell('Audit people', 'D2'))\\nberyl_age = get_age_days(cell('Audit people', 'B3'), cell('Audit people', 'D3'))\\nresult = \\\"Yes\\\" if iris_age > beryl_age else \\\"No\\\"\",\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"from datetime import datetime\\nb = datetime.fromisoformat(cell('Audit people', 'B4'))\\na = datetime.fromisoformat(cell('Audit people', 'D4'))\\nresult = (a - b).days\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2274,
+          "completion_tokens": 137,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 10651,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "af7e29530bd94761a46e79bf73cdec4e",
+          "shared_questions": 2,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28147712
+    },
+    "unseen-018": {
+      "file_name": "audit_records.xlsx",
+      "answer": "10594",
+      "cost": 0.0,
+      "tokens": 2410,
+      "requests": 1,
+      "elapsed": 2.206673457985744,
+      "error": null,
+      "attempts": [
+        {
+          "code": "from datetime import datetime\nb = datetime.fromisoformat(cell('Audit people', 'B4'))\na = datetime.fromisoformat(cell('Audit people', 'D4'))\nresult = (a - b).days",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Audit people!B4": {
+              "value": "1995-07-08",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Audit people!D4": {
+              "value": "2024-07-09",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 10594,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2410,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2410,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"from datetime import datetime\\ndef get_age_days(birth_str, audit_str):\\n    b = datetime.fromisoformat(birth_str)\\n    a = datetime.fromisoformat(audit_str)\\n    return (a - b).days\\n\\niris_age = get_age_days(cell('Audit people', 'B2'), cell('Audit people', 'D2'))\\nberyl_age = get_age_days(cell('Audit people', 'B3'), cell('Audit people', 'D3'))\\nresult = \\\"Yes\\\" if iris_age > beryl_age else \\\"No\\\"\",\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"from datetime import datetime\\nb = datetime.fromisoformat(cell('Audit people', 'B4'))\\na = datetime.fromisoformat(cell('Audit people', 'D4'))\\nresult = (a - b).days\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2273,
+          "completion_tokens": 137,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 10650,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "af7e29530bd94761a46e79bf73cdec4e",
+          "shared_questions": 2,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 28147712
+    }
+  },
+  "complete": true,
+  "events": [
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4786,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4786,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"actual_vals = values('Actual spending', 'A2:A5')\\nresult = sum(actual_vals)\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [], \"needs_verification\": false}, \"q1\": {\"code\": \"actual_vals = values('Actual spending', 'A2:A5')\\nbudget_vals = values('Approved', 'B2:B5')\\ntotal_actual = sum(actual_vals)\\ntotal_budget = sum(budget_vals)\\nresult = round((total_actual / total_budget) * 100, 2)\", \"format\": {\"kind\": \"decimal\", \"decimals\": 2}, \"assumptions\": [], \"needs_verification\": false}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4614,
+          "completion_tokens": 172,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 21692,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "161ca8f0226e45ed8da48e01297f2716"
+        }
+      ],
+      "elapsed": 1.610785416996805,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"actual_vals = values('Actual spending', 'A2:A5')\\nresult = sum(actual_vals)\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"actual_vals = values('Actual spending', 'A2:A5')\\nbudget_vals = values('Approved', 'B2:B5')\\ntotal_actual = sum(actual_vals)\\ntotal_budget = sum(budget_vals)\\nresult = round((total_actual / total_budget) * 100, 2)\", \"result_variable\": \"result\", \"format\": {\"kind\": \"decimal\", \"decimals\": 2, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "unseen-011",
+        "unseen-012"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5649,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5649,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\\nsums = {}\\nfor row in r:\\n    reg = cell('Current ledger', f'B{row}')\\n    net = num('Current ledger', f'D{row}')\\n    sums[reg] = sums.get(reg, 0) + net\\nsorted_regs = sorted(sums.keys(), key=lambda x: (-sums[x], x))\\nresult = sorted_regs[0]\",\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"r = data_rows('Current ledger', {'A': 'datetime', 'B': 'string', 'D': 'number'})\\ntotal = 0\\nfor row in r:\\n    dt = cell('Current ledger', f'A{row}')\\n    reg = cell('Current ledger', f'B{row}')\\n    net = num('Current ledger', f'D{row}')\\n    if reg in ('South', 'West') and dt < datetime.datetime(2025, 3, 1):\\n        total += net\\nresult = int(total)\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5321,
+          "completion_tokens": 328,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22665,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "04e3ee938d094d68b0cad8071169662c"
+        }
+      ],
+      "elapsed": 1.9523876669991296,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"r = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\\nsums = {}\\nfor row in r:\\n    reg = cell('Current ledger', f'B{row}')\\n    net = num('Current ledger', f'D{row}')\\n    sums[reg] = sums.get(reg, 0) + net\\nsorted_regs = sorted(sums.keys(), key=lambda x: (-sums[x], x))\\nresult = sorted_regs[0]\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"r = data_rows('Current ledger', {'A': 'datetime', 'B': 'string', 'D': 'number'})\\ntotal = 0\\nfor row in r:\\n    dt = cell('Current ledger', f'A{row}')\\n    reg = cell('Current ledger', f'B{row}')\\n    net = num('Current ledger', f'D{row}')\\n    if reg in ('South', 'West') and dt < datetime.datetime(2025, 3, 1):\\n        total += net\\nresult = int(total)\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "unseen-005",
+        "unseen-006"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5101,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5101,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "{\"programs\": {\"q0\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\ndiff = {p: act[p] - app[p] for p in app}\\nmax_diff = max(diff.values())\\nresult = sorted([p for p, d in diff.items() if d == max_diff])[0]\", \"format\": {\"kind\": \"text\"}}, \"q1\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = sum(1 for p in app if act[p] > app[p])\", \"format\": {\"kind\": \"integer\"}}, \"q2\": {\"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['K-08'] - app['K-08']\", \"format\": {\"kind\": \"integer\"}}, \"q3\": {\"code\": \"act = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['R-41'] + act['M-72']\", \"format\": {\"kind\": \"integer\"}}}}",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4697,
+          "completion_tokens": 404,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22628,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "6713e675528545258a410f33294ed641"
+        }
+      ],
+      "elapsed": 2.0332496670016553,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\ndiff = {p: act[p] - app[p] for p in app}\\nmax_diff = max(diff.values())\\nresult = sorted([p for p, d in diff.items() if d == max_diff])[0]\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = sum(1 for p in app if act[p] > app[p])\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 2, \"code\": \"app = dict(zip(values('Approved', 'A2:A5'), values('Approved', 'B2:B5')))\\nact = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['K-08'] - app['K-08']\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 3, \"code\": \"act = dict(zip(values('Actual spending', 'B2:B5'), values('Actual spending', 'A2:A5')))\\nresult = act['R-41'] + act['M-72']\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "unseen-007",
+        "unseen-008",
+        "unseen-009",
+        "unseen-010"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5074,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5074,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[0]\\nresult = cell('Audit people', 'A' + str(r))\",\n      \"format\": {\"kind\": \"text\"}\n    },\n    \"q1\": {\n      \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[1]\\nresult = num('Audit people', 'E' + str(r))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows = age_order('Audit people', 'B', 'D', descending=False)[:2]\\nscores = [num('Audit people', 'E' + str(r)) for r in rows]\\nresult = max(scores)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"row = find_rows('Audit people', 'A', 'Beryl')[0]\\nresult = cell('Audit people', 'D' + str(row))\",\n      \"format\": {\"kind\": \"text\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4788,
+          "completion_tokens": 286,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22855,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "24df6337695c44cd95ec1df8491d7510"
+        }
+      ],
+      "elapsed": 1.7306762090011034,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[0]\\nresult = cell('Audit people', 'A' + str(r))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"r = age_order('Audit people', 'B', 'D', descending=True)[1]\\nresult = num('Audit people', 'E' + str(r))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 2, \"code\": \"rows = age_order('Audit people', 'B', 'D', descending=False)[:2]\\nscores = [num('Audit people', 'E' + str(r)) for r in rows]\\nresult = max(scores)\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 3, \"code\": \"row = find_rows('Audit people', 'A', 'Beryl')[0]\\nresult = cell('Audit people', 'D' + str(row))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "unseen-013",
+        "unseen-014",
+        "unseen-015",
+        "unseen-016"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5777,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5777,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\\nresult = sum(num('Current ledger', f'D{r}') for r in rows_idx if label('Current ledger', f'B{r}') == 'North')\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q1\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'D': 'number'})\\nresult = sum(1 for r in rows_idx if num('Current ledger', f'D{r}') < 0)\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q2\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'A': 'string', 'D': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) for r in rows_idx if str(cell('Current ledger', f'A{r}')).startswith('2025-02'))\",\n      \"format\": {\"kind\": \"integer\"}\n    },\n    \"q3\": {\n      \"code\": \"rows_idx = data_rows('Current ledger', {'C': 'string', 'D': 'number', 'E': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) * int(num('Current ledger', f'E{r}')) for r in rows_idx if label('Current ledger', f'C{r}') == 'Orchid')\",\n      \"format\": {\"kind\": \"integer\"}\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5382,
+          "completion_tokens": 395,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 23533,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "a10d304c8d414e8e93daa9f7d3e18880"
+        }
+      ],
+      "elapsed": 1.9952709169883747,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"rows_idx = data_rows('Current ledger', {'B': 'string', 'D': 'number'})\\nresult = sum(num('Current ledger', f'D{r}') for r in rows_idx if label('Current ledger', f'B{r}') == 'North')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"rows_idx = data_rows('Current ledger', {'D': 'number'})\\nresult = sum(1 for r in rows_idx if num('Current ledger', f'D{r}') < 0)\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 2, \"code\": \"rows_idx = data_rows('Current ledger', {'A': 'string', 'D': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) for r in rows_idx if str(cell('Current ledger', f'A{r}')).startswith('2025-02'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 3, \"code\": \"rows_idx = data_rows('Current ledger', {'C': 'string', 'D': 'number', 'E': 'number'})\\nresult = sum(int(num('Current ledger', f'D{r}')) * int(num('Current ledger', f'E{r}')) for r in rows_idx if label('Current ledger', f'C{r}') == 'Orchid')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "unseen-001",
+        "unseen-002",
+        "unseen-003",
+        "unseen-004"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4821,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4821,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "requested_wire_format": "keyed-json-schema",
+          "raw_model_content": "```json\n{\n  \"programs\": {\n    \"q0\": {\n      \"code\": \"from datetime import datetime\\ndef get_age_days(birth_str, audit_str):\\n    b = datetime.fromisoformat(birth_str)\\n    a = datetime.fromisoformat(audit_str)\\n    return (a - b).days\\n\\niris_age = get_age_days(cell('Audit people', 'B2'), cell('Audit people', 'D2'))\\nberyl_age = get_age_days(cell('Audit people', 'B3'), cell('Audit people', 'D3'))\\nresult = \\\"Yes\\\" if iris_age > beryl_age else \\\"No\\\"\",\n      \"format\": {\n        \"kind\": \"text\"\n      }\n    },\n    \"q1\": {\n      \"code\": \"from datetime import datetime\\nb = datetime.fromisoformat(cell('Audit people', 'B4'))\\na = datetime.fromisoformat(cell('Audit people', 'D4'))\\nresult = (a - b).days\",\n      \"format\": {\n        \"kind\": \"integer\"\n      }\n    }\n  }\n}\n```",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4547,
+          "completion_tokens": 274,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 21301,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "af7e29530bd94761a46e79bf73cdec4e"
+        }
+      ],
+      "elapsed": 2.1429312499822117,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"from datetime import datetime\\ndef get_age_days(birth_str, audit_str):\\n    b = datetime.fromisoformat(birth_str)\\n    a = datetime.fromisoformat(audit_str)\\n    return (a - b).days\\n\\niris_age = get_age_days(cell('Audit people', 'B2'), cell('Audit people', 'D2'))\\nberyl_age = get_age_days(cell('Audit people', 'B3'), cell('Audit people', 'D3'))\\nresult = \\\"Yes\\\" if iris_age > beryl_age else \\\"No\\\"\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}, {\"index\": 1, \"code\": \"from datetime import datetime\\nb = datetime.fromisoformat(cell('Audit people', 'B4'))\\na = datetime.fromisoformat(cell('Audit people', 'D4'))\\nresult = (a - b).days\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\", \"decimals\": null, \"count\": null, \"separator\": \", \", \"rounding\": \"half_even\", \"date_format\": \"iso\"}, \"assumptions\": [], \"needs_verification\": false, \"selection\": [], \"request_regions\": []}]}",
+      "question_ids": [
+        "unseen-017",
+        "unseen-018"
+      ]
+    }
+  ],
+  "wall_seconds": 4.461569666978903,
+  "peak_total_rss_bytes": 105234432
+}

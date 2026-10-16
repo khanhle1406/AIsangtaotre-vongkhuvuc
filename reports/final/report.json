@@ -1,0 +1,143 @@
+{
+  "source_sha256": "031a707f4f0c0deb198992db941efc2de20af7ea1746f96c6ad992d774cae52f",
+  "initial_exploratory_cost_usd": 0.0415606249,
+  "candidates": [
+    {
+      "label": "low",
+      "correct": 13,
+      "total": 16,
+      "errors": {
+        "p4_q002": {
+          "prediction": "",
+          "reference": "83"
+        },
+        "p4_q007": {
+          "prediction": "3.80",
+          "reference": "3.14"
+        },
+        "p4_q010": {
+          "prediction": "",
+          "reference": "Leisure and hospitality"
+        }
+      },
+      "metrics": {
+        "queries": 16,
+        "answered": 14,
+        "elapsed_seconds": 84.04416329100786,
+        "cost_usd": 0.0030175877,
+        "tokens": 161782,
+        "peak_total_rss_bytes": 82575360,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 256,
+        "max_tokens": 2048,
+        "concurrency": 2,
+        "failures": {
+          "p4_q002": "ValueError: Age ranking must use each person's Admission minus Birth, not birth-date ordering. Read both date columns.",
+          "p4_q010": "ValueError: NameError: Unknown name: chr"
+        }
+      }
+    },
+    {
+      "label": "high",
+      "correct": 13,
+      "total": 16,
+      "errors": {
+        "p4_q002": {
+          "prediction": "92",
+          "reference": "83"
+        },
+        "p4_q008": {
+          "prediction": "",
+          "reference": "9017"
+        },
+        "p4_q010": {
+          "prediction": "",
+          "reference": "Leisure and hospitality"
+        }
+      },
+      "metrics": {
+        "queries": 16,
+        "answered": 14,
+        "elapsed_seconds": 180.14810829199268,
+        "cost_usd": 0.0056779937999999995,
+        "tokens": 188439,
+        "peak_total_rss_bytes": 82608128,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 1024,
+        "max_tokens": 4096,
+        "concurrency": 2,
+        "failures": {
+          "p4_q008": "ValueError: Numeric reads omit the requested row range 16 to 19 in cpsaat14; matching rows: [9, 16, 23, 32, 39, 48, 55, 64, 71, 80, 87]",
+          "p4_q010": "ValueError: NameError: Unknown name: chr"
+        }
+      }
+    }
+  ],
+  "selected": "low",
+  "public": {
+    "score": {
+      "correct": 18,
+      "total": 20,
+      "errors": {
+        "p4_q002": {
+          "prediction": "",
+          "reference": "83"
+        },
+        "p4_q005": {
+          "prediction": "",
+          "reference": "Airline fares"
+        }
+      }
+    },
+    "metrics": {
+      "queries": 20,
+      "answered": 18,
+      "elapsed_seconds": 95.73916800000006,
+      "cost_usd": 0.0040481982,
+      "tokens": 216700,
+      "peak_total_rss_bytes": 78626816,
+      "model": "qwen/qwen3.7-flash",
+      "reasoning_tokens": 256,
+      "max_tokens": 2048,
+      "concurrency": 2,
+      "failures": {
+        "p4_q002": "ValueError: ValueError: could not convert string to float: 'No'",
+        "p4_q005": "ValueError: TypeError: AST node not allowed: Try"
+      }
+    }
+  },
+  "synthetic_holdout": {
+    "score": {
+      "correct": 22,
+      "total": 24,
+      "errors": {
+        "generated-002": {
+          "prediction": "",
+          "reference": "Delta Co."
+        },
+        "generated-007": {
+          "prediction": "",
+          "reference": "Delta Co."
+        }
+      }
+    },
+    "metrics": {
+      "queries": 24,
+      "answered": 22,
+      "elapsed_seconds": 86.09631850000005,
+      "cost_usd": 0.002622703200000001,
+      "tokens": 50081,
+      "peak_total_rss_bytes": 80183296,
+      "model": "qwen/qwen3.7-flash",
+      "reasoning_tokens": 256,
+      "max_tokens": 2048,
+      "concurrency": 2,
+      "failures": {
+        "generated-002": "ValueError: ValueError: Invalid cell address: D5:D7",
+        "generated-007": "ValueError: ValueError: Final result must be a scalar or ordered list"
+      }
+    }
+  },
+  "total_development_cost_upper_usd": 0.0569271078,
+  "budget_usd": 0.5
+}

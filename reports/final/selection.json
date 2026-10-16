@@ -1,0 +1,76 @@
+{
+  "source_sha256": "031a707f4f0c0deb198992db941efc2de20af7ea1746f96c6ad992d774cae52f",
+  "candidates": [
+    {
+      "label": "low",
+      "correct": 13,
+      "total": 16,
+      "errors": {
+        "p4_q002": {
+          "prediction": "",
+          "reference": "83"
+        },
+        "p4_q007": {
+          "prediction": "3.80",
+          "reference": "3.14"
+        },
+        "p4_q010": {
+          "prediction": "",
+          "reference": "Leisure and hospitality"
+        }
+      },
+      "metrics": {
+        "queries": 16,
+        "answered": 14,
+        "elapsed_seconds": 84.04416329100786,
+        "cost_usd": 0.0030175877,
+        "tokens": 161782,
+        "peak_total_rss_bytes": 82575360,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 256,
+        "max_tokens": 2048,
+        "concurrency": 2,
+        "failures": {
+          "p4_q002": "ValueError: Age ranking must use each person's Admission minus Birth, not birth-date ordering. Read both date columns.",
+          "p4_q010": "ValueError: NameError: Unknown name: chr"
+        }
+      }
+    },
+    {
+      "label": "high",
+      "correct": 13,
+      "total": 16,
+      "errors": {
+        "p4_q002": {
+          "prediction": "92",
+          "reference": "83"
+        },
+        "p4_q008": {
+          "prediction": "",
+          "reference": "9017"
+        },
+        "p4_q010": {
+          "prediction": "",
+          "reference": "Leisure and hospitality"
+        }
+      },
+      "metrics": {
+        "queries": 16,
+        "answered": 14,
+        "elapsed_seconds": 180.14810829199268,
+        "cost_usd": 0.0056779937999999995,
+        "tokens": 188439,
+        "peak_total_rss_bytes": 82608128,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 1024,
+        "max_tokens": 4096,
+        "concurrency": 2,
+        "failures": {
+          "p4_q008": "ValueError: Numeric reads omit the requested row range 16 to 19 in cpsaat14; matching rows: [9, 16, 23, 32, 39, 48, 55, 64, 71, 80, 87]",
+          "p4_q010": "ValueError: NameError: Unknown name: chr"
+        }
+      }
+    }
+  ],
+  "selected": "low"
+}

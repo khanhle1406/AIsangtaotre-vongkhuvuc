@@ -1,0 +1,53 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "verification_thinking": null,
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "planning_max_tokens": 4096,
+    "concurrency": 4,
+    "group_size": 8,
+    "strategy": "live-multi-workbook-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+      "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+    },
+    "agent_class": "ParallelPackedAgent",
+    "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+  },
+  "fingerprint": "f8aa5ee62fe406a582ab5dfddd6131e4c0f3396b8d699d035c8e1944a80f43f2",
+  "complete": false,
+  "score": {
+    "correct": 17,
+    "total": 18,
+    "errors": {
+      "compositional-005": {
+        "prediction": "",
+        "reference": "1"
+      }
+    }
+  },
+  "wall_seconds": 31.099891958991066,
+  "mean_query_seconds": 8.818311057619415,
+  "tokens": 56453,
+  "provider_tokens_known": 56453,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 56453,
+  "http_attempts": 8,
+  "peak_total_rss_bytes": 98828288,
+  "fatal_error": null,
+  "errors": {
+    "compositional-005": "ValueError: ValueError: Final result does not depend on workbook reads"
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

@@ -1,0 +1,47 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "max_tokens": 2048,
+    "concurrency": 4,
+    "group_size": 4,
+    "strategy": "live-workbook-plan",
+    "modules": {
+      "batched.py": "01c2a8b1b52be77bda4db2c2e2c61295792ef0c35a25a910ae63a9fc74eb059b",
+      "efficient.py": "75f477de4b7f76e4f8394be5a211a09c43a19d95353025570dcaae17c4fbaa73",
+      "precision.py": "983b583faee80b9893ad8e42fd60f1b8a8b3218ce4ec1fd40710f0256fb5699c"
+    },
+    "agent_class": "StructuredBatchedAgent",
+    "agent_sha256": "2d606ef0abbc63caa3e4da6199ca2f1bdaf5362cacac7db0ce2544314f70aa8c"
+  },
+  "fingerprint": "416195b8a5d24c3618858895ecd7ff8fd487fc4254c801177f721773ca33b512",
+  "complete": true,
+  "score": {
+    "correct": 30,
+    "total": 32,
+    "errors": {
+      "challenge-007": {
+        "prediction": "49",
+        "reference": "48"
+      },
+      "challenge-027": {
+        "prediction": "2028-07-08",
+        "reference": "2028-07-03"
+      }
+    }
+  },
+  "wall_seconds": 14.632744874979835,
+  "mean_query_seconds": 3.74488389587259,
+  "tokens": 116232,
+  "provider_tokens_known": 116232,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 116232,
+  "http_attempts": 18,
+  "peak_total_rss_bytes": 110051328,
+  "fatal_error": null,
+  "errors": {},
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

@@ -1,0 +1,4598 @@
+{
+  "fingerprint": "a0235c20f6ca23b273929a91cabe46e347bdc16bf8743b3e9106f5f3a1974423",
+  "records": {
+    "moved-1494": {
+      "file_name": "opaque_414.xlsx",
+      "answer": "No",
+      "cost": 0.0,
+      "tokens": 6053,
+      "requests": 1,
+      "elapsed": 2.072147417027736,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 32-7'\n# Fiscal year-to-date 2024 is column I, row 221 (Agricultural exports)\n# Fiscal year-to-date 2023 is column H, row 221\nval_2024 = num(sheet, 'I221')\nval_2023 = num(sheet, 'H221')\nresult = \"Yes\" if val_2024 > val_2023 else \"No\"",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 32-7!I221": {
+              "value": 174.428419723,
+              "kind": "number",
+              "number_format": "#,##0.000_);\\(#,##0.000\\)",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 32-7!H221": {
+              "value": 178.18369752,
+              "kind": "number",
+              "number_format": "#,##0.000_);\\(#,##0.000\\)",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "No",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 6053,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 6053,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5852,
+          "completion_tokens": 201,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22708,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "d06c0c3c4b3b48a3a0559d1c1836ccac",
+          "shared_questions": 1,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 27803648
+    },
+    "moved-1525": {
+      "file_name": "opaque_427.xlsx",
+      "answer": "Airline fares",
+      "cost": 0.0,
+      "tokens": 7807,
+      "requests": 1,
+      "elapsed": 2.0950845410407055,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = data_rows('Ledger 33-7', {'D': 'string', 'J': 'number'})\nbest_row = max(rows, key=lambda r: abs(num('Ledger 33-7', f'J{r}')))\nresult = label('Ledger 33-7', f'D{best_row}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 33-7!D218": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J218": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!D219": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 33-7!J219": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!D220": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J220": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 33-7!D221": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J221": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D222": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J222": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D223": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J223": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D224": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J224": {
+              "value": 0.8,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D225": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J225": {
+              "value": -1.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D226": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J226": {
+              "value": 0.8,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D227": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J227": {
+              "value": 0.5,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D228": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J228": {
+              "value": 0.5,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D229": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J229": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D230": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J230": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D232": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J232": {
+              "value": -1.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D233": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J233": {
+              "value": -1.7,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D234": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J234": {
+              "value": 1.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D235": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J235": {
+              "value": -1.8,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D236": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J236": {
+              "value": -1.9,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D237": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J237": {
+              "value": -0.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D238": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J238": {
+              "value": -0.7,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D239": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J239": {
+              "value": 0.9,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D241": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J241": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D242": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J242": {
+              "value": -0.3,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D243": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J243": {
+              "value": -1.7,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D244": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J244": {
+              "value": -0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D245": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J245": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D246": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J246": {
+              "value": -0.2,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D247": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J247": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D248": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J248": {
+              "value": 0.6,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D249": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J249": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D250": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J250": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D251": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J251": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D252": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J252": {
+              "value": 0.5,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D253": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J253": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D254": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J254": {
+              "value": 0.5,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D255": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J255": {
+              "value": 0.5,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D256": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J256": {
+              "value": 1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D257": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J257": {
+              "value": 1.1,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D258": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 33-7!J258": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 33-7!D259": {
+              "value": "Airline fares",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 4,
+              "bold": false
+            },
+            "Ledger 33-7!J259": {
+              "value": 6.4,
+              "kind": "number",
+              "number_format": "#0.0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Airline fares",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 7807,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 7807,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 7678,
+          "completion_tokens": 129,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 25507,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "3bba4037b8754771a4e38fdfd8b7ed16",
+          "shared_questions": 1,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 27885568
+    },
+    "moved-1401": {
+      "file_name": "opaque_401.xlsx",
+      "answer": "Ngo",
+      "cost": 0.0,
+      "tokens": 2067,
+      "requests": 1,
+      "elapsed": 2.291768040973693,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 31-7'\nrows_idx = data_rows(sheet, {'C': 'number', 'G': 'datetime', 'H': 'datetime', 'I': 'number'})\nords = age_order(sheet, 'G', 'H', descending=False)\nr = ords[1]\nresult = label(sheet, f'F{r}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 31-7!C218": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!G218": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!H218": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 31-7!I218": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!C219": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 31-7!G219": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!H219": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!I219": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 31-7!C220": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G220": {
+              "value": "2005-01-03T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H220": {
+              "value": "2025-02-12T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I220": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C221": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G221": {
+              "value": "1995-02-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H221": {
+              "value": "2024-02-08T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I221": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C222": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G222": {
+              "value": "2004-02-08T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H222": {
+              "value": "2025-01-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I222": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C223": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G223": {
+              "value": "1995-09-28T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H223": {
+              "value": "2022-05-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I223": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C224": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G224": {
+              "value": "1999-09-27T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H224": {
+              "value": "2022-02-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I224": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C225": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G225": {
+              "value": "1996-09-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H225": {
+              "value": "2021-10-02T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I225": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C226": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G226": {
+              "value": "2001-06-15T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H226": {
+              "value": "2025-08-12T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I226": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C227": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G227": {
+              "value": "1996-10-10T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H227": {
+              "value": "2025-08-11T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I227": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C228": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G228": {
+              "value": "1996-09-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H228": {
+              "value": "2022-06-05T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I228": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C229": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G229": {
+              "value": "2003-10-26T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H229": {
+              "value": "2023-06-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I229": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C230": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G230": {
+              "value": "2002-02-27T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H230": {
+              "value": "2021-05-16T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I230": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C231": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G231": {
+              "value": "1999-11-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H231": {
+              "value": "2024-05-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I231": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C232": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G232": {
+              "value": "2002-06-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H232": {
+              "value": "2025-02-16T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I232": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C233": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G233": {
+              "value": "1998-07-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H233": {
+              "value": "2024-02-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I233": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C234": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G234": {
+              "value": "1997-07-28T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H234": {
+              "value": "2025-05-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I234": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C235": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G235": {
+              "value": "1997-02-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H235": {
+              "value": "2022-04-22T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I235": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C236": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G236": {
+              "value": "1997-05-10T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H236": {
+              "value": "2021-03-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I236": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C237": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G237": {
+              "value": "2000-03-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H237": {
+              "value": "2025-10-21T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I237": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C238": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G238": {
+              "value": "2005-09-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H238": {
+              "value": "2024-07-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I238": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!C239": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!G239": {
+              "value": "1998-02-07T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H239": {
+              "value": "2024-03-04T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I239": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 31-7!F230": {
+              "value": "Ngo",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Ngo",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2067,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2067,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1936,
+          "completion_tokens": 132,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 7462,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "932408952aa94b84810c744eec5adc0e",
+          "shared_questions": 3,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 27803648
+    },
+    "moved-1432": {
+      "file_name": "opaque_401.xlsx",
+      "answer": "83",
+      "cost": 0.0,
+      "tokens": 2067,
+      "requests": 1,
+      "elapsed": 2.2811062920081895,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 31-7'\nords = age_order(sheet, 'G', 'H', descending=True)\nr = ords[1]\nresult = num(sheet, f'I{r}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 31-7!G218": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!H218": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 31-7!G219": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!H219": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!G220": {
+              "value": "2005-01-03T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H220": {
+              "value": "2025-02-12T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G221": {
+              "value": "1995-02-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H221": {
+              "value": "2024-02-08T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G222": {
+              "value": "2004-02-08T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H222": {
+              "value": "2025-01-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G223": {
+              "value": "1995-09-28T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H223": {
+              "value": "2022-05-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G224": {
+              "value": "1999-09-27T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H224": {
+              "value": "2022-02-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G225": {
+              "value": "1996-09-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H225": {
+              "value": "2021-10-02T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G226": {
+              "value": "2001-06-15T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H226": {
+              "value": "2025-08-12T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G227": {
+              "value": "1996-10-10T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H227": {
+              "value": "2025-08-11T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G228": {
+              "value": "1996-09-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H228": {
+              "value": "2022-06-05T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G229": {
+              "value": "2003-10-26T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H229": {
+              "value": "2023-06-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G230": {
+              "value": "2002-02-27T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H230": {
+              "value": "2021-05-16T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G231": {
+              "value": "1999-11-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H231": {
+              "value": "2024-05-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G232": {
+              "value": "2002-06-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H232": {
+              "value": "2025-02-16T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G233": {
+              "value": "1998-07-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H233": {
+              "value": "2024-02-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G234": {
+              "value": "1997-07-28T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H234": {
+              "value": "2025-05-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G235": {
+              "value": "1997-02-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H235": {
+              "value": "2022-04-22T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G236": {
+              "value": "1997-05-10T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H236": {
+              "value": "2021-03-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G237": {
+              "value": "2000-03-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H237": {
+              "value": "2025-10-21T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G238": {
+              "value": "2005-09-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H238": {
+              "value": "2024-07-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G239": {
+              "value": "1998-02-07T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H239": {
+              "value": "2024-03-04T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I227": {
+              "value": 83,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 83,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2067,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2067,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1935,
+          "completion_tokens": 132,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 7462,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "932408952aa94b84810c744eec5adc0e",
+          "shared_questions": 3,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 27721728
+    },
+    "moved-1463": {
+      "file_name": "opaque_401.xlsx",
+      "answer": "99",
+      "cost": 0.0,
+      "tokens": 2067,
+      "requests": 1,
+      "elapsed": 2.281775374984136,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 31-7'\nords = age_order(sheet, 'G', 'H', descending=False)\nyoungest_10 = ords[:10]\nscores = [num(sheet, f'I{r}') for r in youngest_10]\nresult = max(scores)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 31-7!G218": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!H218": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 31-7!G219": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!H219": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 31-7!G220": {
+              "value": "2005-01-03T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H220": {
+              "value": "2025-02-12T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G221": {
+              "value": "1995-02-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H221": {
+              "value": "2024-02-08T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G222": {
+              "value": "2004-02-08T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H222": {
+              "value": "2025-01-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G223": {
+              "value": "1995-09-28T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H223": {
+              "value": "2022-05-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G224": {
+              "value": "1999-09-27T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H224": {
+              "value": "2022-02-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G225": {
+              "value": "1996-09-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H225": {
+              "value": "2021-10-02T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G226": {
+              "value": "2001-06-15T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H226": {
+              "value": "2025-08-12T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G227": {
+              "value": "1996-10-10T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H227": {
+              "value": "2025-08-11T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G228": {
+              "value": "1996-09-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H228": {
+              "value": "2022-06-05T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G229": {
+              "value": "2003-10-26T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H229": {
+              "value": "2023-06-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G230": {
+              "value": "2002-02-27T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H230": {
+              "value": "2021-05-16T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G231": {
+              "value": "1999-11-19T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H231": {
+              "value": "2024-05-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G232": {
+              "value": "2002-06-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H232": {
+              "value": "2025-02-16T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G233": {
+              "value": "1998-07-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H233": {
+              "value": "2024-02-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G234": {
+              "value": "1997-07-28T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H234": {
+              "value": "2025-05-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G235": {
+              "value": "1997-02-06T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H235": {
+              "value": "2022-04-22T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G236": {
+              "value": "1997-05-10T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H236": {
+              "value": "2021-03-14T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G237": {
+              "value": "2000-03-23T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H237": {
+              "value": "2025-10-21T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G238": {
+              "value": "2005-09-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H238": {
+              "value": "2024-07-13T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!G239": {
+              "value": "1998-02-07T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!H239": {
+              "value": "2024-03-04T00:00:00",
+              "kind": "datetime",
+              "number_format": "yyyy-mm-dd",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I238": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I230": {
+              "value": 99,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I229": {
+              "value": 77,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I220": {
+              "value": 92,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I222": {
+              "value": 92,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I224": {
+              "value": 91,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I232": {
+              "value": 58,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I236": {
+              "value": 89,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I226": {
+              "value": 74,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 31-7!I231": {
+              "value": 79,
+              "kind": "number",
+              "number_format": "0",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 99,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2067,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2067,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 1935,
+          "completion_tokens": 131,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 7461,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "932408952aa94b84810c744eec5adc0e",
+          "shared_questions": 3,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 27770880
+    },
+    "moved-1742": {
+      "file_name": "opaque_466.xlsx",
+      "answer": "35",
+      "cost": 0.0,
+      "tokens": 7084,
+      "requests": 1,
+      "elapsed": 1.8450820000143722,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Ledger 36-7', 'G224'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Row 224 corresponds to 'Total, 16 years and over' for agricultural unpaid family workers (Column G)"
+          ],
+          "selection": [],
+          "reads": {
+            "Ledger 36-7!G224": {
+              "value": 35,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 35,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 7084,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 7084,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 6994,
+          "completion_tokens": 90,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 24944,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "2d77ead2462f47528aaeca2040219b44",
+          "shared_questions": 1,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28147712
+    },
+    "moved-1556": {
+      "file_name": "opaque_440.xlsx",
+      "answer": "7668",
+      "cost": 0.0,
+      "tokens": 3876,
+      "requests": 1,
+      "elapsed": 2.577717334002955,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 34-7'\n# Women is row 241. 'Some college, no degree' is column G.\n# Find civilian noninstitutional population for women (row 242) and civilian labor force (row 243)\npop = num(sheet, 'G242')\nlf = num(sheet, 'G243')\nresult = int(abs(pop - lf))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": "",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 34-7!G242": {
+              "value": 16796,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!G243": {
+              "value": 9128,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 7668,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 3876,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 3876,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 3676,
+          "completion_tokens": 201,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 12737,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "3de02524331b4c018eaaafc113f9da3b",
+          "shared_questions": 2,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 27901952
+    },
+    "moved-1587": {
+      "file_name": "opaque_440.xlsx",
+      "answer": "3.14",
+      "cost": 0.0,
+      "tokens": 12913,
+      "requests": 2,
+      "elapsed": 4.771549458964728,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 34-7'\n# Women unemployment rates are in row 248.\n# Columns with education levels for women: D, E, F, G, H, I, J, K? Wait, let's check headers for row 222-223.\n# Row 248 has unemployment rate values across columns D to K.\nvals = values(sheet, 'D248:K248')\nresult = round(sum(vals) / len(vals), 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": "",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 34-7!D248": {
+              "value": 6.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!E248": {
+              "value": 3.8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!F248": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!G248": {
+              "value": 3.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!H248": {
+              "value": 2.6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!I248": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!J248": {
+              "value": 2.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!K248": {
+              "value": 1.8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 3.14,
+          "sorts": [],
+          "error": null,
+          "verification_triggers": [
+            "Ledger 34-7: the mean's table/header branch is not uniquely evidenced; check measures, years, identities and weights."
+          ]
+        },
+        {
+          "code": "sheet = 'Ledger 34-7'\n# Women rows are C241 to C248. Unemployment rate is C248.\n# Columns D to K represent different education levels.\nvals = values(sheet, 'D248:K248')\nresult = round(sum(vals) / len(vals), 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Averaged the unemployment rate values across all columns D through K for women (row 248)."
+          ],
+          "selection": [
+            {
+              "sheet": "Ledger 34-7",
+              "range": "C241:C248",
+              "operation": "lookup",
+              "unit": "observed unit"
+            },
+            {
+              "sheet": "Ledger 34-7",
+              "range": "D248:K248",
+              "operation": "mean",
+              "unit": "percent"
+            }
+          ],
+          "reads": {
+            "Ledger 34-7!D248": {
+              "value": 6.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!E248": {
+              "value": 3.8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!F248": {
+              "value": 3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!G248": {
+              "value": 3.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!H248": {
+              "value": 2.6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!I248": {
+              "value": 2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!J248": {
+              "value": 2.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 34-7!K248": {
+              "value": 1.8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 3.14,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 3876,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 3876,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 3675,
+          "completion_tokens": 200,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 12737,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "3de02524331b4c018eaaafc113f9da3b",
+          "shared_questions": 2,
+          "allocation_index": 1
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 9037,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 9037,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 8735,
+          "completion_tokens": 302,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 26436,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28049408
+    },
+    "moved-1618": {
+      "file_name": "opaque_453.xlsx",
+      "answer": "9017",
+      "cost": 0.0,
+      "tokens": 2616,
+      "requests": 1,
+      "elapsed": 3.0748782500158995,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 35-7'\n# Total, 16 to 19 years row is 226, 20 to 24 years is row 228 (under TOTAL section C224)\n# Columns D to O are industries\nvals_16_19 = values(sheet, 'D226:O226')\nvals_20_24 = values(sheet, 'D228:O228')\nresult = int(sum(vals_20_24) - sum(vals_16_19))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 35-7!D226": {
+              "value": 11,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!E226": {
+              "value": 254,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!F226": {
+              "value": 228,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!G226": {
+              "value": 1308,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!H226": {
+              "value": 156,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!I226": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!J226": {
+              "value": 66,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!K226": {
+              "value": 215,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!L226": {
+              "value": 639,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!M226": {
+              "value": 2344,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!N226": {
+              "value": 232,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!O226": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!D228": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!E228": {
+              "value": 1055,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!F228": {
+              "value": 1163,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!G228": {
+              "value": 2737,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!H228": {
+              "value": 793,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!I228": {
+              "value": 199,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!J228": {
+              "value": 578,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!K228": {
+              "value": 1485,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!L228": {
+              "value": 2887,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!M228": {
+              "value": 2578,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!N228": {
+              "value": 739,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!O228": {
+              "value": 311,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 9017,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2616,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2616,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2466,
+          "completion_tokens": 151,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 7077,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "0b2518d921834adabae1926fe1fd1e64",
+          "shared_questions": 4,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28295168
+    },
+    "moved-1649": {
+      "file_name": "opaque_453.xlsx",
+      "answer": "2218",
+      "cost": 0.0,
+      "tokens": 2616,
+      "requests": 1,
+      "elapsed": 3.0979208330099937,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 35-7'\n# Construction is col E (index 1 in D:O), Manufacturing is col F (index 2)\n# Age 20 to 24 years total row is 228\nval_c = num(sheet, 'E228')\nval_m = num(sheet, 'F228')\nresult = int(val_c + val_m)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 35-7!E228": {
+              "value": 1055,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!F228": {
+              "value": 1163,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 2218,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2616,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2616,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2465,
+          "completion_tokens": 151,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 7077,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "0b2518d921834adabae1926fe1fd1e64",
+          "shared_questions": 4,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 28278784
+    },
+    "moved-1680": {
+      "file_name": "opaque_453.xlsx",
+      "answer": "Leisure and hospitality",
+      "cost": 0.0,
+      "tokens": 2616,
+      "requests": 1,
+      "elapsed": 3.0768856249924283,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 35-7'\n# Age 16 to 19 years: row 226\n# Industries columns D to O\nind_headers = cells(sheet, 'D222:O222')[0]\nvals = values(sheet, 'D226:O226')\nmax_val = max(vals)\nmax_idx = vals.index(max_val)\nresult = ind_headers[max_idx].replace('\\n', ' ')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 35-7!D222": {
+              "value": "Mining, quarrying, and oil and gas extraction",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!E222": {
+              "value": "Con-\nstruction",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!F222": {
+              "value": "Manu-\nfacturing",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!G222": {
+              "value": "Wholesale and retail trade",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!H222": {
+              "value": "Trans-\nportation\nand utilities",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!I222": {
+              "value": "Infor-\nmation",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!J222": {
+              "value": "Financial activities",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!K222": {
+              "value": "Professional and business services",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!L222": {
+              "value": "Education and\nhealth\nservices",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!M222": {
+              "value": "Leisure\nand\nhospitality",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!N222": {
+              "value": "Other\nservices(1)",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!O222": {
+              "value": "Public\nadminis-\ntration",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!D226": {
+              "value": 11,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!E226": {
+              "value": 254,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!F226": {
+              "value": 228,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!G226": {
+              "value": 1308,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!H226": {
+              "value": 156,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!I226": {
+              "value": 39,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!J226": {
+              "value": 66,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!K226": {
+              "value": 215,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!L226": {
+              "value": 639,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!M226": {
+              "value": 2344,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!N226": {
+              "value": 232,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!O226": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Leisure and hospitality",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2616,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2616,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2465,
+          "completion_tokens": 151,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 7076,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "0b2518d921834adabae1926fe1fd1e64",
+          "shared_questions": 4,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 28295168
+    },
+    "moved-1711": {
+      "file_name": "opaque_453.xlsx",
+      "answer": "Yes",
+      "cost": 0.0,
+      "tokens": 2616,
+      "requests": 1,
+      "elapsed": 3.0671812079963274,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = 'Ledger 35-7'\n# 20 years and over row is 227\n# Financial activities is col J, Transportation and utilities is col H\nfa = num(sheet, 'J227')\ntu = num(sheet, 'H227')\nresult = 'Yes' if fa > tu else 'No'",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 35-7!J227": {
+              "value": 10952,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 35-7!H227": {
+              "value": 9794,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Yes",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2616,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2616,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2465,
+          "completion_tokens": 150,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 7076,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "0b2518d921834adabae1926fe1fd1e64",
+          "shared_questions": 4,
+          "allocation_index": 3
+        }
+      ],
+      "peak_worker_bytes": 28196864
+    },
+    "moved-1835": {
+      "file_name": "opaque_492.xlsx",
+      "answer": "134",
+      "cost": 0.0,
+      "tokens": 2748,
+      "requests": 1,
+      "elapsed": 1.8815353749960195,
+      "error": null,
+      "attempts": [
+        {
+          "code": "result = int(num('Ledger 38-7', 'E225'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 38-7!E225": {
+              "value": 134,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 134,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2748,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2748,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2628,
+          "completion_tokens": 120,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 11025,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "fd1e50e4a4d14e1c981039cc1635e7ad",
+          "shared_questions": 2,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 27738112
+    },
+    "moved-1866": {
+      "file_name": "opaque_492.xlsx",
+      "answer": "35 hours and over",
+      "cost": 0.0,
+      "tokens": 2748,
+      "requests": 1,
+      "elapsed": 1.8505558340111747,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_list = data_rows('Ledger 38-7', {'C': 'string', 'H': 'number'})\n# Exclude total rows like 'Total, persons at work'\nvalid_rows = [r for r in rows_list if 'Total' not in label('Ledger 38-7', f'C{r}') and 'Average' not in label('Ledger 38-7', f'C{r}')]\nbest_row = max(valid_rows, key=lambda r: num('Ledger 38-7', f'H{r}'))\nresult = label('Ledger 38-7', f'C{best_row}')",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 38-7!C218": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 38-7!H218": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 38-7!C219": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 38-7!H219": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 38-7!C220": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 38-7!H220": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 38-7!C221": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 38-7!H221": {
+              "kind": "type_probe",
+              "stored_kind": "blank",
+              "value": null
+            },
+            "Ledger 38-7!C222": {
+              "value": "Total, persons at work",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H222": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Ledger 38-7!C223": {
+              "value": "1 to 34 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H223": {
+              "value": 26.9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C224": {
+              "value": "1 to 4 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H224": {
+              "value": 1.9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C225": {
+              "value": "5 to 14 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H225": {
+              "value": 6.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C226": {
+              "value": "15 to 29 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H226": {
+              "value": 12.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C227": {
+              "value": "30 to 34 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H227": {
+              "value": 6.5,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C228": {
+              "value": "35 hours and over",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H228": {
+              "value": 73.1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C229": {
+              "value": "35 to 39 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H229": {
+              "value": 4.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C230": {
+              "value": "40 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H230": {
+              "value": 33.8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C231": {
+              "value": "41 hours and over",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H231": {
+              "value": 34.8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C232": {
+              "value": "41 to 48 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H232": {
+              "value": 6.5,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C233": {
+              "value": "49 to 59 hours",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H233": {
+              "value": 11.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C234": {
+              "value": "60 hours and over",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!H234": {
+              "value": 17,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 38-7!C236": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 38-7!H236": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 38-7!C237": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Ledger 38-7!H237": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            }
+          },
+          "raw_result": "35 hours and over",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2748,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2748,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2628,
+          "completion_tokens": 120,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 11025,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "fd1e50e4a4d14e1c981039cc1635e7ad",
+          "shared_questions": 2,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 27721728
+    },
+    "moved-1773": {
+      "file_name": "opaque_479.xlsx",
+      "answer": "Manufacturing, Construction, Agriculture",
+      "cost": 0.0,
+      "tokens": 5889,
+      "requests": 1,
+      "elapsed": 4.177416709018871,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = \"Ledger 37-7\"\nrows = find_rows(sheet, \"C\", \"TOTAL\")\n# Let's find rows in TOTAL section for Agriculture, Manufacturing, Construction\n# TOTAL section is C225:O244\n# Let's search inside C225:C244\nagri_row = None\nmfg_row = None\nconst_row = None\nfor r in range(225, 245):\n    val = label(sheet, f\"C{r}\")\n    if val == \"Agriculture and related\":\n        agri_row = r\n    elif val == \"Manufacturing\":\n        mfg_row = r\n    elif val == \"Construction\":\n        const_row = r\n# Transportation and material moving is column O (index 15, column O is 15th col: C=3, D=4, E=5, F=6, G=7, H=8, I=9, J=10, K=11, L=12, M=13, N=14, O=15)\n# Let's verify O column header: Transportation and material moving occupations\nval_agri = num(sheet, f\"O{agri_row}\")\nval_mfg = num(sheet, f\"O{mfg_row}\")\nval_const = num(sheet, f\"O{const_row}\")\nsectors = [(\"Agriculture\", val_agri), (\"Manufacturing\", val_mfg), (\"Construction\", val_const)]\nsectors.sort(key=lambda x: x[1], reverse=True)\nresult = [s[0] for s in sectors]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 37-7!C225": {
+              "value": "TOTAL",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C226": {
+              "value": "Agriculture and related",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C227": {
+              "value": "Mining, quarrying, and\noil and gas extraction",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C228": {
+              "value": "Construction",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C229": {
+              "value": "Manufacturing",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C230": {
+              "value": "Durable goods",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C231": {
+              "value": "Nondurable goods",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C232": {
+              "value": "Wholesale and retail trade",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C233": {
+              "value": "Wholesale trade",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C234": {
+              "value": "Retail trade",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C235": {
+              "value": "Transportation and utilities",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C236": {
+              "value": "Information",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C237": {
+              "value": "Financial activities",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C238": {
+              "value": "Professional and business services",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C239": {
+              "value": "Education and health services",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C240": {
+              "value": "Leisure and hospitality",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C241": {
+              "value": "Other services",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C242": {
+              "value": "Other services, except private households",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C243": {
+              "value": "Private households",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C244": {
+              "value": "Public administration",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!O226": {
+              "value": 105,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!O229": {
+              "value": 1217,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!O228": {
+              "value": 335,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": [
+            "Manufacturing",
+            "Construction",
+            "Agriculture"
+          ],
+          "sorts": [
+            {
+              "keys": [
+                105,
+                1217,
+                335
+              ],
+              "reverse": true,
+              "selected": []
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5889,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5889,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5542,
+          "completion_tokens": 347,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 15770,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "76e6c3cac77c4d11a2447d237bbe35ae",
+          "shared_questions": 2,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 28475392
+    },
+    "moved-1804": {
+      "file_name": "opaque_479.xlsx",
+      "answer": "265",
+      "cost": 0.0,
+      "tokens": 5888,
+      "requests": 1,
+      "elapsed": 4.1706474580278154,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = \"Ledger 37-7\"\n# Manufacturing row in TOTAL section (C225:O244)\nmfg_row = None\nfor r in range(225, 245):\n    if label(sheet, f\"C{r}\") == \"Manufacturing\":\n        mfg_row = r\n        break\n# Protective service occupations is column G\n# Service occupations, except protective is column H\nprot = num(sheet, f\"G{mfg_row}\")\nexc_prot = num(sheet, f\"H{mfg_row}\")\nresult = int(prot + exc_prot)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 37-7!C225": {
+              "value": "TOTAL",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C226": {
+              "value": "Agriculture and related",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C227": {
+              "value": "Mining, quarrying, and\noil and gas extraction",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C228": {
+              "value": "Construction",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!C229": {
+              "value": "Manufacturing",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!G229": {
+              "value": 45,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 37-7!H229": {
+              "value": 220,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 265,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5888,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5888,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5541,
+          "completion_tokens": 347,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 15769,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "76e6c3cac77c4d11a2447d237bbe35ae",
+          "shared_questions": 2,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 28409856
+    },
+    "moved-1897": {
+      "file_name": "opaque_505.xlsx",
+      "answer": "4826",
+      "cost": 0.0,
+      "tokens": 6024,
+      "requests": 1,
+      "elapsed": 2.05686991699622,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = \"Ledgér 39-7\"\nmanuf = num('Ledger 39-7', 'D228')\nconst = num('Ledger 39-7', 'D227')\nresult = int(abs(manuf - const))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": "",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 39-7!D228": {
+              "value": 14880,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 39-7!D227": {
+              "value": 10054,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 4826,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 6024,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 6024,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5853,
+          "completion_tokens": 171,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22950,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "736568d94af8420d9515ed14d39e26a0",
+          "shared_questions": 1,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 27754496
+    },
+    "moved-1928": {
+      "file_name": "opaque_518.xlsx",
+      "answer": "34282, 118705",
+      "cost": 0.0,
+      "tokens": 2723,
+      "requests": 1,
+      "elapsed": 2.8803442910138983,
+      "error": null,
+      "attempts": [
+        {
+          "code": "s = 'Ledger 40-7'\n# Total, 16 years and over: row 227\n# Columns: C: Characteristic, D: Total at work, E: Worked 1 to 34 hours, I: Worked 35 hours or more\nv1 = num(s, 'E227')\nv2 = num(s, 'I227')\nresult = f\"{int(v1)}, {int(v2)}\"",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 40-7!E227": {
+              "value": 34282,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 40-7!I227": {
+              "value": 118705,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "34282, 118705",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2723,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2723,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2546,
+          "completion_tokens": 177,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 8599,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "3d2924b217d244bbb8f835938061474c",
+          "shared_questions": 3,
+          "allocation_index": 0
+        }
+      ],
+      "peak_worker_bytes": 27869184
+    },
+    "moved-1959": {
+      "file_name": "opaque_518.xlsx",
+      "answer": "40.60, 37.60",
+      "cost": 0.0,
+      "tokens": 2722,
+      "requests": 1,
+      "elapsed": 2.85999208301655,
+      "error": null,
+      "attempts": [
+        {
+          "code": "s = 'Ledger 40-7'\n# Widowed, divorced, or separated(2) men: row 274, women: row 278\n# Columns: J = Average hours Total at work, K = Average hours Persons who usually work full time. Wait, the question asks for \"Average hours\" worked by widowed, divorced, or separated men and women. In row 274 (men) and 278 (women), columns J and K are average hours. Wait, J is \"Total at work\", K is \"Persons who usually work full time\". Let's check headers for J and K: J223 is \"Total at work\", K223 is \"Persons who usually work full time\". Which average hours? Usually 'Average hours' total at work is J. Let's look at row 227: J227 = 38.5, K227 = 41.9. Column J is Average hours Total at work.\nm_avg = num(s, 'J274')\nw_avg = num(s, 'J278')\nresult = f\"{m_avg:.2f}, {w_avg:.2f}\"",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 40-7!J274": {
+              "value": 40.6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Ledger 40-7!J278": {
+              "value": 37.6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "40.60, 37.60",
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2722,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2722,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2546,
+          "completion_tokens": 176,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 8599,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "3d2924b217d244bbb8f835938061474c",
+          "shared_questions": 3,
+          "allocation_index": 1
+        }
+      ],
+      "peak_worker_bytes": 27901952
+    },
+    "moved-1990": {
+      "file_name": "opaque_518.xlsx",
+      "answer": "152987",
+      "cost": 0.0,
+      "tokens": 2722,
+      "requests": 1,
+      "elapsed": 2.8592031250009313,
+      "error": null,
+      "attempts": [
+        {
+          "code": "s = 'Ledger 40-7'\nresult = int(num(s, 'D227'))",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [],
+          "reads": {
+            "Ledger 40-7!D227": {
+              "value": 152987,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 152987,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 2722,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 2722,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 2546,
+          "completion_tokens": 176,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 8599,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "3d2924b217d244bbb8f835938061474c",
+          "shared_questions": 3,
+          "allocation_index": 2
+        }
+      ],
+      "peak_worker_bytes": 27934720
+    }
+  },
+  "complete": true,
+  "events": [
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 6053,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 6053,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5852,
+          "completion_tokens": 201,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22708,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "d06c0c3c4b3b48a3a0559d1c1836ccac"
+        }
+      ],
+      "elapsed": 1.9512222500052303,
+      "error": null,
+      "model_output": "```json\n{\n  \"programs\": [\n    {\n      \"index\": 0,\n      \"code\": \"sheet = 'Ledger 32-7'\\n# Fiscal year-to-date 2024 is column I, row 221 (Agricultural exports)\\n# Fiscal year-to-date 2023 is column H, row 221\\nval_2024 = num(sheet, 'I221')\\nval_2023 = num(sheet, 'H221')\\nresult = \\\"Yes\\\" if val_2024 > val_2023 else \\\"No\\\"\",\n      \"result_variable\": \"result\",\n      \"format\": {\n        \"kind\": \"text\"\n      },\n      \"assumptions\": [],\n      \"needs_verification\": false\n    }\n  ]\n}\n```",
+      "question_ids": [
+        "moved-1494"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 7807,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 7807,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 7678,
+          "completion_tokens": 129,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 25507,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "3bba4037b8754771a4e38fdfd8b7ed16"
+        }
+      ],
+      "elapsed": 2.0114420000172686,
+      "error": null,
+      "model_output": "```json\n{\"programs\":[{\"index\": 0, \"code\": \"rows = data_rows('Ledger 33-7', {'D': 'string', 'J': 'number'})\\nbest_row = max(rows, key=lambda r: abs(num('Ledger 33-7', f'J{r}')))\\nresult = label('Ledger 33-7', f'D{best_row}')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [], \"needs_verification\": false}]}\n```",
+      "question_ids": [
+        "moved-1525"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 6201,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 6201,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5806,
+          "completion_tokens": 395,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22385,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "932408952aa94b84810c744eec5adc0e"
+        }
+      ],
+      "elapsed": 2.2203755829832517,
+      "error": null,
+      "model_output": "```json\n{\n  \"programs\": [\n    {\n      \"index\": 0,\n      \"code\": \"sheet = 'Ledger 31-7'\\nrows_idx = data_rows(sheet, {'C': 'number', 'G': 'datetime', 'H': 'datetime', 'I': 'number'})\\nords = age_order(sheet, 'G', 'H', descending=False)\\nr = ords[1]\\nresult = label(sheet, f'F{r}')\",\n      \"result_variable\": \"result\",\n      \"format\": {\"kind\": \"text\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    {\n      \"index\": 1,\n      \"code\": \"sheet = 'Ledger 31-7'\\nords = age_order(sheet, 'G', 'H', descending=True)\\nr = ords[1]\\nresult = num(sheet, f'I{r}')\",\n      \"result_variable\": \"result\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    {\n      \"index\": 2,\n      \"code\": \"sheet = 'Ledger 31-7'\\nords = age_order(sheet, 'G', 'H', descending=False)\\nyoungest_10 = ords[:10]\\nscores = [num(sheet, f'I{r}') for r in youngest_10]\\nresult = max(scores)\",\n      \"result_variable\": \"result\",\n      \"format\": {\"kind\": \"integer\"},\n      \"assumptions\": [],\n      \"needs_verification\": false\n    }\n  ]\n}\n```",
+      "question_ids": [
+        "moved-1401",
+        "moved-1432",
+        "moved-1463"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 7084,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 7084,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 6994,
+          "completion_tokens": 90,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 24944,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "2d77ead2462f47528aaeca2040219b44"
+        }
+      ],
+      "elapsed": 1.739674583019223,
+      "error": null,
+      "model_output": "{\"programs\": [{\"index\": 0, \"code\": \"result = int(num('Ledger 36-7', 'G224'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [\"Row 224 corresponds to 'Total, 16 years and over' for agricultural unpaid family workers (Column G)\"], \"needs_verification\": false}]}",
+      "question_ids": [
+        "moved-1742"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 7752,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 7752,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 7351,
+          "completion_tokens": 401,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 25474,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "3de02524331b4c018eaaafc113f9da3b"
+        }
+      ],
+      "elapsed": 2.5044179589895066,
+      "error": null,
+      "model_output": "```json\n{\n  \"programs\": [\n    {\n      \"index\": 0,\n      \"code\": \"sheet = 'Ledger 34-7'\\n# Women is row 241. 'Some college, no degree' is column G.\\n# Find civilian noninstitutional population for women (row 242) and civilian labor force (row 243)\\npop = num(sheet, 'G242')\\nlf = num(sheet, 'G243')\\nresult = int(abs(pop - lf))\",\n      \"result_variable\": \"result\",\n      \"format\": {\n        \"kind\": \"integer\",\n        \"decimals\": null,\n        \"count\": null,\n        \"separator\": \"\"\n      },\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    {\n      \"index\": 1,\n      \"code\": \"sheet = 'Ledger 34-7'\\n# Women unemployment rates are in row 248.\\n# Columns with education levels for women: D, E, F, G, H, I, J, K? Wait, let's check headers for row 222-223.\\n# Row 248 has unemployment rate values across columns D to K.\\nvals = values(sheet, 'D248:K248')\\nresult = round(sum(vals) / len(vals), 2)\",\n      \"result_variable\": \"result\",\n      \"format\": {\n        \"kind\": \"decimal\",\n        \"decimals\": 2,\n        \"count\": null,\n        \"separator\": \"\"\n      },\n      \"assumptions\": [],\n      \"needs_verification\": false\n    }\n  ]\n}\n```",
+      "question_ids": [
+        "moved-1556",
+        "moved-1587"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 10464,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 10464,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 9861,
+          "completion_tokens": 603,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 28306,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "0b2518d921834adabae1926fe1fd1e64"
+        }
+      ],
+      "elapsed": 3.0006946249923203,
+      "error": null,
+      "model_output": "```json\n{\"programs\": [{\"index\": 0, \"code\": \"sheet = 'Ledger 35-7'\\n# Total, 16 to 19 years row is 226, 20 to 24 years is row 228 (under TOTAL section C224)\\n# Columns D to O are industries\\nvals_16_19 = values(sheet, 'D226:O226')\\nvals_20_24 = values(sheet, 'D228:O228')\\nresult = int(sum(vals_20_24) - sum(vals_16_19))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [], \"needs_verification\": false}, {\"index\": 1, \"code\": \"sheet = 'Ledger 35-7'\\n# Construction is col E (index 1 in D:O), Manufacturing is col F (index 2)\\n# Age 20 to 24 years total row is 228\\nval_c = num(sheet, 'E228')\\nval_m = num(sheet, 'F228')\\nresult = int(val_c + val_m)\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [], \"needs_verification\": false}, {\"index\": 2, \"code\": \"sheet = 'Ledger 35-7'\\n# Age 16 to 19 years: row 226\\n# Industries columns D to O\\nind_headers = cells(sheet, 'D222:O222')[0]\\nvals = values(sheet, 'D226:O226')\\nmax_val = max(vals)\\nmax_idx = vals.index(max_val)\\nresult = ind_headers[max_idx].replace('\\\\n', ' ')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [], \"needs_verification\": false}, {\"index\": 3, \"code\": \"sheet = 'Ledger 35-7'\\n# 20 years and over row is 227\\n# Financial activities is col J, Transportation and utilities is col H\\nfa = num(sheet, 'J227')\\ntu = num(sheet, 'H227')\\nresult = 'Yes' if fa > tu else 'No'\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [], \"needs_verification\": false}]}\n```",
+      "question_ids": [
+        "moved-1618",
+        "moved-1649",
+        "moved-1680",
+        "moved-1711"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5496,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5496,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5256,
+          "completion_tokens": 240,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22050,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "fd1e50e4a4d14e1c981039cc1635e7ad"
+        }
+      ],
+      "elapsed": 1.7857861669908743,
+      "error": null,
+      "model_output": "```json\n{\"programs\": [{\"index\": 0, \"code\": \"result = int(num('Ledger 38-7', 'E225'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [], \"needs_verification\": false}, {\"index\": 1, \"code\": \"rows_list = data_rows('Ledger 38-7', {'C': 'string', 'H': 'number'})\\n# Exclude total rows like 'Total, persons at work'\\nvalid_rows = [r for r in rows_list if 'Total' not in label('Ledger 38-7', f'C{r}') and 'Average' not in label('Ledger 38-7', f'C{r}')]\\nbest_row = max(valid_rows, key=lambda r: num('Ledger 38-7', f'H{r}'))\\nresult = label('Ledger 38-7', f'C{best_row}')\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [], \"needs_verification\": false}]}\n```",
+      "question_ids": [
+        "moved-1835",
+        "moved-1866"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 11777,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 11777,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 11083,
+          "completion_tokens": 694,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 31539,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "76e6c3cac77c4d11a2447d237bbe35ae"
+        }
+      ],
+      "elapsed": 4.096664792014053,
+      "error": null,
+      "model_output": "```json\n{\n  \"programs\": [\n    {\n      \"index\": 0,\n      \"code\": \"sheet = \\\"Ledger 37-7\\\"\\nrows = find_rows(sheet, \\\"C\\\", \\\"TOTAL\\\")\\n# Let's find rows in TOTAL section for Agriculture, Manufacturing, Construction\\n# TOTAL section is C225:O244\\n# Let's search inside C225:C244\\nagri_row = None\\nmfg_row = None\\nconst_row = None\\nfor r in range(225, 245):\\n    val = label(sheet, f\\\"C{r}\\\")\\n    if val == \\\"Agriculture and related\\\":\\n        agri_row = r\\n    elif val == \\\"Manufacturing\\\":\\n        mfg_row = r\\n    elif val == \\\"Construction\\\":\\n        const_row = r\\n# Transportation and material moving is column O (index 15, column O is 15th col: C=3, D=4, E=5, F=6, G=7, H=8, I=9, J=10, K=11, L=12, M=13, N=14, O=15)\\n# Let's verify O column header: Transportation and material moving occupations\\nval_agri = num(sheet, f\\\"O{agri_row}\\\")\\nval_mfg = num(sheet, f\\\"O{mfg_row}\\\")\\nval_const = num(sheet, f\\\"O{const_row}\\\")\\nsectors = [(\\\"Agriculture\\\", val_agri), (\\\"Manufacturing\\\", val_mfg), (\\\"Construction\\\", val_const)]\\nsectors.sort(key=lambda x: x[1], reverse=True)\\nresult = [s[0] for s in sectors]\",\n      \"result_variable\": \"result\",\n      \"format\": {\n        \"kind\": \"text\"\n      },\n      \"assumptions\": [],\n      \"needs_verification\": false\n    },\n    {\n      \"index\": 1,\n      \"code\": \"sheet = \\\"Ledger 37-7\\\"\\n# Manufacturing row in TOTAL section (C225:O244)\\nmfg_row = None\\nfor r in range(225, 245):\\n    if label(sheet, f\\\"C{r}\\\") == \\\"Manufacturing\\\":\\n        mfg_row = r\\n        break\\n# Protective service occupations is column G\\n# Service occupations, except protective is column H\\nprot = num(sheet, f\\\"G{mfg_row}\\\")\\nexc_prot = num(sheet, f\\\"H{mfg_row}\\\")\\nresult = int(prot + exc_prot)\",\n      \"result_variable\": \"result\",\n      \"format\": {\n        \"kind\": \"integer\"\n      },\n      \"assumptions\": [],\n      \"needs_verification\": false\n    }\n  ]\n}\n```",
+      "question_ids": [
+        "moved-1773",
+        "moved-1804"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 6024,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 6024,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 5853,
+          "completion_tokens": 171,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 22950,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "736568d94af8420d9515ed14d39e26a0"
+        }
+      ],
+      "elapsed": 1.9877445419842843,
+      "error": null,
+      "model_output": "```json\n{\n  \"programs\": [\n    {\n      \"index\": 0,\n      \"code\": \"sheet = \\\"Ledg\\u00e9r 39-7\\\"\\nmanuf = num('Ledger 39-7', 'D228')\\nconst = num('Ledger 39-7', 'D227')\\nresult = int(abs(manuf - const))\",\n      \"result_variable\": \"result\",\n      \"format\": {\n        \"kind\": \"integer\",\n        \"decimals\": null,\n        \"count\": null,\n        \"separator\": \"\"\n      },\n      \"assumptions\": [],\n      \"needs_verification\": false\n    }\n  ]\n}\n```",
+      "question_ids": [
+        "moved-1897"
+      ]
+    },
+    {
+      "mode": "live-shared-workbook-plan",
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 8167,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 8167,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 7638,
+          "completion_tokens": 529,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 25797,
+          "thinking": "low",
+          "temperature": 1.0,
+          "shared_http_id": "3d2924b217d244bbb8f835938061474c"
+        }
+      ],
+      "elapsed": 2.7992843330139294,
+      "error": null,
+      "model_output": "```json\n{\"programs\": [{\"index\": 0, \"code\": \"s = 'Ledger 40-7'\\n# Total, 16 years and over: row 227\\n# Columns: C: Characteristic, D: Total at work, E: Worked 1 to 34 hours, I: Worked 35 hours or more\\nv1 = num(s, 'E227')\\nv2 = num(s, 'I227')\\nresult = f\\\"{int(v1)}, {int(v2)}\\\"\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [], \"needs_verification\": false}, {\"index\": 1, \"code\": \"s = 'Ledger 40-7'\\n# Widowed, divorced, or separated(2) men: row 274, women: row 278\\n# Columns: J = Average hours Total at work, K = Average hours Persons who usually work full time. Wait, the question asks for \\\"Average hours\\\" worked by widowed, divorced, or separated men and women. In row 274 (men) and 278 (women), columns J and K are average hours. Wait, J is \\\"Total at work\\\", K is \\\"Persons who usually work full time\\\". Let's check headers for J and K: J223 is \\\"Total at work\\\", K223 is \\\"Persons who usually work full time\\\". Which average hours? Usually 'Average hours' total at work is J. Let's look at row 227: J227 = 38.5, K227 = 41.9. Column J is Average hours Total at work.\\nm_avg = num(s, 'J274')\\nw_avg = num(s, 'J278')\\nresult = f\\\"{m_avg:.2f}, {w_avg:.2f}\\\"\", \"result_variable\": \"result\", \"format\": {\"kind\": \"text\"}, \"assumptions\": [], \"needs_verification\": false}, {\"index\": 2, \"code\": \"s = 'Ledger 40-7'\\nresult = int(num(s, 'D227'))\", \"result_variable\": \"result\", \"format\": {\"kind\": \"integer\"}, \"assumptions\": [], \"needs_verification\": false}]}\n```",
+      "question_ids": [
+        "moved-1928",
+        "moved-1959",
+        "moved-1990"
+      ]
+    }
+  ],
+  "wall_seconds": 8.454392541985726,
+  "peak_total_rss_bytes": 81281024
+}

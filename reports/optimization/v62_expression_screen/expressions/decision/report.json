@@ -1,0 +1,53 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "temperature": 1.0,
+    "verification_thinking": null,
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "planning_max_tokens": 4096,
+    "concurrency": 4,
+    "group_size": 8,
+    "strategy": "declarative-source-expression-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "5304c3c1fe6cac244a78a0d656e6fad7290368a376b633082c8c25fab6e09f53",
+      "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "3f9b48301df14d589ece8bb3b4112b91d053952e27183046488d70a8c95cc738",
+      "plan_agent.py": "84620f40f0d5d19cb7aa47f55bec89c033187f6cedc87bc453dd5a52a3233532"
+    },
+    "agent_class": "CalculationPlanAgent",
+    "agent_sha256": "37e314ee2bc3cc291f7f6108243c14c240b28504e5a90d17945db4aa20f552d5"
+  },
+  "fingerprint": "ea089279fd20ba5534413a22880ba18e43a23a065cfc5095065cc19f13641ad6",
+  "complete": true,
+  "score": {
+    "correct": 17,
+    "total": 18,
+    "errors": {
+      "decision-010": {
+        "prediction": "0.340000",
+        "reference": "0.540000"
+      }
+    }
+  },
+  "wall_seconds": 16.752941708022263,
+  "mean_query_seconds": 6.367511872391333,
+  "tokens": 36053,
+  "provider_tokens_known": 36053,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 36053,
+  "http_attempts": 5,
+  "peak_total_rss_bytes": 95027200,
+  "fatal_error": null,
+  "errors": {},
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

@@ -1,0 +1,40 @@
+{
+  "kind": "offline parser replay only; no fresh LLM calls or benchmark accuracy",
+  "normalized_programs": 3,
+  "normalization": "validated-keyed-assumptions",
+  "execution_diagnostics": [
+    {
+      "success": true,
+      "error": null,
+      "raw_result": "34282000, 118705000"
+    },
+    {
+      "success": true,
+      "error": null,
+      "raw_result": "40.60, 37.60"
+    },
+    {
+      "success": true,
+      "error": null,
+      "raw_result": 152987000
+    }
+  ],
+  "unit_guard_check": [
+    {
+      "question_index": 0,
+      "unit_contract_errors": [
+        "Unrequested unit conversion: source values have a declared thousand/million scale. Keep that displayed scale; integer/no-units formatting does not request multiplication or division by 1000."
+      ]
+    },
+    {
+      "question_index": 1,
+      "unit_contract_errors": []
+    },
+    {
+      "question_index": 2,
+      "unit_contract_errors": [
+        "Unrequested unit conversion: source values have a declared thousand/million scale. Keep that displayed scale; integer/no-units formatting does not request multiplication or division by 1000."
+      ]
+    }
+  ]
+}

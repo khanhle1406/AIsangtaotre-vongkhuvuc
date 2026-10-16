@@ -1,0 +1,612 @@
+{
+  "candidate": "v37 experimental; full qualification failed",
+  "selected_final_submission": false,
+  "runtime_modules": {
+    "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+    "src/verification.py": "e6ddd337695f43a0cca82baa9397d3b193b1ac1006738e971c2085f52d96388d",
+    "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+    "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+    "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+    "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+    "src/llm_agent.py": "25071aea86b96e10adf57f0447bf0e75c423ea39c19bb1340279b3871ba82200",
+    "src/contracts.py": "3aa5ebc093d2de1ac3ba1f00d4bf9f3ab276a33462e42dbe4c45e5bae20a8d34",
+    "src/executor.py": "5683f974273d4059af08494c8d6639fb0ff3f7d644d8c7395fc4353c21f49dcd",
+    "benchmarks/batched.py": "aa8d93cd10663a85b0398416bb4afbb886f92787ccae8f81f2ebc866a2e443f9",
+    "benchmarks/structured_batch.py": "7bd7f43c74852823c22b1ff1554bd40b84c19ec63762a7129392ae1257013b03",
+    "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+    "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+    "benchmarks/gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05",
+    "benchmarks/precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4",
+    "benchmarks/efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+    "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0"
+  },
+  "independent_new_evaluation": false,
+  "qwen_fresh_generations_this_phase": 0,
+  "btc_private_verified": false,
+  "root_tests_passed": 287,
+  "ruff_check": "passed",
+  "ruff_format_check": "passed",
+  "experiments": {
+    "v35_representation_ablation": {
+      "reports": {
+        "A/public": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 28.440237081988016,
+          "provider_tokens_known": 183353,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 107593728,
+          "complete": true
+        },
+        "B/public": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 9.754594081983669,
+          "provider_tokens_known": 101600,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 124846080,
+          "complete": true
+        },
+        "C/public": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 16.96848066704115,
+          "provider_tokens_known": 123037,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 135118848,
+          "complete": true
+        },
+        "B/structural": {
+          "score": {
+            "correct": 18,
+            "total": 18,
+            "errors": {}
+          },
+          "wall_seconds": 8.499451791954925,
+          "provider_tokens_known": 44760,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 111656960,
+          "complete": true
+        },
+        "C/structural": {
+          "score": {
+            "correct": 18,
+            "total": 18,
+            "errors": {}
+          },
+          "wall_seconds": 12.675307794037508,
+          "provider_tokens_known": 73944,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 108740608,
+          "complete": true
+        },
+        "A/structural": {
+          "score": {
+            "correct": 18,
+            "total": 18,
+            "errors": {}
+          },
+          "wall_seconds": 15.986339707975276,
+          "provider_tokens_known": 94313,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 88784896,
+          "complete": true
+        },
+        "C/generalization": {
+          "score": {
+            "correct": 17,
+            "total": 18,
+            "errors": {
+              "generalization-017": {
+                "prediction": "0.859375",
+                "reference": "0.359375"
+              }
+            }
+          },
+          "wall_seconds": 14.371577751036966,
+          "provider_tokens_known": 57195,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 119242752,
+          "complete": true
+        },
+        "A/generalization": {
+          "score": {
+            "correct": 18,
+            "total": 18,
+            "errors": {}
+          },
+          "wall_seconds": 14.210883332998492,
+          "provider_tokens_known": 77085,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 91717632,
+          "complete": true
+        },
+        "B/generalization": {
+          "score": {
+            "correct": 17,
+            "total": 18,
+            "errors": {
+              "generalization-003": {
+                "prediction": "Dune",
+                "reference": "Cedar"
+              }
+            }
+          },
+          "wall_seconds": 12.804144960013218,
+          "provider_tokens_known": 69775,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 116228096,
+          "complete": true
+        },
+        "A/synthetic": {
+          "score": {
+            "correct": 24,
+            "total": 24,
+            "errors": {}
+          },
+          "wall_seconds": 10.756680371938273,
+          "provider_tokens_known": 52409,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 150978560,
+          "complete": true
+        },
+        "B/synthetic": {
+          "score": {
+            "correct": 24,
+            "total": 24,
+            "errors": {}
+          },
+          "wall_seconds": 8.347861790971365,
+          "provider_tokens_known": 46518,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 117522432,
+          "complete": true
+        },
+        "C/synthetic": {
+          "score": {
+            "correct": 24,
+            "total": 24,
+            "errors": {}
+          },
+          "wall_seconds": 9.093328751070658,
+          "provider_tokens_known": 51711,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 95485952,
+          "complete": true
+        }
+      },
+      "ranking": [
+        {
+          "arm": "A",
+          "deduplicate_headers": false,
+          "boundary_contract": false,
+          "correct": 80,
+          "total": 80,
+          "complete": true,
+          "seconds": 69.39414049490006,
+          "tokens": 407160,
+          "usage_missing_attempts": 0
+        },
+        {
+          "arm": "B",
+          "deduplicate_headers": true,
+          "boundary_contract": false,
+          "correct": 79,
+          "total": 80,
+          "complete": true,
+          "seconds": 39.40605262492318,
+          "tokens": 262653,
+          "usage_missing_attempts": 0
+        },
+        {
+          "arm": "C",
+          "deduplicate_headers": true,
+          "boundary_contract": true,
+          "correct": 79,
+          "total": 80,
+          "complete": true,
+          "seconds": 53.10869496318628,
+          "tokens": 305887,
+          "usage_missing_attempts": 0
+        }
+      ]
+    },
+    "efficiency_v36_scope": {
+      "reports": {
+        "baseline_public": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 26.48811878898414,
+          "provider_tokens_known": 220132,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 114589696,
+          "complete": true
+        },
+        "public_1": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 9.915806707984302,
+          "provider_tokens_known": 120010,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 97533952,
+          "complete": true
+        },
+        "public_2": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 10.026645917940186,
+          "provider_tokens_known": 100499,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 117096448,
+          "complete": true
+        },
+        "public_3": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 19.307344792992808,
+          "provider_tokens_known": 127288,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 112803840,
+          "complete": true
+        },
+        "regression_60": {
+          "score": {
+            "correct": 60,
+            "total": 60,
+            "errors": {}
+          },
+          "wall_seconds": 15.993515628040768,
+          "provider_tokens_known": 128608,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 119619584,
+          "complete": true
+        },
+        "regression_32": {
+          "score": {
+            "correct": 32,
+            "total": 32,
+            "errors": {}
+          },
+          "wall_seconds": 15.030158543027937,
+          "provider_tokens_known": 78589,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 111067136,
+          "complete": true
+        },
+        "known_18": {
+          "score": {
+            "correct": 18,
+            "total": 18,
+            "errors": {}
+          },
+          "wall_seconds": 4.688093250035308,
+          "provider_tokens_known": 33067,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 115425280,
+          "complete": true
+        },
+        "synthetic_24": {
+          "score": {
+            "correct": 24,
+            "total": 24,
+            "errors": {}
+          },
+          "wall_seconds": 7.162600209063385,
+          "provider_tokens_known": 46402,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 137707520,
+          "complete": true
+        },
+        "structural_18": {
+          "score": {
+            "correct": 18,
+            "total": 18,
+            "errors": {}
+          },
+          "wall_seconds": 12.663747665967094,
+          "provider_tokens_known": 94120,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 114884608,
+          "complete": true
+        },
+        "generalization_18": {
+          "score": {
+            "correct": 18,
+            "total": 18,
+            "errors": {}
+          },
+          "wall_seconds": 13.33650858400506,
+          "provider_tokens_known": 56006,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 97468416,
+          "complete": true
+        },
+        "transfer_24": {
+          "score": {
+            "correct": 24,
+            "total": 24,
+            "errors": {}
+          },
+          "wall_seconds": 6.018690624972805,
+          "provider_tokens_known": 44843,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 119455744,
+          "complete": true
+        },
+        "compositional_18": {
+          "score": {
+            "correct": 15,
+            "total": 18,
+            "errors": {
+              "compositional-018": {
+                "prediction": "0",
+                "reference": "2"
+              },
+              "compositional-017": {
+                "prediction": "0.00",
+                "reference": "32.00"
+              },
+              "compositional-002": {
+                "prediction": "",
+                "reference": "Survey, Design, Review, Launch"
+              }
+            }
+          },
+          "wall_seconds": 25.117868374974933,
+          "provider_tokens_known": 93736,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 121143296,
+          "complete": false
+        },
+        "consumed_validation": {
+          "score": {
+            "correct": 24,
+            "total": 24,
+            "errors": {}
+          },
+          "wall_seconds": 23.36277020900161,
+          "provider_tokens_known": 90762,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 141131776,
+          "complete": true
+        }
+      },
+      "ranking": null,
+      "aggregate": {
+        "public_correct": [
+          20,
+          20,
+          20
+        ],
+        "mean_public_wall_seconds": 13.083265806305766,
+        "mean_public_tokens": 115932.33333333333,
+        "wall_reduction_same_phase": 0.506070404224145,
+        "token_reduction_same_phase": 0.47335083798205924,
+        "known_correct": 233,
+        "known_total": 236,
+        "peak_rss_mib": 134.59375,
+        "mean_public_trace_seconds": 2.8636469159677898
+      }
+    },
+    "efficiency_v37_scalar": {
+      "reports": {
+        "baseline_public": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 21.14025857899105,
+          "provider_tokens_known": 189739,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 87883776,
+          "complete": true
+        },
+        "public_1": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 12.814255043049343,
+          "provider_tokens_known": 112153,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 114982912,
+          "complete": true
+        },
+        "public_2": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 9.618165373947704,
+          "provider_tokens_known": 106451,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 117227520,
+          "complete": true
+        },
+        "public_3": {
+          "score": {
+            "correct": 20,
+            "total": 20,
+            "errors": {}
+          },
+          "wall_seconds": 18.382865041989135,
+          "provider_tokens_known": 133770,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 120946688,
+          "complete": true
+        },
+        "regression_60": {
+          "score": {
+            "correct": 60,
+            "total": 60,
+            "errors": {}
+          },
+          "wall_seconds": 19.553065208980115,
+          "provider_tokens_known": 154917,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 107233280,
+          "complete": true
+        },
+        "regression_32": {
+          "score": {
+            "correct": 32,
+            "total": 32,
+            "errors": {}
+          },
+          "wall_seconds": 24.03056104198913,
+          "provider_tokens_known": 107820,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 106741760,
+          "complete": true
+        },
+        "known_18": {
+          "score": {
+            "correct": 17,
+            "total": 18,
+            "errors": {
+              "unseen-018": {
+                "prediction": "10228",
+                "reference": "10594"
+              }
+            }
+          },
+          "wall_seconds": 4.674618584016571,
+          "provider_tokens_known": 38963,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 115638272,
+          "complete": true
+        },
+        "synthetic_24": {
+          "score": {
+            "correct": 24,
+            "total": 24,
+            "errors": {}
+          },
+          "wall_seconds": 4.690219499985687,
+          "provider_tokens_known": 41069,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 123551744,
+          "complete": true
+        },
+        "structural_18": {
+          "score": {
+            "correct": 18,
+            "total": 18,
+            "errors": {}
+          },
+          "wall_seconds": 15.677431166986935,
+          "provider_tokens_known": 95028,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 118587392,
+          "complete": true
+        },
+        "generalization_18": {
+          "score": {
+            "correct": 18,
+            "total": 18,
+            "errors": {}
+          },
+          "wall_seconds": 13.179746876034187,
+          "provider_tokens_known": 60356,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 122650624,
+          "complete": true
+        },
+        "transfer_24": {
+          "score": {
+            "correct": 24,
+            "total": 24,
+            "errors": {}
+          },
+          "wall_seconds": 8.153458707995014,
+          "provider_tokens_known": 50453,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 127074304,
+          "complete": true
+        },
+        "compositional_18": {
+          "score": {
+            "correct": 17,
+            "total": 18,
+            "errors": {
+              "compositional-002": {
+                "prediction": "Permit, Design, Review, Launch",
+                "reference": "Survey, Design, Review, Launch"
+              }
+            }
+          },
+          "wall_seconds": 36.56846774998121,
+          "provider_tokens_known": 93148,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 92536832,
+          "complete": true
+        },
+        "consumed_validation": {
+          "score": {
+            "correct": 24,
+            "total": 24,
+            "errors": {}
+          },
+          "wall_seconds": 18.76203395903576,
+          "provider_tokens_known": 61413,
+          "usage_missing_attempts": 0,
+          "peak_total_rss_bytes": 119177216,
+          "complete": true
+        }
+      },
+      "ranking": null,
+      "aggregate": {
+        "public_correct": [
+          20,
+          20,
+          20
+        ],
+        "mean_public_wall_seconds": 13.605095152995395,
+        "mean_public_tokens": 117458.0,
+        "wall_reduction_same_phase": 0.35643667260929424,
+        "token_reduction_same_phase": 0.3809496202678416,
+        "known_correct": 234,
+        "known_total": 236,
+        "peak_rss_mib": 121.1875,
+        "mean_public_trace_seconds": 2.7245136425675205
+      }
+    }
+  },
+  "unopened_holdout": {
+    "manifest": "reports/optimization/decision_v1_holdout/manifest.json",
+    "sha256": "25d79db583375f8992d52e621b70253ade5eb4c51216fdc1783712c478c88085",
+    "questions": 18,
+    "oracle_generator_sha256": "1bcb849f12e6f04ea126d4e7998d32e21bc56c49e23332283f2ca1e04457f48d",
+    "evaluated": false
+  },
+  "development_cost_conservative_upper_usd": 0.31892700450000006,
+  "cost_basis": "user-confirmed free gateway; unknown provider billing is not measured zero spend",
+  "remaining_failures": [
+    "Different entity rows mixed in a two-date calculation",
+    "Critical path backtracking ranks predecessors by start rather than finish time"
+  ]
+}

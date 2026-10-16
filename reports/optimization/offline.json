@@ -1,0 +1,687 @@
+{
+  "source_sha256": "86cc31fa6e41f62ed0edf80ff89bf577613be5941a8bf9531663ba0ccfcf3ee5",
+  "paid_llm_calls": 0,
+  "targeted_regressions_before": {
+    "correct": 4,
+    "total": 16,
+    "cases": [
+      {
+        "name": "named_header_branch",
+        "correct": false,
+        "result": 300.75,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "adjacent_table_same_metric",
+        "correct": false,
+        "result": 633.2,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "exclude_record_id",
+        "correct": false,
+        "result": 1404.6666666666667,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "exclude_sample_size",
+        "correct": false,
+        "result": 2036.0,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "exclude_weight",
+        "correct": false,
+        "result": 1631.3333333333333,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "exclude_denominator",
+        "correct": false,
+        "result": 2858.6666666666665,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "year_inside_header_label",
+        "correct": false,
+        "result": 55,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "cross_sheet_aggregate",
+        "correct": false,
+        "result": null,
+        "expected": 161,
+        "error": "ValueError: Uncached cross-sheet formula requires an Excel calculation engine"
+      },
+      {
+        "name": "cross_sheet_absolute_reference",
+        "correct": false,
+        "result": null,
+        "expected": 74,
+        "error": "ValueError: Uncached cross-sheet formula requires an Excel calculation engine"
+      },
+      {
+        "name": "multi_argument_sum",
+        "correct": false,
+        "result": null,
+        "expected": 29,
+        "error": "TypeError: WorkbookAccess.formula.<locals>.<lambda>() takes 1 positional argument but 3 were given"
+      },
+      {
+        "name": "multi_argument_average",
+        "correct": false,
+        "result": null,
+        "expected": 9.666666666666666,
+        "error": "TypeError: WorkbookAccess.formula.<locals>.<lambda>() takes 1 positional argument but 3 were given"
+      },
+      {
+        "name": "extrema_includes_uncached_formula",
+        "correct": false,
+        "result": "A1",
+        "expected": "A2",
+        "error": null
+      },
+      {
+        "name": "control_lookup",
+        "correct": true,
+        "result": 55,
+        "expected": 55,
+        "error": null
+      },
+      {
+        "name": "control_sum",
+        "correct": true,
+        "result": 142,
+        "expected": 142,
+        "error": null
+      },
+      {
+        "name": "control_difference",
+        "correct": true,
+        "result": -32,
+        "expected": -32,
+        "error": null
+      },
+      {
+        "name": "control_cached_max",
+        "correct": true,
+        "result": "A2",
+        "expected": "A2",
+        "error": null
+      }
+    ]
+  },
+  "targeted_regressions_after": {
+    "correct": 16,
+    "total": 16,
+    "cases": [
+      {
+        "name": "named_header_branch",
+        "correct": true,
+        "result": 71.0,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "adjacent_table_same_metric",
+        "correct": true,
+        "result": 71.0,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "exclude_record_id",
+        "correct": true,
+        "result": 71.0,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "exclude_sample_size",
+        "correct": true,
+        "result": 71.0,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "exclude_weight",
+        "correct": true,
+        "result": 71.0,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "exclude_denominator",
+        "correct": true,
+        "result": 71.0,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "year_inside_header_label",
+        "correct": true,
+        "result": 71.0,
+        "expected": 71.0,
+        "error": null
+      },
+      {
+        "name": "cross_sheet_aggregate",
+        "correct": true,
+        "result": 161,
+        "expected": 161,
+        "error": null
+      },
+      {
+        "name": "cross_sheet_absolute_reference",
+        "correct": true,
+        "result": 74,
+        "expected": 74,
+        "error": null
+      },
+      {
+        "name": "multi_argument_sum",
+        "correct": true,
+        "result": 29,
+        "expected": 29,
+        "error": null
+      },
+      {
+        "name": "multi_argument_average",
+        "correct": true,
+        "result": 9.666666666666666,
+        "expected": 9.666666666666666,
+        "error": null
+      },
+      {
+        "name": "extrema_includes_uncached_formula",
+        "correct": true,
+        "result": "A2",
+        "expected": "A2",
+        "error": null
+      },
+      {
+        "name": "control_lookup",
+        "correct": true,
+        "result": 55,
+        "expected": 55,
+        "error": null
+      },
+      {
+        "name": "control_sum",
+        "correct": true,
+        "result": 142,
+        "expected": 142,
+        "error": null
+      },
+      {
+        "name": "control_difference",
+        "correct": true,
+        "result": -32,
+        "expected": -32,
+        "error": null
+      },
+      {
+        "name": "control_cached_max",
+        "correct": true,
+        "result": "A2",
+        "expected": "A2",
+        "error": null
+      }
+    ]
+  },
+  "public_replay": {
+    "correct": 20,
+    "total": 20,
+    "cases": [
+      {
+        "id": "p4_q001",
+        "correct": true,
+        "answer": "Ngo",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q002",
+        "correct": true,
+        "answer": "83",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q003",
+        "correct": true,
+        "answer": "99",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q004",
+        "correct": true,
+        "answer": "No",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q005",
+        "correct": true,
+        "answer": "Airline fares",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q006",
+        "correct": true,
+        "answer": "7668",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q007",
+        "correct": true,
+        "answer": "3.14",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q008",
+        "correct": true,
+        "answer": "9017",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q009",
+        "correct": true,
+        "answer": "2218",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q010",
+        "correct": true,
+        "answer": "Leisure and hospitality",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q011",
+        "correct": true,
+        "answer": "Yes",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q012",
+        "correct": true,
+        "answer": "35",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q013",
+        "correct": true,
+        "answer": "Manufacturing, Construction, Agriculture",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q014",
+        "correct": true,
+        "answer": "265",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q015",
+        "correct": true,
+        "answer": "134",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q016",
+        "correct": true,
+        "answer": "35 hours and over",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q017",
+        "correct": true,
+        "answer": "4826",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q018",
+        "correct": true,
+        "answer": "34282, 118705",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q019",
+        "correct": true,
+        "answer": "40.60, 37.60",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      },
+      {
+        "id": "p4_q020",
+        "correct": true,
+        "answer": "152987",
+        "error": null,
+        "contradictions": [],
+        "review_signals": []
+      }
+    ],
+    "method": "Replay previously generated programs; no fresh LLM inference"
+  },
+  "prompt_before": {
+    "total_utf8_bytes": 363792,
+    "questions": [
+      {
+        "id": "p4_q001",
+        "utf8_bytes": 9989
+      },
+      {
+        "id": "p4_q002",
+        "utf8_bytes": 9982
+      },
+      {
+        "id": "p4_q003",
+        "utf8_bytes": 9992
+      },
+      {
+        "id": "p4_q004",
+        "utf8_bytes": 8121
+      },
+      {
+        "id": "p4_q005",
+        "utf8_bytes": 19630
+      },
+      {
+        "id": "p4_q006",
+        "utf8_bytes": 16887
+      },
+      {
+        "id": "p4_q007",
+        "utf8_bytes": 16825
+      },
+      {
+        "id": "p4_q008",
+        "utf8_bytes": 26914
+      },
+      {
+        "id": "p4_q009",
+        "utf8_bytes": 26947
+      },
+      {
+        "id": "p4_q010",
+        "utf8_bytes": 26891
+      },
+      {
+        "id": "p4_q011",
+        "utf8_bytes": 26940
+      },
+      {
+        "id": "p4_q012",
+        "utf8_bytes": 14592
+      },
+      {
+        "id": "p4_q013",
+        "utf8_bytes": 37604
+      },
+      {
+        "id": "p4_q014",
+        "utf8_bytes": 37560
+      },
+      {
+        "id": "p4_q015",
+        "utf8_bytes": 8193
+      },
+      {
+        "id": "p4_q016",
+        "utf8_bytes": 8150
+      },
+      {
+        "id": "p4_q017",
+        "utf8_bytes": 10111
+      },
+      {
+        "id": "p4_q018",
+        "utf8_bytes": 16208
+      },
+      {
+        "id": "p4_q019",
+        "utf8_bytes": 16180
+      },
+      {
+        "id": "p4_q020",
+        "utf8_bytes": 16076
+      }
+    ],
+    "note": "Exact prompt text bytes, NOT tokenizer counts or API latency"
+  },
+  "prompt_after_default": {
+    "total_utf8_bytes": 387982,
+    "questions": [
+      {
+        "id": "p4_q001",
+        "utf8_bytes": 10494
+      },
+      {
+        "id": "p4_q002",
+        "utf8_bytes": 10487
+      },
+      {
+        "id": "p4_q003",
+        "utf8_bytes": 10497
+      },
+      {
+        "id": "p4_q004",
+        "utf8_bytes": 9725
+      },
+      {
+        "id": "p4_q005",
+        "utf8_bytes": 20815
+      },
+      {
+        "id": "p4_q006",
+        "utf8_bytes": 17392
+      },
+      {
+        "id": "p4_q007",
+        "utf8_bytes": 17330
+      },
+      {
+        "id": "p4_q008",
+        "utf8_bytes": 28320
+      },
+      {
+        "id": "p4_q009",
+        "utf8_bytes": 28353
+      },
+      {
+        "id": "p4_q010",
+        "utf8_bytes": 28297
+      },
+      {
+        "id": "p4_q011",
+        "utf8_bytes": 28346
+      },
+      {
+        "id": "p4_q012",
+        "utf8_bytes": 16307
+      },
+      {
+        "id": "p4_q013",
+        "utf8_bytes": 39715
+      },
+      {
+        "id": "p4_q014",
+        "utf8_bytes": 39671
+      },
+      {
+        "id": "p4_q015",
+        "utf8_bytes": 9209
+      },
+      {
+        "id": "p4_q016",
+        "utf8_bytes": 9166
+      },
+      {
+        "id": "p4_q017",
+        "utf8_bytes": 11311
+      },
+      {
+        "id": "p4_q018",
+        "utf8_bytes": 17569
+      },
+      {
+        "id": "p4_q019",
+        "utf8_bytes": 17541
+      },
+      {
+        "id": "p4_q020",
+        "utf8_bytes": 17437
+      }
+    ],
+    "note": "Exact prompt text bytes, NOT tokenizer counts or API latency"
+  },
+  "prompt_after_compact_candidate": {
+    "total_utf8_bytes": 274614,
+    "questions": [
+      {
+        "id": "p4_q001",
+        "utf8_bytes": 9128
+      },
+      {
+        "id": "p4_q002",
+        "utf8_bytes": 9121
+      },
+      {
+        "id": "p4_q003",
+        "utf8_bytes": 9131
+      },
+      {
+        "id": "p4_q004",
+        "utf8_bytes": 9269
+      },
+      {
+        "id": "p4_q005",
+        "utf8_bytes": 17605
+      },
+      {
+        "id": "p4_q006",
+        "utf8_bytes": 12483
+      },
+      {
+        "id": "p4_q007",
+        "utf8_bytes": 12421
+      },
+      {
+        "id": "p4_q008",
+        "utf8_bytes": 17677
+      },
+      {
+        "id": "p4_q009",
+        "utf8_bytes": 17710
+      },
+      {
+        "id": "p4_q010",
+        "utf8_bytes": 17654
+      },
+      {
+        "id": "p4_q011",
+        "utf8_bytes": 17703
+      },
+      {
+        "id": "p4_q012",
+        "utf8_bytes": 12190
+      },
+      {
+        "id": "p4_q013",
+        "utf8_bytes": 23966
+      },
+      {
+        "id": "p4_q014",
+        "utf8_bytes": 23922
+      },
+      {
+        "id": "p4_q015",
+        "utf8_bytes": 8124
+      },
+      {
+        "id": "p4_q016",
+        "utf8_bytes": 8081
+      },
+      {
+        "id": "p4_q017",
+        "utf8_bytes": 9409
+      },
+      {
+        "id": "p4_q018",
+        "utf8_bytes": 13060
+      },
+      {
+        "id": "p4_q019",
+        "utf8_bytes": 13032
+      },
+      {
+        "id": "p4_q020",
+        "utf8_bytes": 12928
+      }
+    ],
+    "note": "Exact prompt text bytes, NOT tokenizer counts or API latency"
+  },
+  "local_parse_and_render": {
+    "before": {
+      "median_seconds": 0.06359670800156891,
+      "samples_seconds": [
+        0.06375283401575871,
+        0.06499949999852106,
+        0.06359670800156891,
+        0.06020308402366936,
+        0.06065262499032542
+      ]
+    },
+    "after": {
+      "median_seconds": 0.08839124999940395,
+      "samples_seconds": [
+        0.08839124999940395,
+        0.08847754201269709,
+        0.08862591700744815,
+        0.08336437502293848,
+        0.0848569999798201
+      ]
+    }
+  }
+}

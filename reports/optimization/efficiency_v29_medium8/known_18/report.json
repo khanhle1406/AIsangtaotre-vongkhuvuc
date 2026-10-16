@@ -1,0 +1,47 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "medium",
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise medium",
+    "max_tokens": 2048,
+    "concurrency": 8,
+    "group_size": 4,
+    "strategy": "live-workbook-plan",
+    "modules": {
+      "batched.py": "dec1ea919249252bc42ec36d6a4c5425f76be24537b2f7262920e035c733ea7a",
+      "efficient.py": "86094a8c6ffc5c266520598b1285c4ac00015ded37157d3d1561565a0cbae6b1",
+      "precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4",
+      "gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05"
+    },
+    "agent_class": "StructuredBatchedAgent",
+    "agent_sha256": "6238055cc577cbd6335a77323b297171399cf1800cd8af8039d3e23f12656004"
+  },
+  "fingerprint": "920aa05600879fc4e89834b2356b0f21e31406b1cc64e8a5a1f203321541a9d7",
+  "complete": false,
+  "score": {
+    "correct": 17,
+    "total": 18,
+    "errors": {
+      "unseen-006": {
+        "prediction": "",
+        "reference": "146"
+      }
+    }
+  },
+  "wall_seconds": 18.21780954100541,
+  "mean_query_seconds": 4.341896905111046,
+  "tokens": 76142,
+  "provider_tokens_known": 76142,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 76142,
+  "http_attempts": 12,
+  "peak_total_rss_bytes": 141688832,
+  "fatal_error": null,
+  "errors": {
+    "unseen-006": "ValueError: TypeError: 'types.SimpleNamespace' object is not callable"
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

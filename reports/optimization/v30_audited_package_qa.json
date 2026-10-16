@@ -1,0 +1,46 @@
+{
+  "archive": "/Users/xuannguyen/Desktop/Competitions/2026/Sáng tạo trẻ/Vòng khu vực/dist/table_qa_gemini_v30_audited.zip",
+  "archive_sha256": "d512231960b5fb8383209d8b493a7764cee33760127f3c1f2b6c2b04c9205e91",
+  "source_lock_match": true,
+  "extracted": "/var/folders/37/k102566s7v39pbgrzypptyd80000gn/T/table-qa-v30-audited-2euh9i35",
+  "checks": [
+    {
+      "command": [
+        "-m",
+        "pytest",
+        "-q"
+      ],
+      "returncode": 0,
+      "output": "........................................................................ [ 29%]\n........................................................................ [ 58%]\n........................................................................ [ 88%]\n.............................                                            [100%]\n245 passed in 15.49s\n"
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "check",
+        "run.py",
+        "evaluate.py",
+        "src",
+        "tests",
+        "benchmarks"
+      ],
+      "returncode": 0,
+      "output": "All checks passed!\n"
+    },
+    {
+      "command": [
+        "-m",
+        "ruff",
+        "format",
+        "--check",
+        "run.py",
+        "evaluate.py",
+        "src",
+        "tests",
+        "benchmarks"
+      ],
+      "returncode": 0,
+      "output": "61 files already formatted\n"
+    }
+  ]
+}

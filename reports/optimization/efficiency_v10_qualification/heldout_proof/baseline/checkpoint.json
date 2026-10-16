@@ -1,0 +1,6055 @@
+{
+  "fingerprint": "dc23e78006c7f0fe5fa356ef11c163665128e28cca465c607c00a8feb4bb6533",
+  "records": {
+    "transfer-001": {
+      "file_name": "audit_208705.xlsx",
+      "answer": "8500.00",
+      "cost": 0.0,
+      "tokens": 4882,
+      "requests": 1,
+      "elapsed": 2.2071452499949373,
+      "error": null,
+      "attempts": [
+        {
+          "code": "policy_rows = data_rows('Policy', {'B': 'number', 'C': 'number', 'D': 'number'}, start_row=288, end_row=291)\npolicies = [(num('Policy', f'B{r}'), num('Policy', f'C{r}'), num('Policy', f'D{r}')) for r in policy_rows]\n\ninc_rows = data_rows('Incomes', {'B': 'string', 'C': 'number'}, start_row=288, end_row=293)\nnico_income = 0\nfor r in inc_rows:\n    if cell('Incomes', f'B{r}') == 'Nico':\n        nico_income = num('Incomes', f'C{r}')\n\ntax = 0\nfor lower, upper, rate in policies:\n    if nico_income > lower:\n        taxable = min(nico_income, upper) - lower\n        tax += taxable * rate\nresult = round(tax, 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ",",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Policy",
+              "range": "B288:D291",
+              "operation": "lookup",
+              "unit": "USD/fraction"
+            },
+            {
+              "sheet": "Incomes",
+              "range": "B288:C293",
+              "operation": "lookup",
+              "unit": "USD"
+            }
+          ],
+          "reads": {
+            "Policy!B288": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C288": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D288": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B289": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C289": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D289": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B290": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C290": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D290": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B291": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C291": {
+              "value": 400000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D291": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B288": {
+              "value": "Mara",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C288": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Incomes!B289": {
+              "value": "Nico",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C289": {
+              "value": 55000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B290": {
+              "value": "Odel",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C290": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Incomes!B291": {
+              "value": "Pia",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C291": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Incomes!B292": {
+              "value": "Rami",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C292": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Incomes!B293": {
+              "value": "Tova",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C293": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            }
+          },
+          "raw_result": 8500.0,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4882,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4882,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4485,
+          "completion_tokens": 397,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 20012,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28131328
+    },
+    "transfer-002": {
+      "file_name": "audit_208705.xlsx",
+      "answer": "15.45",
+      "cost": 0.0,
+      "tokens": 4972,
+      "requests": 1,
+      "elapsed": 2.4100905419909395,
+      "error": null,
+      "attempts": [
+        {
+          "code": "policy_rows = data_rows('Policy', {'B': 'number', 'C': 'number', 'D': 'number'}, 288, 291)\nlower = values('Policy', 'B288:B291')\nupper = values('Policy', 'C288:C291')\nrates = values('Policy', 'D288:D291')\n\n# Find Nico's income\nincome_rows = data_rows('Incomes', {'B': 'string', 'C': 'number'}, 288, 293)\nnico_income = 0\nfor r in income_rows:\n    if cell('Incomes', f'B{r}') == 'Nico':\n        nico_income = num('Incomes', f'C{r}')\n        break\n\n# Calculate progressive tax for Nico (55000)\n# Brackets:\n# 0-25000 at 10%\n# 25000-70000 at 20%\ntax = 0\nfor l, u, r in zip(lower, upper, rates):\n    if nico_income > l:\n        taxable = min(nico_income, u) - l\n        tax += taxable * r\n\nresult = round((tax / nico_income) * 100, 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": "",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Tax brackets apply progressively"
+          ],
+          "selection": [
+            {
+              "sheet": "Policy",
+              "range": "B288:D291",
+              "operation": "lookup",
+              "unit": "USD"
+            },
+            {
+              "sheet": "Incomes",
+              "range": "B288:C293",
+              "operation": "lookup",
+              "unit": "USD"
+            }
+          ],
+          "reads": {
+            "Policy!B288": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C288": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D288": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B289": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C289": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D289": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B290": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C290": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D290": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B291": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C291": {
+              "value": 400000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D291": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B288": {
+              "value": "Mara",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C288": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Incomes!B289": {
+              "value": "Nico",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C289": {
+              "value": 55000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C290": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Incomes!B291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C291": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Incomes!B292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C292": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Incomes!B293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C293": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            }
+          },
+          "raw_result": 15.45,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4972,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4972,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4481,
+          "completion_tokens": 491,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19994,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28114944
+    },
+    "transfer-004": {
+      "file_name": "audit_208705.xlsx",
+      "answer": "93400.00",
+      "cost": 0.0,
+      "tokens": 4855,
+      "requests": 1,
+      "elapsed": 2.085651792003773,
+      "error": null,
+      "attempts": [
+        {
+          "code": "policy_rows = data_rows('Policy', {'B': 'number', 'C': 'number', 'D': 'number'}, 288, 291)\npolicies = []\nfor r in policy_rows:\n    policies.append((num('Policy', f'B{r}'), num('Policy', f'C{r}'), num('Policy', f'D{r}')))\n\nincome_rows = data_rows('Incomes', {'B': 'string', 'C': 'number'}, 288, 293)\nincomes = []\nfor r in income_rows:\n    incomes.append(num('Incomes', f'C{r}'))\n\ntotal_tax = 0.0\nfor inc in incomes:\n    tax = 0.0\n    for lower, upper, rate in policies:\n        if inc > lower:\n            taxable = min(inc, upper) - lower\n            tax += taxable * rate\n    total_tax += tax\n\nresult = round(total_tax, 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Progressive tax is calculated per band for each person's income."
+          ],
+          "selection": [
+            {
+              "sheet": "Policy",
+              "range": "B287:D291",
+              "operation": "lookup",
+              "unit": "USD"
+            },
+            {
+              "sheet": "Incomes",
+              "range": "B287:C293",
+              "operation": "lookup",
+              "unit": "USD"
+            }
+          ],
+          "reads": {
+            "Policy!B288": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C288": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D288": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B289": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C289": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D289": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B290": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C290": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D290": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B291": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C291": {
+              "value": 400000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D291": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C288": {
+              "value": 18000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C289": {
+              "value": 55000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C290": {
+              "value": 97000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C291": {
+              "value": 180000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C292": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C293": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 93400.0,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4855,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4855,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4479,
+          "completion_tokens": 376,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19974,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28049408
+    },
+    "transfer-003": {
+      "file_name": "audit_208705.xlsx",
+      "answer": "30.00",
+      "cost": 0.0,
+      "tokens": 4778,
+      "requests": 1,
+      "elapsed": 2.511538417020347,
+      "error": null,
+      "attempts": [
+        {
+          "code": "incomes = cells('Incomes', 'B288:C293')\npolicy = cells('Policy', 'B288:D291')\n\nodel_income = next(inc for name, inc in incomes if name == 'Odel')\n\nrate = 0\nfor lower, upper, r in policy:\n    if lower <= odel_income < upper or (upper is None and odel_income >= lower):\n        rate = r\n        break\n\nresult = round(rate * 100, 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Income bounds are lower inclusive and upper exclusive."
+          ],
+          "selection": [
+            {
+              "sheet": "Incomes",
+              "range": "B287:C293",
+              "operation": "lookup",
+              "unit": "USD"
+            },
+            {
+              "sheet": "Policy",
+              "range": "B287:D291",
+              "operation": "lookup",
+              "unit": "USD"
+            }
+          ],
+          "reads": {
+            "Incomes!B288": {
+              "value": "Mara",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C288": {
+              "value": 18000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B289": {
+              "value": "Nico",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C289": {
+              "value": 55000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B290": {
+              "value": "Odel",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C290": {
+              "value": 97000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B291": {
+              "value": "Pia",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C291": {
+              "value": 180000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B292": {
+              "value": "Rami",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C292": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B293": {
+              "value": "Tova",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C293": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B288": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C288": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D288": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B289": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C289": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D289": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B290": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C290": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D290": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B291": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C291": {
+              "value": 400000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D291": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 30.0,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4778,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4778,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4481,
+          "completion_tokens": 297,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19994,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28049408
+    },
+    "transfer-005": {
+      "file_name": "audit_208705.xlsx",
+      "answer": "Pia",
+      "cost": 0.0,
+      "tokens": 4942,
+      "requests": 1,
+      "elapsed": 2.503966208023485,
+      "error": null,
+      "attempts": [
+        {
+          "code": "policy_rows = data_rows('Policy', {'B': 'number', 'C': 'number', 'D': 'number'}, 288, 291)\nlower = values('Policy', 'B288:B291')\nupper = values('Policy', 'C288:C291')\nrates = values('Policy', 'D288:D291')\n\npeople = values('Incomes', 'B288:B293')\nincomes = values('Incomes', 'C288:C293')\n\ndef calc_tax(inc):\n    tax = 0\n    for l, u, r in zip(lower, upper, rates):\n        if inc > l:\n            tax += (min(inc, u) - l) * r\n    return inc - tax\n\nnet_incomes = [(p, calc_tax(inc)) for p, inc in zip(people, incomes)]\n\nmax_net = max(net_incomes, key=lambda x: x[1])[1]\ntop_people = sorted([p for p, net in net_incomes if net == max_net])\nresult = top_people[0]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Policy",
+              "range": "B288:D291",
+              "operation": "lookup",
+              "unit": "USD"
+            },
+            {
+              "sheet": "Incomes",
+              "range": "B288:C293",
+              "operation": "lookup",
+              "unit": "USD"
+            }
+          ],
+          "reads": {
+            "Policy!B288": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C288": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D288": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B289": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C289": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D289": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B290": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C290": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D290": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B291": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C291": {
+              "value": 400000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D291": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B288": {
+              "value": "Mara",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B289": {
+              "value": "Nico",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B290": {
+              "value": "Odel",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B291": {
+              "value": "Pia",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B292": {
+              "value": "Rami",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B293": {
+              "value": "Tova",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C288": {
+              "value": 18000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C289": {
+              "value": 55000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C290": {
+              "value": 97000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C291": {
+              "value": 180000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C292": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C293": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Pia",
+          "sorts": [
+            {
+              "keys": [
+                "Pia"
+              ],
+              "reverse": false,
+              "selected": [
+                0
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4942,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4942,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4474,
+          "completion_tokens": 468,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19965,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28114944
+    },
+    "transfer-006": {
+      "file_name": "audit_208705.xlsx",
+      "answer": "300.00",
+      "cost": 0.0,
+      "tokens": 5035,
+      "requests": 1,
+      "elapsed": 2.403453167004045,
+      "error": null,
+      "attempts": [
+        {
+          "code": "policy_rows = data_rows('Policy', {'B': 'number', 'C': 'number', 'D': 'number'})\nlower_b = values('Policy', 'B' + str(min(policy_rows)) + ':B' + str(max(policy_rows)))\nupper_c = values('Policy', 'C' + str(min(policy_rows)) + ':C' + str(max(policy_rows)))\nrates = values('Policy', 'D' + str(min(policy_rows)) + ':D' + str(max(policy_rows)))\n\ndef get_tax(inc):\n    tax = 0\n    for l, u, r in zip(lower_b, upper_c, rates):\n        if inc > l:\n            tax += (min(inc, u) - l) * r\n    return tax\n\nincome_rows = data_rows('Incomes', {'B': 'string', 'C': 'number'})\nperson_names = values('Incomes', 'B' + str(min(income_rows)) + ':B' + str(max(income_rows)))\nperson_incomes = values('Incomes', 'C' + str(min(income_rows)) + ':C' + str(max(income_rows)))\n\ntova_idx = person_names.index('Tova')\nbase_income = person_incomes[tova_idx]\n\ncurrent_tax = get_tax(base_income)\nnew_tax = get_tax(base_income + 1000)\nresult = round(new_tax - current_tax, 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Policy",
+              "range": "B287:D291",
+              "operation": "lookup",
+              "unit": "USD"
+            },
+            {
+              "sheet": "Incomes",
+              "range": "B287:C293",
+              "operation": "lookup",
+              "unit": "USD"
+            }
+          ],
+          "reads": {
+            "Policy!B287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Policy!C287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Policy!D287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Policy!B288": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C288": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D288": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B289": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C289": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D289": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B290": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C290": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D290": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B291": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C291": {
+              "value": 400000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D291": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!B288": {
+              "value": "Mara",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C288": {
+              "value": 18000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B289": {
+              "value": "Nico",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C289": {
+              "value": 55000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B290": {
+              "value": "Odel",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C290": {
+              "value": 97000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B291": {
+              "value": "Pia",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C291": {
+              "value": 180000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B292": {
+              "value": "Rami",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C292": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B293": {
+              "value": "Tova",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C293": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 300.0,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 5035,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 5035,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4481,
+          "completion_tokens": 554,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19971,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28065792
+    },
+    "transfer-007": {
+      "file_name": "audit_208705.xlsx",
+      "answer": "3",
+      "cost": 0.0,
+      "tokens": 4910,
+      "requests": 1,
+      "elapsed": 2.1345014159742277,
+      "error": null,
+      "attempts": [
+        {
+          "code": "policy_rows = data_rows('Policy', {'B': 'number', 'C': 'number', 'D': 'number'}, 288, 291)\npolicies = [(num('Policy', f'B{r}'), num('Policy', f'C{r}'), num('Policy', f'D{r}')) for r in policy_rows]\nincome_rows = data_rows('Incomes', {'B': 'string', 'C': 'number'}, 288, 293)\nincomes = [num('Incomes', f'C{r}') for r in income_rows]\n\ndef compute_tax(income, policies):\n    tax = 0\n    for lower, upper, rate in policies:\n        if income > lower:\n            taxable = min(income, upper) - lower if upper else income - lower\n            tax += taxable * rate\n    return tax\n\ncount = 0\nfor inc in incomes:\n    if compute_tax(inc, policies) > 10000:\n        count += 1\nresult = count",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Policy",
+              "range": "B288:D291",
+              "operation": "lookup",
+              "unit": "USD / fraction"
+            },
+            {
+              "sheet": "Incomes",
+              "range": "B288:C293",
+              "operation": "lookup",
+              "unit": "USD"
+            }
+          ],
+          "reads": {
+            "Policy!B288": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C288": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D288": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B289": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C289": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D289": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B290": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C290": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D290": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B291": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C291": {
+              "value": 400000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D291": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C288": {
+              "value": 18000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C289": {
+              "value": 55000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C290": {
+              "value": 97000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C291": {
+              "value": 180000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C292": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C293": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 3,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4910,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4910,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4476,
+          "completion_tokens": 434,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19943,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28409856
+    },
+    "transfer-008": {
+      "file_name": "audit_208705.xlsx",
+      "answer": "77400.00",
+      "cost": 0.0,
+      "tokens": 4835,
+      "requests": 1,
+      "elapsed": 2.716068957990501,
+      "error": null,
+      "attempts": [
+        {
+          "code": "policy_rows = data_rows('Policy', {'B': 'number', 'C': 'number', 'D': 'number'})\npolicies = [[num('Policy', f'B{r}'), num('Policy', f'C{r}'), num('Policy', f'D{r}')] for r in policy_rows]\n\nincomes_rows = data_rows('Incomes', {'B': 'string', 'C': 'number'})\nincomes = {cell('Incomes', f'B{r}'): num('Incomes', f'C{r}') for r in incomes_rows}\n\nodel_income = incomes['Odel']\n\n# Calculate progressive tax for Odel\ntax = 0\nfor lower, upper, rate in policies:\n    if odel_income > lower:\n        taxable_in_bracket = min(odel_income, upper) - lower\n        tax += taxable_in_bracket * rate\n\nresult = round(odel_income - tax, 2)",
+          "result_variable": "result",
+          "format": {
+            "kind": "decimal",
+            "decimals": 2,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Tax brackets are progressive and inclusive of lower bound, exclusive of upper bound."
+          ],
+          "selection": [
+            {
+              "sheet": "Policy",
+              "range": "B288:D291",
+              "operation": "lookup",
+              "unit": "USD"
+            },
+            {
+              "sheet": "Incomes",
+              "range": "B288:C293",
+              "operation": "lookup",
+              "unit": "USD"
+            }
+          ],
+          "reads": {
+            "Policy!B287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Policy!C287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Policy!D287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Policy!B288": {
+              "value": 0,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C288": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D288": {
+              "value": 0.1,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B289": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C289": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D289": {
+              "value": 0.2,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B290": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C290": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D290": {
+              "value": 0.3,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!B291": {
+              "value": 130000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!C291": {
+              "value": 400000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Policy!D291": {
+              "value": 0.4,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!C287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Incomes!B288": {
+              "value": "Mara",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C288": {
+              "value": 18000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B289": {
+              "value": "Nico",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C289": {
+              "value": 55000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B290": {
+              "value": "Odel",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C290": {
+              "value": 97000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B291": {
+              "value": "Pia",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C291": {
+              "value": 180000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B292": {
+              "value": "Rami",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C292": {
+              "value": 25000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!B293": {
+              "value": "Tova",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Incomes!C293": {
+              "value": 70000,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 77400.0,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4835,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4835,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4469,
+          "completion_tokens": 366,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19922,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28311552
+    },
+    "transfer-010": {
+      "file_name": "audit_672541.xlsx",
+      "answer": "222",
+      "cost": 0.0,
+      "tokens": 4863,
+      "requests": 1,
+      "elapsed": 2.165481042000465,
+      "error": null,
+      "attempts": [
+        {
+          "code": "orders_sheet = 'Orders'\nshipments_sheet = 'Shipments'\n\norder_rows = data_rows(orders_sheet, {'B': 'string', 'C': 'number'}, start_row=288, end_row=294)\nvalid_orders = {cell(orders_sheet, f'B{r}') for r in order_rows}\n\nship_rows = data_rows(shipments_sheet, {'F': 'string', 'G': 'number'}, start_row=504, end_row=511)\ntotal_shipped = 0\nfor r in ship_rows:\n    oid = cell(shipments_sheet, f'F{r}')\n    if oid in valid_orders:\n        total_shipped += num(shipments_sheet, f'G{r}')\n\nresult = int(total_shipped)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ",",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Orders",
+              "range": "B288:C294",
+              "operation": "lookup",
+              "unit": "units"
+            },
+            {
+              "sheet": "Shipments",
+              "range": "F504:G511",
+              "operation": "lookup",
+              "unit": "units"
+            }
+          ],
+          "reads": {
+            "Orders!B288": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C288": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B289": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C289": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B290": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C290": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B291": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C291": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B292": {
+              "value": "Order-45",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C292": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B293": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C293": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B294": {
+              "value": "Order-47",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C294": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Shipments!F504": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G504": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F505": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G505": {
+              "value": 10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F506": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G506": {
+              "value": 13,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F507": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G507": {
+              "value": 78,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F508": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G508": {
+              "value": 9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F509": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G509": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F510": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G510": {
+              "value": 43,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F511": {
+              "value": "Unknown-99",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G511": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            }
+          },
+          "raw_result": 222,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4863,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4863,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4502,
+          "completion_tokens": 361,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 20011,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28033024
+    },
+    "transfer-011": {
+      "file_name": "audit_672541.xlsx",
+      "answer": "1",
+      "cost": 0.0,
+      "tokens": 4737,
+      "requests": 1,
+      "elapsed": 2.008170625020284,
+      "error": null,
+      "attempts": [
+        {
+          "code": "orders = set(values('Orders', 'B288:B294'))\nshipment_ids = values('Shipments', 'F504:F511')\nresult = sum(1 for oid in shipment_ids if oid not in orders)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Orders",
+              "range": "B287:B294",
+              "operation": "lookup",
+              "unit": "Order ID"
+            },
+            {
+              "sheet": "Shipments",
+              "range": "F503:F511",
+              "operation": "lookup",
+              "unit": "Order ID"
+            }
+          ],
+          "reads": {
+            "Orders!B288": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B289": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B290": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B291": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B292": {
+              "value": "Order-45",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B293": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B294": {
+              "value": "Order-47",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F504": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F505": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F506": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F507": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F508": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F509": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F510": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F511": {
+              "value": "Unknown-99",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 1,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4737,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4737,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4494,
+          "completion_tokens": 243,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19975,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28164096
+    },
+    "transfer-012": {
+      "file_name": "audit_672541.xlsx",
+      "answer": "187",
+      "cost": 0.0,
+      "tokens": 4913,
+      "requests": 1,
+      "elapsed": 2.191802000015741,
+      "error": null,
+      "attempts": [
+        {
+          "code": "orders_rows = data_rows('Orders', {'B': 'string', 'C': 'number'}, start_row=288, end_row=294)\norders = {cell('Orders', 'B' + str(r)): num('Orders', 'C' + str(r)) for r in orders_rows}\n\nship_rows = data_rows('Shipments', {'F': 'string', 'G': 'number'}, start_row=504, end_row=511)\nshipments = {}\nfor r in ship_rows:\n    oid = cell('Shipments', 'F' + str(r))\n    val = num('Shipments', 'G' + str(r))\n    shipments[oid] = shipments.get(oid, 0) + val\n\ntotal = 0\nfor oid, ordered in orders.items():\n    shipped = shipments.get(oid, 0)\n    diff = ordered - shipped\n    if diff > 0:\n        total += diff\nresult = int(total)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ",",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Orders",
+              "range": "B287:C294",
+              "operation": "lookup",
+              "unit": "units"
+            },
+            {
+              "sheet": "Shipments",
+              "range": "F503:G511",
+              "operation": "lookup",
+              "unit": "units"
+            }
+          ],
+          "reads": {
+            "Orders!B288": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C288": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B289": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C289": {
+              "value": 40,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B290": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C290": {
+              "value": 71,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B291": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C291": {
+              "value": 70,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B292": {
+              "value": "Order-45",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C292": {
+              "value": 78,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B293": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C293": {
+              "value": 47,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B294": {
+              "value": "Order-47",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C294": {
+              "value": 35,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F504": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G504": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F505": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G505": {
+              "value": 10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F506": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G506": {
+              "value": 13,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F507": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G507": {
+              "value": 78,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F508": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G508": {
+              "value": 9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F509": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G509": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F510": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G510": {
+              "value": 43,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F511": {
+              "value": "Unknown-99",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G511": {
+              "value": 6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 187,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4913,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4913,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4514,
+          "completion_tokens": 399,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 20060,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28016640
+    },
+    "transfer-013": {
+      "file_name": "audit_672541.xlsx",
+      "answer": "2",
+      "cost": 0.0,
+      "tokens": 4859,
+      "requests": 1,
+      "elapsed": 2.109616499976255,
+      "error": null,
+      "attempts": [
+        {
+          "code": "orders_rows = data_rows('Orders', {'B': 'string', 'C': 'number'}, 288, 294)\norders = {cell('Orders', 'B' + str(r)): num('Orders', 'C' + str(r)) for r in orders_rows}\nship_rows = data_rows('Shipments', {'F': 'string', 'G': 'number'}, 504, 511)\nshipments = {}\nfor r in ship_rows:\n    oid = cell('Shipments', 'F' + str(r))\n    val = num('Shipments', 'G' + str(r))\n    if oid in orders:\n        shipments[oid] = shipments.get(oid, 0) + val\nresult = sum(1 for oid, ordered in orders.items() if shipments.get(oid, 0) >= ordered)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Orders",
+              "range": "B288:C294",
+              "operation": "lookup",
+              "unit": "units"
+            },
+            {
+              "sheet": "Shipments",
+              "range": "F504:G511",
+              "operation": "lookup",
+              "unit": "units"
+            }
+          ],
+          "reads": {
+            "Orders!B288": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C288": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B289": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C289": {
+              "value": 40,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B290": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C290": {
+              "value": 71,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B291": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C291": {
+              "value": 70,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B292": {
+              "value": "Order-45",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C292": {
+              "value": 78,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B293": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C293": {
+              "value": 47,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B294": {
+              "value": "Order-47",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C294": {
+              "value": 35,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F504": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G504": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F505": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G505": {
+              "value": 10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F506": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G506": {
+              "value": 13,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F507": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G507": {
+              "value": 78,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F508": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G508": {
+              "value": 9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F509": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G509": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F510": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G510": {
+              "value": 43,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F511": {
+              "value": "Unknown-99",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G511": {
+              "value": 6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 2,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4859,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4859,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4500,
+          "completion_tokens": 359,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19999,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28147712
+    },
+    "transfer-014": {
+      "file_name": "audit_672541.xlsx",
+      "answer": "Order-45, Order-47",
+      "cost": 0.0,
+      "tokens": 4724,
+      "requests": 1,
+      "elapsed": 2.0576272920006886,
+      "error": null,
+      "attempts": [
+        {
+          "code": "order_rows = data_rows('Orders', {'B': 'string', 'C': 'number'})\norder_ids = [cell('Orders', 'B' + str(r)) for r in order_rows]\nship_rows = data_rows('Shipments', {'F': 'string', 'G': 'number'})\nshipped_ids = set(cell('Shipments', 'F' + str(r)) for r in ship_rows)\nresult = sorted([oid for oid in order_ids if oid not in shipped_ids])",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Orders",
+              "range": "B287:C294",
+              "operation": "lookup",
+              "unit": "order ID"
+            },
+            {
+              "sheet": "Shipments",
+              "range": "F503:G511",
+              "operation": "lookup",
+              "unit": "shipment order ID"
+            }
+          ],
+          "reads": {
+            "Orders!B287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!C287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!B288": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C288": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B289": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C289": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B290": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C290": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B291": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C291": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B292": {
+              "value": "Order-45",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C292": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B293": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C293": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Orders!B294": {
+              "value": "Order-47",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C294": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Shipments!F503": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Shipments!G503": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Shipments!F504": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G504": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Shipments!F505": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G505": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Shipments!F506": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G506": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Shipments!F507": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G507": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Shipments!F508": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G508": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Shipments!F509": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G509": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Shipments!F510": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G510": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            },
+            "Shipments!F511": {
+              "value": "Unknown-99",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G511": {
+              "kind": "type_probe",
+              "stored_kind": "number",
+              "value": null
+            }
+          },
+          "raw_result": [
+            "Order-45",
+            "Order-47"
+          ],
+          "sorts": [
+            {
+              "keys": [
+                "Order-45",
+                "Order-47"
+              ],
+              "reverse": false,
+              "selected": []
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4724,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4724,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4496,
+          "completion_tokens": 228,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19985,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28098560
+    },
+    "transfer-015": {
+      "file_name": "audit_672541.xlsx",
+      "answer": "Order-45",
+      "cost": 0.0,
+      "tokens": 4964,
+      "requests": 1,
+      "elapsed": 2.4337246660143137,
+      "error": null,
+      "attempts": [
+        {
+          "code": "orders_rows = data_rows('Orders', {'B': 'string', 'C': 'number'}, 288, 294)\norder_dict = {}\nfor r in orders_rows:\n    oid = cell('Orders', f'B{r}')\n    qty = num('Orders', f'C{r}')\n    order_dict[oid] = qty\n\nship_rows = data_rows('Shipments', {'F': 'string', 'G': 'number'}, 504, 511)\nship_dict = {}\nfor r in ship_rows:\n    oid = cell('Shipments', f'F{r}')\n    qty = num('Shipments', f'G{r}')\n    ship_dict[oid] = ship_dict.get(oid, 0) + qty\n\nunshipped = {}\nfor oid, ordered in order_dict.items():\n    shipped = ship_dict.get(oid, 0)\n    diff = ordered - shipped\n    if diff > 0:\n        unshipped[oid] = diff\n\nmax_val = max(unshipped.values())\ncandidates = [oid for oid, val in unshipped.items() if val == max_val]\ncandidates.sort()\nresult = candidates[0]",
+          "result_variable": "result",
+          "format": {
+            "kind": "text",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Orders",
+              "range": "B288:C294",
+              "operation": "lookup",
+              "unit": "units"
+            },
+            {
+              "sheet": "Shipments",
+              "range": "F504:G511",
+              "operation": "lookup",
+              "unit": "units"
+            }
+          ],
+          "reads": {
+            "Orders!B288": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C288": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B289": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C289": {
+              "value": 40,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B290": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C290": {
+              "value": 71,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B291": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C291": {
+              "value": 70,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B292": {
+              "value": "Order-45",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C292": {
+              "value": 78,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B293": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C293": {
+              "value": 47,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B294": {
+              "value": "Order-47",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C294": {
+              "value": 35,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F504": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G504": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F505": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G505": {
+              "value": 10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F506": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G506": {
+              "value": 13,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F507": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G507": {
+              "value": 78,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F508": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G508": {
+              "value": 9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F509": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G509": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F510": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G510": {
+              "value": 43,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F511": {
+              "value": "Unknown-99",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G511": {
+              "value": 6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": "Order-45",
+          "sorts": [
+            {
+              "keys": [
+                "Order-45"
+              ],
+              "reverse": false,
+              "selected": [
+                0
+              ]
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4964,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4964,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4503,
+          "completion_tokens": 461,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 20029,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28164096
+    },
+    "transfer-016": {
+      "file_name": "audit_672541.xlsx",
+      "answer": "7",
+      "cost": 0.0,
+      "tokens": 4884,
+      "requests": 1,
+      "elapsed": 2.169365875015501,
+      "error": null,
+      "attempts": [
+        {
+          "code": "orders_rows = data_rows('Orders', {'B': 'string', 'C': 'number'})\norders = {}\nfor r in orders_rows:\n    oid = cell('Orders', f'B{r}')\n    val = num('Orders', f'C{r}')\n    orders[oid] = val\n\nship_rows = data_rows('Shipments', {'F': 'string', 'G': 'number'})\nshipments = {}\nfor r in ship_rows:\n    oid = cell('Shipments', f'F{r}')\n    val = num('Shipments', f'G{r}')\n    shipments[oid] = shipments.get(oid, 0) + val\n\ntotal_overshipped = 0\nfor oid, ordered in orders.items():\n    shipped = shipments.get(oid, 0)\n    overshipped = max(0, shipped - ordered)\n    total_overshipped += overshipped\n\nresult = int(total_overshipped)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Ignore unknown Order IDs not present in Orders sheet."
+          ],
+          "selection": [
+            {
+              "sheet": "Orders",
+              "range": "B287:C294",
+              "operation": "lookup",
+              "unit": "units"
+            },
+            {
+              "sheet": "Shipments",
+              "range": "F503:G511",
+              "operation": "lookup",
+              "unit": "units"
+            }
+          ],
+          "reads": {
+            "Orders!B287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!C287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!B288": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C288": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B289": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C289": {
+              "value": 40,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B290": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C290": {
+              "value": 71,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B291": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C291": {
+              "value": 70,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B292": {
+              "value": "Order-45",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C292": {
+              "value": 78,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B293": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C293": {
+              "value": 47,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B294": {
+              "value": "Order-47",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!C294": {
+              "value": 35,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F503": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Shipments!G503": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Shipments!F504": {
+              "value": "Order-41",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G504": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F505": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G505": {
+              "value": 10,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F506": {
+              "value": "Order-42",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G506": {
+              "value": 13,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F507": {
+              "value": "Order-43",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G507": {
+              "value": 78,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F508": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G508": {
+              "value": 9,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F509": {
+              "value": "Order-44",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G509": {
+              "value": 8,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F510": {
+              "value": "Order-46",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G510": {
+              "value": 43,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!F511": {
+              "value": "Unknown-99",
+              "kind": "string",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Shipments!G511": {
+              "value": 6,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 7,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4884,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4884,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4511,
+          "completion_tokens": 373,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 20042,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28213248
+    },
+    "transfer-017": {
+      "file_name": "audit_782997.xlsx",
+      "answer": "305",
+      "cost": 0.0,
+      "tokens": 4602,
+      "requests": 1,
+      "elapsed": 1.9058802500076126,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = data_rows('Reservations', {'F': 'string', 'G': 'number', 'H': 'number'}, 288, 294)\ncovered = set()\nfor r in rows:\n    start = num('Reservations', f'G{r}')\n    end = num('Reservations', f'H{r}')\n    for m in range(int(start), int(end)):\n        if 0 <= m < 600:\n            covered.add(m)\nresult = len(covered)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Reservations",
+              "range": "F287:H294",
+              "operation": "lookup",
+              "unit": "minute"
+            }
+          ],
+          "reads": {
+            "Reservations!F288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G288": {
+              "value": 15,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H288": {
+              "value": 75,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G289": {
+              "value": 50,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H289": {
+              "value": 120,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G290": {
+              "value": 190,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H290": {
+              "value": 240,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G291": {
+              "value": 230,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H291": {
+              "value": 310,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G292": {
+              "value": 400,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H292": {
+              "value": 450,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G293": {
+              "value": 445,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H293": {
+              "value": 480,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F294": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G294": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H294": {
+              "value": 95,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 305,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4602,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4602,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4344,
+          "completion_tokens": 258,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19667,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28049408
+    },
+    "transfer-018": {
+      "file_name": "audit_782997.xlsx",
+      "answer": "385",
+      "cost": 0.0,
+      "tokens": 4494,
+      "requests": 1,
+      "elapsed": 1.7491776250244584,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_list = data_rows('Reservations', {'F': 'string', 'G': 'number', 'H': 'number'}, 288, 294)\nresult = sum(num('Reservations', f'H{r}') - num('Reservations', f'G{r}') for r in rows_list)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Reservations",
+              "range": "F287:H294",
+              "operation": "sum",
+              "unit": "minutes"
+            }
+          ],
+          "reads": {
+            "Reservations!F288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G288": {
+              "value": 15,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H288": {
+              "value": 75,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G289": {
+              "value": 50,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H289": {
+              "value": 120,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G290": {
+              "value": 190,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H290": {
+              "value": 240,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G291": {
+              "value": 230,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H291": {
+              "value": 310,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G292": {
+              "value": 400,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H292": {
+              "value": 450,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G293": {
+              "value": 445,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H293": {
+              "value": 480,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F294": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G294": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H294": {
+              "value": 95,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 385,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4494,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4494,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4329,
+          "completion_tokens": 165,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19616,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 27967488
+    },
+    "transfer-019": {
+      "file_name": "audit_782997.xlsx",
+      "answer": "295",
+      "cost": 0.0,
+      "tokens": 4599,
+      "requests": 1,
+      "elapsed": 2.1911972499801777,
+      "error": null,
+      "attempts": [
+        {
+          "code": "r = data_rows('Reservations', {'F': 'string', 'G': 'number', 'H': 'number'}, start_row=288, end_row=294)\nintervals = [(num('Reservations', f'G{i}'), num('Reservations', f'H{i}')) for i in r]\ncovered = set()\nfor start, end in intervals:\n    for m in range(max(0, start), min(600, end)):\n        covered.add(m)\nresult = 600 - len(covered)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Reservations",
+              "range": "F287:H294",
+              "operation": "lookup",
+              "unit": "minute"
+            }
+          ],
+          "reads": {
+            "Reservations!F288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G288": {
+              "value": 15,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H288": {
+              "value": 75,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G289": {
+              "value": 50,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H289": {
+              "value": 120,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G290": {
+              "value": 190,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H290": {
+              "value": 240,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G291": {
+              "value": 230,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H291": {
+              "value": 310,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G292": {
+              "value": 400,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H292": {
+              "value": 450,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G293": {
+              "value": 445,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H293": {
+              "value": 480,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F294": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G294": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H294": {
+              "value": 95,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 295,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4599,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4599,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4334,
+          "completion_tokens": 265,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19606,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28033024
+    },
+    "transfer-020": {
+      "file_name": "audit_782997.xlsx",
+      "answer": "120",
+      "cost": 0.0,
+      "tokens": 4746,
+      "requests": 1,
+      "elapsed": 3.370529040985275,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet_name = 'Reservations'\nrows = data_rows(sheet_name, {'F': 'string', 'G': 'number', 'H': 'number'})\nstarts = values(sheet_name, 'G288:G294')\nends = values(sheet_name, 'H288:H294')\nintervals = sorted(zip(starts, ends))\n\n# Merge intervals or find gaps within [0, 600]\n# Let's track covered minutes\ncovered = [False] * 600\nfor s, e in zip(starts, ends):\n    s_clamped = max(0, int(s))\n    e_clamped = min(600, int(e))\n    for m in range(s_clamped, e_clamped):\n        covered[m] = True\n\nmax_gap = 0\ncurrent_gap = 0\nfor m in range(600):\n    if not covered[m]:\n        current_gap += 1\n        if current_gap > max_gap:\n            max_gap = current_gap\n    else:\n        current_gap = 0\n\nresult = max_gap",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Minute range is 0 inclusive to 600 exclusive"
+          ],
+          "selection": [
+            {
+              "sheet": "Reservations",
+              "range": "F287:H294",
+              "operation": "lookup/mean/sum/rank",
+              "unit": "minutes"
+            }
+          ],
+          "reads": {
+            "Reservations!F287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!H287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!F288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G288": {
+              "value": 15,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H288": {
+              "value": 75,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G289": {
+              "value": 50,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H289": {
+              "value": 120,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G290": {
+              "value": 190,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H290": {
+              "value": 240,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G291": {
+              "value": 230,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H291": {
+              "value": 310,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G292": {
+              "value": 400,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H292": {
+              "value": 450,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G293": {
+              "value": 445,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H293": {
+              "value": 480,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F294": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G294": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H294": {
+              "value": 95,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 120,
+          "sorts": [
+            {
+              "keys": [
+                15,
+                50,
+                190,
+                230,
+                400,
+                445,
+                55
+              ],
+              "reverse": false,
+              "selected": []
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4746,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4746,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4348,
+          "completion_tokens": 398,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19682,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28180480
+    },
+    "transfer-021": {
+      "file_name": "audit_782997.xlsx",
+      "answer": "3",
+      "cost": 0.0,
+      "tokens": 4623,
+      "requests": 1,
+      "elapsed": 1.9851907919801306,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_list = data_rows('Reservations', {'F': 'string', 'G': 'number', 'H': 'number'}, 288, 294)\nevents = []\nfor r in rows_list:\n    start = num('Reservations', f'G{r}')\n    end = num('Reservations', f'H{r}')\n    events.append((start, 1))\n    events.append((end, -1))\nevents.sort(key=lambda x: (x[0], -x[1]))\nmax_active = 0\ncurrent = 0\nfor time, val in events:\n    current += val\n    if current > max_active:\n        max_active = current\nresult = max_active",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [
+            "Reservations start at G288:G294 and end at H288:H294"
+          ],
+          "selection": [
+            {
+              "sheet": "Reservations",
+              "range": "F287:H294",
+              "operation": "lookup",
+              "unit": "minute"
+            }
+          ],
+          "reads": {
+            "Reservations!F288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G288": {
+              "value": 15,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H288": {
+              "value": 75,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G289": {
+              "value": 50,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H289": {
+              "value": 120,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G290": {
+              "value": 190,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H290": {
+              "value": 240,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G291": {
+              "value": 230,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H291": {
+              "value": 310,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G292": {
+              "value": 400,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H292": {
+              "value": 450,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G293": {
+              "value": 445,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H293": {
+              "value": 480,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F294": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G294": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H294": {
+              "value": 95,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 3,
+          "sorts": [
+            {
+              "keys": [
+                15,
+                75,
+                50,
+                120,
+                190,
+                240,
+                230,
+                310,
+                400,
+                450,
+                445,
+                480,
+                55,
+                95
+              ],
+              "reverse": false,
+              "selected": []
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4623,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4623,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4332,
+          "completion_tokens": 291,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19628,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28082176
+    },
+    "transfer-022": {
+      "file_name": "audit_782997.xlsx",
+      "answer": "55",
+      "cost": 0.0,
+      "tokens": 4670,
+      "requests": 1,
+      "elapsed": 2.2629273750062566,
+      "error": null,
+      "attempts": [
+        {
+          "code": "sheet = \"Reservations\"\nrows = data_rows(sheet, {'F': 'string', 'G': 'number', 'H': 'number'}, 288, 294)\nstarts = [num(sheet, f'G{r}') for r in rows]\nends = [num(sheet, f'H{r}') for r in rows]\n\nmin_m = min(starts)\nmax_m = max(ends)\n\nmax_overlap = -1\nearliest_minute = None\n\nfor m in range(int(min_m), int(max_m)):\n    count = sum(1 for s, e in zip(starts, ends) if s <= m < e)\n    if count > max_overlap:\n        max_overlap = count\n        earliest_minute = m\n\nresult = earliest_minute",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": "",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Reservations",
+              "range": "F288:H294",
+              "operation": "lookup",
+              "unit": "minute"
+            }
+          ],
+          "reads": {
+            "Reservations!F288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G288": {
+              "value": 15,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H288": {
+              "value": 75,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G289": {
+              "value": 50,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H289": {
+              "value": 120,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G290": {
+              "value": 190,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H290": {
+              "value": 240,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G291": {
+              "value": 230,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H291": {
+              "value": 310,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G292": {
+              "value": 400,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H292": {
+              "value": 450,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G293": {
+              "value": 445,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H293": {
+              "value": 480,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F294": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G294": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H294": {
+              "value": 95,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 55,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4670,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4670,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4339,
+          "completion_tokens": 331,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19667,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28262400
+    },
+    "transfer-023": {
+      "file_name": "audit_782997.xlsx",
+      "answer": "3",
+      "cost": 0.0,
+      "tokens": 4633,
+      "requests": 1,
+      "elapsed": 1.8753677500062622,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = data_rows('Reservations', {'F': 'string', 'G': 'number', 'H': 'number'})\nintervals = []\nfor r in rows:\n    start = num('Reservations', f'G{r}')\n    end = num('Reservations', f'H{r}')\n    intervals.append((start, end))\n\nintervals.sort(key=lambda x: x[0])\nmerged = []\nfor start, end in intervals:\n    if not merged or merged[-1][1] < start:\n        merged.append([start, end])\n    else:\n        merged[-1][1] = max(merged[-1][1], end)\n\nresult = len(merged)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Reservations",
+              "range": "F287:H294",
+              "operation": "lookup",
+              "unit": "minutes"
+            }
+          ],
+          "reads": {
+            "Reservations!F287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!H287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!F288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G288": {
+              "value": 15,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H288": {
+              "value": 75,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G289": {
+              "value": 50,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H289": {
+              "value": 120,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G290": {
+              "value": 190,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H290": {
+              "value": 240,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G291": {
+              "value": 230,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H291": {
+              "value": 310,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G292": {
+              "value": 400,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H292": {
+              "value": 450,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G293": {
+              "value": 445,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H293": {
+              "value": 480,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F294": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G294": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H294": {
+              "value": 95,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 3,
+          "sorts": [
+            {
+              "keys": [
+                15,
+                50,
+                190,
+                230,
+                400,
+                445,
+                55
+              ],
+              "reverse": false,
+              "selected": []
+            }
+          ],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4633,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4633,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4330,
+          "completion_tokens": 303,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19633,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28098560
+    },
+    "transfer-024": {
+      "file_name": "audit_782997.xlsx",
+      "answer": "60",
+      "cost": 0.0,
+      "tokens": 4727,
+      "requests": 1,
+      "elapsed": 2.07058633302222,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows_idx = data_rows('Reservations', {'F': 'string', 'G': 'number', 'H': 'number'})\nstarts = values('Reservations', 'G288:G294')\nends = values('Reservations', 'H288:H294')\nminutes = set()\nfor start, end in zip(starts, ends):\n    for m in range(start, end):\n        minutes.add(m)\n\noverlap_minutes = set()\nall_intervals = list(zip(starts, ends))\nfor i in range(len(all_intervals)):\n    for j in range(i + 1, len(all_intervals)):\n        s1, e1 = all_intervals[i]\n        s2, e2 = all_intervals[j]\n        overlap_start = max(s1, s2)\n        overlap_end = min(e1, e2)\n        if overlap_start < overlap_end:\n            for m in range(overlap_start, overlap_end):\n                overlap_minutes.add(m)\nresult = len(overlap_minutes)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Reservations",
+              "range": "F287:H294",
+              "operation": "lookup",
+              "unit": "minute"
+            }
+          ],
+          "reads": {
+            "Reservations!F287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!H287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!F288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G288": {
+              "value": 15,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H288": {
+              "value": 75,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G289": {
+              "value": 50,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H289": {
+              "value": 120,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G290": {
+              "value": 190,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H290": {
+              "value": 240,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G291": {
+              "value": 230,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H291": {
+              "value": 310,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G292": {
+              "value": 400,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H292": {
+              "value": 450,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G293": {
+              "value": 445,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H293": {
+              "value": 480,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!F294": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Reservations!G294": {
+              "value": 55,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Reservations!H294": {
+              "value": 95,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 60,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4727,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4727,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4332,
+          "completion_tokens": 395,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19616,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28033024
+    },
+    "transfer-009": {
+      "file_name": "audit_672541.xlsx",
+      "answer": "402",
+      "cost": 0.0,
+      "tokens": 4655,
+      "requests": 2,
+      "elapsed": 82.64835129198036,
+      "error": null,
+      "attempts": [
+        {
+          "code": "rows = data_rows('Orders', {'B': 'string', 'C': 'number'})\nresult = sum(num('Orders', f'C{r}') for r in rows if r > 287)",
+          "result_variable": "result",
+          "format": {
+            "kind": "integer",
+            "decimals": null,
+            "count": null,
+            "separator": ", ",
+            "rounding": "half_even",
+            "date_format": "iso"
+          },
+          "assumptions": [],
+          "selection": [
+            {
+              "sheet": "Orders",
+              "range": "B288:C294",
+              "operation": "sum",
+              "unit": "observed unit"
+            }
+          ],
+          "reads": {
+            "Orders!B287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!C287": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!B288": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!C288": {
+              "value": 61,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B289": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!C289": {
+              "value": 40,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B290": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!C290": {
+              "value": 71,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B291": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!C291": {
+              "value": 70,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B292": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!C292": {
+              "value": 78,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B293": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!C293": {
+              "value": 47,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            },
+            "Orders!B294": {
+              "kind": "type_probe",
+              "stored_kind": "string",
+              "value": null
+            },
+            "Orders!C294": {
+              "value": 35,
+              "kind": "number",
+              "number_format": "General",
+              "formula": null,
+              "indent": 0,
+              "bold": false
+            }
+          },
+          "raw_result": 402,
+          "sorts": [],
+          "error": null
+        }
+      ],
+      "calls": [
+        {
+          "request": 1,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 0,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "error": "TimeoutError",
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19919,
+          "thinking": "low",
+          "temperature": 1.0
+        },
+        {
+          "request": 2,
+          "reserved_usd": 0.0,
+          "cost_estimated": true,
+          "tokens": 4655,
+          "reasoning_limit": 0,
+          "output_limit": 2048,
+          "usage_missing": false,
+          "tokens_estimated": false,
+          "provider_total_tokens": 4655,
+          "provider_cost_usd": null,
+          "cost_basis": "user-confirmed-free; provider cost recorded separately",
+          "response_model": "gemini-3-flash",
+          "finish_reason": "stop",
+          "prompt_tokens": 4485,
+          "completion_tokens": 170,
+          "reasoning_tokens": null,
+          "cost_usd": 0.0,
+          "reserved_token_bound": 19919,
+          "thinking": "low",
+          "temperature": 1.0
+        }
+      ],
+      "peak_worker_bytes": 28098560
+    }
+  },
+  "complete": true,
+  "wall_seconds": 91.80376120607252,
+  "peak_total_rss_bytes": 81412096
+}

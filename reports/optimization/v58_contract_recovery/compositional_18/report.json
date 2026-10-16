@@ -1,0 +1,55 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "verification_thinking": null,
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "planning_max_tokens": 4096,
+    "concurrency": 4,
+    "group_size": 8,
+    "strategy": "live-multi-workbook-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+      "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "45b095edf2719b1c15f4db3aab28670c3dce0da1bb7ba3d84953a505b8fde33a"
+    },
+    "agent_class": "ParallelPackedAgent",
+    "agent_sha256": "beafc811c32c0f10cbfc82308aca5a25856057a88fd7726729122be10dd3aa8e"
+  },
+  "fingerprint": "3a450586e7013e7fef54f7279d6231f2304da6d251153290dbb9fc9f63471694",
+  "complete": true,
+  "score": {
+    "correct": 16,
+    "total": 18,
+    "errors": {
+      "compositional-005": {
+        "prediction": "2",
+        "reference": "1"
+      },
+      "compositional-006": {
+        "prediction": "10",
+        "reference": "9"
+      }
+    }
+  },
+  "wall_seconds": 25.230691958975513,
+  "mean_query_seconds": 8.16194939844556,
+  "tokens": 52387,
+  "provider_tokens_known": 52387,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 52387,
+  "http_attempts": 7,
+  "peak_total_rss_bytes": 93978624,
+  "fatal_error": null,
+  "errors": {},
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

@@ -1,0 +1,136 @@
+{
+  "lock": {
+    "modules": {
+      "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+      "src/verification.py": "8e458dae711d50e44fcc02ab374803fecc00db340e141fe1f272935abeff6356",
+      "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+      "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+      "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+      "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+      "src/llm_agent.py": "091ae6e3ecf04499983b95c05afc116b0c0c9b5a4a7a78a14552227c50543db8",
+      "src/contracts.py": "80a916bd29ae190088e63a507d777579aff90ff0471dca9671d343ff70b7c02b",
+      "src/executor.py": "030ef4a2cd23d7e59fcd0c49c2a8e1c7fd08e736d79b7329ec81d98c6c55f4b3",
+      "benchmarks/batched.py": "7f1c531a747ef2c1ac6f4bda1db19ab2daf0a0135af3ad800ddb9e77ccb2b888",
+      "benchmarks/structured_batch.py": "d64933eaf68a1a385ca742def8978d386226e8c499a3f1ed08ab2750cc512b87",
+      "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+      "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+      "benchmarks/gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05",
+      "benchmarks/precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4",
+      "benchmarks/efficient.py": "75f477de4b7f76e4f8394be5a211a09c43a19d95353025570dcaae17c4fbaa73",
+      "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0"
+    },
+    "scope": "New independent comparison, unchanged runtime source; qualification copied from measured parent with hashes",
+    "independent_validation": true,
+    "qualification_parent": "reports/optimization/efficiency_v17_regression",
+    "qualification_reports_sha256": {
+      "public_1": "d5d81f9598bff0af0a7ad219016bcfa81cf1b33e5ae8da3bb066cdb55dd8484e",
+      "public_2": "e12f8573fc80294694969af7812632e41b673231ba99b54eb149aa7667737768",
+      "public_3": "59177785a263926aa061257cd9826de17c79c3a7ebe900c85457095c793e4f95",
+      "regression_60": "60b3227a2c232921bea171164193cbaaa8247001dbd6f17f5aff13c6b4eeb7ba",
+      "regression_32": "73a40c913bf1e353390d9ee561dbf3f56c9bca49ec51656b7432ff9de2a0fbaa",
+      "known_18": "e127feec225f27322d6c9ad9b44420a9a764895323dca176deccae5226698c9d",
+      "synthetic_24": "f6adb2ea5c245837a17aeae9e8bb7256558da473f62bc19ee1606177fed74f6f",
+      "consumed_validation": "e3c33334fc2d2a8434eb64f3f351fce9628391947b9a214687760fff4d7b316d"
+    },
+    "validation_dataset": "reports/optimization/structural_v1_holdout",
+    "validation_manifest_sha256": "3229bcb8a5a50c0e852f9c10c0b63cc95ff05a75839eb432cc9f96b034aeb298",
+    "harness_sha256": "49f806e233844a7d8d87c60c0a2cf5c0b63fd6e398961c97c90b0e68aa3c35f1"
+  },
+  "stages": {
+    "baseline": {
+      "profile": "B",
+      "config": {
+        "compact_prompt": true,
+        "helper_contract": false,
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "thinking": "low",
+        "max_tokens": 2048,
+        "temperature": 1.0,
+        "concurrency": 2,
+        "iterator_helpers": true,
+        "precision_profile": "robust",
+        "accuracy_contract_sha256": "61b3a878298434580d1d16a56e1fbedd44a23d4e5c0d81936c8eb4c3204f2d02",
+        "precision_module_sha256": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4"
+      },
+      "source_sha256": "5e89e713eb11fd9c97042091007a3075bc314a3e09460117cbc3c456f5d84d99",
+      "fingerprint": "3a3a000e30435d0b227c4d8fe540f48fe5fef24db751f4827ba18aae9ef34a90",
+      "complete": true,
+      "generation_complete": true,
+      "score": {
+        "correct": 17,
+        "total": 18,
+        "errors": {
+          "structural-014": {
+            "prediction": "156.37",
+            "reference": "54.10"
+          }
+        }
+      },
+      "mean_query_seconds": 3.6760689467773773,
+      "wall_seconds": 33.557200127019314,
+      "tokens": 128443,
+      "provider_tokens_known": 128443,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 128443,
+      "http_attempts": 26,
+      "peak_total_rss_bytes": 89194496,
+      "fatal_error": null,
+      "errors": {},
+      "tokens_estimated": false,
+      "cost_basis": "user-confirmed-free; see calls for provider-reported cost",
+      "provider_cost_available": false,
+      "provider_reported_cost_usd": null
+    },
+    "candidate": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "concurrency": 4,
+        "group_size": 4,
+        "strategy": "live-workbook-plan",
+        "modules": {
+          "batched.py": "7f1c531a747ef2c1ac6f4bda1db19ab2daf0a0135af3ad800ddb9e77ccb2b888",
+          "efficient.py": "75f477de4b7f76e4f8394be5a211a09c43a19d95353025570dcaae17c4fbaa73",
+          "precision.py": "71354ac790b1c17b413d5b73a8807fcdac2e5343869c86ab8bf3134d21c2e5f4",
+          "gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05"
+        },
+        "agent_class": "StructuredBatchedAgent",
+        "agent_sha256": "d64933eaf68a1a385ca742def8978d386226e8c499a3f1ed08ab2750cc512b87"
+      },
+      "fingerprint": "b9662124424423fa6ad1a12017ac54956ba00fcdc3b6050db24a47e2dc710adf",
+      "complete": true,
+      "score": {
+        "correct": 18,
+        "total": 18,
+        "errors": {}
+      },
+      "wall_seconds": 26.218437917006668,
+      "mean_query_seconds": 5.382478654942436,
+      "tokens": 102348,
+      "provider_tokens_known": 102348,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 102348,
+      "http_attempts": 19,
+      "peak_total_rss_bytes": 89718784,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    }
+  },
+  "btc_private_verified": false,
+  "qwen_confirmed": false,
+  "comparison": {
+    "both_complete": true,
+    "correct_gain": 1,
+    "wall_reduction": 0.2186941157854133,
+    "token_reduction_known": 0.20316404942270117,
+    "usage_complete": true,
+    "independent_test_consumed": true
+  }
+}

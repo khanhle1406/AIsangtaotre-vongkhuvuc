@@ -1,0 +1,133 @@
+{
+  "source_sha256": "46ec1e2c9405f793aade2a8a4a1bef4b7a767683d9069ff3092e05037a6c54cd",
+  "initial_exploratory_cost_usd": 0.027115101500000002,
+  "candidates": [
+    {
+      "label": "low",
+      "correct": 14,
+      "total": 16,
+      "errors": {
+        "p4_q010": {
+          "prediction": "Leisure\nand\nhospitality",
+          "reference": "Leisure and hospitality"
+        },
+        "p4_q018": {
+          "prediction": "",
+          "reference": "34282, 118705"
+        }
+      },
+      "metrics": {
+        "queries": 16,
+        "answered": 15,
+        "elapsed_seconds": 69.98248533299193,
+        "cost_usd": 0.004143645400000001,
+        "tokens": 149992,
+        "peak_total_rss_bytes": 99647488,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 256,
+        "max_tokens": 2048,
+        "concurrency": 2,
+        "failures": {
+          "p4_q018": "ValueError: Numeric reads omit the requested row range 1 to 34 in cpsaat22; matching rows: [5]; Numeric reads omit the requested row range 1 to 34 in cpsaat22; matching rows: [5]"
+        }
+      }
+    },
+    {
+      "label": "high",
+      "correct": 14,
+      "total": 16,
+      "errors": {
+        "p4_q010": {
+          "prediction": "Leisure\nand\nhospitality",
+          "reference": "Leisure and hospitality"
+        },
+        "p4_q018": {
+          "prediction": "",
+          "reference": "34282, 118705"
+        }
+      },
+      "metrics": {
+        "queries": 16,
+        "answered": 15,
+        "elapsed_seconds": 148.59323108399985,
+        "cost_usd": 0.0048296993,
+        "tokens": 148914,
+        "peak_total_rss_bytes": 75956224,
+        "model": "qwen/qwen3.7-flash",
+        "reasoning_tokens": 1024,
+        "max_tokens": 4096,
+        "concurrency": 2,
+        "failures": {
+          "p4_q018": "ValueError: Numeric reads omit the requested row range 1 to 34 in cpsaat22; matching rows: [5]; Numeric reads omit the requested row range 1 to 34 in cpsaat22; matching rows: [5]"
+        }
+      }
+    }
+  ],
+  "selected": "low",
+  "public": {
+    "score": {
+      "correct": 15,
+      "total": 20,
+      "errors": {
+        "p4_q002": {
+          "prediction": "99",
+          "reference": "83"
+        },
+        "p4_q005": {
+          "prediction": "",
+          "reference": "Airline fares"
+        },
+        "p4_q010": {
+          "prediction": "Mining, quarrying, and oil and gas extraction",
+          "reference": "Leisure and hospitality"
+        },
+        "p4_q013": {
+          "prediction": "Construction, Agriculture, Manufacturing",
+          "reference": "Manufacturing, Construction, Agriculture"
+        },
+        "p4_q018": {
+          "prediction": "",
+          "reference": "34282, 118705"
+        }
+      }
+    },
+    "metrics": {
+      "queries": 20,
+      "answered": 18,
+      "elapsed_seconds": 114.38636966601189,
+      "cost_usd": 0.0054721787,
+      "tokens": 248021,
+      "peak_total_rss_bytes": 77119488,
+      "model": "qwen/qwen3.7-flash",
+      "reasoning_tokens": 256,
+      "max_tokens": 2048,
+      "concurrency": 2,
+      "failures": {
+        "p4_q005": "ValueError: TypeError: AST node not allowed: Try",
+        "p4_q018": "ValueError: Numeric reads omit the requested row range 1 to 34 in cpsaat22; matching rows: [5]; Numeric reads omit the requested row range 1 to 34 in cpsaat22; matching rows: [5]"
+      }
+    }
+  },
+  "synthetic_holdout": {
+    "score": {
+      "correct": 20,
+      "total": 20,
+      "errors": {}
+    },
+    "metrics": {
+      "queries": 20,
+      "answered": 20,
+      "elapsed_seconds": 64.71943991701119,
+      "cost_usd": 0.001839685,
+      "tokens": 35860,
+      "peak_total_rss_bytes": 106217472,
+      "model": "qwen/qwen3.7-flash",
+      "reasoning_tokens": 256,
+      "max_tokens": 2048,
+      "concurrency": 2,
+      "failures": {}
+    }
+  },
+  "total_development_cost_upper_usd": 0.043400309899999996,
+  "budget_usd": 0.5
+}

@@ -1,0 +1,53 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "verification_thinking": null,
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "planning_max_tokens": 4096,
+    "concurrency": 4,
+    "group_size": 8,
+    "strategy": "live-multi-workbook-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "d383406e3a99ac6b18e8878e2bb0755dfa805ba39b8a1e549dd0b29de04e0ff9",
+      "efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+    },
+    "agent_class": "IndependentPackedAgent",
+    "agent_sha256": "435817a7647900b559c8bca4f4c30f801ea20b1a252fb43c53e8ac73f5ad3a91"
+  },
+  "fingerprint": "bf66750d450e28af6849da0f5b783c28c1178eaaf14dcf4de27e9888b89f6d3e",
+  "complete": false,
+  "score": {
+    "correct": 17,
+    "total": 18,
+    "errors": {
+      "structural-018": {
+        "prediction": "",
+        "reference": "Alloy"
+      }
+    }
+  },
+  "wall_seconds": 61.80164020799566,
+  "mean_query_seconds": 11.357214819491169,
+  "tokens": 159048,
+  "provider_tokens_known": 159048,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 159048,
+  "http_attempts": 24,
+  "peak_total_rss_bytes": 115998720,
+  "fatal_error": null,
+  "errors": {
+    "structural-018": "ValueError: TypeError: Cannot index scalar float in r[0] at line 3. cell()/num() return scalars; values() is FLAT, not rows. If this variable comes from values(sheet,multi_column_range), replace the source with cells(sheet,range) for 2D rows, or use the scalar directly; adding more indices cannot fix its shape."
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

@@ -1,0 +1,60 @@
+{
+  "config": {
+    "model": "ag/gemini-3-flash",
+    "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+    "helper_contract": false,
+    "thinking": "low",
+    "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+    "max_tokens": 2048,
+    "concurrency": 4,
+    "group_size": 4,
+    "strategy": "live-workbook-plan",
+    "verification_mode": "candidate-audit",
+    "review_candidate": true,
+    "deduplicate_headers": false,
+    "boundary_contract": false,
+    "modules": {
+      "batched.py": "aa8d93cd10663a85b0398416bb4afbb886f92787ccae8f81f2ebc866a2e443f9",
+      "efficient.py": "5a76c3aa7f059af3711416c634a4e3047aeb13fb5196c632364636cfc542e6ff",
+      "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+      "gateway.py": "01d938347d946f6cbc6fe00e4d4309d25f534a938609ed9f1a4f1a1d00504a05"
+    },
+    "agent_class": "LeanStructuredAgent",
+    "agent_sha256": "4b98b46f46106b1a90db19d65942a55b21f70d43e83c2677aeccdae454832fc4"
+  },
+  "fingerprint": "fc080f5f4aeaf791373d94d91fd030d047c56a4b13fd95b814122fcfff1f4ddb",
+  "complete": false,
+  "score": {
+    "correct": 15,
+    "total": 18,
+    "errors": {
+      "compositional-017": {
+        "prediction": "",
+        "reference": "32.00"
+      },
+      "compositional-006": {
+        "prediction": "",
+        "reference": "9"
+      },
+      "compositional-018": {
+        "prediction": "1",
+        "reference": "2"
+      }
+    }
+  },
+  "wall_seconds": 40.736361458024476,
+  "mean_query_seconds": 6.743132363498767,
+  "tokens": 78788,
+  "provider_tokens_known": 78788,
+  "usage_missing_attempts": 0,
+  "tokens_conservative_upper": 78788,
+  "http_attempts": 13,
+  "peak_total_rss_bytes": 115228672,
+  "fatal_error": null,
+  "errors": {
+    "compositional-017": "ValidationError: 2 validation errors for Program\nselection.0.unit\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.12/v/string_type\nselection.1.unit\n  Input should be a valid string [type=string_type, input_value=None, input_type=NoneType]\n    For further information visit https://errors.pydantic.dev/2.12/v/string_type",
+    "compositional-006": "ValueError: TypeError: Cannot index scalar int in r['K'] at line 4. cell()/num() return scalars; values() is FLAT, not rows. If this variable comes from values(sheet,multi_column_range), replace the source with cells(sheet,range) for 2D rows, or use the scalar directly; adding more indices cannot fix its shape."
+  },
+  "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+  "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+}

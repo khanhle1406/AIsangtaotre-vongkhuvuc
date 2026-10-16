@@ -1,0 +1,819 @@
+{
+  "modules": {
+    "run.py": "027c3c9535609a77fb2ee3f60ac9f3ea5aea802b383073c1dfb8c1facafe51e1",
+    "src/verification.py": "b95505aa5a6ea439941611c7f9a1d320896678c533840d16de348b4d8b501f6b",
+    "src/postprocessor.py": "b80d40bbc2728bd6def306130a1636a5fe50b85fddbe63049dce2329f1911105",
+    "src/excel_parser.py": "872a3296193da44dfc32840f0509260cb8001610a25f109d6262fd5074540a80",
+    "src/__init__.py": "86109c2fc7a832044f68ca6e4fe169520244d8a0242c27122e9311a75dfbd857",
+    "src/context.py": "d986911fc32b5288d5934b8600d027c3e09cfb10404bd0d3d47779e70829c4e8",
+    "src/llm_agent.py": "6d7081779cf3462f08a0d8ba5ee85fa3529a01f838901d73b3d2184c78243590",
+    "src/contracts.py": "9e742a7e8c729ecb53df140e9cf011384e0ba3c12b8ff764886b91a8773e6468",
+    "src/executor.py": "ee5db2a5193e088bd9cfd9486af322a716b2ddd2c45e637d4d281edf1e7b05a7",
+    "benchmarks/batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+    "benchmarks/structured_batch.py": "149bbde4215918d40277adb2aaef35589ac76ffca7afe37c9c6a4175a501d03a",
+    "benchmarks/qwen_batched.py": "ccc659a8179c4f28e9d5a1c75ff7a2d54ad6848640ce7c3d07fcaf249f355a19",
+    "benchmarks/batched_submission.py": "7bfb8ff64a59d1a5a1cf5bb9db4b1a739450032fc20fafdba22ec965562ee602",
+    "benchmarks/gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be",
+    "benchmarks/precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+    "benchmarks/efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+    "benchmarks/gateway_runner.py": "e5330ff414f8c733dcbe4d0da44e20ba1143ef813b6d4ca7dbe85a3aa8622be0",
+    "benchmarks/packed.py": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8",
+    "benchmarks/backend_view.py": "2aef491f84f1cfdce1aea99e612f3ef303dc080a6e5ed65a550822cb472b042a"
+  },
+  "independent_validation": false,
+  "promoted": false,
+  "stages": {
+    "full8/public": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "ParallelPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "06c1caee20dbf913550d923cf02b3fa19f3e0b9fb40393aafb124e580884c24c",
+      "complete": true,
+      "score": {
+        "correct": 20,
+        "total": 20,
+        "errors": {}
+      },
+      "wall_seconds": 6.4323915419809055,
+      "mean_query_seconds": 5.092861625050136,
+      "tokens": 75078,
+      "provider_tokens_known": 75078,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 75078,
+      "http_attempts": 5,
+      "peak_total_rss_bytes": 124010496,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "sampled8/public": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "SampledPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "001c16a437cd9ee00d5963a6052c5594b0e47e9694bd902cc081abd7fd6161ce",
+      "complete": true,
+      "score": {
+        "correct": 20,
+        "total": 20,
+        "errors": {}
+      },
+      "wall_seconds": 20.462763376999646,
+      "mean_query_seconds": 5.179051462752978,
+      "tokens": 114883,
+      "provider_tokens_known": 114883,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 114883,
+      "http_attempts": 12,
+      "peak_total_rss_bytes": 94224384,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "raw8/public": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "RawPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "cda33eb2b4bbb7cfbdf3ea36d29cf3663bc3d3dae7c239934439fe68e3634824",
+      "complete": true,
+      "score": {
+        "correct": 20,
+        "total": 20,
+        "errors": {}
+      },
+      "wall_seconds": 22.49933700004476,
+      "mean_query_seconds": 6.289713147844305,
+      "tokens": 131926,
+      "provider_tokens_known": 131926,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 131926,
+      "http_attempts": 11,
+      "peak_total_rss_bytes": 116637696,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "sampled8/decision": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "SampledPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "db5d6c1e6befb7f091a66cdbab9b3b098a9c754e2c6f8b62553eae74a9f1711f",
+      "complete": true,
+      "score": {
+        "correct": 18,
+        "total": 18,
+        "errors": {}
+      },
+      "wall_seconds": 26.388122875010595,
+      "mean_query_seconds": 6.585161057732573,
+      "tokens": 69676,
+      "provider_tokens_known": 69676,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 69676,
+      "http_attempts": 11,
+      "peak_total_rss_bytes": 98598912,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "raw8/decision": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "RawPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "e8fec5791ddff6f802d89fe09dc7c8b2c7df39d61011f47da365186dc4c7af0c",
+      "complete": true,
+      "score": {
+        "correct": 18,
+        "total": 18,
+        "errors": {}
+      },
+      "wall_seconds": 6.891352998994989,
+      "mean_query_seconds": 5.981718233666874,
+      "tokens": 23991,
+      "provider_tokens_known": 23991,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 23991,
+      "http_attempts": 3,
+      "peak_total_rss_bytes": 129400832,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "full8/decision": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "ParallelPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "92062e69d4fbd6d761226e3030fa1b5c42a344f915f81783a2fa8162c9b336b1",
+      "complete": false,
+      "score": {
+        "correct": 16,
+        "total": 18,
+        "errors": {
+          "decision-002": {
+            "prediction": "",
+            "reference": "Aster, Dune"
+          },
+          "decision-006": {
+            "prediction": "0",
+            "reference": "1"
+          }
+        }
+      },
+      "wall_seconds": 56.637688082962995,
+      "mean_query_seconds": 8.579211516265381,
+      "tokens": 91975,
+      "provider_tokens_known": 91975,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 91975,
+      "http_attempts": 13,
+      "peak_total_rss_bytes": 100286464,
+      "fatal_error": null,
+      "errors": {
+        "decision-002": "ValueError: Ambiguity unresolved within inference budget"
+      },
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "raw8/structural": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "RawPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "5a91a0fd43f91709ed41e0564c71ec59536f196cbd8d7ea4b7a042136ea6b2df",
+      "complete": true,
+      "score": {
+        "correct": 18,
+        "total": 18,
+        "errors": {}
+      },
+      "wall_seconds": 27.251652166974964,
+      "mean_query_seconds": 8.28516213184048,
+      "tokens": 111729,
+      "provider_tokens_known": 111729,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 111729,
+      "http_attempts": 19,
+      "peak_total_rss_bytes": 104218624,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "full8/structural": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "ParallelPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "4909d695f7e3c924e7b198c4f01414ac1914965dcc84d42b0b4b52fb561549f5",
+      "complete": true,
+      "score": {
+        "correct": 18,
+        "total": 18,
+        "errors": {}
+      },
+      "wall_seconds": 16.01559629102121,
+      "mean_query_seconds": 7.2888672202227305,
+      "tokens": 43012,
+      "provider_tokens_known": 43012,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 43012,
+      "http_attempts": 6,
+      "peak_total_rss_bytes": 104464384,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "sampled8/structural": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "SampledPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "efaa8fbe0c20b0aca838a7df6df98d2f57abbcba0b09d6c97e57fbe27affae74",
+      "complete": true,
+      "score": {
+        "correct": 18,
+        "total": 18,
+        "errors": {}
+      },
+      "wall_seconds": 10.356639083998743,
+      "mean_query_seconds": 6.40848215255149,
+      "tokens": 40415,
+      "provider_tokens_known": 40415,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 40415,
+      "http_attempts": 6,
+      "peak_total_rss_bytes": 104218624,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "full8/generalization": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "ParallelPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "f9cbeaf262056255333c3464506b298cd0a1687936df7abf0b5bf8f8ea021418",
+      "complete": true,
+      "score": {
+        "correct": 16,
+        "total": 18,
+        "errors": {
+          "generalization-018": {
+            "prediction": "3.500000",
+            "reference": "2.625000"
+          },
+          "generalization-017": {
+            "prediction": "0.859375",
+            "reference": "0.359375"
+          }
+        }
+      },
+      "wall_seconds": 7.221962459007045,
+      "mean_query_seconds": 6.163956701943082,
+      "tokens": 23197,
+      "provider_tokens_known": 23197,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 23197,
+      "http_attempts": 3,
+      "peak_total_rss_bytes": 118882304,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "sampled8/generalization": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "SampledPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "975bf6d941f9be531ccf51521a021b93c8f1bdbea10d776673ecadb4c5f99b1c",
+      "complete": true,
+      "score": {
+        "correct": 18,
+        "total": 18,
+        "errors": {}
+      },
+      "wall_seconds": 8.765680416981922,
+      "mean_query_seconds": 6.091911255275288,
+      "tokens": 28146,
+      "provider_tokens_known": 28146,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 28146,
+      "http_attempts": 4,
+      "peak_total_rss_bytes": 104366080,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "raw8/generalization": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "RawPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "2409b7969155bbaf7d52b57eb24e7c89a5bf4c23800664c8a287f878d1fb2ae2",
+      "complete": true,
+      "score": {
+        "correct": 17,
+        "total": 18,
+        "errors": {
+          "generalization-003": {
+            "prediction": "Dune",
+            "reference": "Cedar"
+          }
+        }
+      },
+      "wall_seconds": 10.852235917001963,
+      "mean_query_seconds": 6.187349637263752,
+      "tokens": 32795,
+      "provider_tokens_known": 32795,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 32795,
+      "http_attempts": 5,
+      "peak_total_rss_bytes": 103809024,
+      "fatal_error": null,
+      "errors": {},
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "sampled8/compositional": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "SampledPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "9b6cca2f542e71559bfa00b5d88fcf4d339c0f99a0ff7b7815c0adfc13f2c90c",
+      "complete": false,
+      "score": {
+        "correct": 17,
+        "total": 18,
+        "errors": {
+          "compositional-004": {
+            "prediction": "",
+            "reference": "15"
+          }
+        }
+      },
+      "wall_seconds": 65.23338125098962,
+      "mean_query_seconds": 10.233292345221141,
+      "tokens": 112939,
+      "provider_tokens_known": 112939,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 112939,
+      "http_attempts": 17,
+      "peak_total_rss_bytes": 118702080,
+      "fatal_error": null,
+      "errors": {
+        "compositional-004": "ValueError: ValueError: Unpacking length mismatch into (t, d) at line 3: expected 2 items, got 6. values() yields flat scalars; unpacking a string splits characters. Use cells() for row tuples, or explicit string parsing if the question actually requests characters."
+      },
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "raw8/compositional": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "RawPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "f7fc16cb4f95067e010a553818e81a9502ab2186f3ceeca64c6d55fa4e32ee19",
+      "complete": false,
+      "score": {
+        "correct": 17,
+        "total": 18,
+        "errors": {
+          "compositional-001": {
+            "prediction": "",
+            "reference": "16"
+          }
+        }
+      },
+      "wall_seconds": 70.03968829099904,
+      "mean_query_seconds": 10.104399990335676,
+      "tokens": 103151,
+      "provider_tokens_known": 103151,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 103151,
+      "http_attempts": 15,
+      "peak_total_rss_bytes": 93880320,
+      "fatal_error": null,
+      "errors": {
+        "compositional-001": "ValueError: ValueError: Final result does not depend on workbook reads"
+      },
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    },
+    "full8/compositional": {
+      "config": {
+        "model": "ag/gemini-3-flash",
+        "base_url": "https://nlt9router-oracle.tail3abf4e.ts.net/v1",
+        "helper_contract": false,
+        "thinking": "low",
+        "verification_thinking": null,
+        "adaptive_thinking": "high only after two prior HTTP attempts; otherwise low",
+        "max_tokens": 2048,
+        "planning_max_tokens": 4096,
+        "concurrency": 4,
+        "group_size": 8,
+        "strategy": "live-multi-workbook-plan",
+        "verification_mode": "candidate-audit",
+        "review_candidate": true,
+        "deduplicate_headers": false,
+        "boundary_contract": false,
+        "modules": {
+          "batched.py": "f55dd700eab45f27d7f4c6561eb9cf594fb758147337249c598805f4bca36c1c",
+          "efficient.py": "24414435ad808a427b904a57d16235266ac314451af768e45168687022881ecb",
+          "precision.py": "e9e2f68fd62567fbc5eeedffc3d80061deae4ce420e0f3e520f7b5072408b267",
+          "gateway.py": "9b7823d10d8a2c1d02bdde729c908ab2314c912ccaa33047977474193bc555be"
+        },
+        "agent_class": "ParallelPackedAgent",
+        "agent_sha256": "8c3a73bd7f04d4d33ca79bfa75007b5e3507a87138e7296da2c561a6a9fa41c8"
+      },
+      "fingerprint": "f8aa5ee62fe406a582ab5dfddd6131e4c0f3396b8d699d035c8e1944a80f43f2",
+      "complete": false,
+      "score": {
+        "correct": 17,
+        "total": 18,
+        "errors": {
+          "compositional-005": {
+            "prediction": "",
+            "reference": "1"
+          }
+        }
+      },
+      "wall_seconds": 31.099891958991066,
+      "mean_query_seconds": 8.818311057619415,
+      "tokens": 56453,
+      "provider_tokens_known": 56453,
+      "usage_missing_attempts": 0,
+      "tokens_conservative_upper": 56453,
+      "http_attempts": 8,
+      "peak_total_rss_bytes": 98828288,
+      "fatal_error": null,
+      "errors": {
+        "compositional-005": "ValueError: ValueError: Final result does not depend on workbook reads"
+      },
+      "provenance": "new live model plans; shared call tokens allocated exactly once, each program independently executed/verified; no prior trace replay",
+      "cost_basis": "user-confirmed free gateway; provider cost in calls; missing usage stays unknown"
+    }
+  },
+  "unassessed": {},
+  "experiment": "full cells, disclosed numeric sample, or original headers without derived hints",
+  "thinking_control": "requested gateway effort; internal implementation unverified",
+  "probe": {
+    "ok": true,
+    "thinking_support": "requested effort only; internal implementation unverified",
+    "requested_thinking": "low",
+    "requested_max_tokens": 4096,
+    "calls": [
+      {
+        "request": 1,
+        "reserved_usd": 0.0,
+        "cost_estimated": true,
+        "tokens": 2016,
+        "reasoning_limit": 0,
+        "output_limit": 4096,
+        "usage_missing": false,
+        "tokens_estimated": false,
+        "provider_total_tokens": 2016,
+        "provider_cost_usd": null,
+        "cost_basis": "user-confirmed-free; provider cost recorded separately",
+        "response_model": "gemini-3-flash",
+        "finish_reason": "stop",
+        "prompt_tokens": 2011,
+        "completion_tokens": 5,
+        "reasoning_tokens": null,
+        "cost_usd": 0.0,
+        "reserved_token_bound": 12410,
+        "thinking": "low",
+        "temperature": 1.0
+      }
+    ]
+  },
+  "comparison": {
+    "full8": {
+      "correct": 87,
+      "total": 92,
+      "seconds": 117.40753033396322,
+      "tokens_known": 289715,
+      "usage_missing": 0
+    },
+    "sampled8": {
+      "correct": 91,
+      "total": 92,
+      "seconds": 131.20658700398053,
+      "tokens_known": 366059,
+      "usage_missing": 0
+    },
+    "raw8": {
+      "correct": 90,
+      "total": 92,
+      "seconds": 137.53426637401571,
+      "tokens_known": 403592,
+      "usage_missing": 0
+    }
+  }
+}
