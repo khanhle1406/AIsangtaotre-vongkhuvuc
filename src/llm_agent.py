@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 from dotenv import load_dotenv
 from openpyxl.utils import coordinate_to_tuple, get_column_letter
@@ -53,7 +54,8 @@ from .verification import (
     scope_risks,
 )
 
-OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1"
+OPENROUTER_URL = f"{OPENROUTER_BASE_URL}/chat/completions"
 DEFAULT_MODEL = "qwen/qwen3.7-flash"
 load_dotenv(Path(__file__).resolve().parents[1] / ".env")
 
@@ -216,9 +218,27 @@ class SolveResult:
         return vars(self)
 
 
-def get_pricing(model: str) -> tuple[float, float]:
+def normalize_base_url(base_url: str) -> str:
+    """Validate an explicitly supplied API base without echoing credentials."""
+    parsed = urlsplit(base_url)
+    if (
+        parsed.scheme not in {"http", "https"}
+        or not parsed.hostname
+        or parsed.username is not None
+        or parsed.password is not None
+        or parsed.query
+        or parsed.fragment
+        or any(character.isspace() for character in base_url)
+    ):
+        raise ValueError(
+            "API base URL must be HTTP(S), without credentials/query/fragment"
+        )
+    return base_url.rstrip("/")
+
+
+def get_pricing(model: str, base_url: str = OPENROUTER_BASE_URL) -> tuple[float, float]:
     """Use the highest published tier/provider rate, not a guessed fixed price."""
-    url = f"https://openrouter.ai/api/v1/models/{model}/endpoints"
+    url = f"{normalize_base_url(base_url)}/models/{model}/endpoints"
     with urllib.request.urlopen(url, timeout=20) as response:
         data = json.load(response)["data"]
     if data["id"] != model:
@@ -331,6 +351,7 @@ class LLMAgent:
         request_timeout_seconds: float = 40,
         iterator_helpers: bool = False,
         review_candidate: bool = False,
+        base_url: str | None = None,
     ) -> None:
         self.started_at = time.monotonic()
         self.api_key = api_key or os.getenv("OPENROUTER_API_KEY")
@@ -357,7 +378,12 @@ class LLMAgent:
         self.query_budget = query_budget
         self.reasoning_tokens, self.max_tokens = reasoning_tokens, max_tokens
         self.deadline = deadline or (time.monotonic() + 2300)
-        self.pricing = pricing or get_pricing(model)
+        self.base_url = normalize_base_url(base_url) if base_url is not None else None
+        self.pricing = pricing or (
+            get_pricing(model, self.base_url)
+            if self.base_url is not None
+            else get_pricing(model)
+        )
         self.total_tokens_used = 0
         self.total_cost = 0.0
         self.stats_lock = threading.Lock()
@@ -368,7 +394,11 @@ class LLMAgent:
 
     def _request_url(self) -> str:
         """Allow an explicit development transport without changing judge routing."""
-        return OPENROUTER_URL
+        return (
+            f"{self.base_url}/chat/completions"
+            if self.base_url is not None
+            else OPENROUTER_URL
+        )
 
     def _open_request(self, request: urllib.request.Request, timeout: float) -> Any:
         return urllib.request.urlopen(request, timeout=timeout)

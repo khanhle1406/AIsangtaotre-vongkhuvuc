@@ -4,10 +4,12 @@ import argparse
 import csv
 import json
 import os
+import sys
 import threading
 import time
 from collections import OrderedDict
 from concurrent.futures import FIRST_COMPLETED, Future, ThreadPoolExecutor, wait
+from contextlib import nullcontext
 from pathlib import Path
 from typing import Any, Self
 from zipfile import BadZipFile
@@ -68,6 +70,43 @@ def write_submission(
     os.replace(temp, path)
 
 
+def validate_artifact_paths(
+    input_dir: Path,
+    queries_path: Path,
+    queries: list[dict[str, Any]],
+    output: Path,
+    trace_path: Path | None,
+    save_diagnostics: bool,
+) -> None:
+    """Reject input writes and aliasing before creating directories/checkpoints."""
+    artifacts = [output, output.with_name(output.name + ".tmp")]
+    if save_diagnostics:
+        artifacts.extend(
+            [
+                trace_path or output.with_suffix(".trace.jsonl"),
+                output.with_suffix(".metrics.json"),
+            ]
+        )
+    resolved = [path.resolve() for path in artifacts]
+    if len(set(resolved)) != len(resolved):
+        raise ValueError("Output, temporary, trace and metrics paths must differ")
+    protected = [queries_path, *(input_dir / item["file_name"] for item in queries)]
+    for path in artifacts:
+        target = path.resolve()
+        if (
+            target.is_relative_to(input_dir.resolve())
+            or target.is_relative_to(Path("/input").resolve())
+            or any(
+                target == source.resolve()
+                or path.exists()
+                and source.exists()
+                and path.samefile(source)
+                for source in protected
+            )
+        ):
+            raise ValueError("Output artifacts must not modify input data")
+
+
 class ResourceMonitor:
     def __init__(self, limit_mb: int = 800) -> None:
         self.limit = limit_mb * 1024**2
@@ -115,11 +154,13 @@ def run_queries(
     agent: LLMAgent,
     concurrency: int = 2,
     trace_path: Path | None = None,
+    save_diagnostics: bool = True,
 ) -> dict[str, Any]:
     start = agent.started_at
     trace_path = trace_path or output.with_suffix(".trace.jsonl")
-    trace_path.parent.mkdir(parents=True, exist_ok=True)
-    if (
+    if save_diagnostics:
+        trace_path.parent.mkdir(parents=True, exist_ok=True)
+    if save_diagnostics and (
         len(
             {
                 output.resolve(),
@@ -139,7 +180,11 @@ def run_queries(
     write_submission(output, queries, results)
     with (
         ResourceMonitor() as monitor,
-        trace_path.open("w", encoding="utf-8") as trace,
+        (
+            trace_path.open("w", encoding="utf-8")
+            if save_diagnostics
+            else nullcontext(sys.stderr)
+        ) as trace,
         ThreadPoolExecutor(max_workers=concurrency) as pool,
     ):
         while cursor < len(queries) or pending:
@@ -241,9 +286,10 @@ def run_queries(
         "worker_memory_mb": agent.worker_memory_mb,
         "failures": failures,
     }
-    output.with_suffix(".metrics.json").write_text(
-        json.dumps(metrics, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
+    if save_diagnostics:
+        output.with_suffix(".metrics.json").write_text(
+            json.dumps(metrics, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
     write_submission(output, queries, results)
     print(json.dumps(metrics, ensure_ascii=False, indent=2))
     return metrics
@@ -251,11 +297,20 @@ def run_queries(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Workbook-grounded Excel QA")
-    parser.add_argument("--input-dir", type=Path, default=Path("data/xlsx_files"))
+    parser.add_argument(
+        "--xlsx-dir",
+        "--input-dir",
+        dest="input_dir",
+        type=Path,
+        default=Path("data/xlsx_files"),
+    )
     parser.add_argument("--queries", type=Path, default=Path("data/queries.json"))
     parser.add_argument("--output", type=Path, default=Path("submission.csv"))
-    parser.add_argument("--api-key", default=None)
-    parser.add_argument("--model", default=DEFAULT_MODEL)
+    parser.add_argument("--openrouter-key", "--api-key", dest="api_key", default=None)
+    parser.add_argument(
+        "--openrouter-model", "--model", dest="model", default=DEFAULT_MODEL
+    )
+    parser.add_argument("--openrouter-base-url", default=None)
     parser.add_argument("--concurrency", type=int, choices=[1, 2, 4], default=2)
     parser.add_argument(
         "--compact-prompt",
@@ -273,6 +328,11 @@ def main() -> None:
     parser.add_argument("--reasoning-tokens", type=int, default=256)
     parser.add_argument("--max-tokens", type=int, default=2048)
     parser.add_argument("--trace", type=Path, default=None)
+    parser.add_argument(
+        "--save-diagnostics",
+        action="store_true",
+        help="Also save trace/metrics beside CSV; default logs use stdout/stderr only",
+    )
     args = parser.parse_args()
     if (
         not args.input_dir.is_dir()
@@ -282,19 +342,15 @@ def main() -> None:
         parser.error("Invalid input directory, deadline or total budget")
     try:
         queries = validate_queries(args.queries, args.input_dir)
-        protected = {
-            args.queries.resolve(),
-            *(path.resolve() for path in args.input_dir.glob("*.xlsx")),
-        }
-        artifacts = {
-            args.output.resolve(),
-            args.output.with_suffix(".trace.jsonl").resolve(),
-            args.output.with_suffix(".metrics.json").resolve(),
-        }
-        if args.trace:
-            artifacts.add(args.trace.resolve())
-        if protected & artifacts:
-            raise ValueError("Output artifacts must not overwrite input data")
+        save_diagnostics = args.save_diagnostics or args.trace is not None
+        validate_artifact_paths(
+            args.input_dir,
+            args.queries,
+            queries,
+            args.output,
+            args.trace,
+            save_diagnostics,
+        )
         write_submission(args.output, queries, {})
         deadline = time.monotonic() + args.deadline_seconds
         agent = LLMAgent(
@@ -308,15 +364,22 @@ def main() -> None:
             compact_prompt=args.compact_prompt,
             adaptive_reasoning=args.adaptive_reasoning,
             worker_memory_mb=128 if args.concurrency == 4 else 256,
+            base_url=args.openrouter_base_url,
         )
         metrics = run_queries(
-            args.input_dir, queries, args.output, agent, args.concurrency, args.trace
+            args.input_dir,
+            queries,
+            args.output,
+            agent,
+            args.concurrency,
+            args.trace,
+            save_diagnostics=save_diagnostics,
         )
     except (OSError, ValueError, TypeError, KeyError) as error:
         parser.exit(1, f"Error: {error}\n")
-    if metrics["failures"]:
+    if metrics["failures"] or metrics["answered"] != len(queries):
         parser.exit(
-            1, "Submission saved; some questions failed. Inspect trace/metrics.\n"
+            1, "Submission saved; some questions failed. Inspect diagnostic logs.\n"
         )
 
 

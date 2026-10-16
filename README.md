@@ -1,5 +1,7 @@
 # Hỏi đáp trên workbook Excel
 
+Agent tiếp nhận dự án: đọc [HANDOVER.md](HANDOVER.md), trong đó có hai file đề, kiến trúc, benchmark, giới hạn bằng chứng và các hướng tối ưu đã sàng lọc. Dữ liệu/evidence và ledger bị Git ignore cần nhận thêm từ gói bàn giao riêng; không dùng ZIP nộp thi thay cho toàn bộ workspace phát triển.
+
 Giải pháp dùng `qwen/qwen3.7-flash` qua OpenRouter để chọn dữ liệu và sinh chương trình Python; phép tính chạy cục bộ trên giá trị thật trong workbook. Không đọc đáp án mẫu, không tra kết quả theo ID hoặc tên file.
 
 Đã chốt giai đoạn phát triển Gemini tại **v64 / `parallel8`**: public **20/20 cả ba lượt**, **254/254** hồi quy mở rộng và **18/18** kiểm định mới (baseline 17/18). Public trung bình **11,017 giây / 93.740 token**, giảm **57,44% thời gian / 56,77% token so với baseline cùng đợt**; RAM local đỉnh **130,06 MiB**. Trên kiểm định mới, độ đúng tăng nhưng thời gian tăng 49,12%; không tuyên bố mọi benchmark đều giảm 50%. Không đạt giảm 50% so với mốc nhanh nhất lịch sử. Các thử nghiệm JSON và lập lịch sửa song song bị loại; đã khôi phục đúng source v64 và dừng theo tiêu chí thực dụng mới của người dùng.
@@ -48,6 +50,8 @@ python run.py --input-dir /path/to/xlsx_files --queries /path/to/queries.json --
 
 Các tham số cũ `--input-dir`, `--queries`, `--output`, `--api-key`, `--model` được giữ. Các giới hạn bổ sung:
 
+Theo hướng dẫn nộp bổ sung, `--xlsx-dir`, `--openrouter-key`, `--openrouter-model` là các tên tương đương; `--openrouter-base-url` cấu hình API base cho cả bảng giá và completion (mặc định OpenRouter). Entrypoint nhận đủ sáu tham số của hệ thống chấm. Xem [đối chiếu hướng dẫn bổ sung](docs/SUBMISSION_GUIDE.md).
+
 | Tham số | Mặc định | Ý nghĩa |
 | --- | --- | --- |
 | `--concurrency` | `2` | Chọn `1`, `2` hoặc thử `4`; chế độ `4` giảm giới hạn mỗi worker xuống 128 MiB |
@@ -58,11 +62,12 @@ Các tham số cũ `--input-dir`, `--queries`, `--output`, `--api-key`, `--model
 | `--query-budget` | `0.09` | Trần mỗi câu, kể cả retry; không cho tăng quá 0.09 |
 | `--reasoning-tokens` | `256` | Reasoning budget |
 | `--max-tokens` | `2048` | Tổng output budget, bao gồm reasoning |
-| `--trace` | cạnh CSV | Đường dẫn trace JSONL tùy chọn |
+| `--save-diagnostics` | tắt | Lưu thêm trace/metrics bên cạnh CSV khi phát triển |
+| `--trace` | không lưu file | Bật lưu chẩn đoán và chọn đường dẫn trace JSONL |
 
 Chương trình lấy bảng giá công khai của model và dự trù theo giá cao nhất của các provider/tier. Mỗi request phải được giữ ngân sách trước khi gửi. Timeout hoặc thiếu usage giữ dự trù đó làm chi phí ước tính; không giả sử request lỗi miễn phí. Không tự chuyển model.
 
-`submission.csv` luôn có hai cột `id,answer`, đúng thứ tự câu hỏi. Sau mỗi câu hoàn thành, CSV được ghi atomically. Cạnh CSV có `.trace.jsonl` và `.metrics.json` chứa code, ô đã đọc, kết quả thô, giả định, lỗi, token, chi phí, thời gian và RSS của tiến trình chính cùng workers. Trace không ghi khóa API. Nếu một câu thất bại, answer để trống, lỗi được ghi lại và CLI trả exit code 1; không invent đáp án để che lỗi. Không dùng lại câu trả lời cũ khi dữ liệu thay đổi.
+`submission.csv` luôn có hai cột `id,answer`, đúng thứ tự câu hỏi. Sau mỗi câu hoàn thành, CSV được ghi atomically. CLI mặc định chỉ ghi log ra stdout/stderr theo hướng dẫn nộp; thêm `--save-diagnostics` để lưu `.trace.jsonl` và `.metrics.json` chứa code, ô đã đọc, kết quả thô, giả định, lỗi, token, chi phí, thời gian và RSS của tiến trình chính cùng workers. Trace không ghi khóa API. Nếu một câu thất bại hoặc còn thiếu đáp án, CLI trả exit code 1; chỉ thành công sau khi ghi xong toàn bộ CSV. Không dùng lại câu trả lời cũ khi dữ liệu thay đổi. Công cụ benchmark gọi `run_queries` trực tiếp vẫn giữ lưu chẩn đoán để đối chiếu.
 
 ## Cấu trúc và các quy tắc quan trọng
 
@@ -153,7 +158,27 @@ Mỗi workbook sparse tối đa 64 MiB theo dự trù, cache tổng 128 MiB; wor
 ## Đóng gói
 
 ```bash
-python -m benchmarks.package_submission
+python -m benchmarks.package_submission --team-name Fprinciples_TDTU1
 ```
 
-Tạo `dist/table_qa_submission.zip` từ danh sách file cho phép và kiểm tra dung lượng/nội dung. Không đưa `.env`, dữ liệu, đáp án, reports, `.venv`, cache hoặc đường dẫn máy cá nhân vào archive. Có thể giải nén ZIP vào thư mục mới, cài requirements và chạy CLI bằng đường dẫn dữ liệu bất kỳ.
+Tạo `dist/Fprinciples_TDTU1.zip` theo tên đội đã xác nhận, từ danh sách file cho phép, có **Dockerfile ở gốc ZIP**, và kiểm tra dung lượng/nội dung. Không đưa `.env`, dữ liệu, đáp án, reports, `.venv`, cache hoặc dependency GPU vào archive. Các ZIP v64 trước hướng dẫn bổ sung chỉ là bản lưu lịch sử; dùng gói mới khi nộp.
+
+Giải nén ZIP rồi build image CPU Linux amd64; dependency cài khi build, không cài lúc chạy:
+
+```bash
+docker build --platform linux/amd64 -t table-qa:submission-guide .
+docker run --rm --platform linux/amd64 \
+  --mount type=bind,src=/absolute/input,dst=/input,readonly \
+  --mount type=bind,src=/absolute/output,dst=/output \
+  table-qa:submission-guide \
+  --xlsx-dir /input/xlsx_files --queries /input/queries.json \
+  --output /output/submission.csv --openrouter-key "$OPENROUTER_API_KEY" \
+  --openrouter-model qwen/qwen3.7-flash \
+  --openrouter-base-url https://openrouter.ai/api/v1
+```
+
+`/absolute/input` chứa `xlsx_files/` và `queries.json`; tạo sẵn thư mục output. Khóa được truyền lúc chạy, không có trong ZIP/image. Để kiểm tra container không tốn API, dùng mock trong mạng Docker nội bộ:
+
+```bash
+python -m benchmarks.docker_smoke --report-dir reports/submission_smoke_new
+```
